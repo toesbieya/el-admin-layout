@@ -1,0 +1,58 @@
+@import "../../style/var";
+@import "./component/TagsView/style";
+@import "./component/Header/style";
+@import "./component/Footer/style";
+
+.page-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background-color: $page-background-color;
+
+    > .scroll-container {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        overflow-y: overlay;
+        overflow-x: inherit;
+
+        > .page-view {
+            margin: $page-view-margin;
+            flex: 1;
+        }
+    }
+}
+
+.right-out,
+.left-out {
+    &-leave-active,
+    &-enter-active {
+        transition: transform .2s, opacity .2s;
+    }
+}
+
+.right-out {
+    &-enter {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+
+    &-leave-to {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+}
+
+.left-out {
+    &-enter {
+        opacity: 0;
+        transform: translateX(30px);
+    }
+
+    &-leave-to {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+}

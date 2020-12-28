@@ -1,0 +1,41 @@
+@import "../../style/var";
+
+.logo-container {
+    width: 100%;
+    height: $nav-height;
+    line-height: $nav-height;
+    padding: 0 $menu-padding;
+
+    .logo-link {
+        display: block;
+        height: 100%;
+
+        > img {
+            display: inline-block;
+            height: $logo-size;
+            vertical-align: middle;
+
+            & + h1 {
+                margin-left: 12px;
+            }
+        }
+
+        > h1 {
+            display: inline-block;
+            margin: 0;
+            color: $--color-primary;
+            font-weight: 600;
+            line-height: $nav-height;
+            font-size: 18px;
+            vertical-align: middle;
+        }
+    }
+
+    &.no-title {
+        padding-left: ($aside-collapse-width - $logo-size) / 2;
+    }
+}
+
+.dark .logo-container .logo-link > h1 {
+    color: $--color-white;
+}

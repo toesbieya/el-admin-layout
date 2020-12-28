@@ -1,0 +1,54 @@
+@import "../../../../style/var";
+
+@mixin common {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: $aside-width;
+    transition: width 0.2s;
+
+    &.collapse {
+        width: $aside-collapse-width;
+
+        .menu-item-content,
+        .sub-sidebar-title {
+            display: none;
+        }
+    }
+}
+
+.root-sidebar {
+    position: absolute;
+    overflow: hidden;
+    z-index: 1;
+    border-right-width: 1px;
+    border-right-style: solid;
+
+    @include common;
+
+    .el-menu-item {
+        padding: 0 $menu-padding;
+    }
+
+    &-container {
+        float: left;
+        position: relative;
+        width: $aside-collapse-width;
+        height: 100%;
+    }
+}
+
+.sub-sidebar {
+    @include common;
+
+    .el-menu--vertical {
+        flex: 1;
+    }
+
+    &-title {
+        height: $nav-height;
+        line-height: $nav-height;
+        padding-left: $menu-padding;
+        font-size: 16px;
+    }
+}

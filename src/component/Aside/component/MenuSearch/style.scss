@@ -1,0 +1,17 @@
+@import "../../../../style/var";
+
+.aside-menu-search {
+    margin: 12px 8px;
+}
+
+//侧边栏折叠时不显示
+.collapse .aside-menu-search {
+    display: none;
+}
+
+//暗色主题
+.dark .aside-menu-search .el-input__inner {
+    border: none;
+    color: $--color-white;
+    background-color: lighten($menu-background-dark, 5%);
+}

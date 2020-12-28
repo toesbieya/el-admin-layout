@@ -1,0 +1,68 @@
+@import "~element-ui/packages/theme-chalk/src/common/var";
+
+//移动端的最大宽度
+$max-mobile-width: 500px !default;
+
+//logo的宽高
+$logo-size: 30px !default;
+
+//菜单中icon的大小
+$menu-icon-size: 14px !default;
+//菜单中icon和文字的距离
+$menu-icon-text-gap: 10px !default;
+//菜单的padding
+$menu-padding: $menu-icon-size + $menu-icon-text-gap !default;
+//暗色菜单的背景色
+$menu-background-dark: #304156 !default;
+//暗色子级菜单的背景色
+$sub-menu-background-dark: darken($menu-background-dark, 5%) !default;
+//暗色主菜单的背景色（用于双层侧边栏的主菜单和顶部导航栏）
+$root-menu-background-dark: #1F293D !default;
+//亮色菜单的文字颜色
+$menu-text-color-light: $--color-text-primary !default;
+//暗色菜单的文字颜色
+$menu-text-color-dark: rgba(255, 255, 255, .65) !default;
+//亮色菜单的文字hover颜色
+$menu-text-hover-color-light: $--color-primary !default;
+//暗色菜单的文字hover颜色
+$menu-text-hover-color-dark: rgba(255, 255, 255, 1) !default;
+
+//侧边栏宽度
+$aside-width: 208px !default;
+//侧边栏折叠时的宽度
+$aside-collapse-width: $menu-icon-size + $menu-padding * 2 !default;
+
+//导航栏高度
+$nav-height: 48px !default;
+//导航栏的padding-left
+$navbar-padding-left: 12px !default;
+//亮色导航栏的功能项颜色
+$navbar-item-color-light: $menu-text-color-light !default;
+//暗色导航栏的功能项颜色
+$navbar-item-color-dark: rgba(255, 255, 255, .85) !default;
+//亮色导航栏的功能项hover背景颜色
+$navbar-item-hover-color-light: rgba(0, 0, 0, .025) !default;
+//暗色导航栏的功能项hover背景颜色
+$navbar-item-hover-color-dark: lighten($root-menu-background-dark, 5%) !default;
+
+//多页签栏高度
+$tags-view-height: 32px !default;
+
+//页面背景色
+$page-background-color: #f0f2f5 !default;
+//页头高度，用于max-view-height
+$page-header-height: 44px !default;
+//页头的上下padding
+$page-header-padding: 12px !default;
+//路由页面的margin
+$page-view-margin: 24px !default;
+//页脚高度，用于max-view-height
+$page-footer-height: 64px !default;
+
+//暗色边框的颜色，用于nav-menu和侧边栏
+$--border-color-dark: darken($root-menu-background-dark, 5%) !default;
+
+:export {
+    maxMobileWidth:$max-mobile-width;
+    menuPadding: $menu-padding;
+}

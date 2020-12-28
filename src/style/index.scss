@@ -1,0 +1,38 @@
+@import "./var";
+
+@import "../component/Aside/style";
+@import "../component/Navbar/style";
+@import "../component/Page/style";
+
+@import "../component/Hamburger/style";
+@import "../component/Logo/style";
+@import "../component/NavMenu/style";
+
+.app-wrapper.flex-column,
+.main-container.flex-column {
+    flex-direction: column;
+}
+
+.app-wrapper {
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    > .main-container {
+        display: flex;
+        flex: 1;
+        overflow: hidden;
+    }
+
+    //左右结构时，侧边栏z-index需大于导航栏
+    //上下结构时，侧边栏z-index需小于导航栏
+    &.flex-column .aside {
+        z-index: 9;
+    }
+}
+
+@media only screen and (max-width: $max-mobile-width) {
+    .hide-on-mobile {
+        display: none !important
+    }
+}
