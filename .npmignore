@@ -1,5 +1,9 @@
-node_modules
+dist
 example
+node_modules
+public
 .idea
 .gitignore
+.npmignore
 package-lock.json
+*.config.js
