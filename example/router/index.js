@@ -11,7 +11,7 @@ Vue.use(Router)
 
 const router = new Router({
     base: process.env.BASE_URL,
-    mode: 'history',
+    mode: 'hash',
     scrollBehavior: () => ({y: 0}),
     routes: [
         {
