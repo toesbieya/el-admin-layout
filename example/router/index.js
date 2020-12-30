@@ -10,6 +10,9 @@ import Nest0_1 from '@example/view/nest0-1'
 Vue.use(Router)
 
 const router = new Router({
+    base: process.env.BASE_URL,
+    mode: 'hash',
+    scrollBehavior: () => ({y: 0}),
     routes: [
         {
             path: '/',

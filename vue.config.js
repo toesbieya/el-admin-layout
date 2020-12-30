@@ -5,7 +5,7 @@ function resolve(dir) {
 }
 
 module.exports = {
-    publicPath: './',
+    publicPath: process.env.NODE_ENV === 'production' ? '/el-admin-layout/dist/example/' : '/',
     outputDir: 'dist/example',
     assetsDir: 'static',
     filenameHashing: false,
