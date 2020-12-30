@@ -3,6 +3,8 @@
 这是一个基于`element-ui`的后台管理layout组件，需要配合`vue2`、`vue-router3`使用。
 由于作者太菜了，不知道怎么打包，所以`npm`上的是未打包的代码，目前还需要配合`vue-cli4`使用。
 
+[在线预览](https://toesbieya.github.io/el-admin-layout/dist/example/#/index)
+
 ### 不同导航模式在桌面、移动端的表现差异
 
 **1.桌面端**
