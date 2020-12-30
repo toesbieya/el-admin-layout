@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import {isEmpty, debounce, isMobile, createGetters, createMutations} from "../util"
+import {createGetters, createMutations} from "./util"
+import {isEmpty, debounce, isMobile} from "el-admin-layout/util"
 
 const state = {
     //区分pc和移动端
@@ -9,10 +10,7 @@ const state = {
     title: '',
     logo: '',
 
-    //设置抽屉的显隐
-    showSettingDrawer: false,
-
-    //当前激活的顶部菜单的fullPath
+    //当前激活的顶部菜单的key
     activeRootMenu: '',
 
     //所有的树形菜单，每个元素为顶部菜单，顶部菜单的子级（如果有）为侧边栏菜单

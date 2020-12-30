@@ -1,9 +1,9 @@
 <script type="jsx">
-import hamburgerMixin from '../../mixin/hamburger'
+import hamburgerMixin from 'el-admin-layout/mixin/hamburger'
 import HeadMenu from "./HeadMenu"
-import {appGetters, navbarGetters, pageGetters} from "../../store"
-import Logo from "../../component/Logo"
-import {refreshPage} from "../../util"
+import {appGetters, navbarGetters, pageGetters} from "el-admin-layout/store"
+import Logo from "el-admin-layout/component/Logo"
+import {refreshPage} from "el-admin-layout/helper"
 
 export default {
     name: 'navbar',
@@ -25,28 +25,6 @@ export default {
         },
         //自定义右侧元素，会传入默认的vnode数组
         renderCustomActions: Function
-    },
-
-    data() {
-        return {
-            guideSteps: [
-                {
-                    element: '.setting-btn.navbar-item',
-                    content: '这是个性设置按钮，可以根据自己喜好进行一些设置',
-                },
-                {
-                    element: '.navbar .el-dropdown.navbar-item',
-                    content: '这是用户中心',
-                },
-                {
-                    element: '.tags-view-container',
-                    content: `<p>这是tab栏，可以右键tab页进行相关操作</p>
-                              <p>ctrl + ← → 可以进行tab页的左右切换</p>
-                              <p>当tab过多时通过鼠标滚轮来滚动</p>
-                              <p>双击可以关闭</p>`,
-                },
-            ]
-        }
     },
 
     computed: {

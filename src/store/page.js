@@ -2,7 +2,8 @@
  * 路由页面的响应式数据
  */
 import Vue from 'vue'
-import {bindThis, createGetters, createMutations} from "../util"
+import {createGetters, createMutations} from "./util"
+import {bindThis} from "el-admin-layout/util"
 
 const state = {
     //路由过渡动画

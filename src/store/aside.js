@@ -2,8 +2,9 @@
  * 侧边栏的响应式数据
  */
 import Vue from 'vue'
-import {bindThis, createGetters, createMutations} from "../util"
 import {getters as appGetters} from "./app"
+import {createGetters, createMutations} from "./util"
+import {bindThis} from "el-admin-layout/util"
 
 const state = {
     //抽屉模式时的显隐

@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {appGetters} from "../../store"
+import {appGetters} from "el-admin-layout/store"
 
 export default {
     name: 'Logo',

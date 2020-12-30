@@ -3,15 +3,14 @@
  */
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
-import {bindThis, getRouterViewCacheKey, createGetters, createMutations} from "../util"
+import {createGetters, createMutations} from "./util"
+import {bindThis, getRouterViewCacheKey} from "el-admin-layout/util"
 
 const state = {
     //是否启用
     enabled: true,
-    //是否启用快捷键切换功能
-    shortcut: true,
-    //是否将页签持久化到sessionStorage
-    persistent: true,
+    //是否启用缓存功能
+    enableCache: true,
 
     //显示的页签，vue-router的routeConfig对象数组
     visitedViews: [],
@@ -30,7 +29,7 @@ export const mutations = bindThis({
     /**
      * 多页签的启用/停用
      * 停用时会移除所有缓存，并且重置路由过渡动画
-     * @param v 启用为true，停用为false
+     * @param v {boolean} 启用为true，停用为false
      */
     enabled(v) {
         store.enabled = v
@@ -42,8 +41,18 @@ export const mutations = bindThis({
     },
 
     /**
+     * 多页签缓存功能的启用/停用
+     * 停用时会移除所有缓存
+     * @param v
+     */
+    enableCache(v) {
+        store.enableCache = v
+        !v && this.delAllTagAndCache()
+    },
+
+    /**
      * 在页签栏上添加一个页签，path已存在的不会重复添加，调用时需要保证meta.title有值
-     * @param view {routeConfig}
+     * @param view
      */
     addTagOnly(view) {
         const {name, path, fullPath, meta} = view
@@ -58,7 +67,7 @@ export const mutations = bindThis({
     /**
      * 将传入的routeConfig加入<keep-router-view-alive>的缓存中
      * 以下调用无效：设置了不缓存、是iframe页、未设置唯一标识、已缓存
-     * @param view {routeConfig}
+     * @param view
      */
     addCacheOnly(view) {
         const {noCache, iframe, usePathKey, useFullPathKey} = view.meta || {}
@@ -78,7 +87,7 @@ export const mutations = bindThis({
 
     /**
      * 同时调用{@link #addTagOnly}、{@link #addCacheOnly}
-     * @param view {routeConfig}
+     * @param view
      */
     addTagAndCache(view) {
         this.addTagOnly(view)
@@ -96,7 +105,7 @@ export const mutations = bindThis({
 
     /**
      * 删除<keep-router-view-alive>对应的缓存
-     * @param view {routeConfig}
+     * @param view
      */
     delCacheOnly(view) {
         const key = getRouterViewCacheKey(view)
@@ -106,7 +115,7 @@ export const mutations = bindThis({
 
     /**
      * 同时调用{@link #delTagOnly}、{@link #delCacheOnly}，移除iframe页
-     * @param view {routeConfig}
+     * @param view
      */
     delTagAndCache(view) {
         this.delTagOnly(view)
@@ -119,7 +128,7 @@ export const mutations = bindThis({
     /**
      * 从页签栏上移除除了routeConfig以外的所有非固定页签
      * 并且从<keep-router-view-alive>中移除除了routeConfig以外的所有缓存
-     * @param view {routeConfig}
+     * @param view
      */
     delOtherTagAndCache(view) {
         const visitedViews = store.visitedViews.filter(v => v.meta.affix || v.path === view.path)

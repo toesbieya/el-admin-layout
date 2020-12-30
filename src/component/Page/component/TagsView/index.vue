@@ -1,8 +1,8 @@
 <script type="text/jsx">
-import {appGetters, pageGetters, pageMutations, tagsViewGetters, tagsViewMutations} from "../../../../store"
+import {appGetters, pageGetters, pageMutations, tagsViewGetters, tagsViewMutations} from "el-admin-layout/store"
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
-import {refreshPage} from "../../../../util"
+import {refreshPage} from "el-admin-layout/helper"
 
 export default {
     components: {ContextMenu, ScrollPanel},
@@ -75,14 +75,13 @@ export default {
         },
 
         initTags() {
-            //获取所有需要固定显示的页签
+            //获取菜单树中所有需要固定显示的页签
             function getAffixTags(menus) {
                 const tags = []
                 menus.forEach(({name, fullPath, children, meta}) => {
                     if (meta && meta.title && meta.affix) {
                         tags.push({
-                            //注意，此处的fullPath并不是$route.fullPath，而是路由树拼接后的全路径
-                            fullPath,
+                            fullPath,      //此处的fullPath并不是$route.fullPath，而是菜单树拼接后的全路径
                             path: fullPath,
                             name,
                             meta: {...meta}
@@ -97,9 +96,7 @@ export default {
             }
 
             //添加所有固定显示的页签
-            for (const tag of getAffixTags(this.menus)) {
-                tagsViewMutations.addTagOnly(tag)
-            }
+            getAffixTags(this.menus).forEach(tagsViewMutations.addTagOnly)
 
             //将当前路由对象添加为页签
             this.addTag(this.$route)

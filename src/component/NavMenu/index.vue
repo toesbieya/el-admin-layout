@@ -1,7 +1,7 @@
 <script type="text/jsx">
-import cssVar from '../../style/var.scss'
+import cssVar from 'el-admin-layout/style/var.scss'
 import renderChild from './component/child'
-import {isEmpty, deepClone} from "../../util"
+import {isEmpty, deepClone} from "el-admin-layout/util"
 
 const inlineIndent = parseFloat(cssVar.menuPadding)
 

@@ -1,12 +1,13 @@
-@import "../../style/var";
+@import "~el-admin-layout/style/var";
 
 .el-menu {
     width: 100%;
     border: none !important;
     overflow: hidden;
 
-    //图标的大小
+    //图标
     .icon {
+        color: inherit;
         font-size: $menu-icon-size;
     }
 

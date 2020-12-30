@@ -1,8 +1,8 @@
 <script type="text/jsx">
-import {getIconRenderer} from "../../../../config"
-import menuMixin from "../../../../mixin/menu"
-import {appGetters, appMutations, asideGetters, pageGetters} from "../../../../store"
-import Logo from '../../../../component/Logo'
+import {getIconRenderer} from "el-admin-layout/config"
+import menuMixin from "el-admin-layout/mixin/menu"
+import {appGetters, appMutations, asideGetters, pageGetters} from "el-admin-layout/store"
+import Logo from 'el-admin-layout/component/Logo'
 
 const Item = {
     functional: true,
@@ -22,7 +22,7 @@ const Item = {
                 class={{'el-menu-item': true, 'is-active': active}}
                 on-click={click}
             >
-                {getIconRenderer()(h, {props: {icon}})}
+                {getIconRenderer()(h, icon)}
                 <span class="menu-item-content">{title}</span>
             </li>
         )
@@ -74,7 +74,7 @@ export default {
                     return
                 }
 
-                this.setActiveRootMenu(this.navMode, to)
+                this.setActiveRootMenu(to)
 
                 //滚动至激活菜单，仅当组件已mounted时继续
                 this._isMounted && this.$nextTick(() => {
@@ -85,11 +85,6 @@ export default {
     },
 
     methods: {
-        //设置当前激活的顶部菜单
-        setActiveRootMenu(navMode = this.navMode, {matched} = this.$route) {
-            const rootPath = matched[0].path || '/'
-            appMutations.activeRootMenu(rootPath)
-        },
         onSelect(index) {
             //点击相同菜单不刷新页面
             if (index !== appGetters.activeRootMenu) {

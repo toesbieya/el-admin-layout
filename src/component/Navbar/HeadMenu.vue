@@ -2,9 +2,9 @@
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
-import menuMixin from "../../mixin/menu"
-import {appGetters, appMutations} from "../../store"
-import NavMenu from "../../component/NavMenu"
+import menuMixin from "el-admin-layout/mixin/menu"
+import {appGetters, appMutations} from "el-admin-layout/store"
+import NavMenu from "el-admin-layout/component/NavMenu"
 
 export default {
     name: "HeadMenu",
@@ -37,9 +37,8 @@ export default {
 
         menus() {
             if (appGetters.isMobile) return []
+
             switch (this.navMode) {
-                case 'aside':
-                    return []
                 case 'head' :
                     return appGetters.menus
                 case 'mix':
@@ -103,18 +102,18 @@ export default {
     methods: {
         setActiveMenu(navMode = this.navMode, {path, meta, matched} = this.$route) {
             //设置当前激活的顶部菜单
-            const rootPath = matched[0].path || '/'
-            appMutations.activeRootMenu(rootPath)
+            this.setActiveRootMenu({matched})
 
             //只有在混合导航模式下才将当前激活的顶部菜单认为是当前菜单
             if (navMode === 'mix') {
-                this.activeMenu = rootPath
+                this.activeMenu = appGetters.activeRootMenu
             }
             //否则按照路由配置项设置
             else this.activeMenu = this.getActiveMenuByRoute({path, meta})
         },
         onSelect(index) {
-            //混合导航模式下，点击相同菜单不刷新页面
+            //混合导航模式下，点击相同菜单不刷新页面，退出
+            //TODO 点击的是根节点时，其第一个子节点可能是外链，从而导致错误的高亮
             if (this.navMode === 'mix' && index === appGetters.activeRootMenu) {
                 return
             }

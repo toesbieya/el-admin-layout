@@ -1,19 +1,17 @@
-@import "../../style/var";
+@import "~el-admin-layout/style/var";
 
 .logo-container {
     width: 100%;
     height: $nav-height;
-    line-height: $nav-height;
     padding: 0 $menu-padding;
 
     .logo-link {
-        display: block;
+        display: flex;
+        align-items: center;
         height: 100%;
 
         > img {
-            display: inline-block;
             height: $logo-size;
-            vertical-align: middle;
 
             & + h1 {
                 margin-left: 12px;
@@ -21,13 +19,14 @@
         }
 
         > h1 {
-            display: inline-block;
+            flex: 1;
             margin: 0;
             color: $--color-primary;
             font-weight: 600;
-            line-height: $nav-height;
             font-size: 18px;
-            vertical-align: middle;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
     }
 
