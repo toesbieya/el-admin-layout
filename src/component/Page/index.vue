@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {pageGetters, tagsViewGetters} from "el-admin-layout/src/store"
+import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout/src/store"
 import BackToTop from "./component/BackToTop"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
@@ -25,6 +25,23 @@ export default {
                 'scroll-container': true,
                 'has-page-header': this.renderPageHeader,
                 'has-page-footer': true
+            }
+        }
+    },
+
+    watch: {
+        $route(to, from) {
+            //从iframe页面离开时，判断是否需要删除iframe
+            if (from.meta.iframe) {
+                //如果设置了无缓存或是进行了刷新，那么移除iframe
+                const del = from.meta.noCache || to.path === `/redirect${from.path}`
+
+                pageMutations.closeIframe({src: from.meta.iframe, del})
+            }
+
+            //跳转至iframe页面时，打开iframe
+            if (to.meta.iframe) {
+                pageMutations.openIframe({src: to.meta.iframe})
             }
         }
     },
