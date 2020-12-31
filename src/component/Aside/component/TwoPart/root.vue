@@ -4,37 +4,12 @@ import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
 import {appGetters, asideGetters, pageGetters} from "el-admin-layout/src/store"
 import Logo from 'el-admin-layout/src/component/Logo'
 
-const Item = {
-    functional: true,
-
-    props: {
-        title: String,
-        icon: String,
-        active: Boolean
-    },
-
-    render(h, context) {
-        const {title, icon, active} = context.props
-        const {click} = context.listeners
-
-        return (
-            <li
-                class={{'el-menu-item': true, 'is-active': active}}
-                on-click={click}
-            >
-                {getIconRenderer()(h, icon)}
-                <span class="menu-item-content">{title}</span>
-            </li>
-        )
-    }
-}
-
 export default {
     name: "RootSidebar",
 
     mixins: [rootMenuMixin],
 
-    components: {Logo, Item},
+    components: {Logo},
 
     data() {
         return {
@@ -86,9 +61,22 @@ export default {
             //只要点击了菜单项就收起
             this.mouseOutside = true
         },
+
+        renderChildren(h) {
+            const activeRootMenu = appGetters.activeRootMenu
+            return this.menus.map(({fullPath, meta: {title, icon}}) => (
+                <li
+                    class={{'el-menu-item': true, 'is-active': fullPath === activeRootMenu}}
+                    on-click={() => this.onSelect(fullPath)}
+                >
+                    {getIconRenderer()(h, icon)}
+                    <span class="menu-item-content">{title}</span>
+                </li>
+            ))
+        }
     },
 
-    render() {
+    render(h) {
         return (
             <div class="root-sidebar-container">
                 <div
@@ -97,15 +85,9 @@ export default {
                     on-mouseenter={() => this.mouseOutside = false}
                 >
                     {this.showLogo && <logo show-title={!this.mouseOutside}/>}
+
                     <ul class={this.menuClass}>
-                        {this.menus.map(({fullPath, meta: {title, icon}}) => (
-                            <item
-                                title={title}
-                                icon={icon}
-                                active={fullPath === appGetters.activeRootMenu}
-                                on-click={() => this.onSelect(fullPath)}
-                            />
-                        ))}
+                        {this.renderChildren(h)}
                     </ul>
                 </div>
             </div>

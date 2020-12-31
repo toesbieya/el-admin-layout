@@ -1,5 +1,5 @@
 <script>
-import {getRedirectPath} from "../../config"
+import {getRedirectPath} from "el-admin-layout/src/config"
 
 export default {
     mounted() {

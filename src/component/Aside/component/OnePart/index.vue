@@ -11,6 +11,8 @@ import {getSidebarMenus} from "el-admin-layout/src/helper"
 export default {
     name: "Sidebar",
 
+    inheritAttrs: false,
+
     mixins: [hamburgerMixin, menuMixin, menuSearchMixin],
 
     components: {Logo, NavMenu},
@@ -210,6 +212,7 @@ export default {
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
                     switch-transition
                     switch-transition-name="sidebar"
+                    {...{props: this.$attrs}}
                     on={{'select': this.onSelect, 'hook:mounted': this.watchOpenedMenus}}
                 />
 

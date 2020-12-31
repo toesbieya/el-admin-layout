@@ -28,7 +28,9 @@ const state = {
     //分层结构，上下（'top-bottom'）、左右（'left-right'）
     position: 'left-right',
     //是否显示页头
-    showPageHeader: true,
+    showHeader: true,
+    //是否显示页头
+    showFooter: true,
     //是否显示返回顶部按钮
     showBackToTop: true
 }

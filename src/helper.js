@@ -48,6 +48,15 @@ export function getRouterViewCacheKey({name, path, fullPath, meta = {}}) {
     return usePathKey ? path : useFullPathKey ? fullPath : name
 }
 
+//根据路由对象获取路由标题
+export function getTitleFromRoute(route) {
+    const {title, dynamicTitle} = route.meta || {}
+
+    return typeof dynamicTitle === 'function'
+        ? dynamicTitle(route) || title
+        : title
+}
+
 /**
  * 路由刷新
  *

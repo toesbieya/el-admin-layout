@@ -23,7 +23,9 @@ export default {
             default: () => []
         },
         //自定义右侧元素，会传入默认的vnode数组
-        renderCustomActions: Function
+        renderCustomActions: Function,
+        //传递给head-menu的props
+        headMenuProps: Object
     },
 
     computed: {
@@ -46,6 +48,10 @@ export default {
 
         className() {
             return `navbar ${navbarGetters.theme}`
+        },
+
+        menuProps() {
+            return Object.assign({alwaysShow: true}, this.headMenuProps, {theme: navbarGetters.theme})
         }
     },
 
@@ -112,7 +118,7 @@ export default {
                 {this.renderHamburger && <hamburger class="navbar-item navbar-icon"/>}
 
                 <div style="flex: 1">
-                    {this.renderHeadMenu && <head-menu always-show theme={navbarGetters.theme}/>}
+                    {this.renderHeadMenu && <head-menu {...{attrs: this.menuProps}}/>}
                 </div>
 
                 <div ref="navbar-actions">

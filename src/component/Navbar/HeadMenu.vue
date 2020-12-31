@@ -9,16 +9,15 @@ import NavMenu from "el-admin-layout/src/component/NavMenu"
 export default {
     name: "HeadMenu",
 
+    inheritAttrs: false,
+
     mixins: [rootMenuMixin],
 
     components: {NavMenu},
 
     props: {
         //是否在只有一个顶部菜单时仍然渲染
-        alwaysShow: Boolean,
-
-        //主题由父组件控制
-        theme: String
+        alwaysShow: Boolean
     },
 
     data() {
@@ -198,8 +197,8 @@ export default {
                 ref="nav-menu"
                 menus={this.realMenus}
                 mode="horizontal"
-                theme={this.theme}
                 default-active={this.activeMenu}
+                {...{props: this.$attrs}}
                 on-select={this.onSelect}
             />
         )

@@ -21,8 +21,11 @@ export default {
     functional: true,
 
     props: {
+        //图标名
         icon: String,
+        //菜单名
         title: String,
+        //需要高亮的字段
         highlight: String
     },
 

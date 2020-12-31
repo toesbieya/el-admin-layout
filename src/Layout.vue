@@ -13,6 +13,9 @@ export default {
         //传递给nav-bar的props
         navbarProps: Object,
 
+        //传递给aside的props
+        asideProps: Object,
+
         //传递给page的props
         pageProps: Object
     },
@@ -42,7 +45,7 @@ export default {
     },
 
     render() {
-        const aside = this.renderAside && <v-aside/>
+        const aside = this.renderAside && <v-aside {...{props: this.asideProps}}/>
         const navbar = <v-navbar {...{props: this.navbarProps}}/>
 
         return (

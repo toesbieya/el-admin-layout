@@ -12,6 +12,7 @@
 
 <script>
 import {getRedirectPath} from "el-admin-layout/src/config"
+import {getTitleFromRoute} from "el-admin-layout/src/helper"
 
 export default {
     name: "PageHeader",
@@ -22,10 +23,11 @@ export default {
         $route: {
             immediate: true,
             handler(to) {
-                const {path, meta: {title}, matched} = to
+                const {path, matched} = to
+
                 if (!path.startsWith(getRedirectPath())) {
-                    this.title = title
-                    this.data = matched.filter(item => item.meta.title)
+                    this.title = getTitleFromRoute(to)
+                    this.data = matched.filter(item => getTitleFromRoute(item))
                 }
             }
         }

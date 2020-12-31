@@ -8,6 +8,8 @@ const inlineIndent = parseFloat(cssVar.menuPadding)
 export default {
     name: 'NavMenu',
 
+    inheritAttrs: false,
+
     props: {
         //路由配置项组成的树形数组
         menus: Array,

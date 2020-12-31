@@ -13,18 +13,23 @@ export default {
     components: {BackToTop, PageHeader, PageView, PageFooter, TagsView},
 
     props: {
-        //自定义渲染页脚的方法，入参为h：createElement
+        //自定义渲染页头的方法，入参为h：createElement
+        renderHeader: Function,
+        //自定义渲染页脚内容的方法，入参为h：createElement
         renderFooter: Function
     },
 
     computed: {
-        renderPageHeader() {
-            return pageGetters.showPageHeader && this.$route.meta.pageHeader !== false
+        showHeader() {
+            return pageGetters.showHeader && this.$route.meta.pageHeader !== false
+        },
+        showFooter() {
+            return pageGetters.showFooter && this.$route.meta.pageFooter !== false
         },
         pageClass() {
             return {
                 'scroll-container': true,
-                'has-page-header': this.renderPageHeader,
+                'has-page-header': this.showHeader,
                 'has-page-footer': true
             }
         }
@@ -63,7 +68,11 @@ export default {
                 {enableTagsView && <tags-view/>}
 
                 <div v-show={!showIframe} class={this.pageClass}>
-                    {this.renderPageHeader && <page-header/>}
+                    {this.showHeader && (
+                        this.renderHeader
+                            ? this.renderHeader()
+                            : <page-header/>
+                    )}
 
                     <page-view
                         include={cachedViews}
@@ -71,7 +80,11 @@ export default {
                         cacheable={enableTagsView && enableTagsViewCache}
                     />
 
-                    {this.renderFooter && <page-footer>{this.renderFooter()}</page-footer>}
+                    {this.showFooter && this.renderFooter && (
+                        <page-footer>
+                            {this.renderFooter()}
+                        </page-footer>
+                    )}
                 </div>
 
                 {iframeList.map(src => (
