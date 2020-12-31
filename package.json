@@ -1,10 +1,18 @@
 {
   "name": "el-admin-layout",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "基于element-ui的后台管理layout",
   "main": "src/index.js",
   "author": "toesbieya",
   "license": "MIT",
+  "homepage": "https://github.com/toesbieya/el-admin-layout/blob/main/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toesbieya/el-admin-layout.git"
+  },
+  "bugs": {
+    "url": "https://github.com/toesbieya/el-admin-layout/issues"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
