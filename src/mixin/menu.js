@@ -1,8 +1,8 @@
 /**
  * 顶部菜单和侧边栏菜单的公共混入
  */
-import {refreshPage} from "el-admin-layout/helper"
-import {appGetters, appMutations} from "el-admin-layout/store"
+import {refreshPage} from "el-admin-layout/src/helper"
+import {appGetters, appMutations} from "el-admin-layout/src/store"
 
 export default {
     data() {

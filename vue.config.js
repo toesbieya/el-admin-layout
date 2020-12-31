@@ -22,7 +22,7 @@ module.exports = {
         resolve: {
             alias: {
                 '@example': resolve('example'),
-                'el-admin-layout': resolve('src')
+                'el-admin-layout': resolve('')
             }
         },
         externals: {

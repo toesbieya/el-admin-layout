@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {pageGetters, tagsViewGetters} from "el-admin-layout/store"
+import {pageGetters, tagsViewGetters} from "el-admin-layout/src/store"
 import BackToTop from "./component/BackToTop"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"

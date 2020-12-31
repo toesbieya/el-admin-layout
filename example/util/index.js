@@ -1,4 +1,4 @@
-import {isEmpty, getInitialValue, debounce, deepClone} from "el-admin-layout/util"
+import {isEmpty, getInitialValue, debounce, deepClone} from "el-admin-layout/src/util"
 
 export {isEmpty, getInitialValue, debounce, deepClone}
 

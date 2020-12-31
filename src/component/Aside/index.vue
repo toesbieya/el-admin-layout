@@ -2,7 +2,7 @@
 import OnePart from './component/OnePart'
 import TwoPartRoot from './component/TwoPart/root'
 import TwoPartSub from './component/TwoPart/sub'
-import {appGetters, asideGetters} from "el-admin-layout/store"
+import {appGetters, asideGetters} from "el-admin-layout/src/store"
 
 export default {
     functional: true,

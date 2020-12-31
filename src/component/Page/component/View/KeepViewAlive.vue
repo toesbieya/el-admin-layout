@@ -1,5 +1,5 @@
 <script>
-import {getRouterViewCacheKey} from "el-admin-layout/util"
+import {getRouterViewCacheKey} from "el-admin-layout/src/util"
 
 const KEY = '_routerViewKey'
 

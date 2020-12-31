@@ -1,4 +1,4 @@
-import {getInitialValue} from "el-admin-layout/util"
+import {getInitialValue} from "el-admin-layout/src/util"
 
 //为Vue.observer返回的对象设置getter
 export function createGetters(store) {

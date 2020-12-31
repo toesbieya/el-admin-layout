@@ -1,11 +1,11 @@
 <script type="text/jsx">
-import hamburgerMixin from 'el-admin-layout/mixin/hamburger'
-import menuMixin from "el-admin-layout/mixin/menu"
-import menuSearchMixin from 'el-admin-layout/mixin/menuSearch'
-import {appGetters, asideGetters, asideMutations, pageGetters} from "el-admin-layout/store"
-import Logo from 'el-admin-layout/component/Logo'
-import NavMenu from 'el-admin-layout/component/NavMenu'
-import {getSidebarMenus} from "el-admin-layout/helper"
+import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
+import menuMixin from "el-admin-layout/src/mixin/menu"
+import menuSearchMixin from 'el-admin-layout/src/mixin/menuSearch'
+import {appGetters, asideGetters, asideMutations, pageGetters} from "el-admin-layout/src/store"
+import Logo from 'el-admin-layout/src/component/Logo'
+import NavMenu from 'el-admin-layout/src/component/NavMenu'
+import {getSidebarMenus} from "el-admin-layout/src/helper"
 
 export default {
     name: "Sidebar",

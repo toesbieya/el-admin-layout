@@ -1,8 +1,8 @@
 <script type="text/jsx">
-import {getIconRenderer} from "el-admin-layout/config"
-import menuMixin from "el-admin-layout/mixin/menu"
-import {appGetters, appMutations, asideGetters, pageGetters} from "el-admin-layout/store"
-import Logo from 'el-admin-layout/component/Logo'
+import {getIconRenderer} from "el-admin-layout/src/config"
+import menuMixin from "el-admin-layout/src/mixin/menu"
+import {appGetters, appMutations, asideGetters, pageGetters} from "el-admin-layout/src/store"
+import Logo from 'el-admin-layout/src/component/Logo'
 
 const Item = {
     functional: true,

@@ -1,6 +1,6 @@
 <script type="text/jsx">
-import {getIconRenderer} from "el-admin-layout/config"
-import {isEmpty} from "el-admin-layout/util"
+import {getIconRenderer} from "el-admin-layout/src/config"
+import {isEmpty} from "el-admin-layout/src/util"
 
 //获得高亮的菜单内容vnode
 function getHighlightContent(h, title, highlight) {

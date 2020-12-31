@@ -2,9 +2,9 @@
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
-import menuMixin from "el-admin-layout/mixin/menu"
-import {appGetters, appMutations} from "el-admin-layout/store"
-import NavMenu from "el-admin-layout/component/NavMenu"
+import menuMixin from "el-admin-layout/src/mixin/menu"
+import {appGetters, appMutations} from "el-admin-layout/src/store"
+import NavMenu from "el-admin-layout/src/component/NavMenu"
 
 export default {
     name: "HeadMenu",

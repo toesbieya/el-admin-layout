@@ -4,7 +4,7 @@
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
 import {createGetters, createMutations} from "./util"
-import {bindThis, getRouterViewCacheKey} from "el-admin-layout/util"
+import {bindThis, getRouterViewCacheKey} from "el-admin-layout/src/util"
 
 const state = {
     //是否启用

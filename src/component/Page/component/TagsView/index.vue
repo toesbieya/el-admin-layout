@@ -1,8 +1,8 @@
 <script type="text/jsx">
-import {appGetters, pageGetters, pageMutations, tagsViewGetters, tagsViewMutations} from "el-admin-layout/store"
+import {appGetters, pageGetters, pageMutations, tagsViewGetters, tagsViewMutations} from "el-admin-layout/src/store"
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
-import {refreshPage} from "el-admin-layout/helper"
+import {refreshPage} from "el-admin-layout/src/helper"
 
 export default {
     components: {ContextMenu, ScrollPanel},

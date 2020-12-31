@@ -1,9 +1,9 @@
 <script type="jsx">
-import hamburgerMixin from 'el-admin-layout/mixin/hamburger'
+import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
 import HeadMenu from "./HeadMenu"
-import {appGetters, navbarGetters, pageGetters} from "el-admin-layout/store"
-import Logo from "el-admin-layout/component/Logo"
-import {refreshPage} from "el-admin-layout/helper"
+import {appGetters, navbarGetters, pageGetters} from "el-admin-layout/src/store"
+import Logo from "el-admin-layout/src/component/Logo"
+import {refreshPage} from "el-admin-layout/src/helper"
 
 export default {
     name: 'navbar',

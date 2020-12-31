@@ -3,7 +3,7 @@
  */
 import Vue from 'vue'
 import {createGetters, createMutations} from "./util"
-import {bindThis} from "el-admin-layout/util"
+import {bindThis} from "el-admin-layout/src/util"
 
 const state = {
     //路由过渡动画

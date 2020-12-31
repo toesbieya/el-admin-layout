@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {debounce} from "el-admin-layout/util"
+import {debounce} from "el-admin-layout/src/util"
 
 export default {
     name: "MenuSearch",
