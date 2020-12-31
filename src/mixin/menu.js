@@ -2,7 +2,6 @@
  * 顶部菜单和侧边栏菜单的公共混入
  */
 import {refreshPage} from "el-admin-layout/src/helper"
-import {appGetters, appMutations} from "el-admin-layout/src/store"
 
 export default {
     data() {
@@ -36,11 +35,6 @@ export default {
         resetActiveMenu() {
             const menu = this.$_getElMenuInstance()
             menu && menu.updateActiveIndex(this.activeMenu)
-        },
-
-        //根据路由设置当前高亮的根节点
-        setActiveRootMenu({matched: [root]} = this.$route) {
-            root && appMutations.activeRootMenu(root.path || '/')
         },
 
         //将当前激活的菜单移动到视窗中（仅垂直菜单可使用）

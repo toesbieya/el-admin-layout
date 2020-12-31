@@ -1,7 +1,7 @@
 <script type="text/jsx">
 import {getIconRenderer} from "el-admin-layout/src/config"
-import menuMixin from "el-admin-layout/src/mixin/menu"
-import {appGetters, appMutations, asideGetters, pageGetters} from "el-admin-layout/src/store"
+import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
+import {appGetters, asideGetters, pageGetters} from "el-admin-layout/src/store"
 import Logo from 'el-admin-layout/src/component/Logo'
 
 const Item = {
@@ -32,7 +32,7 @@ const Item = {
 export default {
     name: "RootSidebar",
 
-    mixins: [menuMixin],
+    mixins: [rootMenuMixin],
 
     components: {Logo, Item},
 
@@ -67,14 +67,9 @@ export default {
         $route: {
             immediate: true,
             handler(to) {
-                const {path, matched} = to
-
-                //使用/redirect跳转 或 无匹配路由 时跳过
-                if (path.startsWith('/redirect') || matched.length === 0) {
+                if (!this.setActiveRootMenuWhenRouteChange(to)) {
                     return
                 }
-
-                this.setActiveRootMenu(to)
 
                 //滚动至激活菜单，仅当组件已mounted时继续
                 this._isMounted && this.$nextTick(() => {
@@ -86,12 +81,9 @@ export default {
 
     methods: {
         onSelect(index) {
-            //点击相同菜单不刷新页面
-            if (index !== appGetters.activeRootMenu) {
-                this.actionOnSelectMenu(index)
-            }
+            this.onSelectRootMenu(index)
 
-            //收起
+            //只要点击了菜单项就收起
             this.mouseOutside = true
         },
     },

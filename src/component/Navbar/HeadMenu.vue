@@ -2,14 +2,14 @@
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
-import menuMixin from "el-admin-layout/src/mixin/menu"
-import {appGetters, appMutations} from "el-admin-layout/src/store"
+import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
+import {appGetters} from "el-admin-layout/src/store"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
 
 export default {
     name: "HeadMenu",
 
-    mixins: [menuMixin],
+    mixins: [rootMenuMixin],
 
     components: {NavMenu},
 
@@ -76,11 +76,10 @@ export default {
         $route: {
             immediate: true,
             handler(to) {
-                const {path, matched} = to
-                //使用/redirect跳转 或 无匹配路由 时跳过
-                if (path.startsWith('/redirect') || matched.length === 0) {
+                if (!this.setActiveRootMenuWhenRouteChange(to)) {
                     return
                 }
+
                 this.setActiveMenu(this.navMode, to)
             }
         },
@@ -100,10 +99,7 @@ export default {
     },
 
     methods: {
-        setActiveMenu(navMode = this.navMode, {path, meta, matched} = this.$route) {
-            //设置当前激活的顶部菜单
-            this.setActiveRootMenu({matched})
-
+        setActiveMenu(navMode = this.navMode, {path, meta} = this.$route) {
             //只有在混合导航模式下才将当前激活的顶部菜单认为是当前菜单
             if (navMode === 'mix') {
                 this.activeMenu = appGetters.activeRootMenu
@@ -112,11 +108,11 @@ export default {
             else this.activeMenu = this.getActiveMenuByRoute({path, meta})
         },
         onSelect(index) {
-            //混合导航模式下，点击相同菜单不刷新页面，退出
-            //TODO 点击的是根节点时，其第一个子节点可能是外链，从而导致错误的高亮
-            if (this.navMode === 'mix' && index === appGetters.activeRootMenu) {
-                return
+            //点击的是根节点时，混合导航模式下必定是根节点
+            if (this.navMode === 'mix' || appGetters.menus.some(i => i.fullPath === index)) {
+                return this.onSelectRootMenu(index)
             }
+
             this.actionOnSelectMenu(index)
         },
 
