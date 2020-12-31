@@ -1,4 +1,8 @@
-//为避免循环依赖拆分出来的工具类
+/**
+ * 为避免循环依赖拆分出来的工具类
+ */
+
+import {getRedirectPath} from "./config"
 import {appGetters, tagsViewMutations} from "./store"
 
 //获取侧边栏的菜单，如果是双层侧边栏导航时，获取的是子菜单
@@ -38,7 +42,7 @@ export function getSidebarMenus() {
  */
 export function refreshPage(route, router, replace = true) {
     tagsViewMutations.delCacheOnly(route)
-    const to = `/redirect${route.fullPath}`
+    const to = `${getRedirectPath()}${route.fullPath}`
     return router[replace ? 'replace' : 'push'](to)
 }
 

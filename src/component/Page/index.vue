@@ -1,5 +1,6 @@
 <script type="text/jsx">
-import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout/src/store"
+import {pageGetters, tagsViewGetters} from "el-admin-layout/src/store"
+import iframeCtrlMixin from './mixin/iframeCtrl'
 import BackToTop from "./component/BackToTop"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
@@ -8,6 +9,8 @@ import TagsView from './component/TagsView'
 
 export default {
     name: 'Page',
+
+    mixins: [iframeCtrlMixin],
 
     components: {BackToTop, PageHeader, PageView, PageFooter, TagsView},
 
@@ -31,18 +34,7 @@ export default {
 
     watch: {
         $route(to, from) {
-            //从iframe页面离开时，判断是否需要删除iframe
-            if (from.meta.iframe) {
-                //如果设置了无缓存或是进行了刷新，那么移除iframe
-                const del = from.meta.noCache || to.path === `/redirect${from.path}`
-
-                pageMutations.closeIframe({src: from.meta.iframe, del})
-            }
-
-            //跳转至iframe页面时，打开iframe
-            if (to.meta.iframe) {
-                pageMutations.openIframe({src: to.meta.iframe})
-            }
+            this.iframeCtrl(to, from)
         }
     },
 

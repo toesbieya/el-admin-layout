@@ -1,4 +1,5 @@
 <script type="text/jsx">
+import {getRedirectPath} from "el-admin-layout/src/config"
 import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import menuSearchMixin from 'el-admin-layout/src/mixin/menuSearch'
@@ -96,7 +97,7 @@ export default {
             immediate: true,
             handler(v) {
                 //如果是redirect跳转，则跳过
-                if (v.startsWith('/redirect')) return
+                if (v.startsWith(getRedirectPath())) return
 
                 this.activeMenu = this.getActiveMenuByRoute(this.$route)
 

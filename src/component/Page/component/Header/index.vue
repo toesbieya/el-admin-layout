@@ -11,6 +11,8 @@
 </template>
 
 <script>
+import {getRedirectPath} from "el-admin-layout/src/config"
+
 export default {
     name: "PageHeader",
 
@@ -21,7 +23,7 @@ export default {
             immediate: true,
             handler(to) {
                 const {path, meta: {title}, matched} = to
-                if (!path.startsWith('/redirect')) {
+                if (!path.startsWith(getRedirectPath())) {
                     this.title = title
                     this.data = matched.filter(item => item.meta.title)
                 }

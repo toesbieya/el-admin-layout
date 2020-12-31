@@ -1,3 +1,4 @@
+import {getRedirectPath} from "../config"
 import {appGetters, appMutations} from "../store"
 import menuMixin from "./menu"
 
@@ -45,8 +46,8 @@ export default {
         setActiveRootMenuWhenRouteChange(route) {
             const {path, matched} = route
 
-            //使用/redirect跳转 或 无匹配路由 时跳过
-            if (path.startsWith('/redirect') || matched.length === 0) {
+            //使用redirect跳转 或 无匹配路由 时跳过
+            if (path.startsWith(getRedirectPath()) || matched.length === 0) {
                 return false
             }
 

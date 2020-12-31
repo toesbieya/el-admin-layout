@@ -1,5 +1,12 @@
 <script type="text/jsx">
-import {appGetters, pageGetters, pageMutations, tagsViewGetters, tagsViewMutations} from "el-admin-layout/src/store"
+import {getRedirectPath} from "el-admin-layout/src/config"
+import {
+    appGetters,
+    pageGetters,
+    pageMutations,
+    tagsViewGetters,
+    tagsViewMutations
+} from "el-admin-layout/src/store"
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
 import {refreshPage} from "el-admin-layout/src/helper"
@@ -50,7 +57,7 @@ export default {
         //判断页签是否激活，考虑redirect刷新的情况
         isActive({path}) {
             const {path: routePath} = this.$route
-            return routePath === path || routePath === `/redirect${path}`
+            return routePath === path || routePath === `${getRedirectPath()}${path}`
         },
         isAffix(tag) {
             return tag.meta && tag.meta.affix
