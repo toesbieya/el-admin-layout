@@ -10,6 +10,7 @@ import {
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
 import {refreshPage} from "el-admin-layout/src/helper"
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     components: {ContextMenu, ScrollPanel},
@@ -86,6 +87,7 @@ export default {
             function getAffixTags(menus) {
                 const tags = []
                 menus.forEach(({name, fullPath, children, meta}) => {
+                    //必须要有title，没有title只有dynamicTitle的跳过
                     if (meta && meta.title && meta.affix) {
                         tags.push({
                             fullPath,      //此处的fullPath并不是$route.fullPath，而是菜单树拼接后的全路径
@@ -108,9 +110,24 @@ export default {
             //将当前路由对象添加为页签
             this.addTag(this.$route)
         },
-        //将具有meta.title的路由对象添加为tab页
-        addTag(to) {
-            to.meta.title && tagsViewMutations.addTagAndCache(to)
+        //将具有meta.title或meta.dynamicTitle的路由对象添加为tab页
+        addTag(route) {
+            const {title, dynamicTitle} = route.meta
+
+            //优先使用dynamicTitle
+            const finalTitle =
+                typeof dynamicTitle === 'function'
+                    ? dynamicTitle(route)
+                    : title
+
+            if (!isEmpty(finalTitle)) {
+                tagsViewMutations.addTagAndCache({
+                    ...{
+                        ...route,
+                        meta: {...route.meta, title: finalTitle}
+                    }
+                })
+            }
         },
 
         //横向滚动条移动至当前tab

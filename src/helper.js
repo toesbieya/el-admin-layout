@@ -2,8 +2,18 @@
  * 为避免循环依赖拆分出来的工具类
  */
 
-import {getRedirectPath} from "./config"
+import {getMaxMobileWidth, getRedirectPath} from "./config"
 import {appGetters, tagsViewMutations} from "./store"
+
+/**
+ * 根据body宽度判断是否为移动端，是则返回true
+ *
+ * @return {boolean}
+ */
+export function isMobile() {
+    const rect = document.body.getBoundingClientRect()
+    return rect.width <= getMaxMobileWidth()
+}
 
 //获取侧边栏的菜单，如果是双层侧边栏导航时，获取的是子菜单
 export function getSidebarMenus() {
@@ -30,6 +40,12 @@ export function getSidebarMenus() {
         default:
             return []
     }
+}
+
+//获取路由页面缓存所需的key
+export function getRouterViewCacheKey({name, path, fullPath, meta = {}}) {
+    const {usePathKey, useFullPathKey} = meta
+    return usePathKey ? path : useFullPathKey ? fullPath : name
 }
 
 /**

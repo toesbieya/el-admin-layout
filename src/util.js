@@ -1,7 +1,3 @@
-import {getMaxMobileWidth} from "./config"
-
-/*公用工具开始*/
-
 /**
  * 判断是否为空值，undefined、null、'' 都视为空值
  *
@@ -100,25 +96,6 @@ export function deepClone(source) {
             return obj
         }, {})
     }
-}
-
-/*公用工具结束*/
-
-
-//获取路由页面缓存所需的key
-export function getRouterViewCacheKey({name, path, fullPath, meta = {}}) {
-    const {usePathKey, useFullPathKey} = meta
-    return usePathKey ? path : useFullPathKey ? fullPath : name
-}
-
-/**
- * 根据body宽度判断是否为移动端，是则返回true
- *
- * @return {boolean}
- */
-export function isMobile() {
-    const rect = document.body.getBoundingClientRect()
-    return rect.width <= getMaxMobileWidth()
 }
 
 

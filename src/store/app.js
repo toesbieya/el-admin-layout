@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import {createGetters, createMutations} from "./util"
-import {isEmpty, debounce, isMobile} from "el-admin-layout/src/util"
+import {isEmpty, debounce} from "el-admin-layout/src/util"
+import {isMobile} from "el-admin-layout/src/helper"
 
 const state = {
     //区分pc和移动端

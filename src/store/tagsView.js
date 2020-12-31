@@ -4,7 +4,8 @@
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
 import {createGetters, createMutations} from "./util"
-import {bindThis, getRouterViewCacheKey} from "el-admin-layout/src/util"
+import {getRouterViewCacheKey} from "el-admin-layout/src/helper"
+import {bindThis} from "el-admin-layout/src/util"
 
 const state = {
     //是否启用
@@ -55,13 +56,11 @@ export const mutations = bindThis({
      * @param view
      */
     addTagOnly(view) {
-        const {name, path, fullPath, meta} = view
-
-        if (store.visitedViews.some(v => v.path === path)) {
+        if (store.visitedViews.some(v => v.path === view.path)) {
             return
         }
 
-        store.visitedViews.push({name, path, fullPath, meta: {...meta}})
+        store.visitedViews.push(view)
     },
 
     /**
