@@ -4,12 +4,21 @@ import KeepViewAlive from "./KeepViewAlive"
 export default {
     name: "PageView",
 
-    functional: true,
+    components: {KeepViewAlive},
 
-    props: {include: Array, transitionName: String, cacheable: Boolean},
+    props: {
+        //过渡动画的名称
+        transitionName: String,
 
-    render(h, context) {
-        const {include, transitionName, cacheable} = context.props
+        //同keep-alive
+        include: Array,
+
+        //是否使用keep-alive
+        cacheable: Boolean
+    },
+
+    render() {
+        const {include, transitionName, cacheable} = this
 
         let view = (
             <transition name={transitionName} mode="out-in">
@@ -18,7 +27,7 @@ export default {
         )
 
         if (cacheable) {
-            view = <KeepViewAlive include={include}>{view}</KeepViewAlive>
+            view = <keep-view-alive include={include}>{view}</keep-view-alive>
         }
 
         return <div class="page-view">{view}</div>

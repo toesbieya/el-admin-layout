@@ -31,7 +31,7 @@ export default {
 
     render() {
         const {transition, showIframe, iframeList, currentIframe} = pageGetters
-        const {cachedViews, enabled: enableTagsView} = tagsViewGetters
+        const {cachedViews, enabled: enableTagsView, enableCache: enableTagsViewCache} = tagsViewGetters
 
         return (
             <main class="page-main">
@@ -43,7 +43,7 @@ export default {
                     <page-view
                         include={cachedViews}
                         transition-name={transition.curr}
-                        cacheable={enableTagsView}
+                        cacheable={enableTagsView && enableTagsViewCache}
                     />
 
                     {this.renderFooter && (

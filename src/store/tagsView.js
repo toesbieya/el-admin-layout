@@ -47,7 +47,7 @@ export const mutations = bindThis({
      */
     enableCache(v) {
         store.enableCache = v
-        !v && this.delAllTagAndCache()
+        !v && this.delAllCache()
     },
 
     /**
@@ -139,10 +139,17 @@ export const mutations = bindThis({
     },
 
     /**
+     * 移除<keep-router-view-alive>的所有缓存
+     */
+    delAllCache() {
+        store.cachedViews = []
+    },
+
+    /**
      * 从页签栏上移除所有非固定页签，并且移除<keep-router-view-alive>的所有缓存
      */
     delAllTagAndCache() {
         store.visitedViews = store.visitedViews.filter(tag => tag.meta && tag.meta.affix)
-        store.cachedViews = []
+        this.delAllCache()
     }
 })
