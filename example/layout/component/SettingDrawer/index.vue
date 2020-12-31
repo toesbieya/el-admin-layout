@@ -20,29 +20,17 @@
                 </checkbox-group>
             </div>
 
-            <el-divider>页面设置</el-divider>
+            <el-divider>导航栏设置</el-divider>
             <div class="drawer-item">
-                <span>分层结构</span>
+                <span>主题风格</span>
                 <el-select
-                    v-model="setting.page.position"
+                    v-model="setting.navbar.theme"
                     size="mini"
                     style="width: 80px"
                 >
-                    <el-option value="top-bottom" label="上下"/>
-                    <el-option value="left-right" label="左右"/>
+                    <el-option value="light" label="亮色"/>
+                    <el-option value="dark" label="暗色"/>
                 </el-select>
-            </div>
-            <div class="drawer-item">
-                <span>显示logo</span>
-                <el-switch v-model="setting.page.showLogo"/>
-            </div>
-            <div class="drawer-item">
-                <span>显示页头</span>
-                <el-switch v-model="setting.page.showPageHeader"/>
-            </div>
-            <div class="drawer-item">
-                <span>显示返回顶部按钮</span>
-                <el-switch v-model="setting.page.showBackToTop"/>
             </div>
 
             <el-divider>侧边栏设置</el-divider>
@@ -89,17 +77,33 @@
                 <el-switch v-model="setting.aside.search"/>
             </div>
 
-            <el-divider>导航栏设置</el-divider>
+            <el-divider>页面设置</el-divider>
             <div class="drawer-item">
-                <span>主题风格</span>
+                <span>分层结构</span>
                 <el-select
-                    v-model="setting.navbar.theme"
+                    v-model="setting.page.position"
                     size="mini"
                     style="width: 80px"
                 >
-                    <el-option value="light" label="亮色"/>
-                    <el-option value="dark" label="暗色"/>
+                    <el-option value="top-bottom" label="上下"/>
+                    <el-option value="left-right" label="左右"/>
                 </el-select>
+            </div>
+            <div class="drawer-item">
+                <span>显示logo</span>
+                <el-switch v-model="setting.page.showLogo"/>
+            </div>
+            <div class="drawer-item">
+                <span>显示页头</span>
+                <el-switch v-model="setting.page.showHeader"/>
+            </div>
+            <div class="drawer-item">
+                <span>显示页脚</span>
+                <el-switch v-model="setting.page.showFooter"/>
+            </div>
+            <div class="drawer-item">
+                <span>显示返回顶部按钮</span>
+                <el-switch v-model="setting.page.showBackToTop"/>
             </div>
 
             <el-divider>多页签设置</el-divider>
@@ -177,7 +181,8 @@ export default {
                 page: {
                     position: 'left-right',
                     showLogo: true,
-                    showPageHeader: true,
+                    showHeader: true,
+                    showFooter: true,
                     showBackToTop: true
                 },
                 aside: {

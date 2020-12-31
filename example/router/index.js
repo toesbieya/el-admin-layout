@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import {injectDefaultRoute} from "el-admin-layout"
 import Layout from '@example/layout'
-import Redirect from '@example/view/redirect'
 import IndexPage from '@example/view/indexPage'
 import TestPage from '@example/view/testPage'
 import Nest0 from '@example/view/nest0'
@@ -49,7 +49,7 @@ const router = new Router({
             children: [
                 {
                     path: 'taobao',
-                    meta: {title: '淘宝', iframe: 'https://www.taobao.com'}
+                    meta: {title: '淘宝', dynamicTitle: route => `淘宝${Date.now()}`, iframe: 'https://www.taobao.com'}
                 },
                 {
                     path: 'baidu',
@@ -58,16 +58,7 @@ const router = new Router({
             ]
         },
 
-        {
-            path: '/redirect',
-            component: Layout,
-            children: [
-                {
-                    path: '*',
-                    component: Redirect
-                }
-            ]
-        }
+        ...injectDefaultRoute(Layout)
     ]
 })
 

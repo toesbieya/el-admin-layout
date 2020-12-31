@@ -1,17 +1,6 @@
-import {isEmpty, getInitialValue, debounce, deepClone} from "el-admin-layout/src/util"
+import {isEmpty, debounce} from "el-admin-layout/src/util"
 
-export {isEmpty, getInitialValue, debounce, deepClone}
-
-/**
- * 当传入空值时，返回默认值
- *
- * @param v             传入值
- * @param defaultValue  当传入值为空值(使用{@link #isEmpty}判断)时，返回的值
- * @return {string|*}
- */
-export function emptyOrDefault(v, defaultValue = '') {
-    return isEmpty(v) ? defaultValue : v
-}
+export {isEmpty, debounce}
 
 /**
  * 字符串替换全部

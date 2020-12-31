@@ -1,5 +1,5 @@
 <template>
-    <el-admin-layout :navbar-props="navbarProps" :page-props="pageProps"/>
+    <el-admin-layout :navbar-props="navbarProps" :aside-props="asideProps" :page-props="pageProps"/>
 </template>
 
 <script type="text/jsx">
@@ -57,7 +57,7 @@ appMutations.menus([
         ]
     },
     {
-        fullPath:'/iframe',
+        fullPath: '/iframe',
         meta: {title: 'iframe', icon: 'el-icon-s-flag'},
         children: [
             {
@@ -80,9 +80,7 @@ export default {
     computed: {
         navbarProps() {
             return {
-                user: {
-                    name: '测试用户'
-                },
+                username: '测试用户',
                 userDropdownItems: [
                     {
                         icon: 'el-icon-switch-button',
@@ -92,6 +90,12 @@ export default {
                     }
                 ],
                 renderCustomActions: this.renderNavbarActions
+            }
+        },
+
+        asideProps() {
+            return {
+                showIconMaxDepth: -1
             }
         },
 
@@ -142,5 +146,9 @@ export default {
             delete this.$_settingDrawerInstance
         }
     },
+
+    mounted() {
+
+    }
 }
 </script>
