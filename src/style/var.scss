@@ -25,7 +25,7 @@ $menu-text-color-dark: rgba(255, 255, 255, .65) !default;
 //亮色菜单的文字hover颜色
 $menu-text-hover-color-light: $--color-primary !default;
 //暗色菜单的文字hover颜色
-$menu-text-hover-color-dark: rgba(255, 255, 255, 1) !default;
+$menu-text-hover-color-dark: $--color-white !default;
 
 //侧边栏宽度
 $aside-width: 208px !default;
@@ -63,6 +63,6 @@ $page-footer-height: 64px !default;
 $--border-color-dark: darken($root-menu-background-dark, 5%) !default;
 
 :export {
-    maxMobileWidth:$max-mobile-width;
+    maxMobileWidth: $max-mobile-width;
     menuPadding: $menu-padding;
 }

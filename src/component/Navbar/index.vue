@@ -13,11 +13,10 @@ export default {
     components: {HeadMenu, Logo},
 
     props: {
-        //用户信息，{avatar:头像地址, name:用户名称}
-        user: {
-            type: Object,
-            default: () => ({avatar: '', name: 'user'})
-        },
+        //头像地址
+        avatar: String,
+        //用户名称
+        username: String,
         //自定义下拉菜单项，{icon:图标, command:el-dropdown-menu-item的属性, content:菜单内容, hideOnMobile:当移动端时是否隐藏, handler:点击时触发的方法}
         userDropdownItems: {
             type: Array,
@@ -72,8 +71,8 @@ export default {
             return (
                 <el-dropdown class="navbar-item" on-command={onCommand}>
                     <div class="avatar-wrapper">
-                        <el-avatar size={30} src={this.user.avatar} icon="el-icon-user-solid"/>
-                        <span class="hide-on-mobile">{this.user.name}</span>
+                        <el-avatar size={30} src={this.avatar} icon="el-icon-user-solid"/>
+                        <span class="hide-on-mobile">{this.username}</span>
                     </div>
 
                     <el-dropdown-menu
