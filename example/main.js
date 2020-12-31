@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import Element from 'element-ui'
-import './style/index.scss'
 import App from './App'
 import router from './router'
+import './style/index.scss'
 
 Vue.use(Element)
 

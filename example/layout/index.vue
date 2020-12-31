@@ -55,6 +55,20 @@ appMutations.menus([
                 ]
             }
         ]
+    },
+    {
+        fullPath:'/iframe',
+        meta: {title: 'iframe', icon: 'el-icon-s-flag'},
+        children: [
+            {
+                fullPath: '/iframe/taobao',
+                meta: {title: '淘宝'}
+            },
+            {
+                fullPath: '/iframe/baidu',
+                meta: {title: '百度'}
+            }
+        ]
     }
 ])
 

@@ -16,6 +16,7 @@ const router = new Router({
     routes: [
         {
             path: '/',
+            redirect: 'index',
             component: Layout,
             children: [
                 {
@@ -44,7 +45,17 @@ const router = new Router({
         },
         {
             path: '/iframe',
-            component: Layout
+            component: Layout,
+            children: [
+                {
+                    path: 'taobao',
+                    meta: {title: '淘宝', iframe: 'https://www.taobao.com'}
+                },
+                {
+                    path: 'baidu',
+                    meta: {title: '百度', iframe: 'https://www.baidu.com'}
+                }
+            ]
         },
 
         {
