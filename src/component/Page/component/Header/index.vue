@@ -3,7 +3,7 @@
         <span class="page-header-title">{{ title }}</span>
 
         <el-breadcrumb>
-            <el-breadcrumb-item v-for="(item,index) in data" :key="item.path">
+            <el-breadcrumb-item v-for="(item, index) in data" :key="item.path">
                 <span :class="{'no-redirect': index !== data.length - 1}">{{ item.meta.title }}</span>
             </el-breadcrumb-item>
         </el-breadcrumb>
@@ -27,7 +27,10 @@ export default {
 
                 if (!path.startsWith(getRedirectPath())) {
                     this.title = getTitleFromRoute(to)
-                    this.data = matched.filter(item => getTitleFromRoute(item))
+                    this.data = matched
+                        .slice(0, matched.length - 1)
+                        .filter(item => item.meta.title)
+                        .concat([{path: to.path, meta: {title: this.title}}])
                 }
             }
         }

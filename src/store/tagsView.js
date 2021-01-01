@@ -4,8 +4,8 @@
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
 import {createGetters, createMutations} from "./util"
-import {getRouterViewCacheKey} from "el-admin-layout/src/helper"
-import {bindThis} from "el-admin-layout/src/util"
+import {getRouterKeyGenerator} from "el-admin-layout"
+import {isEmpty, bindThis} from "el-admin-layout/src/util"
 
 const state = {
     //是否启用
@@ -69,15 +69,11 @@ export const mutations = bindThis({
      * @param view
      */
     addCacheOnly(view) {
-        const {noCache, iframe, usePathKey, useFullPathKey} = view.meta || {}
+        const {noCache, iframe} = view.meta || {}
 
-        if (noCache || iframe || !view.name && !usePathKey && !useFullPathKey) {
-            return
-        }
+        const key = getRouterKeyGenerator()(view)
 
-        const key = getRouterViewCacheKey(view)
-
-        if (store.cachedViews.includes(key)) {
+        if (noCache || iframe || isEmpty(key) || store.cachedViews.includes(key)) {
             return
         }
 
@@ -107,7 +103,7 @@ export const mutations = bindThis({
      * @param view
      */
     delCacheOnly(view) {
-        const key = getRouterViewCacheKey(view)
+        const key = getRouterKeyGenerator()(view)
         const index = store.cachedViews.indexOf(key)
         index > -1 && store.cachedViews.splice(index, 1)
     },
@@ -131,7 +127,8 @@ export const mutations = bindThis({
      */
     delOtherTagAndCache(view) {
         const visitedViews = store.visitedViews.filter(v => v.meta.affix || v.path === view.path)
-        const key = store.cachedViews.find(key => key === getRouterViewCacheKey(view))
+        const currentRouterKey = getRouterKeyGenerator()(view)
+        const key = store.cachedViews.find(key => key === currentRouterKey)
 
         store.visitedViews = visitedViews
         store.cachedViews = key ? [key] : []

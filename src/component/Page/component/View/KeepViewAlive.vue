@@ -1,5 +1,5 @@
 <script>
-import {getRouterViewCacheKey} from "el-admin-layout/src/helper"
+import {getRouterKeyGenerator} from "el-admin-layout"
 
 const KEY = '_routerViewKey'
 
@@ -18,7 +18,7 @@ function removeCache(cache, key) {
 function getCacheKey(route, componentOptions) {
     if (KEY in componentOptions) return componentOptions[KEY]
 
-    const key = getRouterViewCacheKey(route)
+    const key = getRouterKeyGenerator()(route)
 
     if (key) componentOptions[KEY] = key
 

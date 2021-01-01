@@ -4,7 +4,9 @@ export {
     getMaxMobileWidth,
     setMaxMobileWidth,
     getRedirectPath,
-    setRedirectPath
+    setRedirectPath,
+    getRouterKeyGenerator,
+    setRouterKeyGenerator
 } from "./const"
 
 export {injectDefaultRoute} from "./defaultRoute"
