@@ -27,6 +27,14 @@ appMutations.menus([
                 meta: {title: '测试页', icon: 'el-icon-phone'}
             },
             {
+                fullPath: '/reuse/1',
+                meta: {title: '复用路由1', icon: 'el-icon-phone'}
+            },
+            {
+                fullPath: '/reuse/2',
+                meta: {title: '复用路由2', icon: 'el-icon-phone'}
+            },
+            {
                 fullPath: '/nest',
                 meta: {title: '嵌套页', icon: 'el-icon-s-order'},
                 children: [

@@ -4,7 +4,7 @@
  * ctrl + ←，上一个页签
  */
 
-import {tagsViewGetters} from "el-admin-layout/src/store"
+import {tagsViewGetters} from "el-admin-layout"
 
 export default {
     watch: {
