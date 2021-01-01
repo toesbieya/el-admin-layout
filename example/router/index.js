@@ -4,28 +4,9 @@ import {injectDefaultRoute} from "el-admin-layout"
 import Layout from '@example/layout'
 import IndexPage from '@example/view/indexPage'
 import TestPage from '@example/view/testPage'
+import ReusablePage from '@example/view/reusablePage'
 import Nest0 from '@example/view/nest0'
 import Nest0_1 from '@example/view/nest0-1'
-
-//路由页面懒加载，入参可以是字符串、返回值为Promise的函数
-function lazyLoadView(component) {
-
-    //这里注意一点，如果设置了超时时间，那么超时后只能刷新整个页面才能重新加载该组件
-    const AsyncHandler = () => ({
-        component: component(),
-        loading: h => h('div', null, 'loading'),
-        delay: 200,
-        timeout: 10000
-    })
-
-    return () => Promise.resolve({
-        abstract: true,
-        functional: true,
-        render(h, {data, children}) {
-            return h(AsyncHandler, data, children)
-        }
-    })
-}
 
 Vue.use(Router)
 
@@ -54,7 +35,7 @@ const router = new Router({
                 {
                     path: 'reuse/:id',
                     props: true,
-                    component: lazyLoadView(() => import('@example/view/reusablePage')),
+                    component: ReusablePage,
                     meta: {dynamicTitle: route => `复用路由${route.params.id}`, usePathKey: true}
                 },
                 {
