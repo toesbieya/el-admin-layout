@@ -3,7 +3,7 @@
  * 顶部菜单，参考了ant design的响应式设计
  */
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
-import {appGetters} from "el-admin-layout/src/store"
+import {appGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
 
 export default {
@@ -168,7 +168,7 @@ export default {
             //如果已创建observer，则返回
             if (this.resizeObserver) return
 
-            this.resizeObserver = new ResizeObserver(this.resize)
+            this.resizeObserver = new window.ResizeObserver(this.resize)
             this.resizeObserver.observe(this.getMenuEl())
 
             this.$once('hook:beforeDestroy', () => {

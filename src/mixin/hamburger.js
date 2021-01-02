@@ -1,5 +1,5 @@
+import {appGetters, asideGetters} from "el-admin-layout"
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
-import {appGetters, asideGetters} from "el-admin-layout/src/store"
 import {getSidebarMenus} from "el-admin-layout/src/helper"
 
 /**

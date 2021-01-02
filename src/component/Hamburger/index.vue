@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {appGetters, asideGetters, asideMutations} from "el-admin-layout/src/store"
+import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
 
 export default {
     name: 'Hamburger',

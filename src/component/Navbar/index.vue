@@ -1,7 +1,7 @@
 <script type="jsx">
 import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
 import HeadMenu from "./HeadMenu"
-import {appGetters, navbarGetters, pageGetters} from "el-admin-layout/src/store"
+import {appGetters, navbarGetters, pageGetters} from "el-admin-layout"
 import Logo from "el-admin-layout/src/component/Logo"
 import {refreshPage} from "el-admin-layout/src/helper"
 
@@ -57,7 +57,7 @@ export default {
 
     methods: {
         clickRefreshBtn() {
-            refreshPage(this.$route, this.$router)
+            refreshPage(this.$router)
         },
 
         renderRefreshBtn() {

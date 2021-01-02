@@ -11,7 +11,7 @@ const state = {
     title: '',
     logo: '',
 
-    //当前激活的顶部菜单的key
+    //当前激活的顶部菜单的fullPath
     activeRootMenu: '',
 
     //所有的树形菜单，每个元素为顶部菜单，顶部菜单的子级（如果有）为侧边栏菜单

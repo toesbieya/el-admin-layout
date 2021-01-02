@@ -29,7 +29,7 @@ const state = {
     position: 'left-right',
     //是否显示页头
     showHeader: true,
-    //是否显示页头
+    //是否显示页脚
     showFooter: true,
     //是否显示返回顶部按钮
     showBackToTop: true

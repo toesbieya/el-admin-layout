@@ -2,7 +2,7 @@
 import OnePart from './component/OnePart'
 import TwoPartRoot from './component/TwoPart/root'
 import TwoPartSub from './component/TwoPart/sub'
-import {appGetters, asideGetters} from "el-admin-layout/src/store"
+import {appGetters, asideGetters} from "el-admin-layout"
 
 export default {
     functional: true,
@@ -10,18 +10,20 @@ export default {
     render(h, context) {
         let children
 
+        const attrs = Object.assign({transition: true, transitionName: 'sidebar'}, context.props)
+
         //移动端只能使用抽屉模式的单层侧边栏
         if (appGetters.isMobile) {
-            children = <OnePart {...{attrs: context.props}}/>
+            children = <OnePart {...{attrs}}/>
         }
         else {
             switch (appGetters.navMode) {
                 case 'mix':
                 case 'aside':
-                    children = <OnePart {...{attrs: context.props}}/>
+                    children = <OnePart {...{attrs}}/>
                     break
                 case 'aside-two-part':
-                    children = [<TwoPartRoot/>, <TwoPartSub {...{attrs: context.props}}/>]
+                    children = [<TwoPartRoot/>, <TwoPartSub {...{attrs}}/>]
             }
         }
 
