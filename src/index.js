@@ -1,9 +1,9 @@
 import Layout from "./Layout"
-import ContextMenu from "./component/Page/component/TagsView/ContextMenu"
+import {refreshPage, closeCurrentPage} from "./helper"
 
 export default Layout
 
 export * from "./config"
 export * from "./store"
 
-export {ContextMenu}
+export {refreshPage, closeCurrentPage}
