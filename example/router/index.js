@@ -56,10 +56,12 @@ const router = new Router({
             children: [
                 {
                     path: 'taobao',
+                    name: 'taobao',
                     meta: {title: '淘宝', dynamicTitle: route => `淘宝${Date.now()}`, iframe: 'https://www.taobao.com'}
                 },
                 {
                     path: 'baidu',
+                    name: 'baidu',
                     meta: {title: '百度', iframe: 'https://www.baidu.com'}
                 }
             ]

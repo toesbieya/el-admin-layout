@@ -18,12 +18,10 @@ appMutations.menus([
         children: [
             {
                 fullPath: '/index',
-                name: 'indexPage',
                 meta: {title: '首页', icon: 'el-icon-platform-eleme', affix: true}
             },
             {
                 fullPath: '/test',
-                name: 'testPage',
                 meta: {title: '测试页', icon: 'el-icon-phone'}
             },
             {
