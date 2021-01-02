@@ -88,9 +88,9 @@ export default router
 
 |属性|说明|类型|默认|
 |:---:|:---:|:---:|:---:|
-|navbarProps|传递给nav-bar的props|[NavBar Props](#NavBar Props)||
-|asideProps|传递给aside的props|[Aside Props](#Aside Props)||
-|pageProps|传递给page的props|[Page Props](#Page Props)||
+|navbarProps|传递给nav-bar的props|[NavBar Props](#navbar-props)||
+|asideProps|传递给aside的props|[Aside Props](#aside-props)||
+|pageProps|传递给page的props|[Page Props](#page-props)||
 
 
 ### NavBar Props
@@ -101,7 +101,7 @@ export default router
 |username|用户名称|`string`|-|
 |userDropdownItems|自定义下拉菜单项|`array<UserDropdownItem>`|`[]`|
 |renderCustomActions|自定义右侧元素|`function(defaultVnodes: array<VNode>)`|-|
-|headMenuProps|传递给head-menu的props|[HeadMenu Props](#HeadMenu Props)||
+|headMenuProps|传递给head-menu的props|[HeadMenu Props](#headmenu-props)||
 
 
 #### UserDropdownItem
@@ -428,7 +428,7 @@ route => {
 
 具体请查看`src/style/var.scss`，都有注释，此处不作说明
 
-注意！如果修改了`$max-mobile-width`，请同时修改[常量](#可修改的常量)中的`maxMobileWidth`；如果修改了`$menu-padding`，请同时修改[aside props](#Aside Props)中的`inlineIndent`
+注意！如果修改了`$max-mobile-width`，请同时修改[常量](#可修改的常量)中的`maxMobileWidth`；如果修改了`$menu-padding`，请同时修改[Aside Props](#aside-props)中的`inlineIndent`
 
 
 ### 辅助样式
