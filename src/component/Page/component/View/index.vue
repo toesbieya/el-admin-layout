@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {getRouterKeyGenerator} from "el-admin-layout"
+import {Const} from "el-admin-layout"
 import KeepViewAlive from "./KeepViewAlive"
 
 export default {
@@ -23,7 +23,7 @@ export default {
 
         let view = (
             <transition name={transitionName} mode="out-in">
-                <router-view key={getRouterKeyGenerator()(this.$route)}/>
+                <router-view key={Const.routerKeyGenerator(this.$route)}/>
             </transition>
         )
 

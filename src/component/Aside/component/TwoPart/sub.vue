@@ -1,9 +1,8 @@
 <script type="text/jsx">
-import {getRedirectPath} from "el-admin-layout/src/config"
+import {Const, appGetters, asideGetters} from "el-admin-layout"
 import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import menuSearchMixin from 'el-admin-layout/src/mixin/menuSearch'
-import {appGetters, asideGetters} from "el-admin-layout/src/store"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
 import {getSidebarMenus} from "el-admin-layout/src/helper"
 
@@ -41,7 +40,7 @@ export default {
             immediate: true,
             handler(v) {
                 //如果是redirect跳转，则跳过
-                if (v.startsWith(getRedirectPath())) return
+                if (v.startsWith(Const.redirectPath)) return
 
                 this.activeMenu = this.getActiveMenuByRoute(this.$route)
 
@@ -94,8 +93,6 @@ export default {
                     default-active={this.activeMenu}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
-                    switch-transition
-                    switch-transition-name="sidebar"
                     {...{props: this.$attrs}}
                     on-select={this.onSelect}
                 />

@@ -1,12 +1,4 @@
-export {
-    getIconRenderer,
-    setIconRenderer,
-    getMaxMobileWidth,
-    setMaxMobileWidth,
-    getRedirectPath,
-    setRedirectPath,
-    getRouterKeyGenerator,
-    setRouterKeyGenerator
-} from "./const"
+import Const from "./const"
+import {injectDefaultRoute} from "./defaultRoute"
 
-export {injectDefaultRoute} from "./defaultRoute"
+export {Const, injectDefaultRoute}

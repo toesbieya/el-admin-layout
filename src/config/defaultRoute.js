@@ -1,4 +1,4 @@
-import {getRedirectPath} from "./const"
+import Const from "./const"
 import Redirect from '../component/Redirect'
 
 /**
@@ -10,7 +10,7 @@ import Redirect from '../component/Redirect'
 export function injectDefaultRoute(layout) {
     return [
         {
-            path: getRedirectPath(),
+            path: Const.redirectPath,
             component: layout,
             children: [
                 {

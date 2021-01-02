@@ -1,5 +1,4 @@
-import {getRedirectPath} from "../config"
-import {appGetters, appMutations} from "../store"
+import {Const, appGetters, appMutations} from "../"
 import menuMixin from "./menu"
 
 /**
@@ -47,7 +46,7 @@ export default {
             const {path, matched} = route
 
             //使用redirect跳转 或 无匹配路由 时跳过
-            if (path.startsWith(getRedirectPath()) || matched.length === 0) {
+            if (path.startsWith(Const.redirectPath) || matched.length === 0) {
                 return false
             }
 

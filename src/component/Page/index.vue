@@ -1,11 +1,11 @@
 <script type="text/jsx">
-import {getRedirectPath} from "el-admin-layout/src/config"
-import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout/src/store"
+import {Const, pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
 import BackToTop from "./component/BackToTop"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
 import PageFooter from "./component/Footer"
-import TagsView from './component/TagsView'
+import TagsView from 'el-admin-layout/src/component/TagsView'
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: 'Page',
@@ -36,8 +36,11 @@ export default {
     },
 
     watch: {
-        $route(to, from) {
-            this.iframeCtrl(to, from)
+        $route: {
+            handler(to, from) {
+                this.iframeCtrl(to, from)
+            },
+            immediate: true
         }
     },
 
@@ -45,9 +48,9 @@ export default {
         //路由跳转时控制iframe的显隐
         iframeCtrl(to, from) {
             //从iframe页面离开时，判断是否需要删除iframe
-            if (from.meta.iframe) {
-                //如果设置了无缓存或是进行了刷新，那么移除iframe
-                const del = from.meta.noCache || to.path === `${getRedirectPath()}${from.path}`
+            if (from && from.meta.iframe) {
+                const key = Const.routerKeyGenerator(from)
+                const del = isEmpty(key) || !tagsViewGetters.cachedViews.includes(key)
 
                 pageMutations.closeIframe({src: from.meta.iframe, del})
             }

@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {getIconRenderer} from "el-admin-layout/src/config"
+import {Const} from "el-admin-layout"
 import {isEmpty} from "el-admin-layout/src/util"
 
 //获得高亮的菜单内容vnode
@@ -36,7 +36,7 @@ export default {
             : getHighlightContent(h, title, highlight)
 
         return [
-            getIconRenderer()(h, icon),
+            Const.iconRenderer(h, icon),
             <span slot="title" class="menu-item-content">{content}</span>
         ]
     }

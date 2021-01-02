@@ -1,11 +1,11 @@
 /**
- * 一些常量设置，非响应式
+ * 一些可修改的常量
  */
 
 import cssVar from '../style/var.scss'
 
 //移动端的最大宽度，默认为scss中的$max-mobile-width变量，该值的变动并不能影响样式
-let MAX_MOBILE_WIDTH = cssVar.maxMobileWidth
+let MAX_MOBILE_WIDTH = parseFloat(cssVar.maxMobileWidth)
 
 //layout中渲染icon的方法
 let ICON_RENDERER = (h, icon) => h('i', {class: `icon ${icon}`})
@@ -19,34 +19,48 @@ let ROUTER_KEY_GENERATOR = route => {
     return usePathKey ? path : useFullPathKey ? fullPath : name
 }
 
-export function getMaxMobileWidth() {
-    return MAX_MOBILE_WIDTH
+//获取路由标题的方法
+let ROUTER_TITLE_GENERATOR = route => {
+    const {title, dynamicTitle} = route.meta || {}
+
+    return typeof dynamicTitle === 'function'
+        ? dynamicTitle(route) || title
+        : title
 }
 
-export function setMaxMobileWidth(val) {
-    MAX_MOBILE_WIDTH = val
-}
+export default {
+    get maxMobileWidth() {
+        return MAX_MOBILE_WIDTH
+    },
+    set maxMobileWidth(val) {
+        MAX_MOBILE_WIDTH = val
+    },
 
-export function getIconRenderer() {
-    return ICON_RENDERER
-}
+    get iconRenderer() {
+        return ICON_RENDERER
+    },
+    set iconRenderer(val) {
+        ICON_RENDERER = val
+    },
 
-export function setIconRenderer(val) {
-    ICON_RENDERER = val
-}
+    get redirectPath() {
+        return REDIRECT_PATH
+    },
+    set redirectPath(val) {
+        REDIRECT_PATH = val
+    },
 
-export function getRedirectPath() {
-    return REDIRECT_PATH
-}
+    get routerKeyGenerator() {
+        return ROUTER_KEY_GENERATOR
+    },
+    set routerKeyGenerator(val) {
+        ROUTER_KEY_GENERATOR = val
+    },
 
-export function setRedirectPath(val) {
-    REDIRECT_PATH = val
-}
-
-export function getRouterKeyGenerator() {
-    return ROUTER_KEY_GENERATOR
-}
-
-export function setRouterKeyGenerator(val) {
-    ROUTER_KEY_GENERATOR = val
+    get routerTitleGenerator() {
+        return ROUTER_TITLE_GENERATOR
+    },
+    set routerTitleGenerator(val) {
+        ROUTER_TITLE_GENERATOR = val
+    }
 }

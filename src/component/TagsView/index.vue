@@ -1,12 +1,12 @@
 <script type="text/jsx">
-import {getRedirectPath} from "el-admin-layout/src/config"
 import {
+    Const,
     appGetters,
     pageGetters,
     pageMutations,
     tagsViewGetters,
     tagsViewMutations
-} from "el-admin-layout/src/store"
+} from "el-admin-layout"
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
 import {refreshPage} from "el-admin-layout/src/helper"
@@ -58,7 +58,7 @@ export default {
         //判断页签是否激活，考虑redirect刷新的情况
         isActive({path}) {
             const {path: routePath} = this.$route
-            return routePath === path || routePath === `${getRedirectPath()}${path}`
+            return routePath === path || routePath === `${Const.redirectPath}${path}`
         },
         isAffix(tag) {
             return tag.meta && tag.meta.affix
@@ -84,17 +84,14 @@ export default {
 
         initTags() {
             //获取菜单树中所有需要固定显示的页签
-            function getAffixTags(menus) {
+            const getAffixTags = menus => {
                 const tags = []
-                menus.forEach(({name, fullPath, children, meta}) => {
+                menus.forEach(({fullPath, children, meta}) => {
                     //必须要有title，没有title只有dynamicTitle的跳过
                     if (meta && meta.title && meta.affix) {
-                        tags.push({
-                            fullPath,      //此处的fullPath并不是$route.fullPath，而是菜单树拼接后的全路径
-                            path: fullPath,
-                            name,
-                            meta: {...meta}
-                        })
+                        const {route} = this.$router.resolve(fullPath)
+
+                        route && tags.push({...route, meta: {...route.meta, ...meta}})
                     }
                     if (children) {
                         const tempTags = getAffixTags(children)
@@ -110,15 +107,9 @@ export default {
             //将当前路由对象添加为页签
             this.addTag(this.$route)
         },
-        //将具有meta.title或meta.dynamicTitle的路由对象添加为tab页
+        //将具有标题的路由对象添加为tab页
         addTag(route) {
-            const {title, dynamicTitle} = route.meta
-
-            //优先使用dynamicTitle
-            const finalTitle =
-                typeof dynamicTitle === 'function'
-                    ? dynamicTitle(route)
-                    : title
+            const finalTitle = Const.routerTitleGenerator(route)
 
             if (!isEmpty(finalTitle)) {
                 tagsViewMutations.addTagAndCache({
@@ -143,7 +134,8 @@ export default {
          * 刷新所选、关闭所选、关闭其他、关闭所有
          */
         refreshSelectedTag() {
-            this.selectedTag && refreshPage(this.selectedTag, this.$router)
+            const {route} = this.$router.resolve(this.selectedTag.fullPath)
+            refreshPage(this.$router, route)
         },
         closeSelectedTag(view, e) {
             if (this.isAffix(view)) return
@@ -196,19 +188,18 @@ export default {
 
         renderTags() {
             return this.visitedViews.map(tag => {
-                const {path, query, fullPath, meta: {title}} = tag
                 const active = this.isActive(tag), affix = this.isAffix(tag)
 
                 return (
                     <router-link
-                        key={fullPath}
+                        key={tag.fullPath}
                         tag="div"
                         class={{'tags-view-item': true, active}}
-                        to={{path, query, fullPath}}
+                        to={tag}
                         v-on:contextmenu_native={e => this.openContextMenu(tag, e)}
                         v-on:dblclick_native={e => this.closeSelectedTag(tag, e)}
                     >
-                        <span>{title}</span>
+                        <span>{tag.meta.title}</span>
                         {!affix && <i class="el-icon-close" on-click={e => this.closeSelectedTag(tag, e)}/>}
                     </router-link>
                 )

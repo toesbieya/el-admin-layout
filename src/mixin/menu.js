@@ -26,7 +26,7 @@ export default {
 
             //触发的菜单路径是当前路由时，根据参数判断是否进行刷新
             this.$route.path === menuIndex
-                ? refreshWhenSame && refreshPage(this.$route, this.$router)
+                ? refreshWhenSame && refreshPage(this.$router)
                 : this.$router.push(menuIndex)
         },
 

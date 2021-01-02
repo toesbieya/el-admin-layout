@@ -1,7 +1,7 @@
 <script type="text/jsx">
-import {getIconRenderer} from "el-admin-layout/src/config"
+import {Const} from "el-admin-layout"
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
-import {appGetters, asideGetters, pageGetters} from "el-admin-layout/src/store"
+import {appGetters, asideGetters, pageGetters} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 
 export default {
@@ -69,7 +69,7 @@ export default {
                     class={{'el-menu-item': true, 'is-active': fullPath === activeRootMenu}}
                     on-click={() => this.onSelect(fullPath)}
                 >
-                    {getIconRenderer()(h, icon)}
+                    {Const.iconRenderer(h, icon)}
                     <span class="menu-item-content">{title}</span>
                 </li>
             ))

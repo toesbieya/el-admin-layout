@@ -4,7 +4,7 @@
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
 import {createGetters, createMutations} from "./util"
-import {getRouterKeyGenerator} from "el-admin-layout"
+import {Const} from "el-admin-layout"
 import {isEmpty, bindThis} from "el-admin-layout/src/util"
 
 const state = {
@@ -52,7 +52,7 @@ export const mutations = bindThis({
     },
 
     /**
-     * 在页签栏上添加一个页签，path已存在的不会重复添加，调用时需要保证meta.title有值
+     * 在页签栏上添加一个页签，path已存在的不会重复添加
      * @param view
      */
     addTagOnly(view) {
@@ -65,15 +65,15 @@ export const mutations = bindThis({
 
     /**
      * 将传入的routeConfig加入<keep-router-view-alive>的缓存中
-     * 以下调用无效：设置了不缓存、是iframe页、未设置唯一标识、已缓存
+     * 以下调用无效：设置了不缓存、未设置唯一标识、已缓存
      * @param view
      */
     addCacheOnly(view) {
-        const {noCache, iframe} = view.meta || {}
+        const {noCache} = view.meta || {}
 
-        const key = getRouterKeyGenerator()(view)
+        const key = Const.routerKeyGenerator(view)
 
-        if (noCache || iframe || isEmpty(key) || store.cachedViews.includes(key)) {
+        if (noCache || isEmpty(key) || store.cachedViews.includes(key)) {
             return
         }
 
@@ -103,49 +103,61 @@ export const mutations = bindThis({
      * @param view
      */
     delCacheOnly(view) {
-        const key = getRouterKeyGenerator()(view)
+        const key = Const.routerKeyGenerator(view)
         const index = store.cachedViews.indexOf(key)
         index > -1 && store.cachedViews.splice(index, 1)
-    },
-
-    /**
-     * 同时调用{@link #delTagOnly}、{@link #delCacheOnly}，移除iframe页
-     * @param view
-     */
-    delTagAndCache(view) {
-        this.delTagOnly(view)
-        this.delCacheOnly(view)
 
         const iframe = view.meta && view.meta.iframe
         iframe && pageMutations.delIframe(iframe)
     },
 
     /**
-     * 从页签栏上移除除了routeConfig以外的所有非固定页签
-     * 并且从<keep-router-view-alive>中移除除了routeConfig以外的所有缓存
+     * 同时调用{@link #delTagOnly}、{@link #delCacheOnly}
+     * @param view
+     */
+    delTagAndCache(view) {
+        this.delTagOnly(view)
+        this.delCacheOnly(view)
+    },
+
+    /**
+     * 从页签栏上移除其他的非固定页签以及其他的缓存
      * @param view
      */
     delOtherTagAndCache(view) {
-        const visitedViews = store.visitedViews.filter(v => v.meta.affix || v.path === view.path)
-        const currentRouterKey = getRouterKeyGenerator()(view)
+        //记录被移除的iframe
+        const removeIframe = []
+
+        const currentRouterKey = Const.routerKeyGenerator(view)
         const key = store.cachedViews.find(key => key === currentRouterKey)
 
-        store.visitedViews = visitedViews
+        store.visitedViews = store.visitedViews.filter(v => {
+            if (v.meta.affix || v.path === view.path) {
+                return true
+            }
+
+            v.meta.iframe && removeIframe.push(v.meta.iframe)
+
+            return false
+        })
         store.cachedViews = key ? [key] : []
+
+        pageMutations.iframeList(pageGetters.iframeList.filter(i => !removeIframe.includes(i)))
     },
 
     /**
-     * 移除<keep-router-view-alive>的所有缓存
+     * 移除所有缓存
      */
     delAllCache() {
         store.cachedViews = []
+        pageMutations.iframeList([])
     },
 
     /**
-     * 从页签栏上移除所有非固定页签，并且移除<keep-router-view-alive>的所有缓存
+     * 从页签栏上移除所有非固定页签，并且移除所有缓存
      */
     delAllTagAndCache() {
-        store.visitedViews = store.visitedViews.filter(tag => tag.meta && tag.meta.affix)
+        store.visitedViews = store.visitedViews.filter(v => v.meta && v.meta.affix)
         this.delAllCache()
     }
 })

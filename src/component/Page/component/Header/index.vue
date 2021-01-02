@@ -11,8 +11,7 @@
 </template>
 
 <script>
-import {getRedirectPath} from "el-admin-layout/src/config"
-import {getTitleFromRoute} from "el-admin-layout/src/helper"
+import {Const} from "el-admin-layout"
 
 export default {
     name: "PageHeader",
@@ -25,8 +24,8 @@ export default {
             handler(to) {
                 const {path, matched} = to
 
-                if (!path.startsWith(getRedirectPath())) {
-                    this.title = getTitleFromRoute(to)
+                if (!path.startsWith(Const.redirectPath)) {
+                    this.title = Const.routerTitleGenerator(to)
                     this.data = matched
                         .slice(0, matched.length - 1)
                         .filter(item => item.meta.title)
