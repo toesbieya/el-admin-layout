@@ -3,6 +3,7 @@ import {Const} from "el-admin-layout"
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
 import {appGetters, asideGetters, pageGetters} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: "RootSidebar",
@@ -69,7 +70,7 @@ export default {
                     class={{'el-menu-item': true, 'is-active': fullPath === activeRootMenu}}
                     on-click={() => this.onSelect(fullPath)}
                 >
-                    {Const.iconRenderer(h, icon)}
+                    {!isEmpty(icon) && Const.iconRenderer(h, icon)}
                     <span class="menu-item-content">{title}</span>
                 </li>
             ))

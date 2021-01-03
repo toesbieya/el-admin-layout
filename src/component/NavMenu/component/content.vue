@@ -36,7 +36,7 @@ export default {
             : getHighlightContent(h, title, highlight)
 
         return [
-            Const.iconRenderer(h, icon),
+            !isEmpty(icon) && Const.iconRenderer(h, icon),
             <span slot="title" class="menu-item-content">{content}</span>
         ]
     }
