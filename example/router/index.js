@@ -7,6 +7,9 @@ import TestPage from '@example/view/testPage'
 import ReusablePage from '@example/view/reusablePage'
 import Nest0 from '@example/view/nest0'
 import Nest0_1 from '@example/view/nest0-1'
+import SimpleBreadcrumbPage from '@example/view/breadcrumb/simple'
+import ListBreadcrumbPage from '@example/view/breadcrumb/list'
+import DetailBreadcrumbPage from '@example/view/breadcrumb/detail'
 
 Vue.use(Router)
 
@@ -63,6 +66,28 @@ const router = new Router({
                     path: 'baidu',
                     name: 'baidu',
                     meta: {title: '百度', iframe: 'https://www.baidu.com'}
+                }
+            ]
+        },
+        {
+            path: '/breadcrumb',
+            component: Layout,
+            children: [
+                {
+                    path: 'simple',
+                    component: SimpleBreadcrumbPage,
+                    meta: {title: '简单'}
+                },
+                {
+                    path: 'list',
+                    component: ListBreadcrumbPage,
+                    meta: {title: '列表页'}
+                },
+                {
+                    path: 'detail/:id',
+                    props: true,
+                    component: DetailBreadcrumbPage,
+                    meta: {dynamicTitle: route => `详情页${route.params.id}`, activeMenu: '/breadcrumb/list'}
                 }
             ]
         },

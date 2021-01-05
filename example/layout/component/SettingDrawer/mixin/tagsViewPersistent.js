@@ -27,7 +27,7 @@ export default {
                 if (!v) return setTagsView()
 
                 //启用时先存储一次（仅在mounted后，否则此时页签数据不完整）
-                this._isMounted && this.persistentTagsView(tagsViewGetters.visitedViews)
+                this._isMounted && this.persistentTagsView(this.visitedViews)
 
                 this.watchVisitedViewsCallback = this.$watch('visitedViews', this.persistentTagsView)
             }
@@ -35,13 +35,18 @@ export default {
     },
 
     beforeCreate() {
-        this.persistentTagsView = debounce(setTagsView)
+        this.persistentTagsView = debounce(views => {
+            setTagsView(views.map(v => ({fullPath: v.fullPath, meta: v.meta})))
+        })
     },
 
     mounted() {
         if (!this.setting.tagsView.persistent) return
 
         const tags = getTagsView()
-        Array.isArray(tags) && tags.forEach(tagsViewMutations.addTagOnly)
+        Array.isArray(tags) && tags.forEach(({fullPath, meta}) => {
+            const {route} = this.getRoot().$router.resolve(fullPath)
+            route && tagsViewMutations.addTagOnly({...route, meta: {...route.meta, ...meta}})
+        })
     }
 }
