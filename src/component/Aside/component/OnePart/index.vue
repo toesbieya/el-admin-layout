@@ -19,8 +19,10 @@ export default {
 
     data() {
         return {
-            //鼠标是否在侧边栏外
-            mouseOutside: true
+            //开启了自动隐藏时，判断鼠标是否在侧边栏外
+            mouseOutside: true,
+            //开启了自动隐藏时，用于判断鼠标是否在弹出菜单内
+            openedMenuNum: 0
         }
     },
 

@@ -87,11 +87,14 @@ export default {
             const getAffixTags = menus => {
                 const tags = []
                 menus.forEach(({fullPath, children, meta}) => {
-                    //必须要有title，没有title只有dynamicTitle的跳过
+                    //没有title的跳过
                     if (meta && meta.title && meta.affix) {
                         const {route} = this.$router.resolve(fullPath)
 
-                        route && tags.push({...route, meta: {...route.meta, ...meta}})
+                        if (route && route.matched.length > 0) {
+                            //确保路由的title优先使用
+                            tags.push({...route, meta: {...meta, ...route.meta}})
+                        }
                     }
                     if (children) {
                         const tempTags = getAffixTags(children)
@@ -113,10 +116,8 @@ export default {
 
             if (!isEmpty(finalTitle)) {
                 tagsViewMutations.addTagAndCache({
-                    ...{
-                        ...route,
-                        meta: {...route.meta, title: finalTitle}
-                    }
+                    ...route,
+                    meta: {...route.meta, title: finalTitle}
                 })
             }
         },
@@ -135,7 +136,7 @@ export default {
          */
         refreshSelectedTag() {
             const {route} = this.$router.resolve(this.selectedTag.fullPath)
-            refreshPage(this.$router, route)
+            route.matched.length > 0 && refreshPage(this.$router, route)
         },
         closeSelectedTag(view, e) {
             if (this.isAffix(view)) return

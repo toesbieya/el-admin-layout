@@ -8,10 +8,7 @@ export default {
         return {
             //当前激活的菜单的fullPath
             //之所以手动维护是因为el-menu在点击后就会设置activeIndex
-            activeMenu: '',
-
-            //用于判断鼠标是否在弹出菜单内
-            openedMenuNum: 0
+            activeMenu: ''
         }
     },
 
