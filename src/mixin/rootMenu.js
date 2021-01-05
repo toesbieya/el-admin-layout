@@ -1,4 +1,5 @@
 import {Const, appGetters, appMutations} from "../"
+import {getMenuByFullPath} from "../store/app"
 import menuMixin from "./menu"
 
 /**
@@ -22,7 +23,7 @@ export default {
     methods: {
         //点击根节点时
         onSelectRootMenu(index) {
-            const root = appGetters.menus.find(i => i.fullPath === index)
+            const root = getMenuByFullPath(index)
 
             //vue-router中对应index的路由可能有子级且未设置redirect，此时访问index会404
             const {leaf, hasOtherLeaf} = findFirstLeaf(root)
