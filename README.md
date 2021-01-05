@@ -155,7 +155,7 @@ export default router
 |title|在页头、面包屑、页签栏中的名称|`string`|-|
 |dynamicTitle|title的动态形式，优先使用|`function(currentRoute)`|-|
 |noCache|true时不缓存页面|`boolean`|-|
-|activeMenu|当前激活菜单的fullPath|`string`|-|
+|activeMenu|当前激活的叶子菜单的fullPath|`string`|-|
 |iframe|需要打开的iframe的地址|`string`|-|
 |usePathKey|是否使用route.path作为key|`boolean`|-|
 |useFullPathKey|是否使用route.fullPath作为key|`boolean`|-|
@@ -223,7 +223,7 @@ xxxMutations.specialMethod('test')
 
 具备所有方法
 
-注意，`appMutations.menus`会对传入的值进行排序，会修改原始数组的顺序！
+注意，`appMutations.menus`会对传入的值进行排序，并增加parent属性！
 
 
 ### asideStore
@@ -370,7 +370,7 @@ Const.xxx = 'test'
 |iconRenderer|渲染图标的方法|`function(h: vue的createElement, icon)`||
 |redirectPath|redirect的路由路径，以'/'开头|`string`|`'/redirect'`|
 |routerKeyGenerator|获取每个路由对应的唯一key的方法|`function(route)`||
-|routerTitleGenerator|获取路由标题的方法|`function(route)`||
+|routerTitleGenerator|获取路由标题的方法|`function(route, currentRoute)`||
 
 - iconRenderer默认值：
 ```js
@@ -387,11 +387,11 @@ route => {
 
 - routerTitleGenerator默认值：
 ```js
-route => {
+(route, currentRoute = route) => {
     const {title, dynamicTitle} = route.meta || {}
 
     return typeof dynamicTitle === 'function'
-        ? dynamicTitle(route) || title
+        ? dynamicTitle(currentRoute) || title
         : title
 }
 ```
