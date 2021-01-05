@@ -1,0 +1,45 @@
+@import "~el-admin-layout/src/style/var";
+
+.breadcrumb {
+    white-space: nowrap;
+    font-size: $--font-size-base;
+
+    &-separator {
+        margin: 0 9px;
+        color: $--color-text-placeholder;
+    }
+
+    &-item {
+        display: inline-block;
+
+        &:not(:last-child) .breadcrumb-inner {
+            color: $--color-text-regular;
+            transition: $--color-transition-base;
+            cursor: pointer;
+
+            &:hover {
+                color: $--color-primary;
+            }
+        }
+
+        &:last-child .breadcrumb-inner {
+            color: $--color-text-secondary;
+        }
+    }
+
+    &-enter-active,
+    &-leave-active,
+    &-move {
+        transition: transform .5s, opacity .5s;
+    }
+
+    &-enter,
+    &-leave-active {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+
+    &-leave-active {
+        position: absolute;
+    }
+}
