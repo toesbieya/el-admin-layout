@@ -20,11 +20,11 @@ let ROUTER_KEY_GENERATOR = route => {
 }
 
 //获取路由标题的方法
-let ROUTER_TITLE_GENERATOR = route => {
+let ROUTER_TITLE_GENERATOR = (route, currentRoute = route) => {
     const {title, dynamicTitle} = route.meta || {}
 
     return typeof dynamicTitle === 'function'
-        ? dynamicTitle(route) || title
+        ? dynamicTitle(currentRoute) || title
         : title
 }
 
