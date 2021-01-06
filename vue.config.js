@@ -7,10 +7,9 @@ function resolve(dir) {
 }
 
 module.exports = {
-    publicPath: isProd ? '/el-admin-layout/dist/example/' : '/',
+    publicPath: isProd ? '/el-admin-layout/' : '/',
     outputDir: 'dist/example',
     assetsDir: 'static',
-    filenameHashing: false,
     pages: {
         index: {
             // page 的入口

@@ -2,7 +2,9 @@
 
 这是一个基于`element-ui`的后台管理layout组件，需要配合`vue2`、`vue-router3`使用。
 
-[在线预览](https://toesbieya.github.io/el-admin-layout/dist/example/#/index)
+- [在线预览](https://toesbieya.cn/el-admin-layout)
+
+- [文档](https://doc.toesbieya.cn/el-admin-layout)
 
 
 ## 功能特性
