@@ -1,7 +1,7 @@
 /**
  * 侧边栏搜索框混入
  */
-import MenuSearch from 'el-admin-layout/src/component/Aside/component/MenuSearch'
+import MenuSearch from '../component/MenuSearch'
 import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
