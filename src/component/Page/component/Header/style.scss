@@ -9,11 +9,6 @@
     height: $page-header-height;
     padding: $page-header-padding $page-view-margin $page-header-padding $page-view-margin;
 
-    > .el-breadcrumb .no-redirect {
-        color: $--color-text-secondary;
-        cursor: text;
-    }
-
     &-title {
         color: $--color-text-primary;
         font-weight: 600;
