@@ -102,11 +102,11 @@ export default {
             )
         },
         renderActions() {
-            const defaultActions = [this.renderRefreshBtn(), this.renderUserDropdown()]
+            const defaultActions = [this.renderRefreshBtn, this.renderUserDropdown]
 
             return typeof this.renderCustomActions == 'function'
                 ? this.renderCustomActions(defaultActions)
-                : defaultActions
+                : defaultActions.map(i => i())
         }
     },
 

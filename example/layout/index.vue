@@ -68,7 +68,7 @@ export default {
                 </div>
             ]
 
-            return customActions.concat(defaultActions)
+            return customActions.concat(defaultActions.map(f => f()))
         }
     },
 
