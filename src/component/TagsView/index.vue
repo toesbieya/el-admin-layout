@@ -134,8 +134,7 @@ export default {
          * 刷新所选、关闭所选、关闭其他、关闭所有
          */
         refreshSelectedTag() {
-            const {route} = this.$router.resolve(this.selectedTag.fullPath)
-            route.matched.length > 0 && refreshPage(this.$router, route)
+            refreshPage(this.$router, this.selectedTag)
         },
         closeSelectedTag(view, e) {
             if (this.isAffix(view)) return
@@ -146,12 +145,10 @@ export default {
             this.isActive(view) && this.gotoLastTag()
         },
         closeOthersTags() {
-            tagsViewMutations.delOtherTagAndCache(this.selectedTag)
+            const view = this.selectedTag
 
-            //当前选中的页签不是当前路由时，跳转到选中页签的地址
-            if (this.selectedTag.path !== this.$route.path) {
-                return this.$router.push(this.selectedTag)
-            }
+            tagsViewMutations.delOtherTagAndCache(view)
+            !this.isActive(view) && this.$router.push(view)
         },
         closeAllTags() {
             tagsViewMutations.delAllTagAndCache()
