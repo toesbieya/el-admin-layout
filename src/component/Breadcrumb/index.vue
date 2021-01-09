@@ -8,7 +8,7 @@
                 <span class="breadcrumb-separator">/</span>
             </div>
             <div :key="$route.fullPath" class="breadcrumb-item">
-                <span class="breadcrumb-inner">{{ routeTitle }}</span>
+                <span class="breadcrumb-inner">{{ lastItemTitle || routeTitle }}</span>
             </div>
         </transition-group>
     </div>
@@ -17,11 +17,17 @@
 <script>
 import {Const} from "el-admin-layout"
 import {getMenuByFullPath} from "el-admin-layout/src/store/app"
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: "Breadcrumb",
 
-    data: () => ({items: []}),
+    data() {
+        return {
+            items: [],
+            lastItemTitle: ''
+        }
+    },
 
     computed: {
         //当前路由的面包屑标题
@@ -51,7 +57,7 @@ export default {
                         .slice(0, -1)
                         .map(route => {
                             const title = Const.routerTitleGenerator(route, this.$route)
-                            return title && {title, fullPath: route.fullPath}
+                            return !isEmpty(title) && {title, fullPath: route.fullPath}
                         })
                         .filter(Boolean)
 
@@ -66,16 +72,19 @@ export default {
                     parent = parent.parent
                 }
 
-                //找到的菜单对应当前路由时，弹出尾部，以当前路由的标题为准
-                if (menu.fullPath === fullPath) {
-                    items.pop()
+                //找到的菜单对应当前路由时，弹出尾部
+                if (menu.fullPath === route.path) {
+                    const lastItem = items.pop()
+                    if (!isEmpty(lastItem.meta && lastItem.meta.title)) {
+                        this.lastItemTitle = lastItem.meta.title
+                    }
                 }
 
                 this.items = items
                     .map(menu => {
                         //菜单必须要有固定标题
                         const title = menu.meta && menu.meta.title
-                        return title && {title, fullPath: menu.fullPath}
+                        return !isEmpty(title) && {title, fullPath: menu.fullPath}
                     })
                     .filter(Boolean)
             },
@@ -94,7 +103,7 @@ export default {
             }
 
             //不刷新
-            if (this.$route.fullPath !== menu.fullPath) {
+            if (this.$route.path !== menu.fullPath) {
                 this.$router.push(menu.fullPath)
             }
         }

@@ -82,30 +82,29 @@ export default {
             pageMutations.transition({curr: transitionName})
         },
 
+        //获取菜单树中所有需要固定显示的页签
+        getAffixTags(menus) {
+            const tags = []
+            menus.forEach(({fullPath, children, meta}) => {
+                if (meta && meta.affix === true) {
+                    const {route} = this.$router.resolve(fullPath)
+
+                    if (route && route.matched.length > 0) {
+                        const title = Const.routerTitleGenerator(route)
+                        !isEmpty(title) && tags.push({...route, meta: {...meta, ...route.meta, title}})
+                    }
+                }
+                if (children) {
+                    const tempTags = this.getAffixTags(children)
+                    tempTags.length && tags.push(...tempTags)
+                }
+            })
+            return tags
+        },
+        //初始化固定显示的页签
         initTags() {
-            //获取菜单树中所有需要固定显示的页签
-            const getAffixTags = menus => {
-                const tags = []
-                menus.forEach(({fullPath, children, meta}) => {
-                    //没有title的跳过
-                    if (meta && meta.title && meta.affix) {
-                        const {route} = this.$router.resolve(fullPath)
-
-                        if (route && route.matched.length > 0) {
-                            //确保路由的title优先使用
-                            tags.push({...route, meta: {...meta, ...route.meta}})
-                        }
-                    }
-                    if (children) {
-                        const tempTags = getAffixTags(children)
-                        tempTags.length && tags.push(...tempTags)
-                    }
-                })
-                return tags
-            }
-
             //添加所有固定显示的页签
-            getAffixTags(this.menus).forEach(tagsViewMutations.addTagOnly)
+            this.getAffixTags(this.menus).forEach(tagsViewMutations.addTagOnly)
 
             //将当前路由对象添加为页签
             this.addTag(this.$route)
