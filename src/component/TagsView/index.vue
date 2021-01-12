@@ -89,7 +89,7 @@ export default {
                 if (meta && meta.affix === true) {
                     const {route} = this.$router.resolve(fullPath)
 
-                    if (route && route.matched.length > 0) {
+                    if (route.matched.length > 0) {
                         const title = Const.routerTitleGenerator(route)
                         !isEmpty(title) && tags.push({...route, meta: {...meta, ...route.meta, title}})
                     }

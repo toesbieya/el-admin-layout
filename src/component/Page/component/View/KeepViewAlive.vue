@@ -1,6 +1,8 @@
 <script>
 import {Const} from "el-admin-layout"
+import {isEmpty} from "el-admin-layout/src/util"
 
+//添加到组件实例的componentOptions对象的缓存标识的属性名
 const KEY = '_routerViewKey'
 
 function getFirstComponentChild(children) {
@@ -9,12 +11,26 @@ function getFirstComponentChild(children) {
     }
 }
 
+/**
+ * 根据指定的key移除缓存，会调用组件的$destroy方法
+ *
+ * @param cache          缓存map，<k:缓存key, v:缓存VNode>
+ * @param key {string}
+ */
 function removeCache(cache, key) {
     const cached = cache[key]
     cached && cached.componentInstance && cached.componentInstance.$destroy()
     delete cache[key]
 }
 
+/**
+ * 没有key时生成，否则返回已有的key
+ * 将key保存到componentOptions是因为有的key会根据生成
+ *
+ * @param route              当前路由(vue-router.currentRoute)
+ * @param componentOptions   组件实例的componentOptions对象
+ * @returns {string}
+ */
 function getCacheKey(route, componentOptions) {
     if (KEY in componentOptions) return componentOptions[KEY]
 
@@ -48,6 +64,7 @@ export default {
     },
 
     created() {
+        //缓存map，<k:缓存key, v:缓存VNode>
         this.cache = Object.create(null)
     },
 
@@ -72,7 +89,7 @@ export default {
                 const key = getCacheKey(this.$route, componentOptions)
                 const {include, cache} = this
 
-                if (include && !include.includes(key)) {
+                if (isEmpty(key) || include && !include.includes(key)) {
                     return vnode
                 }
 

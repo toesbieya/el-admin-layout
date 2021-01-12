@@ -2,15 +2,13 @@ import {getInitialValue} from "el-admin-layout/src/util"
 
 //为Vue.observer返回的对象设置getter
 export function createGetters(store) {
-    const getters = Object.create({})
+    const getters = Object.create(null)
     Object.defineProperties(
         getters,
         Object.keys(store).reduce((obj, key) => {
             obj[key] = {
                 enumerable: true,
-                get() {
-                    return store[key]
-                }
+                get: () => store[key]
             }
             return obj
         }, {})
