@@ -1,11 +1,12 @@
 <script type="text/jsx">
-import {Const, pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
+import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
 import BackToTop from "./component/BackToTop"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
 import PageFooter from "./component/Footer"
 import TagsView from 'el-admin-layout/src/component/TagsView'
 import {isEmpty} from "el-admin-layout/src/util"
+import {getRouterKey} from "el-admin-layout/src/config/logic"
 
 export default {
     name: 'Page',
@@ -49,7 +50,7 @@ export default {
         iframeCtrl(to, from) {
             //从iframe页面离开时，判断是否需要删除iframe
             if (from && from.meta.iframe) {
-                const key = Const.routerKeyGenerator(from)
+                const key = getRouterKey(from)
                 const del = isEmpty(key) || !tagsViewGetters.cachedViews.includes(key)
 
                 pageMutations.closeIframe({src: from.meta.iframe, del})

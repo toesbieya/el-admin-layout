@@ -2,6 +2,7 @@
  * 顶部菜单和侧边栏菜单的公共混入
  */
 import {refreshPage} from "el-admin-layout/src/helper"
+import {getRouterKey} from "el-admin-layout/src/config/logic"
 
 export default {
     data() {
@@ -21,10 +22,17 @@ export default {
                 return this.resetActiveMenu()
             }
 
-            //触发的菜单路径是当前路由时，根据参数判断是否进行刷新
-            this.$route.path === menuIndex
+            const {route} = this.$router.resolve(menuIndex)
+
+            if (route.matched.length === 0) {
+                console.warn(`点击菜单时出错，'${menuIndex}'没有对应的路由`)
+                return this.resetActiveMenu()
+            }
+
+            //触发的菜单会跳转到当前路由时，根据参数判断是否进行刷新
+            getRouterKey(this.$route) === getRouterKey(route)
                 ? refreshWhenSame && refreshPage(this.$router)
-                : this.$router.push(menuIndex)
+                : this.$router.push(route)
         },
 
         //由于侧边栏菜单数组更新后，el-menu不一定会更新（当数组中不存在单级菜单时）
@@ -69,11 +77,6 @@ export default {
         $_getElMenuInstance() {
             const navMenu = this.$refs['nav-menu']
             return navMenu && navMenu.$refs['el-menu']
-        },
-
-        //根据路由获取当前激活的菜单
-        getActiveMenuByRoute({path, meta}) {
-            return meta.activeMenu || path
         }
     }
 }

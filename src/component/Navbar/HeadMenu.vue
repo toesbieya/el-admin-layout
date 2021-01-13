@@ -5,6 +5,7 @@
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
 import {appGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
+import {getRouterActiveMenu} from "el-admin-layout/src/config/logic"
 
 export default {
     name: "HeadMenu",
@@ -98,17 +99,17 @@ export default {
     },
 
     methods: {
-        setActiveMenu(navMode = this.navMode, {path, meta} = this.$route) {
+        setActiveMenu(navMode = this.navMode, route = this.$route) {
             //只有在混合导航模式下才将当前激活的顶部菜单认为是当前菜单
             if (navMode === 'mix') {
                 this.activeMenu = appGetters.activeRootMenu
             }
             //否则按照路由配置项设置
-            else this.activeMenu = this.getActiveMenuByRoute({path, meta})
+            else this.activeMenu = getRouterActiveMenu(route)
         },
         onSelect(index) {
-            //点击的是根节点时，混合导航模式下必定是根节点
-            if (this.navMode === 'mix' || appGetters.menus.some(i => i.fullPath === index)) {
+            //混合导航模式下点击根节点时
+            if (this.navMode === 'mix') {
                 return this.onSelectRootMenu(index)
             }
 

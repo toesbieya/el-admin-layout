@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import {Const} from "el-admin-layout"
 import Breadcrumb from "el-admin-layout/src/component/Breadcrumb"
+import {getRouterTitle} from "el-admin-layout/src/config/logic"
 
 export default {
     name: "PageHeader",
@@ -17,7 +17,7 @@ export default {
 
     computed: {
         title() {
-            return  Const.routerTitleGenerator(this.$route)
+            return  getRouterTitle(this.$route)
         }
     }
 }

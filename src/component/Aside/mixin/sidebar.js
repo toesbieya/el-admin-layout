@@ -1,9 +1,10 @@
-import {Const, asideGetters} from "el-admin-layout"
+import {asideGetters} from "el-admin-layout"
 import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import menuSearchMixin from './menuSearch'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import {getSidebarMenus} from "el-admin-layout/src/store/app"
+import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
     inheritAttrs: false,
@@ -18,13 +19,12 @@ export default {
     },
 
     watch: {
-        '$route.path': {
+        $route: {
             immediate: true,
-            handler(v) {
-                //如果是redirect跳转，则跳过
-                if (v.startsWith(Const.redirectPath)) return
+            handler(to) {
+                if (isRedirectRouter(to)) return
 
-                this.activeMenu = this.getActiveMenuByRoute(this.$route)
+                this.activeMenu = getRouterActiveMenu(this.$route)
 
                 const menu = this.$_getElMenuInstance()
                 if (!menu) return

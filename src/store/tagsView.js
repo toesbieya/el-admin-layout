@@ -4,8 +4,8 @@
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
 import {createGetters, createMutations} from "./util"
-import {Const} from "el-admin-layout"
 import {isEmpty, bindThis} from "el-admin-layout/src/util"
+import {getRouterKey} from "el-admin-layout/src/config/logic"
 
 const state = {
     //是否启用
@@ -13,7 +13,7 @@ const state = {
     //是否启用缓存功能
     enableCache: true,
 
-    //显示的页签，vue-router的routeConfig对象数组
+    //显示的页签
     visitedViews: [],
 
     //缓存的页签，用于<keep-router-view-alive/>:include
@@ -52,28 +52,35 @@ export const mutations = bindThis({
     },
 
     /**
-     * 在页签栏上添加一个页签，path已存在的不会重复添加
+     * 在页签栏上添加一个页签，没有标题、已存在的不会重复添加
      * @param view
      */
     addTagOnly(view) {
-        if (store.visitedViews.some(v => v.path === view.path)) {
+        if (!view.meta || isEmpty(view.meta.title)) {
             return
         }
 
-        store.visitedViews.push(view)
+        const key = getRouterKey(view)
+
+        if (store.visitedViews.some(v => v.key === key)) {
+            return
+        }
+
+        //增加key属性
+        store.visitedViews.push({...view, key})
     },
 
     /**
-     * 将传入的routeConfig加入<keep-router-view-alive>的缓存中
-     * 以下调用无效：设置了不缓存、未设置唯一标识、已缓存
+     * 将传入的页签加入缓存中
+     * 以下调用无效：设置了不缓存、已缓存
      * @param view
      */
     addCacheOnly(view) {
         const {noCache} = view.meta || {}
 
-        const key = Const.routerKeyGenerator(view)
+        const key = getRouterKey(view)
 
-        if (noCache || isEmpty(key) || store.cachedViews.includes(key)) {
+        if (noCache === true || store.cachedViews.includes(key)) {
             return
         }
 
@@ -90,23 +97,25 @@ export const mutations = bindThis({
     },
 
     /**
-     * 根据path从页签栏中移除一个页签
-     * @param view {path}，routeConfig
+     * 从页签栏中移除一个页签
+     * @param view
      */
     delTagOnly(view) {
-        const index = store.visitedViews.findIndex(i => i.path === view.path)
+        const key = getRouterKey(view)
+        const index = store.visitedViews.findIndex(i => i.key === key)
         index > -1 && store.visitedViews.splice(index, 1)
     },
 
     /**
-     * 删除<keep-router-view-alive>对应的缓存
+     * 删除对应的缓存
      * @param view
      */
     delCacheOnly(view) {
-        const key = Const.routerKeyGenerator(view)
+        const key = getRouterKey(view)
         const index = store.cachedViews.indexOf(key)
         index > -1 && store.cachedViews.splice(index, 1)
 
+        //移除iframe
         const iframe = view.meta && view.meta.iframe
         iframe && pageMutations.delIframe(iframe)
     },
@@ -128,11 +137,11 @@ export const mutations = bindThis({
         //记录被移除的iframe
         const removeIframe = []
 
-        const currentRouterKey = Const.routerKeyGenerator(view)
-        const key = store.cachedViews.find(key => key === currentRouterKey)
+        const key = getRouterKey(view)
+        const cachedKey = store.cachedViews.find(i => i === key)
 
         store.visitedViews = store.visitedViews.filter(v => {
-            if (v.meta.affix || v.path === view.path) {
+            if (v.meta.affix || v.key === key) {
                 return true
             }
 
@@ -140,7 +149,7 @@ export const mutations = bindThis({
 
             return false
         })
-        store.cachedViews = key ? [key] : []
+        store.cachedViews = cachedKey ? [cachedKey] : []
 
         pageMutations.iframeList(pageGetters.iframeList.filter(i => !removeIframe.includes(i)))
     },

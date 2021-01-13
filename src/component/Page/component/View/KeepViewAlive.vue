@@ -1,6 +1,6 @@
 <script>
-import {Const} from "el-admin-layout"
 import {isEmpty} from "el-admin-layout/src/util"
+import {getRouterKey} from "el-admin-layout/src/config/logic"
 
 //添加到组件实例的componentOptions对象的缓存标识的属性名
 const KEY = '_routerViewKey'
@@ -34,7 +34,7 @@ function removeCache(cache, key) {
 function getCacheKey(route, componentOptions) {
     if (KEY in componentOptions) return componentOptions[KEY]
 
-    const key = Const.routerKeyGenerator(route)
+    const key = getRouterKey(route)
 
     if (key) componentOptions[KEY] = key
 

@@ -1,6 +1,5 @@
 <script type="text/jsx">
 import {
-    Const,
     appGetters,
     pageGetters,
     pageMutations,
@@ -11,18 +10,25 @@ import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
 import {refreshPage} from "el-admin-layout/src/helper"
 import {isEmpty} from "el-admin-layout/src/util"
+import {getRouterKey, getRouterTitle, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
     components: {ContextMenu, ScrollPanel},
 
     data() {
         return {
+            //当前激活的页签的key，随路由变化
+            activeKey: '',
+
+            //当前选中的页签
+            selectedTag: {},
+
+            //页签右键菜单的属性
             contextMenu: {
                 show: false,
                 top: 0,
                 left: 0,
-            },
-            selectedTag: {}
+            }
         }
     },
 
@@ -49,30 +55,35 @@ export default {
     watch: {
         $route(to, from) {
             this.decideRouteTransition(to, from)
+
+            //如果是刷新的话，后续的三个操作都不需要进行
+            if (isRedirectRouter(to)) return
+
+            this.setActiveKey(to)
             this.addTag(to)
             this.$nextTick(this.moveToCurrentTag)
         }
     },
 
     methods: {
-        //判断页签是否激活，考虑redirect刷新的情况
-        isActive({path}) {
-            const {path: routePath} = this.$route
-            return routePath === path || routePath === `${Const.redirectPath}${path}`
+        //根据路由设置当前激活的页签key
+        setActiveKey(to) {
+            this.activeKey = getRouterKey(to)
         },
-        isAffix(tag) {
-            return tag.meta && tag.meta.affix
+        isAffix(view) {
+            return view.meta && view.meta.affix
         },
 
         //根据访问的tab页的左右顺序来确定路由动画
         decideRouteTransition(to, from) {
             const {next, prev} = pageGetters.transition
-
+            const fromKey = getRouterKey(from)
+            const toKey = getRouterKey(to)
             let transitionName = prev
 
             //这里认为页签数量不会太多，所以为了可读性使用两次循环查找
-            const fromIndex = this.visitedViews.findIndex(i => i.path === from.path)
-            const toIndex = this.visitedViews.findIndex(i => i.path === to.path)
+            const fromIndex = this.visitedViews.findIndex(i => i.key === fromKey)
+            const toIndex = this.visitedViews.findIndex(i => i.key === toKey)
 
             //新开tab也认为顺序高于上一个tab
             if (toIndex === -1 || fromIndex < toIndex) {
@@ -89,10 +100,14 @@ export default {
                 if (meta && meta.affix === true) {
                     const {route} = this.$router.resolve(fullPath)
 
-                    if (route.matched.length > 0) {
-                        const title = Const.routerTitleGenerator(route)
-                        !isEmpty(title) && tags.push({...route, meta: {...meta, ...route.meta, title}})
-                    }
+                    tags.push({
+                        ...route,
+                        meta: {
+                            ...meta,
+                            ...route.meta,
+                            title: getRouterTitle(route)
+                        }
+                    })
                 }
                 if (children) {
                     const tempTags = this.getAffixTags(children)
@@ -109,23 +124,22 @@ export default {
             //将当前路由对象添加为页签
             this.addTag(this.$route)
         },
-        //将具有标题的路由对象添加为tab页
+        //尝试将路由对象添加为tab页
         addTag(route) {
-            const finalTitle = Const.routerTitleGenerator(route)
-
-            if (!isEmpty(finalTitle)) {
-                tagsViewMutations.addTagAndCache({
-                    ...route,
-                    meta: {...route.meta, title: finalTitle}
-                })
-            }
+            tagsViewMutations.addTagAndCache({
+                ...route,
+                meta: {
+                    ...route.meta,
+                    title: getRouterTitle(route)
+                }
+            })
         },
 
         //横向滚动条移动至当前tab
         moveToCurrentTag() {
             //获取所有页签的componentInstance
             const tagInstances = this.$refs.scrollPanel.$children
-            const tag = tagInstances.find(i => this.isActive(i.to))
+            const tag = tagInstances.find(i => i.to.key === this.activeKey)
             tag && this.$refs.scrollPanel.moveToTarget(tag.$el)
         },
 
@@ -142,13 +156,11 @@ export default {
             e && e.preventDefault()
 
             tagsViewMutations.delTagAndCache(view)
-            this.isActive(view) && this.gotoLastTag()
+            this.activeKey === view.key && this.gotoLastTag()
         },
         closeOthersTags() {
-            const view = this.selectedTag
-
-            tagsViewMutations.delOtherTagAndCache(view)
-            !this.isActive(view) && this.$router.push(view)
+            tagsViewMutations.delOtherTagAndCache(this.selectedTag)
+            this.gotoLastTag()
         },
         closeAllTags() {
             tagsViewMutations.delAllTagAndCache()
@@ -162,10 +174,8 @@ export default {
 
             const latest = this.visitedViews[this.visitedViews.length - 1]
 
-            //只有当页签路径与当前路由路径不同时才跳转，否则刷新
-            this.$route.path === latest.path
-                ? refreshPage(this.$route, this.$router)
-                : this.$router.push(latest.path)
+            //未激活时才跳转
+            this.activeKey !== latest.key && this.$router.push(latest)
         },
 
         openContextMenu(tag, e) {
@@ -184,20 +194,21 @@ export default {
         },
 
         renderTags() {
-            return this.visitedViews.map(tag => {
-                const active = this.isActive(tag), affix = this.isAffix(tag)
+            return this.visitedViews.map(view => {
+                const active = this.activeKey === view.key
+                const affix = this.isAffix(view)
 
                 return (
                     <router-link
-                        key={tag.fullPath}
+                        key={view.fullPath}
                         tag="div"
                         class={{'tags-view-item': true, active}}
-                        to={tag}
-                        v-on:contextmenu_native={e => this.openContextMenu(tag, e)}
-                        v-on:dblclick_native={e => this.closeSelectedTag(tag, e)}
+                        to={view}
+                        v-on:contextmenu_native={e => this.openContextMenu(view, e)}
+                        v-on:dblclick_native={e => this.closeSelectedTag(view, e)}
                     >
-                        <span>{tag.meta.title}</span>
-                        {!affix && <i class="el-icon-close" on-click={e => this.closeSelectedTag(tag, e)}/>}
+                        <span>{view.meta.title}</span>
+                        {!affix && <i class="el-icon-close" on-click={e => this.closeSelectedTag(view, e)}/>}
                     </router-link>
                 )
             })
@@ -205,6 +216,7 @@ export default {
     },
 
     mounted() {
+        this.setActiveKey(this.$route)
         this.initTags()
     },
 

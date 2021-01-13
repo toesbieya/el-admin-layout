@@ -13,21 +13,6 @@ let ICON_RENDERER = (h, icon) => h('i', {class: `icon ${icon}`})
 //redirect的路径名
 let REDIRECT_PATH = '/redirect'
 
-//获取每个路由对应的唯一key的方法
-let ROUTER_KEY_GENERATOR = route => {
-    const {name, path, fullPath, meta: {usePathKey, useFullPathKey} = {}} = route
-    return usePathKey ? path : useFullPathKey ? fullPath : name
-}
-
-//获取路由标题的方法
-let ROUTER_TITLE_GENERATOR = (route, currentRoute = route) => {
-    const {title, dynamicTitle} = route.meta || {}
-
-    return typeof dynamicTitle === 'function'
-        ? dynamicTitle(currentRoute) || title
-        : title
-}
-
 export default {
     get maxMobileWidth() {
         return MAX_MOBILE_WIDTH
@@ -48,19 +33,5 @@ export default {
     },
     set redirectPath(val) {
         REDIRECT_PATH = val
-    },
-
-    get routerKeyGenerator() {
-        return ROUTER_KEY_GENERATOR
-    },
-    set routerKeyGenerator(val) {
-        ROUTER_KEY_GENERATOR = val
-    },
-
-    get routerTitleGenerator() {
-        return ROUTER_TITLE_GENERATOR
-    },
-    set routerTitleGenerator(val) {
-        ROUTER_TITLE_GENERATOR = val
     }
 }

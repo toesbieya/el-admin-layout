@@ -1,83 +1,81 @@
 <template>
     <div class="breadcrumb">
         <transition-group name="breadcrumb">
-            <div v-for="{fullPath, title} in items" :key="fullPath" class="breadcrumb-item">
+            <div
+                v-for="({fullPath, title}, index) in items"
+                v-if="index !== items.length - 1"
+                :key="fullPath"
+                class="breadcrumb-item"
+            >
                 <span class="breadcrumb-inner is-link" @click="() => onClick(fullPath)">
                     {{ title }}
                 </span>
                 <span class="breadcrumb-separator">/</span>
             </div>
-            <div :key="$route.fullPath" class="breadcrumb-item">
-                <span class="breadcrumb-inner">{{ lastItemTitle || routeTitle }}</span>
+
+            <div v-if="lastItem" :key="lastItem.fullPath" class="breadcrumb-item">
+                <span class="breadcrumb-inner">{{ lastItem.title }}</span>
             </div>
         </transition-group>
     </div>
 </template>
 
 <script>
-import {Const} from "el-admin-layout"
 import {getMenuByFullPath} from "el-admin-layout/src/store/app"
 import {isEmpty} from "el-admin-layout/src/util"
+import {getRouterKey, getRouterTitle, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
     name: "Breadcrumb",
 
     data() {
         return {
-            items: [],
-            lastItemTitle: ''
+            items: []
         }
     },
 
     computed: {
-        //当前路由的面包屑标题
-        routeTitle() {
-            return Const.routerTitleGenerator(this.$route)
+        lastItem() {
+            return this.items.length <= 1
+                ? undefined
+                : this.items[this.items.length - 1]
         }
     },
 
     watch: {
         $route: {
-            handler(route) {
-                const {fullPath, matched, meta: {activeMenu}} = route
+            handler(to) {
+                const {path, fullPath, meta: {activeMenu}} = to
 
-                //404、刷新 则跳过
-                if (matched.length === 0 || fullPath.startsWith(Const.redirectPath)) {
-                    return
-                }
+                //刷新时不作处理
+                if (isRedirectRouter(to)) return
 
-                const menuFullPath = activeMenu || fullPath
+                //使用route.path而非fullPath进行匹配
+                const menuFullPath = activeMenu || path
                 const menu = getMenuByFullPath(menuFullPath)
 
-                //没有找到对应菜单时使用route.matched代替
                 if (!menu) {
-                    console.warn(`[面包屑]：未找到'${menuFullPath}'对应的菜单子树，使用route.matched代替`)
-
-                    this.items = matched
-                        .slice(0, -1)
-                        .map(route => {
-                            const title = Const.routerTitleGenerator(route, this.$route)
-                            return !isEmpty(title) && {title, fullPath: route.fullPath}
-                        })
-                        .filter(Boolean)
-
+                    console.warn(`[面包屑]：未找到'${menuFullPath}'对应的菜单`)
+                    this.items = []
                     return
                 }
 
+                //将菜单的所有父级放入数组
                 const items = [menu]
-
                 let parent = menu.parent
                 while (parent) {
                     items.unshift(parent)
                     parent = parent.parent
                 }
 
-                //找到的菜单对应当前路由时，弹出尾部
-                if (menu.fullPath === route.path) {
-                    const lastItem = items.pop()
-                    if (!isEmpty(lastItem.meta && lastItem.meta.title)) {
-                        this.lastItemTitle = lastItem.meta.title
-                    }
+                //使用了activeMenu的还需要拼接上自己的标题
+                if (activeMenu) {
+                    items.push({
+                        fullPath,
+                        meta: {
+                            title: getRouterTitle(to)
+                        }
+                    })
                 }
 
                 this.items = items
@@ -102,9 +100,11 @@ export default {
                 menu = menu.children[0]
             }
 
+            const {route} = this.$router.resolve(menu.fullPath)
+
             //不刷新
-            if (this.$route.path !== menu.fullPath) {
-                this.$router.push(menu.fullPath)
+            if (getRouterKey(route) !== getRouterKey(this.$route)) {
+                this.$router.push(route)
             }
         }
     }
