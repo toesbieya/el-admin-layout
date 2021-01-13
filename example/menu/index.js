@@ -46,6 +46,10 @@ export default [
                         meta: {title: '百度'}
                     }
                 ]
+            },
+            {
+                fullPath: '/dsafwqewq',
+                meta: {title: '没有对应路由的菜单', icon: 'el-icon-platform-eleme'}
             }
         ]
     },
