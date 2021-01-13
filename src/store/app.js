@@ -42,8 +42,36 @@ export const mutations = {
     }
 }
 
+//根据菜单的fullPath快速查找菜单
 export function getMenuByFullPath(fullPath) {
     return menuSearchMap[fullPath]
+}
+
+//获取侧边栏的菜单，如果是双层侧边栏导航时，获取的是子菜单
+export function getSidebarMenus() {
+    const menus = store.menus
+
+    if (!Array.isArray(menus)) {
+        return []
+    }
+
+    //移动端时，侧边栏只会按侧边栏导航模式渲染
+    if (store.isMobile) {
+        return menus
+    }
+
+    switch (store.navMode) {
+        case 'aside':
+            return menus
+        case 'head':
+            return []
+        case 'aside-two-part':
+        case 'mix':
+            const root = menus.find(i => i.fullPath === store.activeRootMenu)
+            return root ? root.children || [] : []
+        default:
+            return []
+    }
 }
 
 //对菜单进行排序、增加parent属性，并将转换后的菜单节点放入查找表中

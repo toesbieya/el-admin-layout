@@ -1,6 +1,6 @@
 import {appGetters, asideGetters} from "el-admin-layout"
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
-import {getSidebarMenus} from "el-admin-layout/src/helper"
+import {getSidebarMenus} from "el-admin-layout/src/store/app"
 
 /**
  * 汉堡包的渲染条件混入

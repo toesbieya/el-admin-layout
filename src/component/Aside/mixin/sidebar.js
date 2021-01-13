@@ -3,7 +3,7 @@ import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import menuSearchMixin from './menuSearch'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
-import {getSidebarMenus} from "el-admin-layout/src/helper"
+import {getSidebarMenus} from "el-admin-layout/src/store/app"
 
 export default {
     inheritAttrs: false,

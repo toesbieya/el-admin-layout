@@ -3,7 +3,7 @@
  */
 
 import {Const} from "./config"
-import {appGetters, tagsViewMutations} from "./store"
+import {tagsViewMutations} from "./store"
 
 /**
  * 根据body宽度判断是否为移动端，是则返回true
@@ -40,32 +40,5 @@ export function closeCurrentPage(router, next) {
     tagsViewMutations.delTagAndCache(router.currentRoute)
     if (next) {
         return router.replace(next)
-    }
-}
-
-//获取侧边栏的菜单，如果是双层侧边栏导航时，获取的是子菜单
-export function getSidebarMenus() {
-    const menus = appGetters.menus
-
-    if (!Array.isArray(menus)) {
-        return []
-    }
-
-    //移动端时，侧边栏只会按侧边栏导航模式渲染
-    if (appGetters.isMobile) {
-        return menus
-    }
-
-    switch (appGetters.navMode) {
-        case 'aside':
-            return menus
-        case 'head':
-            return []
-        case 'aside-two-part':
-        case 'mix':
-            const root = menus.find(i => i.fullPath === appGetters.activeRootMenu)
-            return root ? root.children || [] : []
-        default:
-            return []
     }
 }
