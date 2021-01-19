@@ -3,8 +3,6 @@ import cssVar from 'el-admin-layout/src/style/var.scss'
 import renderChild from './child'
 import {isEmpty} from "el-admin-layout/src/util"
 
-const inlineIndent = parseFloat(cssVar.menuPadding)
-
 export default {
     name: 'NavMenu',
 
@@ -21,7 +19,7 @@ export default {
         theme: {type: String, default: 'light'},
 
         //垂直模式下子菜单的单位缩进距离
-        inlineIndent: {type: Number, default: inlineIndent},
+        inlineIndent: {type: Number, default: parseFloat(cssVar.menuPadding)},
 
         //是否折叠
         collapse: Boolean,
@@ -184,7 +182,6 @@ export default {
         let items = this.realMenus.map(menu => {
             return renderChild(h, {
                 menu,
-                inlineIndent,
                 popperClass: this.themeClass,
                 highlight: this.searchWord,
                 showParent: this.showParentOnCollapse,

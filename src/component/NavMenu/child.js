@@ -10,7 +10,7 @@ function renderSingleMenu(h, {index, icon, title, highlight}) {
 
 function renderSubMenu(h, {index, icon, title, popperClass, highlight, children}) {
     return (
-        <el-submenu key={index} index={index} popper-class={popperClass}>
+        <el-submenu key={index} index={index} popper-class={popperClass} popper-append-to-body>
             <MenuItemContent slot="title" icon={icon} title={title} highlight={highlight}/>
             {children}
         </el-submenu>
