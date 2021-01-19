@@ -1,6 +1,6 @@
 <script type="text/jsx">
 import cssVar from 'el-admin-layout/src/style/var.scss'
-import renderChild from './component/child'
+import renderChild from './child'
 import {isEmpty} from "el-admin-layout/src/util"
 
 const inlineIndent = parseFloat(cssVar.menuPadding)
@@ -135,7 +135,49 @@ export default {
             })
 
             return result
+        },
+
+        //设置inlineIndent，仅在垂直且未折叠时调用有效
+        setInlineIndent() {
+            if (this.mode !== 'vertical' || this.collapse) {
+                return
+            }
+
+            this.modifyElMenuPaddingStyle(this.$refs['el-menu'].$children)
+        },
+        //修改<el-menu-item/>或<el-submenu/>的paddingStyle
+        modifyElMenuPaddingStyle(menus, depth = 1) {
+            for (const component of menus) {
+                //不重复修改
+                if (depth === 1 && component.paddingStyle.paddingLeft === `${this.inlineIndent}px`) {
+                    return false
+                }
+
+                //无子级，修改后跳到下一轮循环
+                if (component.$options.name === 'ElMenuItem') {
+                    const el = component.$el
+                    el && el.style.setProperty('padding-left', `${this.inlineIndent * depth}px`)
+                    continue
+                }
+
+                //有子级，递归修改
+                if (component.$options.name === 'ElSubmenu') {
+                    const el = component.$refs['submenu-title']
+                    el && el.style.setProperty('padding-left', `${this.inlineIndent * depth}px`)
+
+                    if (!this.modifyElMenuPaddingStyle(component.$children, depth + 1)) {
+                        return
+                    }
+                }
+            }
+
+            return true
         }
+    },
+
+    mounted() {
+        this.setInlineIndent()
+        this.$on('hook:updated', this.setInlineIndent)
     },
 
     render(h) {

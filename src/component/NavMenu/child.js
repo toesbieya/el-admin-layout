@@ -1,21 +1,19 @@
-import MenuItem from './ElMenu/item'
-import SubMenu from './ElMenu/sub'
 import MenuItemContent from './content'
 
-function renderSingleMenu(h, {index, inlineIndent, icon, title, highlight}) {
+function renderSingleMenu(h, {index, icon, title, highlight}) {
     return (
-        <MenuItem key={index} index={index} inline-indent={inlineIndent}>
+        <el-menu-item key={index} index={index}>
             <MenuItemContent icon={icon} title={title} highlight={highlight}/>
-        </MenuItem>
+        </el-menu-item>
     )
 }
 
-function renderSubMenu(h, {index, inlineIndent, icon, title, popperClass, highlight, children}) {
+function renderSubMenu(h, {index, icon, title, popperClass, highlight, children}) {
     return (
-        <SubMenu key={index} index={index} inline-indent={inlineIndent} popper-class={popperClass}>
+        <el-submenu key={index} index={index} popper-class={popperClass}>
             <MenuItemContent slot="title" icon={icon} title={title} highlight={highlight}/>
             {children}
-        </SubMenu>
+        </el-submenu>
     )
 }
 
@@ -31,7 +29,6 @@ function renderChildrenWithParentMenu(h, {icon, title, children}) {
 export default function renderMenu(h, props) {
     const {
         menu,
-        inlineIndent,
         popperClass,
         highlight,
         showParent,
@@ -48,7 +45,6 @@ export default function renderMenu(h, props) {
         const {fullPath, meta: {icon, title}} = onlyOneChild
         return renderSingleMenu(h, {
             index: fullPath,
-            inlineIndent,
             icon: getIcon({icon, showIconMaxDepth, depth}),
             title,
             highlight
@@ -66,7 +62,6 @@ export default function renderMenu(h, props) {
 
     return renderSubMenu(h, {
         index: menu.fullPath,
-        inlineIndent,
         icon: getIcon({icon, showIconMaxDepth, depth}),
         title,
         popperClass,
