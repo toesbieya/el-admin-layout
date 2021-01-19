@@ -1,7 +1,7 @@
 <script type="text/jsx">
 import cssVar from 'el-admin-layout/src/style/var.scss'
 import renderChild from './component/child'
-import {isEmpty, deepClone} from "el-admin-layout/src/util"
+import {isEmpty} from "el-admin-layout/src/util"
 
 const inlineIndent = parseFloat(cssVar.menuPadding)
 
@@ -51,7 +51,7 @@ export default {
         realMenus() {
             return isEmpty(this.searchWord)
                 ? this.menus
-                : this.filterAfterSearch(deepClone(this.menus))
+                : this.filterAfterSearch(this.menus)
         },
 
         //是否使用切换动画
@@ -77,20 +77,22 @@ export default {
     methods: {
         //根据搜索词过滤菜单
         filterAfterSearch(menus) {
-            if (!menus) return undefined
+            if (!menus) return
 
-            return menus.filter(menu => {
-                //如果匹配，那么其子节点无需再判断
-                if (menu.meta.title.includes(this.searchWord)) {
-                    return true
-                }
+            return menus
+                .map(menu => ({...menu}))
+                .filter(menu => {
+                    //如果匹配，那么其子节点无需再判断
+                    if (menu.meta.title.includes(this.searchWord)) {
+                        return true
+                    }
 
-                const children = this.filterAfterSearch(menu.children)
+                    const children = this.filterAfterSearch(menu.children)
 
-                if (children) menu.children = children
+                    if (children) menu.children = children
 
-                return children && children.length > 0
-            })
+                    return children && children.length > 0
+                })
         },
 
         //根据查找结果展开菜单

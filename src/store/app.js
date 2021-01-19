@@ -36,9 +36,7 @@ export const mutations = {
             store.menus = []
         }
 
-        transformMenu(v)
-
-        store.menus = v
+        store.menus = transformMenu(v)
     }
 }
 
@@ -76,7 +74,11 @@ export function getSidebarMenus() {
 
 //对菜单进行排序、增加parent属性，并将转换后的菜单节点放入查找表中
 function transformMenu(menus, parent) {
-    menus.sort((pre, next) => {
+    if (!menus) return
+
+    const copy = menus.map(menu => ({...menu}))
+
+    copy.sort((pre, next) => {
         pre = getSortValue(pre)
         next = getSortValue(next)
         if (pre < next) return -1
@@ -84,11 +86,15 @@ function transformMenu(menus, parent) {
         return 1
     })
 
-    menus.forEach(menu => {
+    copy.forEach(menu => {
         menu.parent = parent
         menuSearchMap[menu.fullPath] = menu
-        menu.children && transformMenu(menu.children, menu)
+
+        const r = transformMenu(menu.children, menu)
+        if (r) menu.children = r
     })
+
+    return copy
 }
 
 //菜单排序值的空值处理
