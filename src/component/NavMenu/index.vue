@@ -135,33 +135,40 @@ export default {
             return result
         },
 
-        //设置inlineIndent，仅在垂直且未折叠时调用有效
+        //设置inlineIndent，仅在垂直时调用有效
         setInlineIndent() {
-            if (this.mode !== 'vertical' || this.collapse) {
-                return
-            }
+            if (this.mode !== 'vertical') return
 
             this.modifyElMenuPaddingStyle(this.$refs['el-menu'].$children)
         },
         //修改<el-menu-item/>或<el-submenu/>的paddingStyle
         modifyElMenuPaddingStyle(menus, depth = 1) {
             for (const component of menus) {
+                const paddingLeft = this.collapse ? this.inlineIndent : this.inlineIndent * depth
+
                 //不重复修改
-                if (depth === 1 && component.paddingStyle.paddingLeft === `${this.inlineIndent}px`) {
+                if (depth === 1 && component.paddingStyle.paddingLeft === `${paddingLeft}px`) {
                     return false
                 }
 
                 //无子级，修改后跳到下一轮循环
                 if (component.$options.name === 'ElMenuItem') {
                     const el = component.$el
-                    el && el.style.setProperty('padding-left', `${this.inlineIndent * depth}px`)
+                    el.style.setProperty('padding-left', `${paddingLeft}px`)
+
+                    //折叠时，还需要修改根菜单tooltip的padding
+                    if (depth === 1 && this.collapse) {
+                        const tooltipEl = el.children[0]
+                        tooltipEl.style.setProperty('padding', `0px ${paddingLeft}px`)
+                    }
+
                     continue
                 }
 
                 //有子级，递归修改
                 if (component.$options.name === 'ElSubmenu') {
                     const el = component.$refs['submenu-title']
-                    el && el.style.setProperty('padding-left', `${this.inlineIndent * depth}px`)
+                    el.style.setProperty('padding-left', `${paddingLeft}px`)
 
                     if (!this.modifyElMenuPaddingStyle(component.$children, depth + 1)) {
                         return
