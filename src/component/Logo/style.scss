@@ -9,6 +9,7 @@
         display: flex;
         align-items: center;
         height: 100%;
+        cursor: pointer;
 
         > img {
             height: $logo-size;
