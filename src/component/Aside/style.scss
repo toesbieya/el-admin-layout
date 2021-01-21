@@ -14,8 +14,13 @@
 
     //底部汉堡包
     .hamburger {
+        height: 56px;
+        line-height: 56px;
+        font-size: $menu-icon-size;
+        padding-left: $menu-padding;
         border-top-width: 1px;
         border-top-style: solid;
+        cursor: pointer;
     }
 }
 

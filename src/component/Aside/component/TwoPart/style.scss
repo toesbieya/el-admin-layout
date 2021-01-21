@@ -30,6 +30,14 @@
         padding: 0 $menu-padding;
     }
 
+    //收起时不显示背景色和小竖条
+    &.collapse .el-menu-item {
+        &::before,
+        &::after {
+            display: none;
+        }
+    }
+
     &-container {
         float: left;
         position: relative;

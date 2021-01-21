@@ -13,39 +13,51 @@
                 }
             }
 
-            .el-menu-item::after {
-                position: absolute;
-                top: 10%;
-                right: 0;
-                height: 80%;
-                border-right: 3px solid $--color-primary;
-                opacity: 0;
-                transform: scaleY(0);
-                transition: transform .15s cubic-bezier(.645, .045, .355, 1);
-                content: "";
+            //弹出菜单的父级
+            &.el-menu--popup .popover-menu__title {
+                color: $menu-text-color-light;
+                border-bottom-color: $--border-color-light;
             }
+        }
 
-            .el-menu-item.is-active {
-                &::before{
+        //模仿ant-design的亮色菜单
+        &:not(.el-menu--collapse) {
+            .el-menu-item {
+                //小竖条
+                &::after {
                     position: absolute;
                     top: 10%;
-                    left: 0;
+                    right: 0;
                     height: 80%;
-                    width: 100%;
-                    background-color: rgba($--color-primary, .1);
+                    border-right: 3px solid $--color-primary;
+                    opacity: 0;
+                    transform: scaleY(0);
+                    transition: transform .15s cubic-bezier(.645, .045, .355, 1);
                     content: "";
                 }
 
-                &::after {
-                    opacity: 1;
-                    transform: scaleY(1);
+                &.is-active {
+                    //背景色
+                    &::before {
+                        position: absolute;
+                        top: 10%;
+                        left: 0;
+                        height: 80%;
+                        width: 100%;
+                        background-color: rgba($--color-primary, .1);
+                        content: "";
+                    }
+
+                    &::after {
+                        opacity: 1;
+                        transform: scaleY(1);
+                    }
                 }
             }
 
-            //弹出菜单的父级
-            &.el-menu--popup .popover-menu__title {
-                color: $menu-text-hover-color-light;
-                border-bottom-color: $--border-color-light;
+            //弹出菜单激活时不显示有边框
+            .el-menu--popup .el-menu-item::after {
+                display: none;
             }
         }
     }

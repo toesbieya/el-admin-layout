@@ -19,7 +19,7 @@ function renderSubMenu(h, {index, icon, title, popperClass, highlight, children}
 
 function renderChildrenWithParentMenu(h, {icon, title, children}) {
     return [
-        <div class="popover-menu__title el-menu-item">
+        <div class="popover-menu__title">
             <MenuItemContent icon={icon} title={title}/>
         </div>,
         <div class="el-menu el-menu--inline">{children}</div>

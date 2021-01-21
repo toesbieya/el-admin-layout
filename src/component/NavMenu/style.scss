@@ -59,6 +59,14 @@
         .el-submenu__title {
             padding: 0 $menu-padding;
         }
+
+        //弹出菜单的父级
+        .popover-menu__title {
+            height: 56px;
+            line-height: 56px;
+            padding: 0 $menu-padding;
+            font-size: $--menu-item-font-size;
+        }
     }
 
     //不显示滚动条

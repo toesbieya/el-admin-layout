@@ -171,7 +171,7 @@ export default {
                     on={{'select': this.onSelect, 'hook:mounted': this.watchOpenedMenus}}
                 />
 
-                {!this.renderInDrawer && this.renderHamburger && <hamburger class="el-menu-item"/>}
+                {!this.renderInDrawer && this.renderHamburger && <hamburger/>}
             </div>
         )
 

@@ -15,13 +15,9 @@
                 }
             }
 
-            //子级菜单的背景颜色
+            //子级菜单的背景颜色和内阴影
             &.el-menu--inline {
                 background-color: $sub-menu-background-dark;
-            }
-
-            //子级菜单内阴影
-            &.el-menu--inline {
                 box-shadow: inset 0 2px 8px darken($sub-menu-background-dark, 10%)
             }
 

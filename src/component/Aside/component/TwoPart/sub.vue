@@ -47,7 +47,7 @@ export default {
                     on-select={this.onSelect}
                 />
 
-                {this.renderHamburger && <hamburger class="el-menu-item"/>}
+                {this.renderHamburger && <hamburger/>}
             </div>
         )
     }
