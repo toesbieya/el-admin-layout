@@ -14,16 +14,17 @@
     "url": "https://github.com/toesbieya/el-admin-layout/issues"
   },
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build"
+    "serve:example": "vue-cli-service serve",
+    "build:example": "vue-cli-service build",
+    "build:lib": "vue-cli-service build --target lib --formats umd-min --name index build/entry.js"
   },
   "peerDependencies": {
-    "@vue/cli-plugin-babel": "^4.4.6",
-    "@vue/cli-service": "^4.4.6",
+    "@vue/cli-plugin-babel": "~5.0.0-alpha.0",
+    "@vue/cli-service": "~5.0.0-alpha.0",
     "element-ui": "^2.14.1",
     "sass": "^1.26.10",
     "sass-loader": "^8.0.2",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "vue-router": "^3.3.4",
     "vue-template-compiler": "^2.6.12"
   },

@@ -1,14 +1,14 @@
 @import "./var";
 
-@import "~el-admin-layout/src/component/Aside/style";
-@import "~el-admin-layout/src/component/Navbar/style";
-@import "~el-admin-layout/src/component/Page/style";
-@import "~el-admin-layout/src/component/TagsView/style";
+@import "../component/Aside/style";
+@import "../component/Navbar/style";
+@import "../component/Page/style";
+@import "../component/TagsView/style";
 
-@import "~el-admin-layout/src/component/Breadcrumb/style";
-@import "~el-admin-layout/src/component/Hamburger/style";
-@import "~el-admin-layout/src/component/Logo/style";
-@import "~el-admin-layout/src/component/NavMenu/style";
+@import "../component/Breadcrumb/style";
+@import "../component/Hamburger/style";
+@import "../component/Logo/style";
+@import "../component/NavMenu/style";
 
 .app-wrapper.flex-column,
 .main-container.flex-column {

@@ -1,6 +1,6 @@
 const path = require('path')
-
 const isProd = process.env.NODE_ENV === 'production'
+const isBuildLib = process.env.npm_lifecycle_script.includes('--target lib')
 
 function resolve(dir) {
     return path.join(__dirname, dir)
@@ -8,7 +8,7 @@ function resolve(dir) {
 
 module.exports = {
     publicPath: isProd ? '/el-admin-layout/' : '/',
-    outputDir: 'dist/example',
+    outputDir: `dist/${isBuildLib ? 'lib' : 'example'}`,
     assetsDir: 'static',
     pages: {
         index: {
@@ -31,14 +31,13 @@ module.exports = {
     productionSourceMap: false,
     devServer: {port: 8079, open: true},
     configureWebpack: {
-        name: 'el-admin-layout',
         resolve: {
             alias: {
                 '@example': resolve('example'),
                 'el-admin-layout': resolve('')
             }
         },
-        externals: isProd
+        externals: isProd && !isBuildLib
             ? {
                 'vue': 'Vue',
                 'element-ui': 'ELEMENT',
@@ -46,4 +45,12 @@ module.exports = {
             }
             : {}
     },
+    chainWebpack: config => {
+        config.plugins.delete('preload')
+        config.plugins.delete('prefetch')
+        if (isBuildLib) {
+            config.plugins.delete('html')
+            config.output.library('ElAdminLayout')
+        }
+    }
 }
