@@ -7,7 +7,7 @@ import {appGetters, pageGetters, tagsViewGetters} from "./store"
 export default {
     name: 'ElAdminLayout',
 
-    components: {VAside, VNavbar, VPage},
+    functional: true,
 
     props: {
         //传递给nav-bar的props
@@ -20,41 +20,30 @@ export default {
         pageProps: Object
     },
 
-    computed: {
-        isLeftRight() {
-            return pageGetters.position === 'left-right'
-        },
-        renderAside() {
-            return appGetters.isMobile || ['aside', 'aside-two-part', 'mix'].includes(appGetters.navMode)
-        },
-        wrapperClass() {
-            return {
-                'app-wrapper': true,
-                'flex-column': !this.isLeftRight
-            }
-        },
-        containerClass() {
-            return [
-                'main-container',
-                'has-nav',
-                `nav-mode-${appGetters.navMode}`,
-                this.isLeftRight && 'flex-column',
-                tagsViewGetters.enabled && 'has-tags-view'
-            ]
-        }
-    },
+    render(h, context) {
+        const {navbarProps, asideProps, pageProps} = context.props
+        const isLeftRight = pageGetters.position === 'left-right'
+        const renderAside = appGetters.isMobile || ['aside', 'aside-two-part', 'mix'].includes(appGetters.navMode)
 
-    render() {
-        const aside = this.renderAside && <v-aside {...{props: this.asideProps}}/>
-        const navbar = <v-navbar {...{props: this.navbarProps}}/>
+        const aside = renderAside && <VAside {...{props: asideProps}}/>
+        const navbar = <VNavbar {...{props: navbarProps}}/>
 
         return (
-            <section class={this.wrapperClass}>
-                {this.isLeftRight ? aside : navbar}
+            <section class={{
+                'app-wrapper': true,
+                'flex-column': !isLeftRight
+            }}>
+                {isLeftRight ? aside : navbar}
 
-                <section class={this.containerClass}>
-                    {this.isLeftRight ? navbar : aside}
-                    <v-page {...{props: this.pageProps}}/>
+                <section class={{
+                    'main-container': true,
+                    'has-nav': true,
+                    [`nav-mode-${appGetters.navMode}`]: true,
+                    'flex-column': isLeftRight,
+                    'has-tags-view': tagsViewGetters.enabled
+                }}>
+                    {isLeftRight ? navbar : aside}
+                    <VPage {...{props: pageProps}}/>
                 </section>
             </section>
         )
