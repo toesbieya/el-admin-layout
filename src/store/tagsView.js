@@ -3,8 +3,8 @@
  */
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
-import {createGetters, createMutations} from "./util"
-import {isEmpty, bindThis} from "el-admin-layout/src/util"
+import {createGetters, createMutations, bindThis} from "./util"
+import {isEmpty} from "el-admin-layout/src/util"
 import {getRouterKey} from "el-admin-layout/src/config/logic"
 
 const state = {

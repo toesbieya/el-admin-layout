@@ -3,8 +3,7 @@
  */
 import Vue from 'vue'
 import {getters as appGetters} from "./app"
-import {createGetters, createMutations} from "./util"
-import {bindThis} from "el-admin-layout/src/util"
+import {createGetters, createMutations, bindThis} from "./util"
 
 const state = {
     //抽屉模式时的显隐

@@ -9,21 +9,6 @@ export function isEmpty(...str) {
 }
 
 /**
- * 根据传入值的类型，返回基础起始值
- *
- * @param v
- * @return {boolean|{}|string|*[]|number|null}
- */
-export function getInitialValue(v) {
-    if (v === undefined || v === null) return null
-    if (typeof v === 'string') return ''
-    if (typeof v === 'boolean') return false
-    if (typeof v === 'number') return 0
-    if (typeof v === 'object') return {}
-    if (Array.isArray(v)) return []
-}
-
-/**
  * 防抖
  *
  * @param func {function}      原函数
@@ -66,33 +51,4 @@ export function debounce(func, wait = 100, immediate = false) {
 
         return result
     }
-}
-
-//将传入对象的所有函数的this绑定为其自身
-export function bindThis(obj, root = obj) {
-    if (!obj || typeof obj !== 'object') return
-
-    Object.entries(obj).forEach(([k, v]) => {
-        if (typeof v === 'function') {
-            obj[k] = v.bind(root)
-        }
-        bindThis(v, root)
-    })
-
-    return obj
-}
-
-export function deepClone(source) {
-    if (source === null || typeof source !== 'object' || source instanceof Promise) {
-        return source
-    }
-
-    if (Array.isArray(source)) {
-        return source.map(i => deepClone(i))
-    }
-
-    return Object.keys(source).reduce((obj, key) => {
-        obj[key] = deepClone(source[key])
-        return obj
-    }, {})
 }
