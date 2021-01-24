@@ -69,13 +69,9 @@ export default {
         },
         renderUserDropdown() {
             const items = this.userDropdownItems
-            const onCommand = command => {
-                const item = items.find(i => i.command === command)
-                item && item.handler()
-            }
 
             return (
-                <el-dropdown class="navbar-item" on-command={onCommand}>
+                <el-dropdown class="navbar-item">
                     <div class="avatar-wrapper">
                         <el-avatar size={30} src={this.avatar} icon="el-icon-user-solid"/>
                         <span class="hide-on-mobile">{this.username}</span>
@@ -86,17 +82,15 @@ export default {
                         class={navbarGetters.theme}
                         visible-arrow={false}
                     >
-                        {
-                            items.map(item => (
-                                <el-dropdown-item
-                                    icon={item.icon}
-                                    class={item.hideOnMobile && 'hide-on-mobile'}
-                                    command={item.command}
-                                >
-                                    {item.content}
-                                </el-dropdown-item>
-                            ))
-                        }
+                        {items.map(item => (
+                            <el-dropdown-item
+                                icon={item.icon}
+                                class={item.hideOnMobile && 'hide-on-mobile'}
+                                v-on:click_native={item.handler}
+                            >
+                                {item.content}
+                            </el-dropdown-item>
+                        ))}
                     </el-dropdown-menu>
                 </el-dropdown>
             )
