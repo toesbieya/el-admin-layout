@@ -5,13 +5,14 @@ import PageHeader from "./component/Header"
 import PageView from "./component/View"
 import PageFooter from "./component/Footer"
 import TagsView from 'el-admin-layout/src/component/TagsView'
+import Breadcrumb from 'el-admin-layout/src/component/Breadcrumb'
 import {isEmpty} from "el-admin-layout/src/util"
 import {getRouterKey} from "el-admin-layout/src/config/logic"
 
 export default {
     name: 'Page',
 
-    components: {BackToTop, PageHeader, PageView, PageFooter, TagsView},
+    components: {BackToTop, PageHeader, PageView, PageFooter, TagsView, Breadcrumb},
 
     props: {
         //自定义渲染页头的方法，入参为h：createElement
@@ -73,9 +74,13 @@ export default {
 
                 <div v-show={!showIframe} class={this.pageClass}>
                     {this.showHeader && (
-                        this.renderHeader
-                            ? this.renderHeader()
-                            : <page-header/>
+                        <page-header>
+                            {this.$scopedSlots.header
+                                ? this.$scopedSlots.header()
+                                : this.renderHeader
+                                    ? this.renderHeader()
+                                    : <breadcrumb/>}
+                        </page-header>
                     )}
 
                     <page-view
@@ -84,9 +89,11 @@ export default {
                         cacheable={enableTagsView && enableTagsViewCache}
                     />
 
-                    {this.showFooter && this.renderFooter && (
+                    {this.showFooter && (this.$scopedSlots.footer || this.renderFooter) && (
                         <page-footer>
-                            {this.renderFooter()}
+                            {this.$scopedSlots.footer
+                                ? this.$scopedSlots.footer()
+                                : this.renderFooter()}
                         </page-footer>
                     )}
                 </div>

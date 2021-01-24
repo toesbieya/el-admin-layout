@@ -1,24 +1,11 @@
-<template>
+<template functional>
     <div class="page-header">
-        <span class="page-header-title">{{ title }}</span>
-
-        <breadcrumb/>
+        <slot/>
     </div>
 </template>
 
 <script>
-import Breadcrumb from "el-admin-layout/src/component/Breadcrumb"
-import {getRouterTitle} from "el-admin-layout/src/config/logic"
-
 export default {
-    name: "PageHeader",
-
-    components: {Breadcrumb},
-
-    computed: {
-        title() {
-            return  getRouterTitle(this.$route)
-        }
-    }
+    name: "PageHeader"
 }
 </script>

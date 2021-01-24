@@ -17,7 +17,7 @@ export default {
         avatar: String,
         //用户名称
         username: String,
-        //自定义下拉菜单项，{icon:图标, command:el-dropdown-menu-item的属性, content:菜单内容, hideOnMobile:当移动端时是否隐藏, handler:点击时触发的方法}
+        //自定义下拉菜单项，{icon:图标, content:菜单内容, handler:点击时触发的方法}
         userDropdownItems: {
             type: Array,
             default: () => []
@@ -68,8 +68,6 @@ export default {
             )
         },
         renderUserDropdown() {
-            const items = this.userDropdownItems
-
             return (
                 <el-dropdown class="navbar-item">
                     <div class="avatar-wrapper">
@@ -82,15 +80,18 @@ export default {
                         class={navbarGetters.theme}
                         visible-arrow={false}
                     >
-                        {items.map(item => (
-                            <el-dropdown-item
-                                icon={item.icon}
-                                class={item.hideOnMobile && 'hide-on-mobile'}
-                                v-on:click_native={item.handler}
-                            >
-                                {item.content}
-                            </el-dropdown-item>
-                        ))}
+                        {
+                            this.$scopedSlots.dropdownItem
+                                ? this.$scopedSlots.dropdownItem()
+                                : this.userDropdownItems.map(item => (
+                                    <el-dropdown-item
+                                        icon={item.icon}
+                                        v-on:click_native={item.handler}
+                                    >
+                                        {item.content}
+                                    </el-dropdown-item>
+                                ))
+                        }
                     </el-dropdown-menu>
                 </el-dropdown>
             )
@@ -98,9 +99,11 @@ export default {
         renderActions() {
             const defaultActions = [this.renderRefreshBtn, this.renderUserDropdown]
 
-            return typeof this.renderCustomActions == 'function'
-                ? this.renderCustomActions(defaultActions)
-                : defaultActions.map(i => i())
+            return this.$scopedSlots.action
+                ? this.$scopedSlots.action() //这里不传defaultActions时因为template中用不了VNode
+                : typeof this.renderCustomActions == 'function'
+                    ? this.renderCustomActions(defaultActions)
+                    : defaultActions.map(i => i())
         }
     },
 
@@ -115,7 +118,7 @@ export default {
                     {this.renderHeadMenu && <head-menu {...{attrs: this.menuProps}}/>}
                 </div>
 
-                <div ref="navbar-actions">
+                <div>
                     {this.renderActions()}
                 </div>
             </nav>

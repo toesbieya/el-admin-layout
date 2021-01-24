@@ -90,10 +90,9 @@ export function deepClone(source) {
     if (Array.isArray(source)) {
         return source.map(i => deepClone(i))
     }
-    else {
-        return Object.keys(source).reduce((obj, key) => {
-            obj[key] = deepClone(source[key])
-            return obj
-        }, {})
-    }
+
+    return Object.keys(source).reduce((obj, key) => {
+        obj[key] = deepClone(source[key])
+        return obj
+    }, {})
 }
