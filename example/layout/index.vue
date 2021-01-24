@@ -26,7 +26,6 @@ export default {
                 userDropdownItems: [
                     {
                         icon: 'el-icon-switch-button',
-                        command: 'logout',
                         content: '退出登录',
                         handler: this.logout
                     }
@@ -50,7 +49,7 @@ export default {
 
     methods: {
         logout() {
-
+            console.log('logout')
         },
 
         openSettingDrawer() {
