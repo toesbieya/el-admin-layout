@@ -1,5 +1,4 @@
 <script type="text/jsx">
-import cssVar from 'el-admin-layout/src/style/var.scss'
 import renderChild from './child'
 import {isEmpty} from "el-admin-layout/src/util"
 
@@ -19,7 +18,7 @@ export default {
         theme: {type: String, default: 'light'},
 
         //垂直模式下子菜单的单位缩进距离
-        inlineIndent: {type: Number, default: parseFloat(cssVar.menuPadding)},
+        inlineIndent: {type: Number, default: 26},
 
         //是否折叠
         collapse: Boolean,

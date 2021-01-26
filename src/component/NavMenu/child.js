@@ -1,5 +1,6 @@
 import MenuItemContent from './content'
 
+//渲染无子级的菜单
 function renderSingleMenu(h, {index, icon, title, highlight}) {
     return (
         <el-menu-item key={index} index={index}>
@@ -8,6 +9,7 @@ function renderSingleMenu(h, {index, icon, title, highlight}) {
     )
 }
 
+//渲染有子级的菜单
 function renderSubMenu(h, {index, icon, title, popperClass, highlight, children}) {
     return (
         <el-submenu key={index} index={index} popper-class={popperClass} popper-append-to-body>
@@ -17,6 +19,7 @@ function renderSubMenu(h, {index, icon, title, popperClass, highlight, children}
     )
 }
 
+//渲染有子级且需要显示父级的菜单
 function renderChildrenWithParentMenu(h, {icon, title, children}) {
     return [
         <div class="popover-menu__title">
@@ -24,6 +27,25 @@ function renderChildrenWithParentMenu(h, {icon, title, children}) {
         </div>,
         <div class="el-menu el-menu--inline">{children}</div>
     ]
+}
+
+//根据showIconMaxDepth、depth判断是否需要限制图标的显示
+function getIcon({icon, showIconMaxDepth, depth}) {
+    if (showIconMaxDepth == null || showIconMaxDepth < 0) {
+        return icon
+    }
+    return showIconMaxDepth < depth ? undefined : icon
+}
+
+//获取不需要嵌套展示的菜单
+function getOnlyChild(menu) {
+    const {children = [], meta: {alwaysShow} = {}} = menu
+
+    if (!children.length) return {...menu, children: undefined}
+
+    if (children.length === 1) return alwaysShow ? null : getOnlyChild(children[0])
+
+    return null
 }
 
 export default function renderMenu(h, props) {
@@ -68,23 +90,4 @@ export default function renderMenu(h, props) {
         highlight,
         children
     })
-}
-
-//根据showIconMaxDepth、depth判断是否需要限制图标的显示
-function getIcon({icon, showIconMaxDepth, depth}) {
-    if (showIconMaxDepth == null || showIconMaxDepth < 0) {
-        return icon
-    }
-    return showIconMaxDepth < depth ? undefined : icon
-}
-
-//获取不需要嵌套展示的菜单
-function getOnlyChild(menu) {
-    const {children = [], meta: {alwaysShow} = {}} = menu
-
-    if (!children.length) return {...menu, children: undefined}
-
-    if (children.length === 1) return alwaysShow ? null : getOnlyChild(children[0])
-
-    return null
 }
