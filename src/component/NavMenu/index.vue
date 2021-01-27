@@ -99,6 +99,10 @@ export default {
         menuItemContentSlot() {
             return this.elAdminLayout.$scopedSlots.menuItemContent
         },
+        //Layout中的menuItemContentRenderer属性
+        menuItemContentRenderer() {
+            return this.elAdminLayout.menuItemContentRenderer
+        },
 
         //实际用于渲染的菜单数组
         realMenus() {
@@ -205,6 +209,10 @@ export default {
                 ? menu.meta.title
                 : this.searchResultRenderer(h, menu, this.searchWord)
 
+            if (this.menuItemContentRenderer) {
+                return this.menuItemContentRenderer(h, {menu, highlight: child, context: this})
+            }
+
             return <span>{child}</span>
         },
         //渲染无子级的菜单
@@ -233,7 +241,7 @@ export default {
                 >
                     <template slot="title">
                         {this.renderMenuIcon(h, getIcon(icon, this.showIconMaxDepth, depth))}
-                        {noContent ? undefined : this.renderMenuContent(h, menu)}
+                        {!noContent && this.renderMenuContent(h, menu)}
                     </template>
                     {children}
                 </sub-menu>

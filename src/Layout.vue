@@ -16,12 +16,13 @@ export default {
     props: {
         //传递给nav-bar的props
         navbarProps: Object,
-
         //传递给aside的props
         asideProps: Object,
-
         //传递给page的props
-        pageProps: Object
+        pageProps: Object,
+
+        //自定义菜单内容的渲染方法（(h, {menu, highlight, context}) => VNode），由子组件根据inject去取
+        menuItemContentRenderer: Function
     },
 
     computed: {

@@ -35,6 +35,10 @@ export default {
         menuItemContentSlot() {
             return this.elAdminLayout.$scopedSlots.menuItemContent
         },
+        //Layout中的menuItemContentRenderer属性
+        menuItemContentRenderer() {
+            return this.elAdminLayout.menuItemContentRenderer
+        },
 
         //是否需要显示logo
         showLogo() {
@@ -87,6 +91,19 @@ export default {
                 return
             }
             this.collapse = false
+        },
+
+        renderMenuContent(h, menu) {
+            //优先使用menuItemContent插槽
+            if (this.menuItemContentSlot) {
+                return this.menuItemContentSlot({menu, context: this})
+            }
+
+            if (this.menuItemContentRenderer) {
+                return this.menuItemContentRenderer(h, {menu, context: this})
+            }
+
+            return <span>{menu.meta.title}</span>
         }
     },
 
@@ -102,7 +119,7 @@ export default {
 
                     <ul class={this.menuClass}>
                         {appGetters.menus.map(menu => {
-                            const {fullPath, meta: {title, icon}} = menu
+                            const {fullPath, meta: {icon}} = menu
                             const isActive = fullPath === appGetters.activeRootMenu
 
                             return (
@@ -110,11 +127,7 @@ export default {
                                     on-click={() => this.onSelect(fullPath)}
                                 >
                                     {!isEmpty(icon) && Const.iconRenderer(h, icon)}
-                                    {!this.collapse && (
-                                        this.menuItemContentSlot
-                                            ? this.menuItemContentSlot({menu, context: this})
-                                            : <span>{title}</span>
-                                    )}
+                                    {!this.collapse && this.renderMenuContent(h, menu)}
                                 </li>
                             )
                         })}
