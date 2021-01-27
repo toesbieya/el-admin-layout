@@ -29,9 +29,11 @@ export default {
 
         return (
             <div class={this.className}>
-                <div class="sub-sidebar-title">
-                    {this.rootMenu && this.rootMenu.meta.title}
-                </div>
+                {!this.collapse && (
+                    <div class="sub-sidebar-title">
+                        {this.rootMenu && this.rootMenu.meta.title}
+                    </div>
+                )}
 
                 {asideGetters.search && <menu-search on-search={this.handlerSearch}/>}
 

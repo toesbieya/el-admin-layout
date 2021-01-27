@@ -12,6 +12,14 @@ import {getRouterKey} from "el-admin-layout/src/config/logic"
 export default {
     name: 'Page',
 
+    inject: {
+        elAdminLayout: {
+            default: {
+                $scopedSlots: {}
+            }
+        }
+    },
+
     components: {BackToTop, PageHeader, PageView, PageFooter, TagsView, Breadcrumb},
 
     props: {
@@ -22,6 +30,15 @@ export default {
     },
 
     computed: {
+        //Layout中的menuItemContent插槽
+        layoutSlots() {
+            const slots = this.elAdminLayout.$scopedSlots
+            return {
+                header: slots.pageHeader,
+                footer: slots.pageFooter
+            }
+        },
+
         showHeader() {
             return pageGetters.showHeader && this.$route.meta.pageHeader !== false
         },
@@ -75,8 +92,8 @@ export default {
                 <div v-show={!showIframe} class={this.pageClass}>
                     {this.showHeader && (
                         <page-header>
-                            {this.$scopedSlots.header
-                                ? this.$scopedSlots.header()
+                            {this.layoutSlots.header
+                                ? this.layoutSlots.header()
                                 : this.renderHeader
                                     ? this.renderHeader()
                                     : <breadcrumb/>}
@@ -89,10 +106,10 @@ export default {
                         cacheable={enableTagsView && enableTagsViewCache}
                     />
 
-                    {this.showFooter && (this.$scopedSlots.footer || this.renderFooter) && (
+                    {this.showFooter && (this.layoutSlots.footer || this.renderFooter) && (
                         <page-footer>
-                            {this.$scopedSlots.footer
-                                ? this.$scopedSlots.footer()
+                            {this.layoutSlots.footer
+                                ? this.layoutSlots.footer()
                                 : this.renderFooter()}
                         </page-footer>
                     )}

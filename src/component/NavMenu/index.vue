@@ -1,11 +1,43 @@
 <script type="text/jsx">
-import renderChild from './child'
+import cssVar from 'el-admin-layout/src/style/var.scss'
+import MenuItem from './ElMenu/item'
+import SubMenu from './ElMenu/sub'
+import {Const} from "el-admin-layout"
 import {isEmpty} from "el-admin-layout/src/util"
+
+//根据showIconMaxDepth、depth判断是否需要限制图标的显示
+function getIcon(icon, showIconMaxDepth, depth) {
+    if (showIconMaxDepth == null || showIconMaxDepth < 0) {
+        return icon
+    }
+    return showIconMaxDepth < depth ? undefined : icon
+}
+
+//获取不需要嵌套展示的菜单
+function getOnlyChild(menu) {
+    const {children = [], meta: {alwaysShow} = {}} = menu
+
+    if (!children.length) return {...menu, children: undefined}
+
+    if (children.length === 1) return alwaysShow ? null : getOnlyChild(children[0])
+
+    return null
+}
 
 export default {
     name: 'NavMenu',
 
     inheritAttrs: false,
+
+    inject: {
+        elAdminLayout: {
+            default: {
+                $scopedSlots: {}
+            }
+        }
+    },
+
+    components: {MenuItem, SubMenu},
 
     props: {
         //路由配置项组成的树形数组
@@ -18,7 +50,7 @@ export default {
         theme: {type: String, default: 'light'},
 
         //垂直模式下子菜单的单位缩进距离
-        inlineIndent: {type: Number, default: 26},
+        inlineIndent: {type: Number, default: parseFloat(cssVar.menuPadding)},
 
         //是否折叠
         collapse: Boolean,
@@ -33,7 +65,26 @@ export default {
         switchTransition: Boolean,
 
         //menus过渡动画名称
-        switchTransitionName: String
+        switchTransitionName: String,
+
+        //菜单搜索结果的渲染器
+        searchResultRenderer: {
+            type: Function,
+            default: (h, menu, searchWord) => {
+                const {title} = menu.meta
+                const start = title.indexOf(searchWord)
+
+                if (start === -1) return title
+
+                const end = start + searchWord.length
+
+                return [
+                    title.substring(0, start),
+                    <span class="menu-highlight-result">{title.substring(start, end)}</span>,
+                    title.substring(end)
+                ]
+            }
+        }
     },
 
     data() {
@@ -44,6 +95,11 @@ export default {
     },
 
     computed: {
+        //Layout中的menuItemContent插槽
+        menuItemContentSlot() {
+            return this.elAdminLayout.$scopedSlots.menuItemContent
+        },
+
         //实际用于渲染的菜单数组
         realMenus() {
             return isEmpty(this.searchWord)
@@ -134,66 +190,88 @@ export default {
             return result
         },
 
-        //设置inlineIndent，仅在垂直时调用有效
-        setInlineIndent() {
-            if (this.mode !== 'vertical') return
-
-            this.modifyElMenuPaddingStyle(this.$refs['el-menu'].$children)
+        //渲染菜单图标
+        renderMenuIcon(h, icon) {
+            return !isEmpty(icon) && Const.iconRenderer(h, icon)
         },
-        //修改<el-menu-item/>或<el-submenu/>的paddingStyle
-        modifyElMenuPaddingStyle(menus, depth = 1) {
-            for (const component of menus) {
-                const paddingLeft = this.collapse ? this.inlineIndent : this.inlineIndent * depth
-
-                //不重复修改
-                if (depth === 1 && component.paddingStyle.paddingLeft === `${paddingLeft}px`) {
-                    return false
-                }
-
-                //无子级，修改后跳到下一轮循环
-                if (component.$options.name === 'ElMenuItem') {
-                    const el = component.$el
-                    el.style.setProperty('padding-left', `${paddingLeft}px`)
-
-                    //折叠时，还需要修改根菜单tooltip的padding
-                    if (depth === 1 && this.collapse) {
-                        const tooltipEl = el.children[0]
-                        tooltipEl.style.setProperty('padding', `0px ${paddingLeft}px`)
-                    }
-
-                    continue
-                }
-
-                //有子级，递归修改
-                if (component.$options.name === 'ElSubmenu') {
-                    const el = component.$refs['submenu-title']
-                    el.style.setProperty('padding-left', `${paddingLeft}px`)
-
-                    if (!this.modifyElMenuPaddingStyle(component.$children, depth + 1)) {
-                        return
-                    }
-                }
+        //渲染菜单内容
+        renderMenuContent(h, menu) {
+            //优先使用menuItemContent插槽
+            if (this.menuItemContentSlot) {
+                return this.menuItemContentSlot({menu, context: this})
             }
 
-            return true
-        }
-    },
+            const child = isEmpty(this.searchWord)
+                ? menu.meta.title
+                : this.searchResultRenderer(h, menu, this.searchWord)
 
-    mounted() {
-        this.setInlineIndent()
-        this.$on('hook:updated', this.setInlineIndent)
+            return <span>{child}</span>
+        },
+        //渲染无子级的菜单
+        renderSingleMenu(h, menu, depth) {
+            const {fullPath, meta: {icon}} = menu
+            return (
+                <menu-item key={fullPath} index={fullPath} inline-indent={this.inlineIndent}>
+                    {this.renderMenuIcon(h, getIcon(icon, this.showIconMaxDepth, depth))}
+                    <template slot="title">
+                        {this.renderMenuContent(h, menu)}
+                    </template>
+                </menu-item>
+            )
+        },
+        //渲染有子级的菜单
+        renderSubMenu(h, menu, children, depth) {
+            const {fullPath, meta: {icon}} = menu
+            const noContent = depth === 1 && this.collapse && this.mode === 'vertical'
+            return (
+                <sub-menu
+                    key={fullPath}
+                    index={fullPath}
+                    inline-indent={this.inlineIndent}
+                    popper-class={this.themeClass}
+                    popper-append-to-body
+                >
+                    <template slot="title">
+                        {this.renderMenuIcon(h, getIcon(icon, this.showIconMaxDepth, depth))}
+                        {noContent ? undefined : this.renderMenuContent(h, menu)}
+                    </template>
+                    {children}
+                </sub-menu>
+            )
+        },
+        //渲染有子级且需要显示父级的菜单
+        renderChildrenWithParentMenu(h, menu, children) {
+            return [
+                <div class="popover-menu__title">
+                    {this.renderMenuIcon(h, menu.meta.icon)}
+                    {this.renderMenuContent(h, menu)}
+                </div>,
+                <div class="el-menu el-menu--inline">{children}</div>
+            ]
+        },
+        //渲染菜单项
+        renderMenu(h, menu, depth = 1) {
+            const onlyOneChild = getOnlyChild(menu)
+            const showSingle = onlyOneChild && !onlyOneChild.children
+
+            if (showSingle) {
+                return this.renderSingleMenu(h, onlyOneChild, depth)
+            }
+
+            let children = menu.children.map(child => this.renderMenu(h, child, depth + 1))
+
+            //弹出菜单显示父级信息
+            if (this.collapse && this.showParentOnCollapse) {
+                children = this.renderChildrenWithParentMenu(h, menu, children)
+            }
+
+            return this.renderSubMenu(h, menu, children, depth)
+        }
     },
 
     render(h) {
         let items = this.realMenus.map(menu => {
-            return renderChild(h, {
-                menu,
-                popperClass: this.themeClass,
-                highlight: this.searchWord,
-                showParent: this.showParentOnCollapse,
-                collapse: this.collapse,
-                showIconMaxDepth: this.showIconMaxDepth
-            })
+            return this.renderMenu(h, menu)
         })
 
         if (this.useSwitchTransition) {

@@ -10,7 +10,7 @@ export default {
     render(h, context) {
         let children
 
-        const attrs = Object.assign({transition: true, transitionName: 'sidebar'}, context.props)
+        const attrs = Object.assign({switchTransition: true, switchTransitionName: 'sidebar'}, context.props)
 
         //移动端只能使用抽屉模式的单层侧边栏
         if (appGetters.isMobile) {

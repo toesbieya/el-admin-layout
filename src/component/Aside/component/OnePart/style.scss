@@ -12,7 +12,7 @@
     &.collapse {
         width: $aside-collapse-width;
 
-        .menu-item-content {
+        .el-menu-item span {
             display: none;
         }
     }

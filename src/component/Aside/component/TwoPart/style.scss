@@ -1,17 +1,12 @@
-@mixin common {
+@mixin common($border-width:0) {
     display: flex;
     flex-direction: column;
     height: 100%;
-    width: $aside-width;
+    width: $aside-width + $border-width;
     transition: width 0.2s;
 
     &.collapse {
-        width: $aside-collapse-width;
-
-        .menu-item-content,
-        .sub-sidebar-title {
-            display: none;
-        }
+        width: $aside-collapse-width + $border-width;
     }
 }
 
@@ -22,7 +17,7 @@
     border-right-width: 1px;
     border-right-style: solid;
 
-    @include common;
+    @include common(1);
 
     .el-menu-item {
         padding: 0 $menu-padding;
