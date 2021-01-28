@@ -1,4 +1,3 @@
-//TODO 为啥lib打包完100K，example打包完只有50K，挠头
 import Layout from "../src/Layout.vue"
 import {refreshPage, closeCurrentPage} from "../src/helper.js"
 

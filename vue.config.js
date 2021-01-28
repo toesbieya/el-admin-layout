@@ -1,6 +1,6 @@
 const path = require('path')
 const isProd = process.env.NODE_ENV === 'production'
-const isBuildLib = process.env.npm_lifecycle_script.includes('--target lib')
+const isBuildLib = (process.env.npm_lifecycle_script || '').includes('--target lib')
 
 function resolve(dir) {
     return path.join(__dirname, dir)

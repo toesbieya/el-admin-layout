@@ -2,127 +2,126 @@
     <el-drawer
         :visible="visible"
         :with-header="false"
+        custom-class="setting-drawer"
         append-to-body
-        size="288px"
+        size="300px"
         @close="close"
     >
-        <div class="drawer-container">
-            <el-divider>导航模式</el-divider>
-            <div class="drawer-item">
-                <checkbox-group v-model="setting.app.navMode">
-                    <img-checkbox
-                        v-for="{label, value, img} in navModes"
-                        :key="value"
-                        :label="label"
-                        v-model="value"
-                        :img="img"
-                    />
-                </checkbox-group>
-            </div>
+        <el-divider>导航模式</el-divider>
+        <div class="setting-drawer-item">
+            <checkbox-group v-model="setting.app.navMode">
+                <img-checkbox
+                    v-for="{label, value, img} in navModes"
+                    :key="value"
+                    :label="label"
+                    v-model="value"
+                    :img="img"
+                />
+            </checkbox-group>
+        </div>
 
-            <el-divider>导航栏设置</el-divider>
-            <div class="drawer-item">
-                <span>主题风格</span>
-                <el-select
-                    v-model="setting.navbar.theme"
-                    size="mini"
-                    style="width: 80px"
-                >
-                    <el-option value="light" label="亮色"/>
-                    <el-option value="dark" label="暗色"/>
-                </el-select>
-            </div>
+        <el-divider>导航栏设置</el-divider>
+        <div class="setting-drawer-item">
+            <span>主题风格</span>
+            <el-select
+                v-model="setting.navbar.theme"
+                size="mini"
+                style="width: 80px"
+            >
+                <el-option value="light" label="亮色"/>
+                <el-option value="dark" label="暗色"/>
+            </el-select>
+        </div>
 
-            <el-divider>侧边栏设置</el-divider>
-            <div class="drawer-item">
-                <span>主题风格</span>
-                <el-select
-                    v-model="setting.aside.theme"
-                    size="mini"
-                    style="width: 80px"
-                >
-                    <el-option value="light" label="亮色"/>
-                    <el-option value="dark" label="暗色"/>
-                </el-select>
-            </div>
-            <div class="drawer-item">
-                <span>汉堡包位置</span>
-                <el-select
-                    v-model="setting.aside.hamburgerPosition"
-                    size="mini"
-                    style="width: 90px"
-                >
-                    <el-option value="aside" label="侧边栏"/>
-                    <el-option value="head" label="导航栏"/>
-                </el-select>
-            </div>
-            <div class="drawer-item">
-                <span>手风琴效果</span>
-                <el-switch v-model="setting.aside.uniqueOpen"/>
-            </div>
-            <div class="drawer-item">
-                <span>折叠</span>
-                <el-switch v-model="setting.aside.collapse"/>
-            </div>
-            <div class="drawer-item">
-                <span>折叠时显示上级</span>
-                <el-switch v-model="setting.aside.showParentOnCollapse"/>
-            </div>
-            <div class="drawer-item">
-                <span>自动隐藏</span>
-                <el-switch v-model="setting.aside.autoHide"/>
-            </div>
-            <div class="drawer-item">
-                <span>显示搜索框</span>
-                <el-switch v-model="setting.aside.search"/>
-            </div>
+        <el-divider>侧边栏设置</el-divider>
+        <div class="setting-drawer-item">
+            <span>主题风格</span>
+            <el-select
+                v-model="setting.aside.theme"
+                size="mini"
+                style="width: 80px"
+            >
+                <el-option value="light" label="亮色"/>
+                <el-option value="dark" label="暗色"/>
+            </el-select>
+        </div>
+        <div class="setting-drawer-item">
+            <span>汉堡包位置</span>
+            <el-select
+                v-model="setting.aside.hamburgerPosition"
+                size="mini"
+                style="width: 90px"
+            >
+                <el-option value="aside" label="侧边栏"/>
+                <el-option value="head" label="导航栏"/>
+            </el-select>
+        </div>
+        <div class="setting-drawer-item">
+            <span>手风琴效果</span>
+            <el-switch v-model="setting.aside.uniqueOpen"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>折叠</span>
+            <el-switch v-model="setting.aside.collapse"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>折叠时显示上级</span>
+            <el-switch v-model="setting.aside.showParentOnCollapse"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>自动隐藏</span>
+            <el-switch v-model="setting.aside.autoHide"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>显示搜索框</span>
+            <el-switch v-model="setting.aside.search"/>
+        </div>
 
-            <el-divider>页面设置</el-divider>
-            <div class="drawer-item">
-                <span>分层结构</span>
-                <el-select
-                    v-model="setting.page.position"
-                    size="mini"
-                    style="width: 80px"
-                >
-                    <el-option value="top-bottom" label="上下"/>
-                    <el-option value="left-right" label="左右"/>
-                </el-select>
-            </div>
-            <div class="drawer-item">
-                <span>显示logo</span>
-                <el-switch v-model="setting.page.showLogo"/>
-            </div>
-            <div class="drawer-item">
-                <span>显示页头</span>
-                <el-switch v-model="setting.page.showHeader"/>
-            </div>
-            <div class="drawer-item">
-                <span>显示页脚</span>
-                <el-switch v-model="setting.page.showFooter"/>
-            </div>
-            <div class="drawer-item">
-                <span>显示返回顶部按钮</span>
-                <el-switch v-model="setting.page.showBackToTop"/>
-            </div>
+        <el-divider>页面设置</el-divider>
+        <div class="setting-drawer-item">
+            <span>分层结构</span>
+            <el-select
+                v-model="setting.page.position"
+                size="mini"
+                style="width: 80px"
+            >
+                <el-option value="top-bottom" label="上下"/>
+                <el-option value="left-right" label="左右"/>
+            </el-select>
+        </div>
+        <div class="setting-drawer-item">
+            <span>显示logo</span>
+            <el-switch v-model="setting.page.showLogo"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>显示页头</span>
+            <el-switch v-model="setting.page.showHeader"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>显示页脚</span>
+            <el-switch v-model="setting.page.showFooter"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>显示返回顶部按钮</span>
+            <el-switch v-model="setting.page.showBackToTop"/>
+        </div>
 
-            <el-divider>多页签设置</el-divider>
-            <div class="drawer-item">
-                <span>启用</span>
-                <el-switch v-model="setting.tagsView.enabled"/>
-            </div>
-            <div class="drawer-item">
-                <span>启用缓存</span>
-                <el-switch v-model="setting.tagsView.enableCache"/>
-            </div>
-            <div class="drawer-item">
-                <span>启用快捷键切换</span>
-                <el-switch v-model="setting.tagsView.shortcut"/>
-            </div>
-            <div class="drawer-item">
-                <span>持久化</span>
-                <el-switch v-model="setting.tagsView.persistent"/>
-            </div>
+        <el-divider>多页签设置</el-divider>
+        <div class="setting-drawer-item">
+            <span>启用</span>
+            <el-switch v-model="setting.tagsView.enabled"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>启用缓存</span>
+            <el-switch v-model="setting.tagsView.enableCache"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>启用快捷键切换</span>
+            <el-switch v-model="setting.tagsView.shortcut"/>
+        </div>
+        <div class="setting-drawer-item">
+            <span>持久化</span>
+            <el-switch v-model="setting.tagsView.persistent"/>
         </div>
     </el-drawer>
 </template>

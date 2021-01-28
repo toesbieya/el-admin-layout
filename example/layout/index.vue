@@ -1,5 +1,14 @@
 <template>
-    <el-admin-layout :navbar-props="navbarProps" :aside-props="asideProps" :page-props="pageProps"/>
+    <el-admin-layout
+        :navbar-props="navbarProps"
+        :aside-props="asideProps"
+        :page-props="pageProps"
+        :menu-item-content-renderer="menuItemContentRenderer"
+    >
+        <template v-slot:menuItemContent="{menu, context}">
+            <span>{{ menu.meta.title }}111111111111111</span>
+        </template>
+    </el-admin-layout>
 </template>
 
 <script type="text/jsx">
@@ -33,16 +42,19 @@ export default {
                 renderCustomActions: this.renderNavbarActions
             }
         },
-
         asideProps() {
             return {
                 showIconMaxDepth: -1
             }
         },
-
         pageProps() {
             return {
                 renderFooter: () => <Footer/>
+            }
+        },
+        menuItemContentRenderer() {
+            return (h, {menu, highlight, context}) => {
+                return <span>{highlight || menu.meta.title}</span>
             }
         }
     },
