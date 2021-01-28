@@ -6,7 +6,8 @@
         :menu-item-content-renderer="menuItemContentRenderer"
     >
         <template v-slot:menuItemContent="{menu, context}">
-            <span>{{ menu.meta.title }}111111111111111</span>
+            <span>{{ menu.meta.title }}</span>
+            <span v-if="menu.meta.title === '首页'" class="menu-tag menu-tag--danger">new</span>
         </template>
     </el-admin-layout>
 </template>
