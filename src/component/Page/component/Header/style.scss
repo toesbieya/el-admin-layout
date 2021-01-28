@@ -1,11 +1,9 @@
 .page-header {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    flex-wrap: nowrap;
-    font-size: 14px;
     height: $page-header-height;
     padding: $page-header-padding $page-view-margin $page-header-padding $page-view-margin;
+    box-sizing: border-box;
 
     // 页头渲染时页面顶部margin为0
     & + .page-view {
