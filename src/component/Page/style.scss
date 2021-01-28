@@ -1,5 +1,6 @@
 @import "./component/Header/style";
 @import "./component/Footer/style";
+@import "./component/View/style";
 
 .page-main {
     display: flex;
@@ -13,13 +14,7 @@
         display: flex;
         flex: 1;
         flex-direction: column;
-        overflow-y: overlay;
-        overflow-x: inherit;
-
-        > .page-view {
-            margin: $page-view-margin;
-            flex: 1;
-        }
+        overflow: auto;
     }
 }
 

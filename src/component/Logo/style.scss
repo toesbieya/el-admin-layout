@@ -2,6 +2,7 @@
     width: 100%;
     height: $nav-height;
     padding: 0 $menu-padding;
+    box-sizing: border-box;
 
     .logo-link {
         display: flex;

@@ -222,8 +222,8 @@ export default {
 
     render() {
         return (
-            <div class="tags-view-container">
-                <scroll-panel ref="scrollPanel" class="tags-view-wrapper">
+            <div class="tags-view">
+                <scroll-panel ref="scrollPanel" class="tags-view-scroller">
                     {this.renderTags()}
                 </scroll-panel>
 

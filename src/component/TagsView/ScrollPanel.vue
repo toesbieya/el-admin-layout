@@ -1,5 +1,5 @@
 <template>
-    <div class="tags-view-wrapper" @wheel="handleScroll">
+    <div @wheel="handleScroll">
         <slot/>
     </div>
 </template>
