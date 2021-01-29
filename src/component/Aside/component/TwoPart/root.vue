@@ -45,7 +45,7 @@ export default {
             return pageGetters.showLogo && pageGetters.position === 'left-right'
         },
 
-        containerClass() {
+        sidebarClass() {
             return {'root-sidebar': true, 'collapse': this.collapse}
         },
         menuClass() {
@@ -111,7 +111,7 @@ export default {
         return (
             <div class="root-sidebar-container">
                 <div
-                    class={this.containerClass}
+                    class={this.sidebarClass}
                     on-mouseleave={this.onMouseLeave}
                     on-mouseenter={this.onMouseEnter}
                 >

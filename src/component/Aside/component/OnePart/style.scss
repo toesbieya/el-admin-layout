@@ -5,7 +5,7 @@
     width: $aside-width;
     transition: width 0.2s;
 
-    .el-menu--vertical {
+    > .el-menu {
         flex: 1;
     }
 
