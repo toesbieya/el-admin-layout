@@ -119,6 +119,12 @@ export default {
             //鼠标移动至屏幕左侧边缘时，标识鼠标在侧边栏内部
             if (e.clientX <= 1) this.mouseOutside = false
         },
+        onMouseLeave() {
+            this.mouseOutside = true
+        },
+        onMouseEnter() {
+            this.mouseOutside = false
+        },
 
         //渲染el-menu时监听其展开菜单
         watchOpenedMenus() {
@@ -152,8 +158,8 @@ export default {
         const aside = (
             <div
                 class={this.className}
-                on-mouseleave={() => this.mouseOutside = true}
-                on-mouseenter={() => this.mouseOutside = false}
+                on-mouseleave={this.onMouseLeave}
+                on-mouseenter={this.onMouseEnter}
             >
                 {this.showLogo && <logo show-title={!this.collapse}/>}
 
@@ -167,11 +173,20 @@ export default {
                     default-active={this.activeMenu}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
-                    {...{props: this.$attrs}}
-                    on={{'select': this.onSelect, 'hook:mounted': this.watchOpenedMenus}}
+                    {
+                        ...{
+                            props: this.$attrs,
+                            //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
+                            on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
+                        }
+                    }
                 />
 
-                {!this.renderInDrawer && this.renderHamburger && <hamburger/>}
+                {!this.renderInDrawer && this.renderHamburger && (
+                    <div class="aside-action">
+                        <hamburger/>
+                    </div>
+                )}
             </div>
         )
 

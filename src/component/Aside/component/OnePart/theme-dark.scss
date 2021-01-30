@@ -1,0 +1,6 @@
+.aside.dark{
+    &,
+    > .el-drawer__wrapper .el-drawer__body {
+        background-color: $menu-background-dark;
+    }
+}

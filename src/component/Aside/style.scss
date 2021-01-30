@@ -11,14 +11,18 @@
         z-index: unset !important;
     }
 
-    //底部汉堡包
-    .hamburger {
-        height: 56px;
-        line-height: 56px;
-        font-size: $menu-icon-size;
-        padding-left: $menu-padding;
+    //侧边栏底部区域
+    &-action {
         border-top-width: 1px;
         border-top-style: solid;
+    }
+
+    //底部汉堡包
+    .hamburger {
+        padding-left: $menu-padding;
+        height: 48px;
+        line-height: 48px;
+        font-size: $menu-icon-size;
         cursor: pointer;
     }
 }
