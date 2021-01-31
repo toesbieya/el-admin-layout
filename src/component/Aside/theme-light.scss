@@ -4,11 +4,11 @@
         border-right-color: $--border-color-light;
     }
 
-    .hamburger {
+    .aside-action {
         border-top-color: $--border-color-light;
+    }
 
-        i {
-            color: $menu-text-color-light;
-        }
+    .hamburger i {
+        color: $menu-text-color-light;
     }
 }
