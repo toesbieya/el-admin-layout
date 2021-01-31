@@ -293,7 +293,7 @@ export default {
                 mode={this.mode}
                 collapse={this.collapse}
                 collapse-transition={false}
-                {...{attrs: this.$attrs, on: this.$listeners}}
+                {...{props: this.$attrs, on: this.$listeners}}
             >
                 {items}
             </el-menu>

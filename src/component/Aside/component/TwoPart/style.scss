@@ -3,10 +3,6 @@
     width: $aside-width;
     transition: width 0.2s;
 
-    > .el-menu {
-        flex: 1;
-    }
-
     &.collapse {
         width: $aside-collapse-width;
     }
@@ -44,6 +40,10 @@
 .sub-sidebar {
     display: flex;
     flex-direction: column;
+
+    > .el-menu {
+        flex: 1;
+    }
 
     @include common;
 
