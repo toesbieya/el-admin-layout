@@ -46,9 +46,11 @@
         }
     }
 
-    //不显示滚动条
-    &::-webkit-scrollbar {
-        display: none;
+    //桌面端不显示滚动条
+    @media (min-width: $max-mobile-width) {
+        &::-webkit-scrollbar {
+            display: none;
+        }
     }
 }
 
