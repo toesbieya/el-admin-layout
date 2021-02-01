@@ -5,6 +5,10 @@
     width: $aside-width;
     transition: width 0.2s;
 
+    &:focus {
+        outline: none;
+    }
+
     > .el-menu {
         flex: 1;
     }

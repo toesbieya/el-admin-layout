@@ -155,8 +155,9 @@ export default {
     render() {
         if (this.menus.length <= 0) return
 
-        const aside = (
+        const sidebar = (
             <div
+                tabindex="0" //<el-drawer>会在打开后自动focus第一个可focus的后代，避免自动隐藏时<el-menu-item>被focus
                 class={this.className}
                 on-mouseleave={this.onMouseLeave}
                 on-mouseenter={this.onMouseEnter}
@@ -173,13 +174,11 @@ export default {
                     default-active={this.activeMenu}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
-                    {
-                        ...{
-                            props: this.$attrs,
-                            //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
-                            on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
-                        }
-                    }
+                    {...{
+                        props: this.$attrs,
+                        //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
+                        on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
+                    }}
                 />
 
                 {!this.renderInDrawer && this.renderHamburger && (
@@ -190,24 +189,22 @@ export default {
             </div>
         )
 
-        if (this.renderInDrawer) {
-            return (
-                <el-drawer
-                    visible={this.show}
-                    with-header={false}
-                    custom-class={this.drawerClass}
-                    modal={this.isMobile} //设置自动隐藏时不使用遮罩
-                    direction="ltr"
-                    size="auto"
-                    on-close={asideMutations.close}
-                    on-opened={this.onDrawerOpened}
-                >
-                    {aside}
-                </el-drawer>
-            )
-        }
+        if (!this.renderInDrawer) return sidebar
 
-        return aside
+        return (
+            <el-drawer
+                visible={this.show}
+                with-header={false}
+                custom-class={this.drawerClass}
+                modal={this.isMobile} //设置自动隐藏时不使用遮罩
+                direction="ltr"
+                size="auto"
+                on-close={asideMutations.close}
+                on-opened={this.onDrawerOpened}
+            >
+                {sidebar}
+            </el-drawer>
+        )
     }
 }
 </script>
