@@ -18,7 +18,15 @@
     }
 }
 
-//页面为上下结构时，侧边栏的抽屉模式需要扣除导航栏的高度
-.el-drawer.behind-header {
-    top: $nav-height;
+//侧边栏抽屉模式
+.sidebar-drawer {
+    //页面为上下结构时，侧边栏的抽屉模式需要扣除导航栏的高度
+    &.behind-header {
+        top: $nav-height;
+    }
+
+    //为了<el-menu>能够滚动
+    > .el-drawer__body {
+        height: 100%;
+    }
 }

@@ -28,9 +28,8 @@ export default {
         },
         //el-drawer的自定义类名
         drawerClass() {
-            return this.isMobile || pageGetters.position !== 'top-bottom'
-                ? undefined
-                : 'behind-header'
+            const behindHeader = !this.isMobile && pageGetters.position === 'top-bottom'
+            return `sidebar-drawer${behindHeader ? ' behind-header' : ''}`
         },
 
         //侧边栏的显隐状态，true显示、false隐藏
@@ -87,9 +86,9 @@ export default {
     },
 
     watch: {
-        //切换至移动端时收起侧边栏
+        //切换至移动端 或 切换至桌面端且设置了自动隐藏时，收起侧边栏
         isMobile(v) {
-            v && asideMutations.close()
+            (v || asideGetters.autoHide) && asideMutations.close()
         },
 
         //添加或移除鼠标移动事件
