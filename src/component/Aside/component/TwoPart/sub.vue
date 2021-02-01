@@ -35,7 +35,7 @@ export default {
                     </div>
                 )}
 
-                {asideGetters.search && <menu-search on-search={this.handlerSearch}/>}
+                {asideGetters.search && <menu-search v-show={!this.collapse} on-search={this.handlerSearch}/>}
 
                 <nav-menu
                     ref="nav-menu"

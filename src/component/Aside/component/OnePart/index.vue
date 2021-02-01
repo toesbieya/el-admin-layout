@@ -163,7 +163,7 @@ export default {
             >
                 {this.showLogo && <logo show-title={!this.collapse}/>}
 
-                {this.renderMenuSearch && <menu-search on-search={this.handlerSearch}/>}
+                {this.renderMenuSearch && <menu-search v-show={!this.collapse} on-search={this.handlerSearch}/>}
 
                 <nav-menu
                     ref="nav-menu"
