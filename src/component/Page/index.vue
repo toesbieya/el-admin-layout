@@ -49,7 +49,7 @@ export default {
             return {
                 'scroll-container': true,
                 'has-page-header': this.showHeader,
-                'has-page-footer': true
+                'has-page-footer': this.showFooter
             }
         }
     },
