@@ -2,7 +2,7 @@
 import {Const} from "el-admin-layout"
 
 export default {
-    functional: true,
+    name: 'BackToTop',
 
     render(h) {
         return (
