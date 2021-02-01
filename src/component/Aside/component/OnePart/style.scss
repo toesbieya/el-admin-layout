@@ -15,6 +15,10 @@
 
     &.collapse {
         width: $aside-collapse-width;
+
+        .logo-container {
+            padding-left: ($aside-collapse-width - $logo-size) / 2;
+        }
     }
 }
 

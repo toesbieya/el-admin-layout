@@ -21,11 +21,18 @@
         padding: 0 $menu-padding;
     }
 
-    //收起时不显示背景色和小竖条
-    &.collapse .el-menu-item {
-        &::before,
-        &::after {
-            display: none;
+    //收起时
+    &.collapse {
+        .logo-container {
+            padding-left: ($aside-collapse-width - $logo-size) / 2;
+        }
+
+        //不显示背景色和小竖条
+        .el-menu-item {
+            &::before,
+            &::after {
+                display: none;
+            }
         }
     }
 
