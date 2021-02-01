@@ -10,9 +10,14 @@ const state = {
     //区分pc和移动端
     isMobile: isMobile(),
 
-    //标题和logo地址
+    //标题，目前只配合logo使用
     title: '',
+
+    //logo地址
     logo: '',
+
+    //点击logo后跳转的路由，会传递给<router-link>的to属性
+    logoRoute: '/',
 
     //当前激活的顶部菜单的fullPath
     activeRootMenu: '',

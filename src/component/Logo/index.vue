@@ -15,7 +15,7 @@ export default {
 
         return (
             <div class={logoClass}>
-                <router-link class="logo-link" tag="div" to="/">
+                <router-link class="logo-link" tag="div" to={appGetters.logoRoute}>
                     <img src={appGetters.logo}/>
                     {showTitle && <h1>{appGetters.title}</h1>}
                 </router-link>
