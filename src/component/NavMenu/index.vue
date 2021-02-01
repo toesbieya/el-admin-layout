@@ -1,4 +1,10 @@
 <script type="text/jsx">
+/**
+ * 基于<el-menu>封装的无限级菜单
+ * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+ * 自带亮色、暗色两种主题
+ */
+
 import cssVar from 'el-admin-layout/src/style/var.scss'
 import MenuItem from './ElMenu/item'
 import SubMenu from './ElMenu/sub'
@@ -27,8 +33,6 @@ function getOnlyChild(menu) {
 export default {
     name: 'NavMenu',
 
-    inheritAttrs: false,
-
     inject: {
         elAdminLayout: {
             default: {
@@ -41,19 +45,13 @@ export default {
 
     props: {
         //路由配置项组成的树形数组
-        menus: Array,
-
-        //垂直还是水平，在el-menu原效果上加了样式名
-        mode: {type: String, default: 'vertical'},
+        menus: {type: Array, default: () => []},
 
         //主题，light 或 dark
         theme: {type: String, default: 'light'},
 
         //垂直模式下子菜单的单位缩进距离
         inlineIndent: {type: Number, default: parseFloat(cssVar.menuPadding)},
-
-        //是否折叠
-        collapse: Boolean,
 
         //折叠时的展开菜单是否显示父级
         showParentOnCollapse: Boolean,
@@ -67,7 +65,7 @@ export default {
         //menus过渡动画名称
         switchTransitionName: String,
 
-        //菜单搜索结果的渲染器
+        //菜单内容搜索结果的渲染器
         searchResultRenderer: {
             type: Function,
             default: (h, menu, searchWord) => {
@@ -84,7 +82,15 @@ export default {
                     title.substring(end)
                 ]
             }
-        }
+        },
+
+        /*-------------<el-menu>原有props开始-------------*/
+        /*https://element.eleme.cn/#/zh-CN/component/menu*/
+
+        mode: {type: String, default: 'vertical'},  //在el-menu原效果上加了样式名
+        collapse: Boolean,
+        defaultActive: String,
+        uniqueOpened: Boolean
     },
 
     data() {
@@ -194,6 +200,11 @@ export default {
             return result
         },
 
+        //将<el-menu>的select事件传递给外部
+        onSelect(...args) {
+            this.$emit('select', ...args)
+        },
+
         //渲染菜单图标
         renderMenuIcon(h, icon) {
             return !isEmpty(icon) && Const.iconRenderer(h, icon)
@@ -293,7 +304,9 @@ export default {
                 mode={this.mode}
                 collapse={this.collapse}
                 collapse-transition={false}
-                {...{props: this.$attrs, on: this.$listeners}}
+                default-active={this.defaultActive}
+                unique-opened={this.uniqueOpened}
+                on-select={this.onSelect}
             >
                 {items}
             </el-menu>
