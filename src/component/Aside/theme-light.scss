@@ -1,4 +1,8 @@
 .aside.light {
+    .logo-container{
+        color: $--color-primary;
+    }
+
     .root-sidebar {
         background-color: $--color-white;
         border-right-color: $--border-color-light;

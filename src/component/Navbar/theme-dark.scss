@@ -1,6 +1,10 @@
 .navbar.dark {
     background-color: $root-menu-background-dark;
 
+    .logo-container{
+        color: $--color-white;
+    }
+
     .navbar-item {
         color: $navbar-item-color-dark;
 
