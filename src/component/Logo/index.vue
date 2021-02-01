@@ -4,12 +4,10 @@ import {appGetters} from "el-admin-layout"
 export default {
     name: 'Logo',
 
-    functional: true,
-
     props: {showTitle: Boolean},
 
-    render(h, context) {
-        const {showTitle} = context.props
+    render() {
+        const {showTitle} = this
 
         const logoClass = {'logo-container': true, 'no-title': !showTitle}
 
