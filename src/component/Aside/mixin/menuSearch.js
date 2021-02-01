@@ -8,12 +8,11 @@ export default {
     components: {MenuSearch},
 
     methods: {
-        $_getNavMenuInstance() {
-            return this.$refs['nav-menu']
-        },
-
         handlerSearch(v) {
-            this.$_getNavMenuInstance().searchWord = isEmpty(v) ? v : v.trim()
+            const navMenuInstance = this.$refs['nav-menu']
+            if (!navMenuInstance) return
+
+            navMenuInstance.searchWord = isEmpty(v) ? v : v.trim()
         }
     }
 }
