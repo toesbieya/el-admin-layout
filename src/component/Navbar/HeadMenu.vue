@@ -3,14 +3,12 @@
  * 顶部菜单，参考了ant design的响应式设计
  */
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
-import {appGetters} from "el-admin-layout"
+import {appGetters, navbarGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
 import {getRouterActiveMenu} from "el-admin-layout/src/config/logic"
 
 export default {
     name: "HeadMenu",
-
-    inheritAttrs: false,
 
     mixins: [rootMenuMixin],
 
@@ -18,7 +16,11 @@ export default {
 
     props: {
         //是否在只有一个顶部菜单时仍然渲染
-        alwaysShow: Boolean
+        alwaysShow: {type: Boolean, default: true},
+
+        /*-------------<nav-menu>原有props开始-------------*/
+
+        showIconMaxDepth: Number
     },
 
     data() {
@@ -35,6 +37,7 @@ export default {
     computed: {
         navMode: () => appGetters.navMode,
 
+        //原始的菜单数组
         menus() {
             if (appGetters.isMobile) return []
 
@@ -46,7 +49,7 @@ export default {
             }
         },
 
-        //实际用于渲染的菜单数组
+        //实际用于渲染的菜单数组（仿antd的自适应宽度）
         realMenus() {
             const {lastVisibleIndex, menus} = this
 
@@ -73,23 +76,15 @@ export default {
 
     watch: {
         //路由变化时设置高亮菜单
-        $route: {
-            immediate: true,
-            handler(to) {
-                if (!this.setActiveRootMenuWhenRouteChange(to)) {
-                    return
-                }
-
+        $route(to) {
+            if (this.setActiveRootMenuWhenRouteChange(to)) {
                 this.setActiveMenu(this.navMode, to)
             }
         },
 
         //切换导航模式时重新设置高亮菜单
-        navMode: {
-            immediate: true,
-            handler(mode) {
-                this.setActiveMenu(mode)
-            }
+        navMode(mode) {
+            this.setActiveMenu(mode)
         },
 
         //变动时修改种子，避免组件不更新
@@ -183,6 +178,13 @@ export default {
         }
     },
 
+    created() {
+        //从watch中拆分出来，避免初始化时触发两次setActiveMenu
+        if (this.setActiveRootMenuWhenRouteChange(this.$route)) {
+            this.setActiveMenu()
+        }
+    },
+
     mounted() {
         this.setChildrenWidth()
         this.createResizeObserver()
@@ -197,9 +199,10 @@ export default {
             <nav-menu
                 ref="nav-menu"
                 menus={this.realMenus}
+                theme={navbarGetters.theme}
                 mode="horizontal"
                 default-active={this.activeMenu}
-                {...{props: this.$attrs}}
+                show-icon-max-depth={this.showIconMaxDepth}
                 on-select={this.onSelect}
             />
         )

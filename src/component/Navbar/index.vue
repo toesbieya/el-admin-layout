@@ -48,10 +48,6 @@ export default {
 
         className() {
             return `navbar ${navbarGetters.theme}`
-        },
-
-        menuProps() {
-            return Object.assign({alwaysShow: true}, this.headMenuProps, {theme: navbarGetters.theme})
         }
     },
 
@@ -115,7 +111,7 @@ export default {
                 {this.renderHamburger && <hamburger class="navbar-item navbar-icon"/>}
 
                 <div style="flex: 1">
-                    {this.renderHeadMenu && <head-menu {...{attrs: this.menuProps}}/>}
+                    {this.renderHeadMenu && <head-menu {...{props: this.headMenuProps}}/>}
                 </div>
 
                 <div>
