@@ -134,10 +134,25 @@ export default {
         //搜索词改变时，展开高亮菜单
         searchWord() {
             this.$nextTick(this.expandAfterSearch)
+        },
+
+        //defaultActive改变时直接修改<el-menu>的activeIndex，避免<nav-menu>重新渲染
+        defaultActive(v) {
+            this.setElMenuActiveIndex(v)
         }
     },
 
     methods: {
+        //手动调用<el-menu>的updateActiveIndex方法
+        setElMenuActiveIndex(v) {
+            const elMenu = this.$refs['el-menu']
+            elMenu && elMenu.updateActiveIndex(v)
+        },
+        //将<el-menu>的select事件传递给外部
+        onSelect(...args) {
+            this.$emit('select', ...args)
+        },
+
         //根据搜索词过滤菜单
         filterAfterSearch(menus) {
             if (!menus) return
@@ -198,11 +213,6 @@ export default {
             })
 
             return result
-        },
-
-        //将<el-menu>的select事件传递给外部
-        onSelect(...args) {
-            this.$emit('select', ...args)
         },
 
         //渲染菜单图标
@@ -288,6 +298,11 @@ export default {
         }
     },
 
+    mounted() {
+        //<nav-menu>mounted时，<el-menu>必定mounted
+        this.setElMenuActiveIndex(this.defaultActive)
+    },
+
     render(h) {
         let items = this.realMenus.map(menu => {
             return this.renderMenu(h, menu)
@@ -304,7 +319,6 @@ export default {
                 mode={this.mode}
                 collapse={this.collapse}
                 collapse-transition={false}
-                default-active={this.defaultActive}
                 unique-opened={this.uniqueOpened}
                 on-select={this.onSelect}
             >
