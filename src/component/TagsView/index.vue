@@ -9,10 +9,11 @@ import {
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
 import {refreshPage} from "el-admin-layout/src/helper"
-import {isEmpty} from "el-admin-layout/src/util"
 import {getRouterKey, getRouterTitle, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
+    name: 'TagsView',
+
     components: {ContextMenu, ScrollPanel},
 
     data() {

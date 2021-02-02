@@ -6,7 +6,7 @@ import Logo from "el-admin-layout/src/component/Logo"
 import {refreshPage} from "el-admin-layout/src/helper"
 
 export default {
-    name: 'navbar',
+    name: 'Navbar',
 
     mixins: [hamburgerMixin],
 

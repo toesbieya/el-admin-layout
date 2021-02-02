@@ -5,6 +5,8 @@ import TwoPartSub from './component/TwoPart/sub'
 import {appGetters, asideGetters} from "el-admin-layout"
 
 export default {
+    name:'Aside',
+
     functional: true,
 
     render(h, context) {
