@@ -5,14 +5,15 @@ import TwoPartSub from './component/TwoPart/sub'
 import {appGetters, asideGetters} from "el-admin-layout"
 
 export default {
-    name:'Aside',
+    name: 'Aside',
 
-    functional: true,
+    inject: ['elAdminLayout'],
 
-    render(h, context) {
+    render() {
+        const defaultProps = {switchTransition: true, switchTransitionName: 'sidebar'}
+        const attrs = Object.assign(defaultProps, this.elAdminLayout.asideProps)
+
         let children
-
-        const attrs = Object.assign({switchTransition: true, switchTransitionName: 'sidebar'}, context.props)
 
         //移动端只能使用抽屉模式的单层侧边栏
         if (appGetters.isMobile) {

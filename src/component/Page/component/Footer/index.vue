@@ -1,4 +1,4 @@
-<template functional>
+<template>
     <footer class="page-footer">
         <slot/>
     </footer>
