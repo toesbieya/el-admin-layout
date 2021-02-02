@@ -138,7 +138,7 @@ export default {
 
         //defaultActive改变时直接修改<el-menu>的activeIndex，避免<nav-menu>重新渲染
         defaultActive(v) {
-            this.setElMenuActiveIndex(v)
+            this.$nextTick(() => this.setElMenuActiveIndex(v))
         }
     },
 
