@@ -19,14 +19,15 @@ export default {
         renderHamburger() {
             if (getSidebarMenus().length <= 0) return false
 
-            const isMobile = appGetters.isMobile,
-                correctPosition =
-                    asideGetters.hamburgerPosition === (this.$options.name === 'navbar' ? 'head' : 'aside'),
+            if (appGetters.isMobile) return true
+
+            const correctPosition =
+                    asideGetters.hamburgerPosition === (this.$options.name === 'Navbar' ? 'head' : 'aside'),
                 correctMode =
                     ['aside', 'mix'].includes(appGetters.navMode) && !asideGetters.autoHide
                     || appGetters.navMode === 'aside-two-part'
 
-            return isMobile || correctPosition && correctMode
+            return correctPosition && correctMode
         }
     }
 }
