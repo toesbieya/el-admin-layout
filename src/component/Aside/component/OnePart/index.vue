@@ -156,7 +156,6 @@ export default {
 
         const sidebar = (
             <div
-                tabindex="0" //<el-drawer>会在打开后自动focus第一个可focus的后代，避免自动隐藏时<el-menu-item>被focus
                 class={this.className}
                 on-mouseleave={this.onMouseLeave}
                 on-mouseenter={this.onMouseEnter}
