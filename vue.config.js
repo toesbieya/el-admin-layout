@@ -16,13 +16,13 @@ module.exports = {
             entry: 'example/main.js',
             cdn: {
                 css: [
-                    'https://cdn.jsdelivr.net/npm/element-ui@2.14.1/lib/theme-chalk/index.css'
+                    'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/theme-chalk/index.css'
                 ],
                 js: isProd
                     ? [
                         'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
                         'https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js',
-                        'https://cdn.jsdelivr.net/npm/element-ui@2.14.1/lib/index.js'
+                        'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/index.js'
                     ]
                     : []
             }
