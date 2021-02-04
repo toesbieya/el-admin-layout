@@ -8,7 +8,6 @@
 import cssVar from 'el-admin-layout/src/style/var.scss'
 import MenuItem from './ElMenu/item'
 import SubMenu from './ElMenu/sub'
-import {Const} from "el-admin-layout"
 import {isEmpty} from "el-admin-layout/src/util"
 
 //根据showIconMaxDepth、depth判断是否需要限制图标的显示
@@ -101,6 +100,14 @@ export default {
     },
 
     computed: {
+        //Layout中的menuIcon插槽
+        menuIconSlot() {
+            return this.elAdminLayout.$scopedSlots.menuIcon
+        },
+        //Layout中的menuIconRenderer属性
+        menuIconRenderer() {
+            return this.elAdminLayout.menuIconRenderer
+        },
         //Layout中的menuItemContent插槽
         menuItemContentSlot() {
             return this.elAdminLayout.$scopedSlots.menuItemContent
@@ -172,7 +179,6 @@ export default {
                     return children && children.length > 0
                 })
         },
-
         //根据查找结果展开菜单
         expandAfterSearch() {
             const menu = this.$refs['el-menu']
@@ -197,7 +203,6 @@ export default {
                 })
             }
         },
-
         //获取高亮菜单的上一级节点
         getHighlightMenuParent(children, parent) {
             const result = []
@@ -216,8 +221,13 @@ export default {
         },
 
         //渲染菜单图标
-        renderMenuIcon(h, icon) {
-            return !isEmpty(icon) && Const.iconRenderer(h, icon)
+        renderMenuIcon(h, menu, defaultIcon) {
+            const payload = {menu, defaultIcon, context: this}
+
+            //优先使用menuIcon插槽
+            return this.menuIconSlot
+                ? this.menuIconSlot(payload)
+                : this.menuIconRenderer(h, payload)
         },
         //渲染菜单内容
         renderMenuContent(h, menu) {
@@ -241,7 +251,7 @@ export default {
             const {fullPath, meta: {icon}} = menu
             return (
                 <menu-item key={fullPath} index={fullPath} inline-indent={this.inlineIndent}>
-                    {this.renderMenuIcon(h, getIcon(icon, this.showIconMaxDepth, depth))}
+                    {this.renderMenuIcon(h, menu, getIcon(icon, this.showIconMaxDepth, depth))}
                     <template slot="title">
                         {this.renderMenuContent(h, menu)}
                     </template>
@@ -261,7 +271,7 @@ export default {
                     popper-append-to-body
                 >
                     <template slot="title">
-                        {this.renderMenuIcon(h, getIcon(icon, this.showIconMaxDepth, depth))}
+                        {this.renderMenuIcon(h, menu, getIcon(icon, this.showIconMaxDepth, depth))}
                         {!noContent && this.renderMenuContent(h, menu)}
                     </template>
                     {children}

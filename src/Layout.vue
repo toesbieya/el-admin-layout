@@ -21,6 +21,15 @@ export default {
         //传递给page的props
         pageProps: Object,
 
+        //菜单图标的渲染方法（(h, {menu, defaultIcon}) => VNode），由子组件根据inject去取
+        menuIconRenderer: {
+            type: Function,
+            default: (h, {defaultIcon}) => {
+                return defaultIcon
+                    ? h('i', {class: `menu-icon ${defaultIcon}`})
+                    : undefined
+            }
+        },
         //自定义菜单内容的渲染方法（(h, {menu, highlight, context}) => VNode），由子组件根据inject去取
         menuItemContentRenderer: Function
     },

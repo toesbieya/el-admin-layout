@@ -1,9 +1,7 @@
 <script type="text/jsx">
-import {Const} from "el-admin-layout"
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
 import {appGetters, asideGetters, pageGetters} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
-import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: "RootSidebar",
@@ -31,6 +29,14 @@ export default {
     },
 
     computed: {
+        //Layout中的menuIcon插槽
+        menuIconSlot() {
+            return this.elAdminLayout.$scopedSlots.menuIcon
+        },
+        //Layout中的menuIconRenderer属性
+        menuIconRenderer() {
+            return this.elAdminLayout.menuIconRenderer
+        },
         //Layout中的menuItemContent插槽
         menuItemContentSlot() {
             return this.elAdminLayout.$scopedSlots.menuItemContent
@@ -93,6 +99,16 @@ export default {
             this.collapse = false
         },
 
+        //渲染菜单图标
+        renderMenuIcon(h, menu, defaultIcon) {
+            const payload = {menu, defaultIcon, context: this}
+
+            //优先使用menuIcon插槽
+            return this.menuIconSlot
+                ? this.menuIconSlot(payload)
+                : this.menuIconRenderer(h, payload)
+        },
+        //渲染菜单内容
         renderMenuContent(h, menu) {
             //优先使用menuItemContent插槽
             if (this.menuItemContentSlot) {
@@ -126,7 +142,7 @@ export default {
                                 <li class={{'el-menu-item': true, 'is-active': isActive}}
                                     on-click={() => this.onSelect(fullPath)}
                                 >
-                                    {!isEmpty(icon) && Const.iconRenderer(h, icon)}
+                                    {this.renderMenuIcon(h, menu, icon)}
                                     {!this.collapse && this.renderMenuContent(h, menu)}
                                 </li>
                             )
