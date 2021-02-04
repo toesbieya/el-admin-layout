@@ -1,6 +1,5 @@
 <script type="text/jsx">
 import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
-import BackToTop from "./component/BackToTop"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
 import PageFooter from "./component/Footer"
@@ -20,7 +19,7 @@ export default {
         }
     },
 
-    components: {BackToTop, PageHeader, PageView, PageFooter, TagsView, Breadcrumb},
+    components: {PageHeader, PageView, PageFooter, TagsView, Breadcrumb},
 
     props: {
         //自定义渲染页头的方法，入参为h：createElement
@@ -126,8 +125,6 @@ export default {
                         width="100%"
                     />
                 ))}
-
-                {pageGetters.showBackToTop && <back-to-top/>}
             </main>
         )
     }
