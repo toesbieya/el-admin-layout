@@ -55,6 +55,8 @@ export default {
                     {this.isLeftRight ? navbar : aside}
                     <Page {...{props: this.pageProps}}/>
                 </section>
+
+                {this.$scopedSlots.default && this.$scopedSlots.default()}
             </section>
         )
     }
