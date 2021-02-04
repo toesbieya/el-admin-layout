@@ -9,6 +9,10 @@
             <span>{{ menu.meta.title }}</span>
             <span v-if="menu.meta.title === '首页'" class="menu-tag menu-tag--danger">new</span>
         </template>
+
+        <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
+            <i class="el-icon-top"/>
+        </el-backtop>
     </el-admin-layout>
 </template>
 

@@ -231,9 +231,16 @@ export default {
             const {app, page, aside, navbar, tagsView} = this.setting
 
             Object.entries(app).forEach(([k, v]) => appMutations[k](v))
-            Object.entries(page).forEach(([k, v]) => pageMutations[k](v))
+
+            pageMutations.position(page.position)
+            pageMutations.showLogo(page.showLogo)
+            pageMutations.showHeader(page.showHeader)
+            pageMutations.showFooter(page.showFooter)
+
             Object.entries(aside).forEach(([k, v]) => asideMutations[k](v))
+
             Object.entries(navbar).forEach(([k, v]) => navbarMutations[k](v))
+
             tagsViewMutations.enabled(tagsView.enabled)
             tagsViewMutations.enableCache(tagsView.enableCache)
         }
