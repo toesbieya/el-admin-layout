@@ -8,7 +8,7 @@ import cssVar from '../style/var.scss'
 let MAX_MOBILE_WIDTH = parseFloat(cssVar.maxMobileWidth)
 
 //layout中渲染icon的方法
-let ICON_RENDERER = (h, icon) => h('i', {class: `icon ${icon}`})
+let ICON_RENDERER = (h, icon) => h('i', {class: `menu-icon ${icon}`})
 
 //redirect的路径名
 let REDIRECT_PATH = '/redirect'

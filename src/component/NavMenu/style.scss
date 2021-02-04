@@ -2,15 +2,15 @@
     width: 100%;
     border: none !important;
 
-    //图标
-    .icon {
+    //菜单图标
+    .menu-icon {
         color: inherit;
         font-size: $menu-icon-size;
-    }
 
-    //图标与文字的间隔
-    .icon + span {
-        margin-left: $menu-icon-text-gap;
+        //与菜单内容的间隔
+        & + * {
+            margin-left: $menu-icon-text-gap;
+        }
     }
 
     //菜单的高亮关键字
@@ -57,14 +57,14 @@
 //菜单hover时，左侧图标放大（弹出菜单的父级不放大）
 .el-menu-item:not(.popover-menu__title),
 .el-submenu__title {
-    > .icon,
-    > .el-tooltip > .icon {
+    > .menu-icon,
+    > .el-tooltip > .menu-icon {
         transition: transform .1s;
     }
 
     &:hover {
-        > .icon,
-        > .el-tooltip > .icon {
+        > .menu-icon,
+        > .el-tooltip > .menu-icon {
             transform: scale(1.2);
         }
     }
