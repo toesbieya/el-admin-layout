@@ -186,7 +186,7 @@ export default {
             //清空搜索词时还原原本展开的菜单
             if (isEmpty(this.searchWord)) {
                 menu.openedMenus = []
-                return this.$nextTick(menu.initOpenedMenu)
+                return menu.initOpenedMenu()
             }
 
             const {openedMenus, submenus} = menu
