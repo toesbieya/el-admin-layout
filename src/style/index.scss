@@ -10,26 +10,24 @@
 @import "../component/Logo/style";
 @import "../component/NavMenu/style";
 
-.app-wrapper.flex-column,
-.main-container.flex-column {
-    flex-direction: column;
-}
-
-.app-wrapper {
+.el-admin-layout {
     display: flex;
+    flex: 1;
     height: 100%;
     width: 100%;
 
-    > .main-container {
-        display: flex;
-        flex: 1;
-        overflow: hidden;
-    }
+    &.flex-column {
+        flex-direction: column;
 
-    //左右结构时，侧边栏z-index需大于导航栏
-    //上下结构时，侧边栏z-index需小于导航栏
-    &.flex-column .aside {
-        z-index: 9;
+        > .el-admin-layout {
+            overflow-y: hidden;
+        }
+
+        //左右结构时，侧边栏z-index需大于导航栏
+        //上下结构时，侧边栏z-index需小于导航栏
+        .aside {
+            z-index: 9;
+        }
     }
 }
 

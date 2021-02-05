@@ -48,25 +48,24 @@ export default {
         const navbar = <Navbar {...{props: this.navbarProps}}/>
 
         return (
-            <section class={{
-                'app-wrapper': true,
+            <div class={{
+                'el-admin-layout': true,
                 'flex-column': !this.isLeftRight
             }}>
                 {this.isLeftRight ? aside : navbar}
 
-                <section class={{
-                    'main-container': true,
+                <div class={{
+                    'el-admin-layout': true,
                     'has-nav': true,
-                    [`nav-mode-${appGetters.navMode}`]: true,
                     'flex-column': this.isLeftRight,
                     'has-tags-view': tagsViewGetters.enabled
                 }}>
                     {this.isLeftRight ? navbar : aside}
                     <Page {...{props: this.pageProps}}/>
-                </section>
+                </div>
 
                 {this.$scopedSlots.default && this.$scopedSlots.default()}
-            </section>
+            </div>
         )
     }
 }
