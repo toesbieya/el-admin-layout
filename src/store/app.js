@@ -37,8 +37,8 @@ export const mutations = {
     ...createMutations(store),
 
     menus(v) {
-        if (!Array.isArray(v) || v.length === 0) {
-            store.menus = []
+        if (!Array.isArray(v)) {
+            return store.menus = []
         }
 
         store.menus = transformMenu(v)
@@ -54,14 +54,8 @@ export function getMenuByFullPath(fullPath) {
 export function getSidebarMenus() {
     const menus = store.menus
 
-    if (!Array.isArray(menus)) {
-        return []
-    }
-
     //移动端时，侧边栏只会按侧边栏导航模式渲染
-    if (store.isMobile) {
-        return menus
-    }
+    if (store.isMobile) return menus
 
     switch (store.navMode) {
         case 'aside':
@@ -72,6 +66,31 @@ export function getSidebarMenus() {
         case 'mix':
             const root = menus.find(i => i.fullPath === store.activeRootMenu)
             return root ? root.children || [] : []
+        default:
+            return []
+    }
+}
+
+//获取头部导航的菜单，如果是混合导航时，获取的是去除了children属性的所有根菜单
+export function getHeadMenus() {
+    //移动端时，头部菜单不会渲染，不需要传入菜单
+    if (store.isMobile) return []
+
+    const menus = store.menus
+
+    switch (store.navMode) {
+        case 'head' :
+            return menus
+        case 'mix':
+            return menus.map(menu =>
+                Object
+                    .entries(menu)
+                    .reduce((obj, [k, v]) => {
+                        if (k !== 'children') {
+                            obj[k] = v
+                        }
+                        return obj
+                    }, {}))
         default:
             return []
     }

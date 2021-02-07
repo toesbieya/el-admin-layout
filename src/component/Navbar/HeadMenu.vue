@@ -6,6 +6,7 @@ import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
 import {appGetters, navbarGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
 import {getRouterActiveMenu} from "el-admin-layout/src/config/logic"
+import {getHeadMenus} from "el-admin-layout/src/store/app"
 
 export default {
     name: "HeadMenu",
@@ -38,16 +39,7 @@ export default {
         navMode: () => appGetters.navMode,
 
         //原始的菜单数组
-        menus() {
-            if (appGetters.isMobile) return []
-
-            switch (this.navMode) {
-                case 'head' :
-                    return appGetters.menus
-                case 'mix':
-                    return appGetters.menus.map(root => ({...root, children: undefined}))
-            }
-        },
+        menus: getHeadMenus,
 
         //实际用于渲染的菜单数组（仿antd的自适应宽度）
         realMenus() {

@@ -15,7 +15,7 @@ export default {
 
     computed: {
         //侧边栏菜单
-        menus: () => getSidebarMenus()
+        menus: getSidebarMenus
     },
 
     watch: {
