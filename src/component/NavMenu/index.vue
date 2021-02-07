@@ -56,7 +56,7 @@ export default {
         showParentOnCollapse: Boolean,
 
         //能够显示图标的最大深度，不传 或 <0 则不作限制
-        showIconMaxDepth: {type: Number, default: 1},
+        showIconMaxDepth: Number,
 
         //menus变化时是否使用过渡动画
         switchTransition: Boolean,
