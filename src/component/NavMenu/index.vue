@@ -10,14 +10,6 @@ import MenuItem from './ElMenu/item'
 import SubMenu from './ElMenu/sub'
 import {isEmpty} from "el-admin-layout/src/util"
 
-//根据showIconMaxDepth、depth判断是否需要限制图标的显示
-function getIcon(icon, showIconMaxDepth, depth) {
-    if (showIconMaxDepth == null || showIconMaxDepth < 0) {
-        return icon
-    }
-    return showIconMaxDepth < depth ? undefined : icon
-}
-
 //获取不需要嵌套展示的菜单
 function getOnlyChild(menu) {
     const {children = [], meta: {alwaysShow} = {}} = menu
@@ -54,9 +46,6 @@ export default {
 
         //折叠时的展开菜单是否显示父级
         showParentOnCollapse: Boolean,
-
-        //能够显示图标的最大深度，不传 或 <0 则不作限制
-        showIconMaxDepth: Number,
 
         //menus变化时是否使用过渡动画
         switchTransition: Boolean,
@@ -221,8 +210,8 @@ export default {
         },
 
         //渲染菜单图标
-        renderMenuIcon(h, menu, defaultIcon) {
-            const payload = {menu, defaultIcon, context: this}
+        renderMenuIcon(h, menu, depth) {
+            const payload = {menu, depth, context: this}
 
             //优先使用menuIcon插槽
             return this.menuIconSlot
@@ -248,10 +237,10 @@ export default {
         },
         //渲染无子级的菜单
         renderSingleMenu(h, menu, depth) {
-            const {fullPath, meta: {icon}} = menu
+            const {fullPath} = menu
             return (
                 <menu-item key={fullPath} index={fullPath} inline-indent={this.inlineIndent}>
-                    {this.renderMenuIcon(h, menu, getIcon(icon, this.showIconMaxDepth, depth))}
+                    {this.renderMenuIcon(h, menu, depth)}
                     <template slot="title">
                         {this.renderMenuContent(h, menu)}
                     </template>
@@ -260,8 +249,9 @@ export default {
         },
         //渲染有子级的菜单
         renderSubMenu(h, menu, children, depth) {
-            const {fullPath, meta: {icon}} = menu
+            const {fullPath} = menu
             const noContent = depth === 1 && this.collapse && this.mode === 'vertical'
+
             return (
                 <sub-menu
                     key={fullPath}
@@ -271,7 +261,7 @@ export default {
                     popper-append-to-body
                 >
                     <template slot="title">
-                        {this.renderMenuIcon(h, menu, getIcon(icon, this.showIconMaxDepth, depth))}
+                        {this.renderMenuIcon(h, menu, depth)}
                         {!noContent && this.renderMenuContent(h, menu)}
                     </template>
                     {children}

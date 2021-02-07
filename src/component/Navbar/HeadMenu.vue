@@ -15,12 +15,6 @@ export default {
 
     components: {NavMenu},
 
-    props: {
-        /*-------------<nav-menu>原有props开始-------------*/
-
-        showIconMaxDepth: Number
-    },
-
     data() {
         return {
             //最后一个不被隐藏的顶部菜单的数组下标
@@ -189,7 +183,6 @@ export default {
                 theme={navbarGetters.theme}
                 mode="horizontal"
                 default-active={this.activeMenu}
-                show-icon-max-depth={this.showIconMaxDepth}
                 on-select={this.onSelect}
             />
         )

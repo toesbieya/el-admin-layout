@@ -100,8 +100,9 @@ export default {
         },
 
         //渲染菜单图标
-        renderMenuIcon(h, menu, defaultIcon) {
-            const payload = {menu, defaultIcon, context: this}
+        renderMenuIcon(h, menu) {
+            //depth:1是为了同nav-menu表现一致，此菜单的深度均为1
+            const payload = {menu, depth: 1, context: this}
 
             //优先使用menuIcon插槽
             return this.menuIconSlot
@@ -135,14 +136,14 @@ export default {
 
                     <ul class={this.menuClass}>
                         {appGetters.menus.map(menu => {
-                            const {fullPath, meta: {icon}} = menu
+                            const {fullPath} = menu
                             const isActive = fullPath === appGetters.activeRootMenu
 
                             return (
                                 <li class={{'el-menu-item': true, 'is-active': isActive}}
                                     on-click={() => this.onSelect(fullPath)}
                                 >
-                                    {this.renderMenuIcon(h, menu, icon)}
+                                    {this.renderMenuIcon(h, menu)}
                                     {!this.collapse && this.renderMenuContent(h, menu)}
                                 </li>
                             )
