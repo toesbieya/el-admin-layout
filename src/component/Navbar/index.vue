@@ -22,10 +22,8 @@ export default {
             type: Array,
             default: () => []
         },
-        //自定义右侧元素，会传入默认的vnode数组
-        renderCustomActions: Function,
-        //传递给head-menu的props
-        headMenuProps: Object
+        //自定义右侧元素，会传入默认的VNode数组
+        renderCustomActions: Function
     },
 
     computed: {
@@ -111,7 +109,7 @@ export default {
                 {this.renderHamburger && <hamburger class="navbar-item navbar-icon"/>}
 
                 <div style="flex: 1">
-                    {this.renderHeadMenu && <head-menu {...{props: this.headMenuProps}}/>}
+                    {this.renderHeadMenu && <head-menu/>}
                 </div>
 
                 <div>

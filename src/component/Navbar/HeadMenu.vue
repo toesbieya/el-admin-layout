@@ -16,9 +16,6 @@ export default {
     components: {NavMenu},
 
     props: {
-        //是否在只有一个顶部菜单时仍然渲染
-        alwaysShow: {type: Boolean, default: true},
-
         /*-------------<nav-menu>原有props开始-------------*/
 
         showIconMaxDepth: Number
@@ -183,9 +180,7 @@ export default {
     },
 
     render() {
-        if (this.menus.length <= 0 || this.menus.length === 1 && !this.alwaysShow) {
-            return
-        }
+        if (this.menus.length <= 0) return
 
         return (
             <nav-menu
