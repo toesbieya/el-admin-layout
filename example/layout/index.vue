@@ -48,9 +48,7 @@ export default {
             }
         },
         asideProps() {
-            return {
-                showIconMaxDepth: -1
-            }
+            return {}
         },
         pageProps() {
             return {
