@@ -50,7 +50,7 @@ export default {
                 />
 
                 {this.renderHamburger && (
-                    <div class="aside-action">
+                    <div class="sidebar-action">
                         <hamburger/>
                     </div>
                 )}

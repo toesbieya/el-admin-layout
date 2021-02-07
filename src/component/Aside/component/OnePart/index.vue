@@ -180,7 +180,7 @@ export default {
                 />
 
                 {!this.renderInDrawer && this.renderHamburger && (
-                    <div class="aside-action">
+                    <div class="sidebar-action">
                         <hamburger/>
                     </div>
                 )}
