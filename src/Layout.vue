@@ -21,7 +21,7 @@ export default {
         //传递给page的props
         pageProps: Object,
 
-        //菜单图标的渲染方法（(h, {menu, depth}) => VNode），由子组件根据inject去取
+        //菜单图标的渲染方法(h, {menu, depth}) => VNode
         menuIconRenderer: {
             type: Function,
             default: (h, {menu}) => {
@@ -31,8 +31,13 @@ export default {
                     : undefined
             }
         },
-        //自定义菜单内容的渲染方法（(h, {menu, highlight, context}) => VNode），由子组件根据inject去取
-        menuItemContentRenderer: Function
+        //自定义菜单内容的渲染方法(h, {menu, highlight, context}) => VNode
+        menuItemContentRenderer: Function,
+
+        //自定义logo内容的渲染方法(h, {img:VNode, title:VNode, context}) => VNode
+        logoRenderer:Function,
+        //点击logo容器时触发，会替换原有的逻辑
+        onLogoClick: Function
     },
 
     computed: {
