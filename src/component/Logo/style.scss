@@ -1,28 +1,25 @@
 .logo-container {
+    display: flex;
+    align-items: center;
     width: 100%;
     height: $nav-height;
+    cursor: pointer;
     padding: 0 $menu-padding;
     box-sizing: border-box;
 
-    .logo-link {
-        display: flex;
-        align-items: center;
-        height: 100%;
-        cursor: pointer;
+    img {
+        height: $logo-size;
 
-        > img {
-            height: $logo-size;
-
-            & + h1 {
-                margin-left: 12px;
-            }
+        & + h1 {
+            margin-left: 12px;
         }
+    }
 
-        > h1 {
-            margin: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    h1 {
+        margin: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 18px;
     }
 }
