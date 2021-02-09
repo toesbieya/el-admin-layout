@@ -80,7 +80,7 @@ export default {
                                 : this.userDropdownItems.map(item => (
                                     <el-dropdown-item
                                         icon={item.icon}
-                                        v-on:click_native={item.handler}
+                                        {...{nativeOn: {click: item.handler}}}
                                     >
                                         {item.content}
                                     </el-dropdown-item>
