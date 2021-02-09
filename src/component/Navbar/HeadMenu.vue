@@ -149,10 +149,6 @@ export default {
 
             this.resizeObserver = new window.ResizeObserver(this.resize)
             this.resizeObserver.observe(this.getMenuEl())
-
-            this.$once('hook:beforeDestroy', () => {
-                this.resizeObserver && this.resizeObserver.disconnect()
-            })
         },
 
         //判断是否为dom元素
@@ -171,6 +167,10 @@ export default {
     mounted() {
         this.setChildrenWidth()
         this.createResizeObserver()
+    },
+
+    beforeDestroy() {
+        this.resizeObserver && this.resizeObserver.disconnect()
     },
 
     render() {
