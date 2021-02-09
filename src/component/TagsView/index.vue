@@ -138,10 +138,12 @@ export default {
 
         //横向滚动条移动至当前tab
         moveToCurrentTag() {
-            //获取所有页签的componentInstance
-            const tagInstances = this.$refs.scrollPanel.$children
-            const tag = tagInstances.find(i => i.to.key === this.activeKey)
-            tag && this.$refs.scrollPanel.moveToTarget(tag.$el)
+            const scroller = this.$refs['scroll-panel']
+            const cur =
+                Array
+                    .from(scroller.$el.children)
+                    .find(el => el.classList.contains('active'))
+            cur && scroller.moveToTarget(cur)
         },
 
         /**
@@ -197,20 +199,23 @@ export default {
         renderTags() {
             return this.visitedViews.map(view => {
                 const active = this.activeKey === view.key
+                const className = {'tags-view-item': true, active}
                 const affix = this.isAffix(view)
+                const onClose = e => this.closeSelectedTag(view, e)
+                const on = {
+                    contextmenu: e => this.openContextMenu(view, e),
+                    dblclick: onClose
+                }
+
+                if (!active) {
+                    on.click = () => this.$router.push(view, () => undefined)
+                }
 
                 return (
-                    <router-link
-                        key={view.fullPath}
-                        tag="div"
-                        class={{'tags-view-item': true, active}}
-                        to={view}
-                        v-on:contextmenu_native={e => this.openContextMenu(view, e)}
-                        v-on:dblclick_native={e => this.closeSelectedTag(view, e)}
-                    >
+                    <div key={view.key} class={className} {...{on}}>
                         <span>{view.meta.title}</span>
-                        {!affix && <i class="el-icon-close" on-click={e => this.closeSelectedTag(view, e)}/>}
-                    </router-link>
+                        {!affix && <i class="el-icon-close" on-click={onClose}/>}
+                    </div>
                 )
             })
         }
@@ -224,7 +229,7 @@ export default {
     render() {
         return (
             <div class="tags-view">
-                <scroll-panel ref="scrollPanel" class="tags-view-scroller">
+                <scroll-panel ref="scroll-panel" class="tags-view-scroller">
                     {this.renderTags()}
                 </scroll-panel>
 

@@ -24,7 +24,7 @@ export default {
         },
 
         moveToTarget(target) {
-            const nodes = this.$children.map(i => i.$el)
+            const nodes = Array.from(this.$el.children)
             const {offsetWidth: containerWidth, scrollWidth, scrollLeft} = this.$el
 
             if (containerWidth >= scrollWidth) return

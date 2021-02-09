@@ -19,8 +19,8 @@
         display: inline-block;
         cursor: pointer;
         box-sizing: border-box;
-        height: #{$tags-view-height - $margin * 2};
-        line-height: #{$tags-view-height - $margin * 2 - $border-width * 2};
+        height: $tags-view-height - $margin * 2;
+        line-height: $tags-view-height - $margin * 2 - $border-width * 2;
         color: $--color-text-secondary;
         background-color: $--color-white;
         border-radius: 3px;
