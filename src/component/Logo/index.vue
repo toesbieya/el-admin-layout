@@ -1,5 +1,4 @@
 <script type="text/jsx">
-//TODO 增加logoRenderer属性和logo插槽
 import {appGetters} from "el-admin-layout"
 
 export default {
