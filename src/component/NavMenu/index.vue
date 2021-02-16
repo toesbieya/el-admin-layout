@@ -219,10 +219,10 @@ export default {
                 : this.menuIconRenderer(h, payload)
         },
         //渲染菜单内容
-        renderMenuContent(h, menu) {
+        renderMenuContent(h, menu, depth) {
             //优先使用menuItemContent插槽
             if (this.menuItemContentSlot) {
-                return this.menuItemContentSlot({menu, context: this})
+                return this.menuItemContentSlot({menu, depth, context: this})
             }
 
             const child = isEmpty(this.searchWord)
@@ -230,7 +230,7 @@ export default {
                 : this.searchResultRenderer(h, menu, this.searchWord)
 
             if (this.menuItemContentRenderer) {
-                return this.menuItemContentRenderer(h, {menu, highlight: child, context: this})
+                return this.menuItemContentRenderer(h, {menu, depth, highlight: child, context: this})
             }
 
             return <span>{child}</span>
@@ -242,7 +242,7 @@ export default {
                 <menu-item key={fullPath} index={fullPath} inline-indent={this.inlineIndent}>
                     {this.renderMenuIcon(h, menu, depth)}
                     <template slot="title">
-                        {this.renderMenuContent(h, menu)}
+                        {this.renderMenuContent(h, menu, depth)}
                     </template>
                 </menu-item>
             )
@@ -262,18 +262,18 @@ export default {
                 >
                     <template slot="title">
                         {this.renderMenuIcon(h, menu, depth)}
-                        {!noContent && this.renderMenuContent(h, menu)}
+                        {!noContent && this.renderMenuContent(h, menu, depth)}
                     </template>
                     {children}
                 </sub-menu>
             )
         },
         //渲染有子级且需要显示父级的菜单
-        renderChildrenWithParentMenu(h, menu, children) {
+        renderChildrenWithParentMenu(h, menu, children, depth) {
             return [
                 <div class="popover-menu__title">
-                    {this.renderMenuIcon(h, menu.meta.icon)}
-                    {this.renderMenuContent(h, menu)}
+                    {this.renderMenuIcon(h, menu, depth)}
+                    {this.renderMenuContent(h, menu, depth)}
                 </div>,
                 <div class="el-menu el-menu--inline">{children}</div>
             ]
@@ -291,7 +291,8 @@ export default {
 
             //弹出菜单显示父级信息
             if (this.collapse && this.showParentOnCollapse) {
-                children = this.renderChildrenWithParentMenu(h, menu, children)
+                //这里认为父级的深度应该+1
+                children = this.renderChildrenWithParentMenu(h, menu, children, depth + 1)
             }
 
             return this.renderSubMenu(h, menu, children, depth)
