@@ -5,9 +5,15 @@
         :page-props="pageProps"
         :menu-item-content-renderer="menuItemContentRenderer"
     >
-        <template v-slot:menuItemContent="{menu, context}">
+        <template v-slot:menuItemContent="{menu, depth, context}">
             <span>{{ menu.meta.title }}</span>
-            <span v-if="menu.meta.title === '首页'" class="menu-tag menu-tag--danger">new</span>
+
+            <span
+                v-if="menu.meta.title === '首页' && (depth > 1 || !context.collapse)"
+                class="menu-tag menu-tag--danger"
+            >
+                new
+            </span>
         </template>
 
         <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
