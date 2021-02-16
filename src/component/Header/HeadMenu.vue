@@ -3,7 +3,7 @@
  * 顶部菜单，参考了ant design的响应式设计
  */
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
-import {appGetters, navbarGetters} from "el-admin-layout"
+import {appGetters, headerGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
 import {getRouterActiveMenu} from "el-admin-layout/src/config/logic"
 import {getHeadMenus} from "el-admin-layout/src/store/app"
@@ -180,7 +180,7 @@ export default {
             <nav-menu
                 ref="nav-menu"
                 menus={this.realMenus}
-                theme={navbarGetters.theme}
+                theme={headerGetters.theme}
                 mode="horizontal"
                 default-active={this.activeMenu}
                 on-select={this.onSelect}

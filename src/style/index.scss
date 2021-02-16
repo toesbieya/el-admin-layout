@@ -1,7 +1,7 @@
 @import "./var";
 
 @import "../component/Aside/style";
-@import "../component/Navbar/style";
+@import "../component/Header/style";
 @import "../component/Page/style";
 @import "../component/TagsView/style";
 
@@ -20,8 +20,8 @@
     &.flex-column {
         flex-direction: column;
 
-        //左右结构时，侧边栏z-index需大于导航栏
-        //上下结构时，侧边栏z-index需小于导航栏
+        //左右结构时，侧边栏z-index需大于顶栏
+        //上下结构时，侧边栏z-index需小于顶栏
         .aside {
             z-index: 9;
         }

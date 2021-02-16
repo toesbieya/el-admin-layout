@@ -1,6 +1,6 @@
 <script type="text/jsx">
 import Aside from './component/Aside'
-import Navbar from './component/Navbar'
+import Header from './component/Header'
 import Page from './component/Page'
 import {appGetters, pageGetters, tagsViewGetters} from "./store"
 
@@ -14,8 +14,8 @@ export default {
     },
 
     props: {
-        //传递给nav-bar的props
-        navbarProps: Object,
+        //传递给header的props
+        headerProps: Object,
         //传递给aside的props
         asideProps: Object,
         //传递给page的props
@@ -51,22 +51,22 @@ export default {
 
     render() {
         const aside = this.renderAside && <Aside/>
-        const navbar = <Navbar/>
+        const header = <Header/>
 
         return (
             <div class={{
                 'el-admin-layout': true,
                 'flex-column': !this.isLeftRight
             }}>
-                {this.isLeftRight ? aside : navbar}
+                {this.isLeftRight ? aside : header}
 
                 <div class={{
                     'el-admin-layout': true,
-                    'has-nav': true,
+                    'has-header': true,
                     'flex-column': this.isLeftRight,
                     'has-tags-view': tagsViewGetters.enabled
                 }}>
-                    {this.isLeftRight ? navbar : aside}
+                    {this.isLeftRight ? header : aside}
                     <Page/>
                 </div>
 

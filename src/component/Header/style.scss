@@ -1,10 +1,10 @@
-.navbar {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: nowrap;
-    height: $nav-height;
-    padding-left: $navbar-padding-left;
+    height: $header-height;
+    padding-left: $header-padding-left;
     z-index: 10;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
 
@@ -14,11 +14,11 @@
         height: 100%;
     }
 
-    .navbar-icon {
+    .header-icon {
         font-size: 18px;
     }
 
-    .navbar-item {
+    .header-item {
         display: flex;
         align-items: center;
         padding: 0 8px;
@@ -27,8 +27,8 @@
 
     .logo-container {
         width: auto;
-        min-width: $aside-width - $navbar-padding-left;
-        padding-left: $menu-padding - $navbar-padding-left;
+        min-width: $aside-width - $header-padding-left;
+        padding-left: $menu-padding - $header-padding-left;
     }
 
     .avatar-wrapper {

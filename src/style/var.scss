@@ -16,7 +16,7 @@ $menu-padding: $menu-icon-size + $menu-icon-text-gap !default;
 $menu-background-dark: #304156 !default;
 //暗色子级菜单的背景色
 $sub-menu-background-dark: darken($menu-background-dark, 5%) !default;
-//暗色主菜单的背景色（用于双层侧边栏的主菜单和顶部导航栏）
+//暗色主菜单的背景色
 $root-menu-background-dark: #1F293D !default;
 //亮色菜单的文字颜色
 $menu-text-color-light: $--color-text-primary !default;
@@ -32,18 +32,20 @@ $aside-width: 208px !default;
 //侧边栏折叠时的宽度
 $aside-collapse-width: $menu-icon-size + $menu-padding * 2 !default;
 
-//导航栏高度
-$nav-height: 48px !default;
-//导航栏的padding-left
-$navbar-padding-left: 12px !default;
-//亮色导航栏的功能项颜色
-$navbar-item-color-light: $menu-text-color-light !default;
-//暗色导航栏的功能项颜色
-$navbar-item-color-dark: rgba(255, 255, 255, .85) !default;
-//亮色导航栏的功能项hover背景颜色
-$navbar-item-hover-color-light: rgba(0, 0, 0, .025) !default;
-//暗色导航栏的功能项hover背景颜色
-$navbar-item-hover-color-dark: lighten($root-menu-background-dark, 5%) !default;
+//顶栏高度
+$header-height: 48px !default;
+//顶栏的padding-left
+$header-padding-left: 12px !default;
+//暗色顶栏的背景色
+$header-background-dark: #1F293D !default;
+//亮色顶栏的功能项颜色
+$header-item-color-light: $menu-text-color-light !default;
+//暗色顶栏的功能项颜色
+$header-item-color-dark: rgba(255, 255, 255, .85) !default;
+//亮色顶栏的功能项hover背景颜色
+$header-item-hover-color-light: rgba(0, 0, 0, .025) !default;
+//暗色顶栏的功能项hover背景颜色
+$header-item-hover-color-dark: lighten($header-background-dark, 5%) !default;
 
 //多页签栏高度
 $tags-view-height: 32px !default;

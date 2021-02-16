@@ -22,7 +22,7 @@ export default {
             if (appGetters.isMobile) return true
 
             const correctPosition =
-                    asideGetters.hamburgerPosition === (this.$options.name === 'Navbar' ? 'head' : 'aside'),
+                    asideGetters.hamburgerPosition === (this.$options.name === 'Header' ? 'head' : 'aside'),
                 correctMode =
                     ['aside', 'mix'].includes(appGetters.navMode) && !asideGetters.autoHide
                     || appGetters.navMode === 'aside-two-part'

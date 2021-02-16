@@ -22,7 +22,7 @@ const state = {
     currentIframe: '',
     iframeList: [],
 
-    //是否显示侧边栏或顶部导航栏的logo
+    //是否显示侧边栏或顶栏的logo
     showLogo: true,
     //分层结构，上下（'top-bottom'）、左右（'left-right'）
     position: 'left-right',

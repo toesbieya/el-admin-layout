@@ -127,8 +127,8 @@
         //顶级节点的高度以及hover时的下边框
         > .el-menu-item,
         > .el-submenu > .el-submenu__title {
-            height: $nav-height;
-            line-height: $nav-height;
+            height: $header-height;
+            line-height: $header-height;
 
             &:hover {
                 border-bottom: 2px solid $--color-primary;

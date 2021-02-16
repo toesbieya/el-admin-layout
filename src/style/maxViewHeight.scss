@@ -14,9 +14,9 @@ $max-height: '100vh - #{$page-view-margin * 2}';
     height: 100vh;
 }
 
-//有导航栏
-.has-nav .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height});
+//有顶栏
+.has-header .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height});
 }
 
 //有多页签栏
@@ -34,32 +34,32 @@ $max-height: '100vh - #{$page-view-margin * 2}';
     max-height: calc(#{$max-height} - #{$page-footer-height});
 }
 
-//同时有导航栏和多页签栏
-.has-nav.has-tags-view .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height} - #{$tags-view-height});
+//同时有顶栏和多页签栏
+.has-header.has-tags-view .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height});
 }
 
-//同时有导航栏和页头
-.has-nav .has-page-header .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height} - #{$page-header-height});
+//同时有顶栏和页头
+.has-header .has-page-header .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height} - #{$page-header-height});
 }
 
-//同时有导航栏和页脚
-.has-nav .has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height} - #{$page-footer-height});
+//同时有顶栏和页脚
+.has-header .has-page-footer .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height} - #{$page-footer-height});
 }
 
-//同时有导航栏、多页签栏、页头
-.has-nav.has-tags-view .has-page-header .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height} - #{$tags-view-height} - #{$page-header-height});
+//同时有顶栏、多页签栏、页头
+.has-header.has-tags-view .has-page-header .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-header-height});
 }
 
-//同时有导航栏、多页签栏、页脚
-.has-nav.has-tags-view .has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height} - #{$tags-view-height} - #{$page-footer-height});
+//同时有顶栏、多页签栏、页脚
+.has-header.has-tags-view .has-page-footer .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-footer-height});
 }
 
-//同时有导航栏、多页签栏、页头、页脚
-.has-nav.has-tags-view .has-page-header.has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$nav-height} - #{$tags-view-height} - #{$page-header-height} - #{$page-footer-height});
+//同时有顶栏、多页签栏、页头、页脚
+.has-header.has-tags-view .has-page-header.has-page-footer .max-view-height {
+    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-header-height} - #{$page-footer-height});
 }

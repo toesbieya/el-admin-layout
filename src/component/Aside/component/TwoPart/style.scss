@@ -55,8 +55,8 @@
     @include common;
 
     &-title {
-        height: $nav-height;
-        line-height: $nav-height;
+        height: $header-height;
+        line-height: $header-height;
         padding-left: $menu-padding;
         font-size: 16px;
     }

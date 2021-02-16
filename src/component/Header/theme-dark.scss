@@ -1,22 +1,22 @@
-.navbar.dark {
-    background-color: $root-menu-background-dark;
+.header.dark {
+    background-color: $header-background-dark;
 
     .logo-container{
         color: $--color-white;
     }
 
-    .navbar-item {
-        color: $navbar-item-color-dark;
+    .header-item {
+        color: $header-item-color-dark;
 
         &:hover {
-            background-color: $navbar-item-hover-color-dark;
+            background-color: $header-item-hover-color-dark;
         }
     }
 }
 
 //暗色主题的下拉菜单
-.dark.el-dropdown-menu {
-    background-color: $root-menu-background-dark;
+.header-dropdown.dark {
+    background-color: $header-background-dark;
     border: none;
 
     .el-dropdown-menu__item {
