@@ -9,9 +9,14 @@ export default {
 
     inject: ['elAdminLayout'],
 
+    //此处的props加上Layout.props.asideProps才是向子组件传递的完整属性
+    props: {
+        switchTransition: {type: Boolean, default: true},
+        switchTransitionName: {type: String, default: 'sidebar'},
+    },
+
     render() {
-        const defaultProps = {switchTransition: true, switchTransitionName: 'sidebar'}
-        const attrs = Object.assign(defaultProps, this.elAdminLayout.asideProps)
+        const attrs = Object.assign(this.$props, this.elAdminLayout.asideProps)
 
         let children
 

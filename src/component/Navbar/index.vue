@@ -10,23 +10,34 @@ export default {
 
     mixins: [hamburgerMixin],
 
-    components: {HeadMenu, Logo},
-
-    props: {
-        //头像地址
-        avatar: String,
-        //用户名称
-        username: String,
-        //自定义下拉菜单项，{icon:图标, content:菜单内容, handler:点击时触发的方法}
-        userDropdownItems: {
-            type: Array,
-            default: () => []
-        },
-        //自定义右侧元素，会传入默认的VNode数组
-        renderCustomActions: Function
+    inject: {
+        elAdminLayout: {
+            default: {
+                navbarProps: {}
+            }
+        }
     },
 
+    components: {HeadMenu, Logo},
+
     computed: {
+        //头像地址
+        avatar() {
+            return this.elAdminLayout.navbarProps.avatar
+        },
+        //用户名称
+        username() {
+            return this.elAdminLayout.navbarProps.username
+        },
+        //自定义下拉菜单项，{icon:图标, content:菜单内容, handler:点击时触发的方法}
+        userDropdownItems() {
+            return this.elAdminLayout.navbarProps.userDropdownItems || []
+        },
+        //自定义右侧元素的函数，会传入默认的VNode数组
+        renderCustomActions() {
+            return this.elAdminLayout.navbarProps.renderCustomActions
+        },
+
         //渲染导航栏logo的条件
         //①桌面端
         //②设置了显示logo

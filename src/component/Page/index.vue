@@ -14,6 +14,7 @@ export default {
     inject: {
         elAdminLayout: {
             default: {
+                pageProps: {},
                 $scopedSlots: {}
             }
         }
@@ -21,21 +22,22 @@ export default {
 
     components: {PageHeader, PageView, PageFooter, TagsView, Breadcrumb},
 
-    props: {
-        //自定义渲染页头的方法，入参为h：createElement
-        renderHeader: Function,
-        //自定义渲染页脚内容的方法，入参为h：createElement
-        renderFooter: Function
-    },
-
     computed: {
-        //Layout中的menuItemContent插槽
-        layoutSlots() {
-            const slots = this.elAdminLayout.$scopedSlots
-            return {
-                header: slots.pageHeader,
-                footer: slots.pageFooter
-            }
+        //Layout中的pageHeader插槽
+        headerSlot() {
+            return this.elAdminLayout.$scopedSlots.pageHeader
+        },
+        //自定义渲染页头的方法，入参为h：createElement
+        renderHeader() {
+            return this.elAdminLayout.pageProps.renderHeader
+        },
+        //Layout中的pageFooter插槽
+        footerSlot() {
+            return this.elAdminLayout.$scopedSlots.pageFooter
+        },
+        //自定义渲染页脚内容的方法，入参为h：createElement
+        renderFooter() {
+            return this.elAdminLayout.pageProps.renderFooter
         },
 
         showHeader() {
@@ -91,8 +93,8 @@ export default {
                 <div v-show={!showIframe} class={this.pageClass}>
                     {this.showHeader && (
                         <page-header>
-                            {this.layoutSlots.header
-                                ? this.layoutSlots.header()
+                            {this.headerSlot
+                                ? this.headerSlot()
                                 : this.renderHeader
                                     ? this.renderHeader()
                                     : <breadcrumb/>}
@@ -105,11 +107,9 @@ export default {
                         cacheable={enableTagsView && enableTagsViewCache}
                     />
 
-                    {this.showFooter && (this.layoutSlots.footer || this.renderFooter) && (
+                    {this.showFooter && (this.footerSlot || this.renderFooter) && (
                         <page-footer>
-                            {this.layoutSlots.footer
-                                ? this.layoutSlots.footer()
-                                : this.renderFooter()}
+                            {this.footerSlot ? this.footerSlot() : this.renderFooter()}
                         </page-footer>
                     )}
                 </div>

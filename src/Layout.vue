@@ -50,8 +50,8 @@ export default {
     },
 
     render() {
-        const aside = this.renderAside && <Aside {...{props: this.asideProps}}/>
-        const navbar = <Navbar {...{props: this.navbarProps}}/>
+        const aside = this.renderAside && <Aside/>
+        const navbar = <Navbar/>
 
         return (
             <div class={{
@@ -67,7 +67,7 @@ export default {
                     'has-tags-view': tagsViewGetters.enabled
                 }}>
                     {this.isLeftRight ? navbar : aside}
-                    <Page {...{props: this.pageProps}}/>
+                    <Page/>
                 </div>
 
                 {this.$scopedSlots.default && this.$scopedSlots.default()}
