@@ -18,10 +18,12 @@
     }
 }
 
+//路由过渡动画
 .right-out,
 .left-out {
     &-leave-active,
     &-enter-active {
+        position: absolute;
         transition: transform .2s, opacity .2s;
     }
 }
