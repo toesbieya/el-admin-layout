@@ -1,6 +1,6 @@
 <template>
     <el-admin-layout
-        :navbar-props="navbarProps"
+        :header-props="headerProps"
         :aside-props="asideProps"
         :page-props="pageProps"
         :menu-item-content-renderer="menuItemContentRenderer"
@@ -34,7 +34,7 @@ export default {
     components: {ElAdminLayout},
 
     computed: {
-        navbarProps() {
+        headerProps() {
             return {
                 username: '测试用户',
                 userDropdownItems: [
@@ -44,7 +44,7 @@ export default {
                         handler: this.logout
                     }
                 ],
-                renderCustomActions: this.renderNavbarActions
+                renderCustomActions: this.renderHeaderActions
             }
         },
         asideProps() {
@@ -71,14 +71,14 @@ export default {
             this.$_settingDrawerInstance.visible = true
         },
 
-        renderNavbarActions(defaultActions) {
+        renderHeaderActions(defaultActions) {
             const customActions = [
                 <div
-                    class="setting-btn navbar-item"
+                    class="setting-btn header-item"
                     title="个性设置"
                     on-click={this.openSettingDrawer}
                 >
-                    <i class="el-icon-s-operation navbar-icon"/>
+                    <i class="el-icon-s-operation header-icon"/>
                 </div>
             ]
 

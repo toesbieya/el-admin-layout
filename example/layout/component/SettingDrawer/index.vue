@@ -20,11 +20,11 @@
             </checkbox-group>
         </div>
 
-        <el-divider>导航栏设置</el-divider>
+        <el-divider>顶栏设置</el-divider>
         <div class="setting-drawer-item">
             <span>主题风格</span>
             <el-select
-                v-model="setting.navbar.theme"
+                v-model="setting.header.theme"
                 size="mini"
                 style="width: 80px"
             >
@@ -53,7 +53,7 @@
                 style="width: 90px"
             >
                 <el-option value="aside" label="侧边栏"/>
-                <el-option value="head" label="导航栏"/>
+                <el-option value="head" label="顶栏"/>
             </el-select>
         </div>
         <div class="setting-drawer-item">
@@ -132,7 +132,7 @@ import tagsViewShortcutMixin from "./mixin/tagsViewShortcut"
 import CheckboxGroup from "./component/checkbox/Group"
 import ColorCheckbox from "./component/checkbox/ColorCheckbox"
 import ImgCheckbox from "./component/checkbox/ImgCheckbox"
-import {appMutations, asideMutations, navbarMutations, pageMutations, tagsViewMutations} from "el-admin-layout"
+import {appMutations, asideMutations, headerMutations, pageMutations, tagsViewMutations} from "el-admin-layout"
 import {mergeObj} from "@example/util"
 import {getLocalPersonalSettings, setLocalPersonalSettings} from "@example/util/storage"
 
@@ -193,7 +193,7 @@ export default {
                     autoHide: false,
                     search: true
                 },
-                navbar: {
+                header: {
                     theme: 'dark'
                 },
                 tagsView: {
@@ -217,8 +217,8 @@ export default {
                     return appMutations
                 case 'aside':
                     return asideMutations
-                case 'navbar':
-                    return navbarMutations
+                case 'header':
+                    return headerMutations
                 case 'page':
                     return pageMutations
                 case 'tagsView':
@@ -228,7 +228,7 @@ export default {
 
         //将此处的设置项数据同步到layout中的store
         syncLayoutStore() {
-            const {app, page, aside, navbar, tagsView} = this.setting
+            const {app, page, aside, header, tagsView} = this.setting
 
             Object.entries(app).forEach(([k, v]) => appMutations[k](v))
 
@@ -239,7 +239,7 @@ export default {
 
             Object.entries(aside).forEach(([k, v]) => asideMutations[k](v))
 
-            Object.entries(navbar).forEach(([k, v]) => navbarMutations[k](v))
+            Object.entries(header).forEach(([k, v]) => headerMutations[k](v))
 
             tagsViewMutations.enabled(tagsView.enabled)
             tagsViewMutations.enableCache(tagsView.enableCache)
