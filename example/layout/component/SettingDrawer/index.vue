@@ -101,10 +101,6 @@
             <span>显示页脚</span>
             <el-switch v-model="setting.page.showFooter"/>
         </div>
-        <div class="setting-drawer-item">
-            <span>显示返回顶部按钮</span>
-            <el-switch v-model="setting.page.showBackToTop"/>
-        </div>
 
         <el-divider>多页签设置</el-divider>
         <div class="setting-drawer-item">
@@ -181,8 +177,7 @@ export default {
                     position: 'left-right',
                     showLogo: true,
                     showHeader: true,
-                    showFooter: true,
-                    showBackToTop: true
+                    showFooter: true
                 },
                 aside: {
                     theme: 'dark',
