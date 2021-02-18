@@ -119,6 +119,9 @@
             <span>持久化</span>
             <el-switch v-model="setting.tagsView.persistent"/>
         </div>
+
+        <el-divider/>
+        <el-button type="primary" size="medium" @click="clearCacheAndReload">清除设置缓存并刷新</el-button>
     </el-drawer>
 </template>
 
@@ -204,6 +207,12 @@ export default {
     methods: {
         close() {
             this.visible = false
+        },
+
+        //设置抽屉的数据结构与本地存储不一致时，可能导致layout渲染异常，所以加了这个功能
+        clearCacheAndReload() {
+            setLocalPersonalSettings()
+            window.location.reload()
         },
 
         getMutationsByType(type) {
