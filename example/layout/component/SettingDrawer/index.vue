@@ -46,17 +46,6 @@
             </el-select>
         </div>
         <div class="setting-drawer-item">
-            <span>汉堡包位置</span>
-            <el-select
-                v-model="setting.aside.hamburgerPosition"
-                size="mini"
-                style="width: 90px"
-            >
-                <el-option value="aside" label="侧边栏"/>
-                <el-option value="head" label="顶栏"/>
-            </el-select>
-        </div>
-        <div class="setting-drawer-item">
             <span>手风琴效果</span>
             <el-switch v-model="setting.aside.uniqueOpen"/>
         </div>
@@ -121,7 +110,14 @@
         </div>
 
         <el-divider/>
-        <el-button type="primary" size="medium" @click="clearCacheAndReload">清除设置缓存并刷新</el-button>
+        <el-button
+            type="primary"
+            size="medium"
+            icon="el-icon-delete"
+            @click="clearCacheAndReload"
+        >
+            清除设置缓存并刷新
+        </el-button>
     </el-drawer>
 </template>
 
@@ -184,7 +180,6 @@ export default {
                 },
                 aside: {
                     theme: 'dark',
-                    hamburgerPosition: 'aside',
                     uniqueOpen: true,
                     collapse: false,
                     showParentOnCollapse: false,

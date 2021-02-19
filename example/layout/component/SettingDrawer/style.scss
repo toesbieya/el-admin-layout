@@ -5,7 +5,7 @@
     overflow-y: auto;
 
     .el-drawer__body {
-        padding: 24px;
+        padding: $--dialog-padding-primary;
     }
 
     &-item {
