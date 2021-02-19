@@ -1,21 +1,28 @@
-import {asideGetters} from "el-admin-layout"
-import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
+import {appGetters, asideGetters} from "el-admin-layout"
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import menuSearchMixin from './menuSearch'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
+import Hamburger from 'el-admin-layout/src/component/Hamburger'
 import {getSidebarMenus} from "el-admin-layout/src/store/app"
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
     inheritAttrs: false,
 
-    mixins: [hamburgerMixin, menuMixin, menuSearchMixin],
+    mixins: [menuMixin, menuSearchMixin],
 
-    components: {NavMenu},
+    components: {NavMenu, Hamburger},
 
     computed: {
         //侧边栏菜单
-        menus: getSidebarMenus
+        menus: getSidebarMenus,
+
+        //渲染汉堡包的条件
+        renderHamburger() {
+            if (this.menus.length === 0) return false
+
+            return appGetters.navMode === 'aside-two-part' || !asideGetters.autoHide
+        }
     },
 
     watch: {

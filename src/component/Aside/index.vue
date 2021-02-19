@@ -1,4 +1,6 @@
 <script type="text/jsx">
+//TODO 移除aside-two-part导航模式，由外部自行实现
+//TODO 移除内置的菜单搜索，由外部自行实现
 import OnePart from './component/OnePart'
 import TwoPartRoot from './component/TwoPart/root'
 import TwoPartSub from './component/TwoPart/sub'
@@ -16,7 +18,7 @@ export default {
     },
 
     render() {
-        const attrs = Object.assign(this.$props, this.elAdminLayout.asideProps)
+        const attrs = Object.assign({}, this.$props, this.elAdminLayout.asideProps)
 
         let children
 

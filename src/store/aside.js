@@ -24,9 +24,6 @@ const state = {
     //自动隐藏
     autoHide: false,
 
-    //汉堡包的位置，aside 或 head
-    hamburgerPosition: 'aside',
-
     //是否显示搜索框
     search: true
 }

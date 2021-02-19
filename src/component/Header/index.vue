@@ -1,14 +1,12 @@
 <script type="jsx">
-import hamburgerMixin from 'el-admin-layout/src/mixin/hamburger'
-import HeadMenu from "./HeadMenu"
 import {appGetters, headerGetters, pageGetters} from "el-admin-layout"
+import HeadMenu from "./HeadMenu"
 import Logo from "el-admin-layout/src/component/Logo"
+import Hamburger from 'el-admin-layout/src/component/Hamburger'
 import {refreshPage} from "el-admin-layout/src/helper"
 
 export default {
     name: 'Header',
-
-    mixins: [hamburgerMixin],
 
     inject: {
         elAdminLayout: {
@@ -19,7 +17,7 @@ export default {
         }
     },
 
-    components: {HeadMenu, Logo},
+    components: {HeadMenu, Logo, Hamburger},
 
     computed: {
         //头像地址
@@ -126,7 +124,8 @@ export default {
             <header class={this.className}>
                 {this.renderLogo && <logo show-title/>}
 
-                {this.renderHamburger && <hamburger class="header-item header-icon"/>}
+                {/*移动端时必须渲染汉堡包，不然侧边栏怎么出来*/}
+                {appGetters.isMobile && <hamburger class="header-item header-icon"/>}
 
                 <div style="flex: 1">
                     {this.renderHeadMenu && <head-menu/>}
