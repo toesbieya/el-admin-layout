@@ -1,6 +1,7 @@
 <script type="text/jsx">
 import Aside from '../Aside'
 import Header from '../Header'
+import TagsView from '../TagsView'
 import Page from '../Page'
 import {appGetters, pageGetters, tagsViewGetters} from "../../store"
 
@@ -35,7 +36,7 @@ export default {
         menuItemContentRenderer: Function,
 
         //自定义logo内容的渲染方法(h, {img:VNode, title:VNode, context}) => VNode
-        logoRenderer:Function,
+        logoRenderer: Function,
         //点击logo容器时触发，会替换原有的逻辑
         onLogoClick: Function
     },
@@ -58,6 +59,8 @@ export default {
                 'left-right': this.isLeftRight
             }}>
                 <Header/>
+
+                {tagsViewGetters.enabled && <TagsView/>}
 
                 {this.renderAside && <Aside/>}
 

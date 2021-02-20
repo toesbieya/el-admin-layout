@@ -3,7 +3,6 @@ import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
 import PageFooter from "./component/Footer"
-import TagsView from 'el-admin-layout/src/component/TagsView'
 import Breadcrumb from 'el-admin-layout/src/component/Breadcrumb'
 import {isEmpty} from "el-admin-layout/src/util"
 import {getRouterKey} from "el-admin-layout/src/config/logic"
@@ -20,7 +19,7 @@ export default {
         }
     },
 
-    components: {PageHeader, PageView, PageFooter, TagsView, Breadcrumb},
+    components: {PageHeader, PageView, PageFooter, Breadcrumb},
 
     computed: {
         //Layout中的pageHeader插槽
@@ -88,8 +87,6 @@ export default {
 
         return (
             <main class="page-main">
-                {enableTagsView && <tags-view/>}
-
                 <div v-show={!showIframe} class={this.pageClass}>
                     {this.showHeader && (
                         <page-header>

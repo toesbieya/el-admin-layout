@@ -1,7 +1,7 @@
 .el-admin-layout {
     display: grid;
     grid-template-columns: min-content 1fr;
-    grid-template-rows: min-content 1fr;
+    grid-template-rows: min-content min-content 1fr;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -11,14 +11,18 @@
         grid-column-end: 3;
     }
 
+    > nav{
+        grid-column: 2 / 3;
+    }
+
     > aside {
         display: flex;
         grid-row-start: 2;
-        grid-row-end: 3;
+        grid-row-end: 4;
     }
 
     > main {
-        grid-area: 2 / 2 / 3 / 3;
+        grid-area: 3 / 2 / 4 / 3;
     }
 
     //左右结构

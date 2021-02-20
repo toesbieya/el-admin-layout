@@ -228,7 +228,7 @@ export default {
 
     render() {
         return (
-            <div class="tags-view">
+            <nav class="tags-view">
                 <scroll-panel ref="scroll-panel" class="tags-view-scroller">
                     {this.renderTags()}
                 </scroll-panel>
@@ -239,7 +239,7 @@ export default {
                     left={this.contextMenu.left}
                     top={this.contextMenu.top}
                 />
-            </div>
+            </nav>
         )
     }
 }

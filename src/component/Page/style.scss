@@ -3,15 +3,12 @@
 @import "./component/View/style";
 
 .page-main {
-    display: flex;
-    flex-direction: column;
     position: relative;
     overflow: hidden;
     background-color: $page-background-color;
 
     > .scroll-container {
         display: flex;
-        flex: 1;
         flex-direction: column;
         overflow: auto;
     }
