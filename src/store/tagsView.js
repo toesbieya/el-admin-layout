@@ -3,7 +3,7 @@
  */
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
-import {createGetters, createMutations, bindThis} from "./util"
+import {createGetters, createMutations} from "./util"
 import {isEmpty} from "el-admin-layout/src/util"
 import {getRouterKey} from "el-admin-layout/src/config/logic"
 
@@ -24,7 +24,7 @@ const store = Vue.observable(state)
 
 export const getters = createGetters(store)
 
-export const mutations = bindThis({
+export const mutations = {
     ...createMutations(store),
 
     /**
@@ -37,7 +37,7 @@ export const mutations = bindThis({
 
         if (!v) {
             pageMutations.transition({curr: pageGetters.transition.default})
-            this.delAllTagAndCache()
+            mutations.delAllTagAndCache()
         }
     },
 
@@ -48,7 +48,7 @@ export const mutations = bindThis({
      */
     enableCache(v) {
         store.enableCache = v
-        !v && this.delAllCache()
+        !v && mutations.delAllCache()
     },
 
     /**
@@ -92,8 +92,8 @@ export const mutations = bindThis({
      * @param view
      */
     addTagAndCache(view) {
-        this.addTagOnly(view)
-        this.addCacheOnly(view)
+        mutations.addTagOnly(view)
+        mutations.addCacheOnly(view)
     },
 
     /**
@@ -125,8 +125,8 @@ export const mutations = bindThis({
      * @param view
      */
     delTagAndCache(view) {
-        this.delTagOnly(view)
-        this.delCacheOnly(view)
+        mutations.delTagOnly(view)
+        mutations.delCacheOnly(view)
     },
 
     /**
@@ -167,6 +167,6 @@ export const mutations = bindThis({
      */
     delAllTagAndCache() {
         store.visitedViews = store.visitedViews.filter(v => v.meta && v.meta.affix)
-        this.delAllCache()
+        mutations.delAllCache()
     }
-})
+}

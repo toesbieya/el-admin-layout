@@ -2,7 +2,7 @@
  * 路由页面的响应式数据
  */
 import Vue from 'vue'
-import {createGetters, createMutations, bindThis} from "./util"
+import {createGetters, createMutations} from "./util"
 
 const state = {
     //路由过渡动画
@@ -32,7 +32,7 @@ const store = Vue.observable(state)
 
 export const getters = createGetters(store)
 
-export const mutations = bindThis({
+export const mutations = {
     ...createMutations(store),
 
     //修改transition时使用Object.assign
@@ -50,11 +50,11 @@ export const mutations = bindThis({
     openIframe({src}) {
         store.showIframe = true
         store.currentIframe = src
-        this.addIframe(src)
+        mutations.addIframe(src)
     },
     closeIframe({src, del}) {
         store.showIframe = false
         store.currentIframe = ''
-        del && this.delIframe(src)
+        del && mutations.delIframe(src)
     }
-})
+}

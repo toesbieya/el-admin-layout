@@ -3,7 +3,7 @@
  */
 import Vue from 'vue'
 import {getters as appGetters} from "./app"
-import {createGetters, createMutations, bindThis} from "./util"
+import {createGetters, createMutations} from "./util"
 
 const state = {
     //抽屉模式时的显隐
@@ -32,7 +32,7 @@ const store = Vue.observable(state)
 
 export const getters = createGetters(store)
 
-export const mutations = bindThis({
+export const mutations = {
     ...createMutations(store),
 
     /*移动端或设置了侧边栏自动隐藏时打开关闭抽屉，否则展开折叠*/
@@ -52,16 +52,16 @@ export const mutations = bindThis({
     switch(action) {
         switch (action) {
             case 'open':
-                return this.open()
+                return mutations.open()
             case 'close':
-                return this.close()
+                return mutations.close()
             default :
                 let open = true
                 if (appGetters.isMobile) {
                     open = !store.show
                 }
                 else open = store.collapse
-                return open ? this.open() : this.close()
+                return open ? mutations.open() : mutations.close()
         }
     }
-})
+}

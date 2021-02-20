@@ -21,17 +21,3 @@ export function createMutations(store) {
         return obj
     }, Object.create(null))
 }
-
-//将传入对象的所有函数的this绑定为其自身
-export function bindThis(obj, root = obj) {
-    if (!obj || typeof obj !== 'object') return
-
-    Object.entries(obj).forEach(([k, v]) => {
-        if (typeof v === 'function') {
-            obj[k] = v.bind(root)
-        }
-        bindThis(v, root)
-    })
-
-    return obj
-}
