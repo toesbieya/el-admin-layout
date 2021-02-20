@@ -70,7 +70,7 @@
         <div class="setting-drawer-item">
             <span>分层结构</span>
             <el-select
-                v-model="setting.page.position"
+                v-model="setting.app.struct"
                 size="mini"
                 style="width: 80px"
             >
@@ -80,7 +80,7 @@
         </div>
         <div class="setting-drawer-item">
             <span>显示logo</span>
-            <el-switch v-model="setting.page.showLogo"/>
+            <el-switch v-model="setting.app.showLogo"/>
         </div>
         <div class="setting-drawer-item">
             <span>显示页头</span>
@@ -170,11 +170,11 @@ export default {
 
             setting: {
                 app: {
+                    showLogo: true,
+                    struct: 'left-right',
                     navMode: 'mix'
                 },
                 page: {
-                    position: 'left-right',
-                    showLogo: true,
                     showHeader: true,
                     showFooter: true
                 },
@@ -231,10 +231,7 @@ export default {
 
             Object.entries(app).forEach(([k, v]) => appMutations[k](v))
 
-            pageMutations.position(page.position)
-            pageMutations.showLogo(page.showLogo)
-            pageMutations.showHeader(page.showHeader)
-            pageMutations.showFooter(page.showFooter)
+            Object.entries(page).forEach(([k, v]) => pageMutations[k](v))
 
             Object.entries(aside).forEach(([k, v]) => asideMutations[k](v))
 
