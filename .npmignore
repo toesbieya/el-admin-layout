@@ -3,6 +3,7 @@ dist
 example
 node_modules
 public
+test
 .idea
 .gitignore
 .npmignore
