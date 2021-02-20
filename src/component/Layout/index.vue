@@ -3,7 +3,7 @@ import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'
 import Page from '../Page'
-import {appGetters, pageGetters, tagsViewGetters} from "../../store"
+import {appGetters, tagsViewGetters} from "../../store"
 
 export default {
     name: 'ElAdminLayout',
@@ -43,7 +43,7 @@ export default {
 
     computed: {
         isLeftRight() {
-            return pageGetters.position === 'left-right'
+            return appGetters.struct === 'left-right'
         },
         renderAside() {
             return appGetters.isMobile || ['aside', 'aside-two-part', 'mix'].includes(appGetters.navMode)

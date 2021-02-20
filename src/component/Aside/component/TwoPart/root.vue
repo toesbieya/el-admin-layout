@@ -1,6 +1,6 @@
 <script type="text/jsx">
 import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
-import {appGetters, asideGetters, pageGetters} from "el-admin-layout"
+import {appGetters, asideGetters} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 
 export default {
@@ -48,7 +48,7 @@ export default {
 
         //是否需要显示logo
         showLogo() {
-            return pageGetters.showLogo && pageGetters.position === 'left-right'
+            return appGetters.showLogo && appGetters.struct === 'left-right'
         },
 
         sidebarClass() {

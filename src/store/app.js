@@ -19,11 +19,17 @@ const state = {
     //点击logo后跳转的路由，会传递给<router-link>的to属性
     logoRoute: '/',
 
+    //是否显示侧边栏或顶栏的logo
+    showLogo: true,
+
     //当前激活的顶部菜单的fullPath
     activeRootMenu: '',
 
     //所有的树形菜单，每个元素为顶部菜单，顶部菜单的子级（如果有）为侧边栏菜单
     menus: [],
+
+    //分层结构，上下（'top-bottom'）、左右（'left-right'）
+    struct: 'left-right',
 
     //导航模式，'aside'、'aside-two-part'、'head'、'mix'
     navMode: 'mix'

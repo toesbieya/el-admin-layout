@@ -1,5 +1,5 @@
 <script type="jsx">
-import {appGetters, headerGetters, pageGetters} from "el-admin-layout"
+import {appGetters, headerGetters} from "el-admin-layout"
 import HeadMenu from "./HeadMenu"
 import Logo from "el-admin-layout/src/component/Logo"
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
@@ -51,8 +51,8 @@ export default {
         //③导航模式为顶部导航或页面为上下结构
         renderLogo() {
             return !appGetters.isMobile
-                && pageGetters.showLogo
-                && (appGetters.navMode === 'head' || pageGetters.position === 'top-bottom')
+                && appGetters.showLogo
+                && (appGetters.navMode === 'head' || appGetters.struct === 'top-bottom')
         },
 
         //渲染顶部导航菜单的条件

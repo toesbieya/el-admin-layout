@@ -1,5 +1,5 @@
 <script type="text/jsx">
-import {appGetters, asideGetters, asideMutations, pageGetters} from "el-admin-layout"
+import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 import sidebarMixin from '../../mixin/sidebar'
 
@@ -28,7 +28,7 @@ export default {
         },
         //el-drawer的自定义类名
         drawerClass() {
-            const behindHeader = !this.isMobile && pageGetters.position === 'top-bottom'
+            const behindHeader = !this.isMobile && appGetters.struct === 'top-bottom'
             return `sidebar-drawer${behindHeader ? ' behind-header' : ''}`
         },
 
@@ -72,7 +72,7 @@ export default {
 
         //是否需要显示logo
         showLogo() {
-            return pageGetters.showLogo && (this.isMobile || pageGetters.position === 'left-right')
+            return appGetters.showLogo && (this.isMobile || appGetters.struct === 'left-right')
         },
 
         //是否需要显示搜索框
