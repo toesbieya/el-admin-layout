@@ -265,7 +265,7 @@ export default {
                 })()
 
                 this.$watch(
-                    `setting.${type}.${key}`,
+                    () => this.setting[type][key],
                     v => {
                         mutation(v)
                         setLocalPersonalSettings(this.setting)
