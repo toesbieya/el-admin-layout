@@ -1,8 +1,8 @@
 <script type="text/jsx">
-import Aside from './component/Aside'
-import Header from './component/Header'
-import Page from './component/Page'
-import {appGetters, pageGetters, tagsViewGetters} from "./store"
+import Aside from '../Aside'
+import Header from '../Header'
+import Page from '../Page'
+import {appGetters, pageGetters, tagsViewGetters} from "../../store"
 
 export default {
     name: 'ElAdminLayout',

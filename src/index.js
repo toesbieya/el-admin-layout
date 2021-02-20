@@ -1,4 +1,4 @@
-import Layout from "./Layout"
+import Layout from "./component/Layout"
 import {refreshPage, closeCurrentPage} from "./helper"
 
 export default Layout

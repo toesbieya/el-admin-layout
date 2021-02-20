@@ -1,4 +1,4 @@
-import Layout from "../src/Layout.vue"
+import Layout from "../src/component/Layout/index"
 import {refreshPage, closeCurrentPage} from "../src/helper.js"
 
 export * from "../src/config/index.js"

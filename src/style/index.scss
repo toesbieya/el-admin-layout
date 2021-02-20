@@ -1,5 +1,6 @@
 @import "./var";
 
+@import "../component/Layout/style";
 @import "../component/Aside/style";
 @import "../component/Header/style";
 @import "../component/Page/style";
@@ -10,44 +11,6 @@
 @import "../component/Logo/style";
 @import "../component/NavMenu/style";
 
-.el-admin-layout {
-    display: grid;
-    grid-template-columns: min-content 1fr;
-    grid-template-rows: min-content 1fr;
-    height: 100%;
-    width: 100%;
-    overflow: hidden;
-
-    > header {
-        grid-column-start: 1;
-        grid-column-end: 3;
-    }
-
-    > aside {
-        display: flex;
-        grid-row-start: 2;
-        grid-row-end: 3;
-    }
-
-    > main {
-        grid-area: 2 / 2 / 3 / 3;
-    }
-
-    //左右结构
-    &.left-right {
-        > header {
-            grid-column-start: 2;
-        }
-
-        > aside {
-            grid-row-start: 1;
-
-            //左右结构时，侧边栏z-index需大于顶栏
-            //上下结构时，侧边栏z-index需小于顶栏
-            z-index: 11;
-        }
-    }
-}
 
 @media only screen and (max-width: $max-mobile-width) {
     .hide-on-mobile {
