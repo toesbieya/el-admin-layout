@@ -50,25 +50,18 @@ export default {
     },
 
     render() {
-        const aside = this.renderAside && <Aside/>
-        const header = <Header/>
-
         return (
             <div class={{
                 'el-admin-layout': true,
-                'flex-column': !this.isLeftRight
+                'has-header': true,
+                'has-tags-view': tagsViewGetters.enabled,
+                'left-right': this.isLeftRight
             }}>
-                {this.isLeftRight ? aside : header}
+                <Header/>
 
-                <div class={{
-                    'el-admin-layout': true,
-                    'has-header': true,
-                    'flex-column': this.isLeftRight,
-                    'has-tags-view': tagsViewGetters.enabled
-                }}>
-                    {this.isLeftRight ? header : aside}
-                    <Page/>
-                </div>
+                {this.renderAside && <Aside/>}
+
+                <Page/>
 
                 {this.$scopedSlots.default && this.$scopedSlots.default()}
             </div>
