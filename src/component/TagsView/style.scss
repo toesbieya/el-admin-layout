@@ -69,7 +69,7 @@
 .context-menu {
     margin: 0;
     background-color: $menu-background-dark;
-    z-index: 10;
+    z-index: $--index-popper;
     position: fixed;
     list-style-type: none;
     padding: 5px 0;

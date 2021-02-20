@@ -32,7 +32,7 @@
 
             //左右结构时，侧边栏z-index需大于顶栏
             //上下结构时，侧边栏z-index需小于顶栏
-            z-index: 11;
+            z-index: $header-z-index + 1;
         }
     }
 }

@@ -16,7 +16,7 @@ $menu-padding: $menu-icon-size + $menu-icon-text-gap !default;
 $menu-background-dark: #304156 !default;
 //暗色子级菜单的背景色
 $sub-menu-background-dark: darken($menu-background-dark, 5%) !default;
-//暗色主菜单的背景色
+//暗色主菜单的背景色（目前用于root-sidebar的背景色）
 $root-menu-background-dark: #1F293D !default;
 //亮色菜单的文字颜色
 $menu-text-color-light: $--color-text-primary !default;
@@ -46,8 +46,10 @@ $header-item-color-dark: rgba(255, 255, 255, .85) !default;
 $header-item-hover-color-light: rgba(0, 0, 0, .025) !default;
 //暗色顶栏的功能项hover背景颜色
 $header-item-hover-color-dark: lighten($header-background-dark, 5%) !default;
+//主要用于区分侧边栏、顶栏、页签栏的阴影，不建议修改
+$header-z-index: 10;
 
-//多页签栏高度
+//页签栏高度
 $tags-view-height: 32px !default;
 
 //页面背景色
