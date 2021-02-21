@@ -46,11 +46,16 @@ module.exports = {
             : {}
     },
     chainWebpack: config => {
-        config.plugins.delete('preload')
-        config.plugins.delete('prefetch')
         if (isBuildLib) {
             config.plugins.delete('html')
             config.output.library('ElAdminLayout')
+        }
+        else {
+            config.plugin('html-index').tap((args) => {
+                args[0].scriptLoading = 'blocking'
+                args[0].publicPath = 'auto'
+                return args
+            })
         }
     }
 }
