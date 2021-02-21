@@ -21,6 +21,7 @@ module.exports = {
                 js: isProd
                     ? [
                         'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
+                        'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js',
                         'https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js',
                         'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/index.js'
                     ]
@@ -40,8 +41,9 @@ module.exports = {
         externals: isProd && !isBuildLib
             ? {
                 'vue': 'Vue',
-                'element-ui': 'ELEMENT',
+                'vuex': 'Vuex',
                 'vue-router': 'VueRouter',
+                'element-ui': 'ELEMENT'
             }
             : {}
     },

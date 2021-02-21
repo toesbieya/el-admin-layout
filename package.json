@@ -34,7 +34,8 @@
     "sass-loader": "^11.0.1",
     "vue": "^2.6.12",
     "vue-router": "^3.5.1",
-    "vue-template-compiler": "^2.6.12"
+    "vue-template-compiler": "^2.6.12",
+    "vuex": "^3.6.2"
   },
   "browserslist": [
     "Chrome > 80"
