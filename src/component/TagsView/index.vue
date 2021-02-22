@@ -201,10 +201,13 @@ export default {
                 const active = this.activeKey === view.key
                 const className = {'tags-view-item': true, active}
                 const affix = this.isAffix(view)
-                const onClose = e => this.closeSelectedTag(view, e)
                 const on = {
                     contextmenu: e => this.openContextMenu(view, e),
-                    dblclick: onClose
+                    dblclick: e => this.closeSelectedTag(view, e)
+                }
+                const onIconClick = e => {
+                    e.stopPropagation()
+                    on.dblclick(e)
                 }
 
                 if (!active) {
@@ -214,7 +217,7 @@ export default {
                 return (
                     <div key={view.key} class={className} {...{on}}>
                         <span>{view.meta.title}</span>
-                        {!affix && <i class="el-icon-close" on-click={onClose}/>}
+                        {!affix && <i class="el-icon-close" on-click={onIconClick}/>}
                     </div>
                 )
             })
