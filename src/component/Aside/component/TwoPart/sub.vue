@@ -49,11 +49,9 @@ export default {
                     on-select={this.onSelect}
                 />
 
-                {this.renderHamburger && (
-                    <div class="sidebar-action">
-                        <hamburger/>
-                    </div>
-                )}
+                <div class="sidebar-action">
+                    <hamburger/>
+                </div>
             </div>
         )
     }

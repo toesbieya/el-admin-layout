@@ -1,5 +1,11 @@
 .aside.dark {
-    .logo-container{
+    &,
+    //侧边栏可能为抽屉
+    .el-drawer {
+        background-color: $menu-background-dark;
+    }
+
+    .logo-container {
         color: $--color-white;
     }
 
@@ -7,10 +13,9 @@
         border-top-color: $--border-color-dark;
     }
 
-    .hamburger i {
+    .hamburger {
         color: $menu-text-color-dark;
     }
 }
 
-@import "./component/OnePart/theme-dark";
 @import "./component/TwoPart/theme-dark";
