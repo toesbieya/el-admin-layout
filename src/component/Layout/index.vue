@@ -3,7 +3,9 @@ import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'
 import Page from '../Page'
-import {appGetters, tagsViewGetters} from "../../store"
+import {appGetters, appMutations, tagsViewGetters} from "el-admin-layout"
+import {isMobile} from "@/helper"
+import {debounce} from "@/util"
 
 export default {
     name: 'ElAdminLayout',
@@ -46,7 +48,7 @@ export default {
             return appGetters.struct === 'left-right'
         },
         renderAside() {
-            return appGetters.isMobile || ['aside', 'aside-two-part', 'mix'].includes(appGetters.navMode)
+            return appGetters.isMobile || ['aside', 'mix'].includes(appGetters.navMode)
         }
     },
 
@@ -69,6 +71,20 @@ export default {
             })
 
             return result
+        }
+    },
+
+    mounted() {
+        this.$_resize = debounce(() => {
+            !document.hidden && appMutations.isMobile(isMobile())
+        })
+        window.addEventListener('resize', this.$_resize)
+    },
+
+    beforeDestroy() {
+        if (this.$_resize) {
+            window.removeEventListener('resize', this.$_resize)
+            delete this.$_resize
         }
     },
 
