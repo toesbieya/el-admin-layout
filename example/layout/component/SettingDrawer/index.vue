@@ -1,6 +1,6 @@
 <template>
     <el-drawer
-        :visible="visible"
+        :visible="value"
         :with-header="false"
         custom-class="setting-drawer"
         append-to-body
@@ -175,13 +175,12 @@ export default {
 
     components: {CheckboxGroup, ColorCheckbox, ImgCheckbox},
 
+    props: {
+        value: Boolean
+    },
+
     data() {
         return {
-            //外部传入的获取vue根实例的函数
-            getRoot: () => undefined,
-
-            visible: false,
-
             navModes: [
                 {
                     label: '侧边栏导航',
@@ -209,19 +208,19 @@ export default {
 
     computed: {
         setting() {
-            return this.getRoot().$store.state.setting
+            return this.$store.state.setting
         }
     },
 
     methods: {
         //关闭抽屉
         close() {
-            this.visible = false
+            this.$emit('input', false)
         },
 
         //表单数据发生改变时，修改vuex的数据
         onChange(type, val) {
-            this.getRoot().$store.commit(`setting/${type}`, val)
+            this.$store.commit(`setting/${type}`, val)
         },
 
         //设置抽屉的数据结构与本地存储不一致时，可能导致layout渲染异常，所以加了这个功能

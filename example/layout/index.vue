@@ -19,11 +19,12 @@
         <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
             <i class="el-icon-top"/>
         </el-backtop>
+
+        <setting-drawer v-model="showSettingDrawer"/>
     </el-admin-layout>
 </template>
 
 <script type="text/jsx">
-import Vue from 'vue'
 import ElAdminLayout, {appMutations} from 'el-admin-layout'
 import menus from "@example/menu"
 import Footer from './component/Footer'
@@ -37,7 +38,9 @@ appMutations.menus(menus)
 export default {
     name: "Layout",
 
-    components: {ElAdminLayout},
+    components: {ElAdminLayout, SettingDrawer},
+
+    data: () => ({showSettingDrawer: false}),
 
     computed: {
         headerProps() {
@@ -74,7 +77,7 @@ export default {
         },
 
         openSettingDrawer() {
-            this.$_settingDrawerInstance.visible = true
+            this.showSettingDrawer = true
         },
 
         renderHeaderActions(defaultActions) {
@@ -89,23 +92,6 @@ export default {
             ]
 
             return customActions.concat(defaultActions.map(f => f()))
-        }
-    },
-
-    //提前创建设置抽屉，避免初始化同步设置数据时导致layout重新渲染
-    beforeCreate() {
-        const Drawer = Vue.extend(SettingDrawer)
-        const instance = new Drawer({data: {getRoot: () => this}}).$mount()
-        document.body.appendChild(instance.$el)
-        this.$_settingDrawerInstance = instance
-    },
-
-    //销毁时清除设置抽屉
-    beforeDestroy() {
-        if (this.$_settingDrawerInstance) {
-            this.$_settingDrawerInstance.$destroy()
-            this.$_settingDrawerInstance.$el.remove()
-            delete this.$_settingDrawerInstance
         }
     },
 
