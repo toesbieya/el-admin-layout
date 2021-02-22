@@ -50,7 +50,31 @@ export default {
         }
     },
 
+    methods: {
+        //从自身的$scopedSlots中获取以childName开头的slot
+        getSlotsForChild(...childNames) {
+            const result = childNames.reduce((obj, name) => {
+                obj[name] = Object.create(null)
+                return obj
+            }, Object.create(null))
+
+            if (!this.$scopedSlots) return result
+
+            Object.entries(this.$scopedSlots).forEach(([k, v]) => {
+                const childName = childNames.find(i => k.startsWith(i))
+                if (childName) {
+                    const lowerCase = k.charAt(childName.length).toLowerCase() + k.slice(childName.length + 1)
+                    result[childName][lowerCase] = v
+                }
+            })
+
+            return result
+        }
+    },
+
     render() {
+        const {header, aside, page} = this.getSlotsForChild('header', 'aside', 'page')
+
         return (
             <div class={{
                 'el-admin-layout': true,
@@ -58,13 +82,13 @@ export default {
                 'has-tags-view': tagsViewGetters.enabled,
                 'left-right': this.isLeftRight
             }}>
-                <Header/>
+                <Header {...{props: this.headerProps, scopedSlots: header}}/>
 
                 {tagsViewGetters.enabled && <TagsView/>}
 
-                {this.renderAside && <Aside/>}
+                {this.renderAside && <Aside {...{props: this.asideProps, scopedSlots: aside}}/>}
 
-                <Page/>
+                <Page {...{props: this.pageProps, scopedSlots: page}}/>
 
                 {this.$scopedSlots.default && this.$scopedSlots.default()}
             </div>

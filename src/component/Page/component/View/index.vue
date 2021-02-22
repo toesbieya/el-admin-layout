@@ -1,4 +1,5 @@
 <script type="text/jsx">
+import {pageGetters, tagsViewGetters} from "el-admin-layout"
 import {getRouterKey} from "el-admin-layout/src/config/logic"
 import KeepViewAlive from "./KeepViewAlive"
 
@@ -7,28 +8,15 @@ export default {
 
     components: {KeepViewAlive},
 
-    props: {
-        //过渡动画的名称
-        transitionName: String,
-
-        //同keep-alive
-        include: Array,
-
-        //是否使用keep-alive
-        cacheable: Boolean
-    },
-
     render() {
-        const {include, transitionName, cacheable} = this
-
         let view = (
-            <transition name={transitionName} mode="out-in">
+            <transition name={pageGetters.transition.curr} mode="out-in">
                 <router-view key={getRouterKey(this.$route)}/>
             </transition>
         )
 
-        if (cacheable) {
-            view = <keep-view-alive include={include}>{view}</keep-view-alive>
+        if (tagsViewGetters.enabled && tagsViewGetters.enableCache) {
+            view = <keep-view-alive include={tagsViewGetters.cachedViews}>{view}</keep-view-alive>
         }
 
         return <div class="page-view">{view}</div>

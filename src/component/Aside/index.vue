@@ -5,20 +5,20 @@ import OnePart from './component/OnePart'
 import TwoPartRoot from './component/TwoPart/root'
 import TwoPartSub from './component/TwoPart/sub'
 import {appGetters, asideGetters} from "el-admin-layout"
+import cssVar from "el-admin-layout/src/style/var.scss"
 
 export default {
     name: 'Aside',
 
-    inject: ['elAdminLayout'],
-
-    //此处的props加上Layout.props.asideProps才是向子组件传递的完整属性
     props: {
+        inlineIndent: {type: Number, default: parseFloat(cssVar.menuPadding)},
         switchTransition: {type: Boolean, default: true},
         switchTransitionName: {type: String, default: 'sidebar'},
+        searchResultRenderer: Function
     },
 
     render() {
-        const attrs = Object.assign({}, this.$props, this.elAdminLayout.asideProps)
+        const attrs = this.$props
 
         let children
 

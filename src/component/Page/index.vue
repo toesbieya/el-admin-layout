@@ -2,6 +2,7 @@
 import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
 import PageHeader from "./component/Header"
 import PageView from "./component/View"
+import PageIframe from "./component/Iframe"
 import PageFooter from "./component/Footer"
 import Breadcrumb from 'el-admin-layout/src/component/Breadcrumb'
 import {isEmpty} from "el-admin-layout/src/util"
@@ -10,35 +11,16 @@ import {getRouterKey} from "el-admin-layout/src/config/logic"
 export default {
     name: 'Page',
 
-    inject: {
-        elAdminLayout: {
-            default: {
-                pageProps: {},
-                $scopedSlots: {}
-            }
-        }
+    components: {PageHeader, PageView, PageIframe, PageFooter, Breadcrumb},
+
+    props: {
+        //自定义渲染页头的函数，入参为h：createElement
+        renderHeader: Function,
+        //自定义渲染页脚内容的函数，入参为h：createElement
+        renderFooter: Function
     },
 
-    components: {PageHeader, PageView, PageFooter, Breadcrumb},
-
     computed: {
-        //Layout中的pageHeader插槽
-        headerSlot() {
-            return this.elAdminLayout.$scopedSlots.pageHeader
-        },
-        //自定义渲染页头的方法，入参为h：createElement
-        renderHeader() {
-            return this.elAdminLayout.pageProps.renderHeader
-        },
-        //Layout中的pageFooter插槽
-        footerSlot() {
-            return this.elAdminLayout.$scopedSlots.pageFooter
-        },
-        //自定义渲染页脚内容的方法，入参为h：createElement
-        renderFooter() {
-            return this.elAdminLayout.pageProps.renderFooter
-        },
-
         showHeader() {
             return pageGetters.showHeader && this.$route.meta.pageHeader !== false
         },
@@ -82,46 +64,31 @@ export default {
     },
 
     render() {
-        const {transition, showIframe, iframeList, currentIframe} = pageGetters
-        const {cachedViews, enabled: enableTagsView, enableCache: enableTagsViewCache} = tagsViewGetters
+        const {header, footer} = this.$scopedSlots
 
         return (
             <main class="page-main">
-                <div v-show={!showIframe} class={this.pageClass}>
+                <div class={this.pageClass}>
                     {this.showHeader && (
                         <page-header>
-                            {this.headerSlot
-                                ? this.headerSlot()
+                            {header
+                                ? header()
                                 : this.renderHeader
                                     ? this.renderHeader()
                                     : <breadcrumb/>}
                         </page-header>
                     )}
 
-                    <page-view
-                        include={cachedViews}
-                        transition-name={transition.curr}
-                        cacheable={enableTagsView && enableTagsViewCache}
-                    />
+                    <page-view/>
 
-                    {this.showFooter && (this.footerSlot || this.renderFooter) && (
+                    {this.showFooter && (footer || this.renderFooter) && (
                         <page-footer>
-                            {this.footerSlot ? this.footerSlot() : this.renderFooter()}
+                            {footer ? footer() : this.renderFooter()}
                         </page-footer>
                     )}
                 </div>
 
-                {iframeList.map(src => (
-                    <iframe
-                        v-show={showIframe && src === currentIframe}
-                        id={src}
-                        key={src}
-                        src={src}
-                        frameborder="0"
-                        height="100%"
-                        width="100%"
-                    />
-                ))}
+                <page-iframe/>
             </main>
         )
     }

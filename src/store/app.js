@@ -77,7 +77,7 @@ export function getSidebarMenus() {
     }
 }
 
-//获取头部导航的菜单，如果是混合导航时，获取的是去除了children属性的所有根菜单
+//获取顶栏的菜单，如果是混合导航时，获取的是去除了children属性的所有根菜单
 export function getHeadMenus() {
     //移动端时，头部菜单不会渲染，不需要传入菜单
     if (store.isMobile) return []

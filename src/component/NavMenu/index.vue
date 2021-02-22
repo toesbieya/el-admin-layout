@@ -42,7 +42,7 @@ export default {
         theme: {type: String, default: 'light'},
 
         //垂直模式下子菜单的单位缩进距离
-        inlineIndent: {type: Number, default: parseFloat(cssVar.menuPadding)},
+        inlineIndent: Number,
 
         //折叠时的展开菜单是否显示父级
         showParentOnCollapse: Boolean,

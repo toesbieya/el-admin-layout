@@ -8,43 +8,20 @@ import {refreshPage} from "el-admin-layout/src/helper"
 export default {
     name: 'Header',
 
-    inject: {
-        elAdminLayout: {
-            default: {
-                headerProps: {},
-                $scopedSlots: {}
-            }
-        }
-    },
-
     components: {HeadMenu, Logo, Hamburger},
 
-    computed: {
+    props: {
         //头像地址
-        avatar() {
-            return this.elAdminLayout.headerProps.avatar
-        },
+        avatar: String,
         //用户名称
-        username() {
-            return this.elAdminLayout.headerProps.username
-        },
+        username: String,
         //自定义下拉菜单项，{icon:图标, content:菜单内容, handler:点击时触发的方法}
-        userDropdownItems() {
-            return this.elAdminLayout.headerProps.userDropdownItems || []
-        },
-        //自定义下拉菜单项插槽
-        userDropdownItemsSlot() {
-            return this.elAdminLayout.$scopedSlots.headerDropdownItems
-        },
+        userDropdownItems: {type: Array, default: () => []},
         //自定义右侧元素的函数，会传入默认的VNode数组
-        renderCustomActions() {
-            return this.elAdminLayout.headerProps.renderCustomActions
-        },
-        //自定义右侧元素插槽
-        actionSlot() {
-            return this.elAdminLayout.$scopedSlots.headerAction
-        },
+        renderCustomActions: Function
+    },
 
+    computed: {
         //渲染顶栏logo的条件
         //①桌面端
         //②设置了显示logo
@@ -80,6 +57,8 @@ export default {
             )
         },
         renderUserDropdown() {
+            const {dropdownItem} = this.$scopedSlots
+
             return (
                 <el-dropdown class="header-item">
                     <div class="avatar-wrapper">
@@ -92,27 +71,26 @@ export default {
                         class={`header-dropdown ${headerGetters.theme}`}
                         visible-arrow={false}
                     >
-                        {
-                            this.userDropdownItemsSlot
-                                ? this.userDropdownItemsSlot()
-                                : this.userDropdownItems.map(item => (
-                                    <el-dropdown-item
-                                        icon={item.icon}
-                                        {...{nativeOn: {click: item.handler}}}
-                                    >
-                                        {item.content}
-                                    </el-dropdown-item>
-                                ))
-                        }
+                        {dropdownItem
+                            ? dropdownItem()
+                            : this.userDropdownItems.map(item => (
+                                <el-dropdown-item
+                                    icon={item.icon}
+                                    {...{nativeOn: {click: item.handler}}}
+                                >
+                                    {item.content}
+                                </el-dropdown-item>
+                            ))}
                     </el-dropdown-menu>
                 </el-dropdown>
             )
         },
         renderActions() {
             const defaultActions = [this.renderRefreshBtn, this.renderUserDropdown]
+            const {action} = this.$scopedSlots
 
-            return this.actionSlot
-                ? this.actionSlot() //这里不传defaultActions时因为template中用不了VNode
+            return action
+                ? action() //这里不传defaultActions时因为template中用不了VNode
                 : typeof this.renderCustomActions == 'function'
                     ? this.renderCustomActions(defaultActions)
                     : defaultActions.map(i => i())
