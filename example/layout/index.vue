@@ -1,8 +1,6 @@
 <template>
     <el-admin-layout
         :header-props="headerProps"
-        :aside-props="asideProps"
-        :page-props="pageProps"
         :menu-item-content-renderer="menuItemContentRenderer"
     >
         <template v-slot:menuItemContent="{menu, depth, context}">
@@ -16,6 +14,10 @@
             </span>
         </template>
 
+        <template v-slot:pageFooter>
+            <page-footer/>
+        </template>
+
         <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
             <i class="el-icon-top"/>
         </el-backtop>
@@ -27,7 +29,7 @@
 <script type="text/jsx">
 import ElAdminLayout, {appMutations} from 'el-admin-layout'
 import menus from "@example/menu"
-import Footer from './component/Footer'
+import PageFooter from './component/Footer'
 import SettingDrawer from './component/SettingDrawer'
 
 //设置一些基础信息
@@ -38,7 +40,7 @@ appMutations.menus(menus)
 export default {
     name: "Layout",
 
-    components: {ElAdminLayout, SettingDrawer},
+    components: {ElAdminLayout, PageFooter, SettingDrawer},
 
     data: () => ({showSettingDrawer: false}),
 
@@ -54,14 +56,6 @@ export default {
                     }
                 ],
                 renderCustomActions: this.renderHeaderActions
-            }
-        },
-        asideProps() {
-            return {}
-        },
-        pageProps() {
-            return {
-                renderFooter: () => <Footer/>
             }
         },
         menuItemContentRenderer() {
