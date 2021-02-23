@@ -5,7 +5,6 @@
  * 自带亮色、暗色两种主题
  */
 
-import cssVar from 'el-admin-layout/src/style/var.scss'
 import MenuItem from './ElMenu/item'
 import SubMenu from './ElMenu/sub'
 import {isEmpty} from "el-admin-layout/src/util"
@@ -179,7 +178,7 @@ export default {
             }
 
             const {openedMenus, submenus} = menu
-            const expandMenus = [...new Set(this.getHighlightMenuParent(this.realMenus))]
+            const expandMenus = this.getSubHighlightMenu(this.realMenus)
 
             //不调用el-menu的open方法是为了避免uniqueOpened
             for (const {fullPath} of expandMenus) {
@@ -192,8 +191,8 @@ export default {
                 })
             }
         },
-        //获取高亮菜单的上一级节点
-        getHighlightMenuParent(children, parent) {
+        //获取高亮菜单的sub-menu
+        getSubHighlightMenu(children, parent) {
             const result = []
 
             children.forEach(child => {
@@ -202,11 +201,11 @@ export default {
                 }
 
                 if (child.children) {
-                    result.push(...this.getHighlightMenuParent(child.children, child))
+                    result.push(...this.getSubHighlightMenu(child.children, child))
                 }
             })
 
-            return result
+            return [...new Set(result)]
         },
 
         //渲染菜单图标

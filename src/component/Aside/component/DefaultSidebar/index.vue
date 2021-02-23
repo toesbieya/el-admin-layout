@@ -1,20 +1,21 @@
 <script type="text/jsx">
 import menuMixin from "el-admin-layout/src/mixin/menu"
-import menuSearchMixin from '../../mixin/menuSearch'
 import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
+import MenuSearch from '../MenuSearch'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: "DefaultSidebar",
 
     inheritAttrs: false,
 
-    mixins: [menuMixin, menuSearchMixin],
+    mixins: [menuMixin],
 
-    components: {Logo, NavMenu, Hamburger},
+    components: {Logo, NavMenu, Hamburger, MenuSearch},
 
     data() {
         return {
@@ -200,6 +201,14 @@ export default {
         //抽屉打开的过渡动画结束时，滚动至高亮菜单
         onDrawerOpened() {
             this.$nextTick(this.moveToActiveMenuVertically)
+        },
+
+        //菜单搜索内容改变时
+        handlerSearch(v) {
+            const navMenuInstance = this.$refs['nav-menu']
+            if (!navMenuInstance) return
+
+            navMenuInstance.searchWord = isEmpty(v) ? v : v.trim()
         }
     },
 
