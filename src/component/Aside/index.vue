@@ -1,5 +1,4 @@
 <script type="text/jsx">
-//TODO 移除aside-two-part导航模式，由外部自行实现
 //TODO 移除内置的菜单搜索，由外部自行实现
 import DefaultSidebar from './component/DefaultSidebar'
 import {asideGetters} from "el-admin-layout"
