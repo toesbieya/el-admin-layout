@@ -16,8 +16,6 @@ $menu-padding: $menu-icon-size + $menu-icon-text-gap !default;
 $menu-background-dark: #304156 !default;
 //暗色子级菜单的背景色
 $sub-menu-background-dark: darken($menu-background-dark, 5%) !default;
-//暗色主菜单的背景色（目前用于root-sidebar的背景色）
-$root-menu-background-dark: #1F293D !default;
 //亮色菜单的文字颜色
 $menu-text-color-light: $--color-text-primary !default;
 //暗色菜单的文字颜色
@@ -37,7 +35,7 @@ $header-height: 48px !default;
 //顶栏的padding-left
 $header-padding-left: 12px !default;
 //暗色顶栏的背景色
-$header-background-dark: #1F293D !default;
+$header-background-dark: #1f293d !default;
 //亮色顶栏的功能项颜色
 $header-item-color-light: $menu-text-color-light !default;
 //暗色顶栏的功能项颜色
@@ -66,7 +64,7 @@ $page-view-margin: 24px !default;
 $page-footer-height: 64px !default;
 
 //暗色边框的颜色，用于nav-menu和侧边栏
-$--border-color-dark: darken($root-menu-background-dark, 5%) !default;
+$--border-color-dark: darken($header-background-dark, 5%) !default;
 
 :export {
     maxMobileWidth: $max-mobile-width;
