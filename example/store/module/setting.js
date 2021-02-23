@@ -28,24 +28,31 @@ function createMutations(state, mutations = Object.create(null), parentType = ''
             return createMutations(v, mutations, type)
         }
 
-        const keys = type.split('/')
+        //反正只有两项，偷个懒
+        const [mutationType, mutationProp] = type.split('/')
         const layoutMutation = (() => {
-            const fun = getLayoutMutationsByType(keys[0])[keys[1]]
+            const fun = getLayoutMutationsByType(mutationType)[mutationProp]
+
+            //navMode === 'aside-two-part' 时特殊处理
+            if (type === 'app/navMode') {
+                return newVal => {
+                    if (newVal === 'aside-two-part') {
+                        newVal = 'aside'
+                    }
+                    return fun(newVal)
+                }
+            }
 
             //像tagsView中就有两项是没有对应的修改方法的
             return fun ? newVal => fun(newVal) : noop
         })()
 
         mutations[type] = (s, v) => {
-            let val = s[keys[0]]
-            for (let i = 1; i < keys.length - 1; i++) {
-                val = val[keys[i]]
-            }
+            const val = s[mutationType]
 
-            const lastKey = keys[keys.length - 1]
+            if (val[mutationProp] === v) return
 
-            if (val[lastKey] === v) return
-            val[lastKey] = v
+            val[mutationProp] = v
             layoutMutation(v)
             setLocalPersonalSettings(s)
         }
@@ -58,7 +65,10 @@ function createMutations(state, mutations = Object.create(null), parentType = ''
 function syncLayoutStore(state) {
     const {app, page, aside, header, tagsView} = state
 
-    Object.entries(app).forEach(([k, v]) => appMutations[k](v))
+    appMutations.showLogo(app.showLogo)
+    appMutations.struct(app.struct)
+    //navMode === 'aside-two-part' 时特殊处理
+    appMutations.navMode(app.navMode === 'aside-two-part' ? 'aside' : app.navMode)
 
     Object.entries(page).forEach(([k, v]) => pageMutations[k](v))
 

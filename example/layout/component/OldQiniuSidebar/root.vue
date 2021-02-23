@@ -4,17 +4,9 @@ import {appGetters, asideGetters} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 
 export default {
-    name: "RootSidebar",
+    name: "OldQiniuSidebarRoot",
 
     mixins: [rootMenuMixin],
-
-    inject: {
-        elAdminLayout: {
-            default: {
-                $scopedSlots: {}
-            }
-        }
-    },
 
     components: {Logo},
 
@@ -29,23 +21,6 @@ export default {
     },
 
     computed: {
-        //Layout中的menuIcon插槽
-        menuIconSlot() {
-            return this.elAdminLayout.$scopedSlots.menuIcon
-        },
-        //Layout中的menuIconRenderer属性
-        menuIconRenderer() {
-            return this.elAdminLayout.menuIconRenderer
-        },
-        //Layout中的menuItemContent插槽
-        menuItemContentSlot() {
-            return this.elAdminLayout.$scopedSlots.menuItemContent
-        },
-        //Layout中的menuItemContentRenderer属性
-        menuItemContentRenderer() {
-            return this.elAdminLayout.menuItemContentRenderer
-        },
-
         //是否需要显示logo
         showLogo() {
             return appGetters.showLogo && appGetters.struct === 'left-right'
@@ -97,34 +72,10 @@ export default {
                 return
             }
             this.collapse = false
-        },
-
-        //渲染菜单图标
-        renderMenuIcon(h, menu) {
-            //depth:1是为了同nav-menu表现一致，此菜单的深度均为1
-            const payload = {menu, depth: 1, context: this}
-
-            //优先使用menuIcon插槽
-            return this.menuIconSlot
-                ? this.menuIconSlot(payload)
-                : this.menuIconRenderer(h, payload)
-        },
-        //渲染菜单内容
-        renderMenuContent(h, menu) {
-            //优先使用menuItemContent插槽
-            if (this.menuItemContentSlot) {
-                return this.menuItemContentSlot({menu, context: this})
-            }
-
-            if (this.menuItemContentRenderer) {
-                return this.menuItemContentRenderer(h, {menu, context: this})
-            }
-
-            return <span>{menu.meta.title}</span>
         }
     },
 
-    render(h) {
+    render() {
         return (
             <div class="root-sidebar-container">
                 <div
@@ -136,15 +87,15 @@ export default {
 
                     <ul class={this.menuClass}>
                         {appGetters.menus.map(menu => {
-                            const {fullPath} = menu
+                            const {fullPath, meta: {icon, title}} = menu
                             const isActive = fullPath === appGetters.activeRootMenu
 
                             return (
                                 <li class={{'el-menu-item': true, 'is-active': isActive}}
                                     on-click={() => this.onSelect(fullPath)}
                                 >
-                                    {this.renderMenuIcon(h, menu)}
-                                    {!this.collapse && this.renderMenuContent(h, menu)}
+                                    {icon && <i class={`menu-icon ${icon}`}/>}
+                                    {!this.collapse && <span>{title}</span>}
                                 </li>
                             )
                         })}

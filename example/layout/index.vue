@@ -18,6 +18,10 @@
             <page-footer/>
         </template>
 
+        <template v-if="renderOldQiniuSidebar" v-slot:asideDefault="props">
+            <old-qiniu-sidebar/>
+        </template>
+
         <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
             <i class="el-icon-top"/>
         </el-backtop>
@@ -27,9 +31,10 @@
 </template>
 
 <script type="text/jsx">
-import ElAdminLayout, {appMutations} from 'el-admin-layout'
+import ElAdminLayout, {appGetters, appMutations} from 'el-admin-layout'
 import menus from "@example/menu"
 import PageFooter from './component/Footer'
+import OldQiniuSidebar from './component/OldQiniuSidebar'
 import SettingDrawer from './component/SettingDrawer'
 
 //设置一些基础信息
@@ -40,7 +45,7 @@ appMutations.menus(menus)
 export default {
     name: "Layout",
 
-    components: {ElAdminLayout, PageFooter, SettingDrawer},
+    components: {ElAdminLayout, PageFooter, OldQiniuSidebar, SettingDrawer},
 
     data: () => ({showSettingDrawer: false}),
 
@@ -62,6 +67,11 @@ export default {
             return (h, {menu, highlight, context}) => {
                 return <span>{highlight || menu.meta.title}</span>
             }
+        },
+
+        //仅在非移动端且navMode为aside-two-part时渲染
+        renderOldQiniuSidebar() {
+            return !appGetters.isMobile && this.$store.state.setting.app.navMode === 'aside-two-part'
         }
     },
 
