@@ -16,48 +16,47 @@ export default {
         //用户名称
         username: String,
         //自定义下拉菜单项，{icon:图标, content:菜单内容, handler:点击时触发的方法}
-        userDropdownItems: {type: Array, default: () => []},
-        //自定义右侧元素的函数，会传入默认的VNode数组
-        renderCustomActions: Function
-    },
-
-    computed: {
-        //渲染顶栏logo的条件
-        //①桌面端
-        //②设置了显示logo
-        //③导航模式为顶部导航或页面为上下结构
-        renderLogo() {
-            return !appGetters.isMobile
-                && appGetters.showLogo
-                && (appGetters.navMode === 'head' || appGetters.struct === 'top-bottom')
-        },
-
-        //渲染顶部导航菜单的条件
-        //①桌面端
-        //②导航模式为顶部导航或混合导航
-        renderHeadMenu() {
-            return !appGetters.isMobile && ['head', 'mix'].includes(appGetters.navMode)
-        },
-
-        className() {
-            return `header ${headerGetters.theme}`
-        }
+        dropdownItems: {type: Array, default: () => []}
     },
 
     methods: {
-        clickRefreshBtn() {
-            refreshPage(this.$router)
+        //左侧logo
+        renderLogo() {
+            //渲染顶栏logo的条件
+            //①桌面端
+            //②设置了显示logo
+            //③导航模式为顶部导航或页面为上下结构
+            const renderLogo = !appGetters.isMobile
+                && appGetters.showLogo
+                && (appGetters.navMode === 'head' || appGetters.struct === 'top-bottom')
+            return renderLogo && <logo show-title/>
         },
+        //左侧汉堡包
+        renderHamburger() {
+            //移动端时必须渲染，不然侧边栏怎么出来
+            return appGetters.isMobile && <hamburger class="header-item header-icon"/>
+        },
+        //中间的导航菜单
+        renderHeadMenu() {
+            //渲染顶部导航菜单的条件
+            //①桌面端
+            //②导航模式为顶部导航或混合导航
+            const renderHeadMenu = !appGetters.isMobile && ['head', 'mix'].includes(appGetters.navMode)
 
+            return renderHeadMenu && <head-menu/>
+        },
+        //右侧刷新按钮
         renderRefreshBtn() {
+            //这里为了可读性，不再将click事件放到外面
             return (
-                <div title="刷新" class="header-item" on-click={this.clickRefreshBtn}>
+                <div title="刷新" class="header-item" on-click={() => refreshPage(this.$router)}>
                     <i class="el-icon-refresh-right header-icon"/>
                 </div>
             )
         },
+        //右侧下拉菜单
         renderUserDropdown() {
-            const {dropdownItem} = this.$scopedSlots
+            const {dropdownItems} = this.$scopedSlots
 
             return (
                 <el-dropdown class="header-item">
@@ -71,9 +70,9 @@ export default {
                         class={`header-dropdown ${headerGetters.theme}`}
                         visible-arrow={false}
                     >
-                        {dropdownItem
-                            ? dropdownItem()
-                            : this.userDropdownItems.map(item => (
+                        {dropdownItems
+                            ? dropdownItems()
+                            : this.dropdownItems.map(item => (
                                 <el-dropdown-item
                                     icon={item.icon}
                                     {...{nativeOn: {click: item.handler}}}
@@ -85,32 +84,41 @@ export default {
                 </el-dropdown>
             )
         },
-        renderActions() {
-            const defaultActions = [this.renderRefreshBtn, this.renderUserDropdown]
-            const {action} = this.$scopedSlots
 
-            return action
-                ? action() //这里不传defaultActions时因为template中用不了VNode
-                : typeof this.renderCustomActions == 'function'
-                    ? this.renderCustomActions(defaultActions)
-                    : defaultActions.map(i => i())
+        /*顶栏的左、中、右三部分内容*/
+        renderLeftContent() {
+            const defaultContent = [this.renderLogo(), this.renderHamburger()]
+            const {left} = this.$scopedSlots
+
+            return left ? left(defaultContent) : defaultContent
+        },
+        renderCenterContent() {
+            const defaultContent = [this.renderHeadMenu()]
+            const {center} = this.$scopedSlots
+
+            return center ? center(defaultContent) : defaultContent
+        },
+        renderRightContent() {
+            const defaultContent = [this.renderRefreshBtn(), this.renderUserDropdown()]
+            const {right} = this.$scopedSlots
+
+            return right ? right(defaultContent) : defaultContent
         }
     },
 
     render() {
         return (
-            <header class={this.className}>
-                {this.renderLogo && <logo show-title/>}
-
-                {/*移动端时必须渲染汉堡包，不然侧边栏怎么出来*/}
-                {appGetters.isMobile && <hamburger class="header-item header-icon"/>}
-
-                <div style="flex: 1">
-                    {this.renderHeadMenu && <head-menu/>}
+            <header class={`header ${headerGetters.theme}`}>
+                <div class="header-left">
+                    {this.renderLeftContent()}
                 </div>
 
-                <div>
-                    {this.renderActions()}
+                <div class="header-center">
+                    {this.renderCenterContent()}
+                </div>
+
+                <div class="header-right">
+                    {this.renderRightContent()}
                 </div>
             </header>
         )

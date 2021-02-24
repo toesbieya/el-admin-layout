@@ -8,10 +8,19 @@
     z-index: $header-z-index;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .5);
 
-    > div {
-        display: flex;
-        flex-wrap: nowrap;
+    &-left,
+    &-center,
+    &-right {
         height: 100%;
+    }
+
+    &-left,
+    &-right {
+        display: flex;
+    }
+
+    &-center {
+        flex: 1;
     }
 
     .header-icon {
@@ -25,12 +34,14 @@
         cursor: pointer;
     }
 
+    //左侧logo
     .logo-container {
         width: auto;
         min-width: $aside-width - $header-padding-left;
         padding-left: $menu-padding - $header-padding-left;
     }
 
+    //右侧用户头像和用户名
     .avatar-wrapper {
         display: flex;
         align-items: center;
