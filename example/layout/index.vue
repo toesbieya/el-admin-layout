@@ -1,8 +1,5 @@
 <template>
-    <el-admin-layout
-        :header-props="headerProps"
-        :menu-item-content-renderer="menuItemContentRenderer"
-    >
+    <el-admin-layout :header-props="headerProps">
         <template v-slot:menuItemContent="{menu, depth, context}">
             <span>{{ menu.meta.title }}</span>
 
@@ -14,12 +11,16 @@
             </span>
         </template>
 
-        <template v-slot:pageFooter>
-            <page-footer/>
+        <template v-slot:headerRight="defaultContent">
+            <header-right :default="defaultContent"/>
         </template>
 
         <template v-if="renderOldQiniuSidebar" v-slot:asideDefault="props">
             <old-qiniu-sidebar/>
+        </template>
+
+        <template v-slot:pageFooter>
+            <page-footer/>
         </template>
 
         <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
@@ -45,7 +46,28 @@ appMutations.menus(menus)
 export default {
     name: "Layout",
 
-    components: {ElAdminLayout, PageFooter, OldQiniuSidebar, SettingDrawer},
+    components: {
+        ElAdminLayout, PageFooter, OldQiniuSidebar, SettingDrawer,
+
+        HeaderRight: {
+            functional: true,
+
+            props: {default: Array},
+
+            render(h, context) {
+                const custom = [
+                    <div
+                        class="setting-btn header-item"
+                        title="个性设置"
+                        on-click={context.parent.openSettingDrawer}
+                    >
+                        <i class="el-icon-s-operation header-icon"/>
+                    </div>
+                ]
+                return custom.concat(context.props.default)
+            }
+        }
+    },
 
     data: () => ({showSettingDrawer: false}),
 
@@ -53,19 +75,13 @@ export default {
         headerProps() {
             return {
                 username: '测试用户',
-                userDropdownItems: [
+                dropdownItems: [
                     {
                         icon: 'el-icon-switch-button',
                         content: '退出登录',
                         handler: this.logout
                     }
-                ],
-                renderCustomActions: this.renderHeaderActions
-            }
-        },
-        menuItemContentRenderer() {
-            return (h, {menu, highlight, context}) => {
-                return <span>{highlight || menu.meta.title}</span>
+                ]
             }
         },
 
@@ -82,25 +98,11 @@ export default {
 
         openSettingDrawer() {
             this.showSettingDrawer = true
-        },
-
-        renderHeaderActions(defaultActions) {
-            const customActions = [
-                <div
-                    class="setting-btn header-item"
-                    title="个性设置"
-                    on-click={this.openSettingDrawer}
-                >
-                    <i class="el-icon-s-operation header-icon"/>
-                </div>
-            ]
-
-            return customActions.concat(defaultActions.map(f => f()))
         }
     },
 
     mounted() {
-
+        //setTimeout(() => this.showSettingDrawer = true, 1000)
     }
 }
 </script>
