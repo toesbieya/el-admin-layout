@@ -23,7 +23,7 @@
             <page-footer/>
         </template>
 
-        <el-backtop target=".page-main .scroll-container" :visibility-height="400" :bottom="66">
+        <el-backtop target=".page-content" :visibility-height="400" :bottom="66">
             <i class="el-icon-top"/>
         </el-backtop>
 
