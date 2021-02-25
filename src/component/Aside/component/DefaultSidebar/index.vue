@@ -12,8 +12,6 @@ import {isEmpty} from "el-admin-layout/src/util"
 export default {
     name: "DefaultSidebar",
 
-    inheritAttrs: false,
-
     mixins: [menuMixin],
 
     props: props(),
@@ -31,7 +29,12 @@ export default {
 
     computed: {
         //侧边栏菜单
-        menus() {
+        sidebarMenus() {
+            //优先使用props中的menus
+            if (Array.isArray(this.menus)) {
+                return this.menus
+            }
+
             const menus = appGetters.menus
 
             //移动端时，侧边栏只会按侧边栏导航模式渲染
@@ -252,7 +255,7 @@ export default {
     },
 
     render() {
-        if (this.menus.length <= 0) return
+        if (this.sidebarMenus.length <= 0) return
 
         //只有设置了自动隐藏时才需要绑定鼠标的移入移出事件
         const mouseEvent =
@@ -268,14 +271,16 @@ export default {
 
                 <nav-menu
                     ref="nav-menu"
-                    menus={this.menus}
+                    menus={this.sidebarMenus}
                     theme={asideGetters.theme}
                     collapse={this.collapse}
                     default-active={this.activeMenu}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
+                    inline-indent={this.inlineIndent}
+                    switch-transition={this.switchTransition}
+                    switch-transition-name={this.switchTransitionName}
                     {...{
-                        props: this.$props,
                         //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
                         on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
                     }}
