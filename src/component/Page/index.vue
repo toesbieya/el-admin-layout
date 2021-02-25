@@ -22,7 +22,7 @@ export default {
         },
         pageClass() {
             return {
-                'scroll-container': true,
+                'page-content': true,
                 'has-page-header': this.showHeader,
                 'has-page-footer': this.showFooter
             }
