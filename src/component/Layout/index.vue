@@ -1,4 +1,5 @@
 <script type="text/jsx">
+//TODO scopedSlots改为inject，否则在本身render时，子组件也会强制render，见 https://codepen.io/toesbieya/pen/dyOJZZZ
 import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'
@@ -21,24 +22,7 @@ export default {
         headerProps: Object,
         //传递给aside的props
         asideProps: Object,
-        //传递给page的props
-        pageProps: Object,
 
-        //菜单图标的渲染方法(h, {menu, depth}) => VNode
-        menuIconRenderer: {
-            type: Function,
-            default: (h, {menu}) => {
-                const icon = menu.meta.icon
-                return icon
-                    ? h('i', {class: `menu-icon ${icon}`})
-                    : undefined
-            }
-        },
-        //自定义菜单内容的渲染方法(h, {menu, highlight, context}) => VNode
-        menuItemContentRenderer: Function,
-
-        //自定义logo内容的渲染方法(h, {img:VNode, title:VNode, context}) => VNode
-        logoRenderer: Function,
         //点击logo容器时触发，会替换原有的逻辑
         onLogoClick: Function
     },
@@ -104,7 +88,7 @@ export default {
 
                 {this.renderAside && <Aside {...{props: this.asideProps, scopedSlots: aside}}/>}
 
-                <Page {...{props: this.pageProps, scopedSlots: page}}/>
+                <Page {...{scopedSlots: page}}/>
 
                 {this.$scopedSlots.default && this.$scopedSlots.default()}
             </div>

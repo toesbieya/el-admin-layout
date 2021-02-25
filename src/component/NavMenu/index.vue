@@ -1,6 +1,6 @@
 <script type="text/jsx">
 /**
- * 基于<el-menu>封装的无限级菜单
+ * 基于el-menu封装的无限级菜单
  * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
  * 自带亮色、暗色两种主题
  */
@@ -71,7 +71,7 @@ export default {
             }
         },
 
-        /*-------------<el-menu>原有props开始-------------*/
+        /*--------------el-menu原有props开始-------------*/
         /*https://element.eleme.cn/#/zh-CN/component/menu*/
 
         mode: {type: String, default: 'vertical'},  //在el-menu原效果上加了样式名
@@ -88,23 +88,6 @@ export default {
     },
 
     computed: {
-        //Layout中的menuIcon插槽
-        menuIconSlot() {
-            return this.elAdminLayout.$scopedSlots.menuIcon
-        },
-        //Layout中的menuIconRenderer属性
-        menuIconRenderer() {
-            return this.elAdminLayout.menuIconRenderer
-        },
-        //Layout中的menuItemContent插槽
-        menuItemContentSlot() {
-            return this.elAdminLayout.$scopedSlots.menuItemContent
-        },
-        //Layout中的menuItemContentRenderer属性
-        menuItemContentRenderer() {
-            return this.elAdminLayout.menuItemContentRenderer
-        },
-
         //实际用于渲染的菜单数组
         realMenus() {
             return isEmpty(this.searchWord)
@@ -131,19 +114,19 @@ export default {
             this.$nextTick(this.expandAfterSearch)
         },
 
-        //defaultActive改变时直接修改<el-menu>的activeIndex，避免<nav-menu>重新渲染
+        //defaultActive改变时直接修改el-menu的activeIndex，避免nav-menu重新渲染
         defaultActive(v) {
             this.$nextTick(() => this.setElMenuActiveIndex(v))
         }
     },
 
     methods: {
-        //手动调用<el-menu>的updateActiveIndex方法
+        //手动调用el-menu的updateActiveIndex方法
         setElMenuActiveIndex(v) {
             const elMenu = this.$refs['el-menu']
             elMenu && elMenu.updateActiveIndex(v)
         },
-        //将<el-menu>的select事件传递给外部
+        //将el-menu的select事件传递给外部
         onSelect(...args) {
             this.$emit('select', ...args)
         },
@@ -210,29 +193,23 @@ export default {
 
         //渲染菜单图标
         renderMenuIcon(h, menu, depth) {
-            const payload = {menu, depth, context: this}
+            const {menuIcon: slot} = this.elAdminLayout.$scopedSlots
 
-            //优先使用menuIcon插槽
-            return this.menuIconSlot
-                ? this.menuIconSlot(payload)
-                : this.menuIconRenderer(h, payload)
+            if (slot) return slot({menu, depth, context: this})
+
+            const icon = menu.meta.icon
+            return icon && <i class={`menu-icon ${icon}`}/>
         },
         //渲染菜单内容
         renderMenuContent(h, menu, depth) {
-            //优先使用menuItemContent插槽
-            if (this.menuItemContentSlot) {
-                return this.menuItemContentSlot({menu, depth, context: this})
-            }
-
             const child = isEmpty(this.searchWord)
                 ? menu.meta.title
                 : this.searchResultRenderer(h, menu, this.searchWord)
+            const {menuItemContent: slot} = this.elAdminLayout.$scopedSlots
 
-            if (this.menuItemContentRenderer) {
-                return this.menuItemContentRenderer(h, {menu, depth, highlight: child, context: this})
-            }
-
-            return <span>{child}</span>
+            return slot
+                ? slot({menu, depth, highlight: child, context: this})
+                : <span>{child}</span>
         },
         //渲染无子级的菜单
         renderSingleMenu(h, menu, depth) {
@@ -299,7 +276,7 @@ export default {
     },
 
     mounted() {
-        //<nav-menu>mounted时，<el-menu>必定mounted
+        //nav-menu mounted时，el-menu必定mounted
         this.setElMenuActiveIndex(this.defaultActive)
     },
 

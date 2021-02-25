@@ -13,13 +13,6 @@ export default {
 
     components: {PageHeader, PageView, PageIframe, PageFooter, Breadcrumb},
 
-    props: {
-        //自定义渲染页头的函数，入参为h：createElement
-        renderHeader: Function,
-        //自定义渲染页脚内容的函数，入参为h：createElement
-        renderFooter: Function
-    },
-
     computed: {
         showHeader() {
             return pageGetters.showHeader && this.$route.meta.pageHeader !== false
@@ -71,19 +64,15 @@ export default {
                 <div class={this.pageClass}>
                     {this.showHeader && (
                         <page-header>
-                            {header
-                                ? header()
-                                : this.renderHeader
-                                    ? this.renderHeader()
-                                    : <breadcrumb/>}
+                            {header ? header() : <breadcrumb/>}
                         </page-header>
                     )}
 
                     <page-view/>
 
-                    {this.showFooter && (footer || this.renderFooter) && (
+                    {this.showFooter && footer && (
                         <page-footer>
-                            {footer ? footer() : this.renderFooter()}
+                            {footer()}
                         </page-footer>
                     )}
                 </div>

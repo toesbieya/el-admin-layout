@@ -25,7 +25,7 @@
         top: $header-height;
     }
 
-    //为了<el-menu>能够滚动
+    //为了el-menu能够滚动
     > .el-drawer__body {
         height: 100%;
     }
