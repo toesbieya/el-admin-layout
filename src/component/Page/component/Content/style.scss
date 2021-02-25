@@ -1,0 +1,10 @@
+.page-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: auto;
+}
+
+@import "./component/Header/style";
+@import "./component/Footer/style";
+@import "./component/View/style";

@@ -1,19 +1,10 @@
-@import "./component/Header/style";
-@import "./component/Footer/style";
-@import "./component/View/style";
+@import "./component/Content/style";
 @import "./component/Iframe/style";
 
 .page-main {
     position: relative;
     overflow: hidden;
     background-color: $page-background-color;
-
-    .page-content {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        overflow: auto;
-    }
 }
 
 //路由过渡动画

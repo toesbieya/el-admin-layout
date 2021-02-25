@@ -5,4 +5,5 @@
     left: 0;
     bottom: 0;
     right: 0;
+    background-color: $page-background-color;//iframe加载时遮住原始路由页面
 }

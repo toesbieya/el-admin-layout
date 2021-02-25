@@ -1,12 +1,11 @@
 <script type="text/jsx">
-//TODO scopedSlots改为inject，否则在本身render时，子组件也会强制render，见 https://codepen.io/toesbieya/pen/dyOJZZZ
 import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'
 import Page from '../Page'
 import {appGetters, appMutations, tagsViewGetters} from "el-admin-layout"
-import {isMobile} from "@/helper"
-import {debounce} from "@/util"
+import {isMobile} from "el-admin-layout/src/helper"
+import {debounce} from "el-admin-layout/src/util"
 
 export default {
     name: 'ElAdminLayout',
@@ -73,6 +72,7 @@ export default {
     },
 
     render() {
+        //TODO 此处需要优化，否则在自身render时，子组件也会强制render，见 https://codepen.io/toesbieya/pen/dyOJZZZ
         const {header, aside, page} = this.getSlotsForChild('header', 'aside', 'page')
 
         return (
