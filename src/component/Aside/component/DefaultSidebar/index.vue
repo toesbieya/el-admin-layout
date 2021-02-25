@@ -5,6 +5,7 @@ import Logo from 'el-admin-layout/src/component/Logo'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
 import MenuSearch from '../MenuSearch'
+import props from '../../props'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
 import {isEmpty} from "el-admin-layout/src/util"
 
@@ -14,6 +15,8 @@ export default {
     inheritAttrs: false,
 
     mixins: [menuMixin],
+
+    props: props(),
 
     components: {Logo, NavMenu, Hamburger, MenuSearch},
 
@@ -272,7 +275,7 @@ export default {
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
                     {...{
-                        props: this.$attrs,
+                        props: this.$props,
                         //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
                         on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
                     }}
