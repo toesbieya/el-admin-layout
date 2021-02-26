@@ -5,7 +5,6 @@ import Logo from 'el-admin-layout/src/component/Logo'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
 import MenuSearch from '../MenuSearch'
-import props from '../../props'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
 import {isEmpty} from "el-admin-layout/src/util"
 
@@ -14,7 +13,12 @@ export default {
 
     mixins: [menuMixin],
 
-    props: props(),
+    props: {
+        menus: Array,
+        inlineIndent: Number,
+        switchTransition: Boolean,
+        switchTransitionName: String
+    },
 
     components: {Logo, NavMenu, Hamburger, MenuSearch},
 
@@ -96,8 +100,15 @@ export default {
             return !appGetters.isMobile && asideGetters.search
         },
 
-        className() {
+        sidebarClass() {
             return {'sidebar': true, 'collapse': this.collapse}
+        },
+
+        //只有设置了自动隐藏时才需要绑定鼠标的移入移出事件
+        sidebarEvent() {
+            return !appGetters.isMobile && asideGetters.autoHide
+                ? {mouseleave: this.onMouseLeave, mouseenter: this.onMouseEnter}
+                : undefined
         }
     },
 
@@ -257,14 +268,8 @@ export default {
     render() {
         if (this.sidebarMenus.length <= 0) return
 
-        //只有设置了自动隐藏时才需要绑定鼠标的移入移出事件
-        const mouseEvent =
-            !appGetters.isMobile && asideGetters.autoHide
-                ? {mouseleave: this.onMouseLeave, mouseenter: this.onMouseEnter}
-                : undefined
-
         const sidebar = (
-            <div class={this.className} {...{on: mouseEvent}}>
+            <div {...{class: this.sidebarClass, on: this.sidebarEvent}}>
                 {this.showLogo && <logo show-title={!this.collapse}/>}
 
                 {this.renderMenuSearch && <menu-search v-show={!this.collapse} on-search={this.handlerSearch}/>}
