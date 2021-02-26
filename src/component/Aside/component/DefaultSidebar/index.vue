@@ -292,7 +292,7 @@ export default {
                 />
 
                 {!this.renderInDrawer && (
-                    <div class="sidebar-action">
+                    <div class="sidebar-footer">
                         <hamburger/>
                     </div>
                 )}
