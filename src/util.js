@@ -52,3 +52,18 @@ export function debounce(func, wait = 100, immediate = false) {
         return result
     }
 }
+
+/**
+ * 以深度优先找到根节点的第一个叶子节点，并判断是否有其他的叶子节点
+ *
+ * @param node
+ * @param hasOtherLeaf
+ * @returns {{hasOtherLeaf: boolean, leaf: ({children}|*)}|*}
+ */
+export function findFirstLeaf(node, hasOtherLeaf = false) {
+    if (!node || !node.children || node.children.length === 0) {
+        return {leaf: node, hasOtherLeaf}
+    }
+
+    return findFirstLeaf(node.children[0], hasOtherLeaf || node.children.length > 1)
+}

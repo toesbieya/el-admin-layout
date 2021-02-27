@@ -2,15 +2,17 @@
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
-import rootMenuMixin from "el-admin-layout/src/mixin/rootMenu"
-import {appGetters, headerGetters} from "el-admin-layout"
+import menuMixin from "el-admin-layout/src/mixin/menu"
+import {appGetters, appMutations, headerGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
-import {getRouterActiveMenu} from "el-admin-layout/src/config/logic"
+import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
+import {getMenuByFullPath} from "el-admin-layout/src/store/app"
+import {findFirstLeaf} from "el-admin-layout/src/util"
 
 export default {
     name: "HeadMenu",
 
-    mixins: [rootMenuMixin],
+    mixins: [menuMixin],
 
     components: {NavMenu},
 
@@ -26,28 +28,15 @@ export default {
     },
 
     computed: {
-        navMode: () => appGetters.navMode,
-
         //原始的菜单数组
         menus() {
-            //移动端时，头部菜单不会渲染，不需要传入菜单
-            if (appGetters.isMobile) return []
-
             const menus = appGetters.menus
 
             switch (appGetters.navMode) {
                 case 'head' :
                     return menus
                 case 'mix':
-                    return menus.map(menu =>
-                        Object
-                            .entries(menu)
-                            .reduce((obj, [k, v]) => {
-                                if (k !== 'children') {
-                                    obj[k] = v
-                                }
-                                return obj
-                            }, {}))
+                    return menus.map(menu => ({...menu, children: undefined}))
                 default:
                     return []
             }
@@ -80,15 +69,13 @@ export default {
 
     watch: {
         //路由变化时设置高亮菜单
-        $route(to) {
-            if (this.setActiveRootMenuWhenRouteChange(to)) {
-                this.setActiveMenu(this.navMode, to)
+        $route: {
+            immediate: true,
+            handler(to) {
+                if (this.setActiveRootMenu(to)) {
+                    this.setActiveMenu(appGetters.navMode, to)
+                }
             }
-        },
-
-        //切换导航模式时重新设置高亮菜单
-        navMode(mode) {
-            this.setActiveMenu(mode)
         },
 
         //变动时修改种子，避免组件不更新
@@ -98,7 +85,23 @@ export default {
     },
 
     methods: {
-        setActiveMenu(navMode = this.navMode, route = this.$route) {
+        //路由变化时设置高亮根节点菜单，设置成功时返回true
+        setActiveRootMenu(route) {
+            const {matched} = route
+
+            if (matched.length === 0 || isRedirectRouter(route)) {
+                return false
+            }
+
+            //根据路由设置当前高亮的根节点
+            //此处的path是路由定义中的原始数据，所以根路由不能使用动态匹配的方式定义（一般也不会有这种情况吧）
+            //如果路由中使用了'/'，那么此处的path会是''
+            const [root] = matched
+            root && appMutations.activeRootMenu(root.path || '/')
+
+            return true
+        },
+        setActiveMenu(navMode = appGetters.navMode, route = this.$route) {
             //只有在混合导航模式下才将当前激活的顶部菜单认为是当前菜单
             if (navMode === 'mix') {
                 this.activeMenu = appGetters.activeRootMenu
@@ -106,13 +109,28 @@ export default {
             //否则按照路由配置项设置
             else this.activeMenu = getRouterActiveMenu(route)
         },
+
+        //点击菜单时触发
         onSelect(index) {
-            //混合导航模式下点击根节点时
-            if (this.navMode === 'mix') {
+            //混合导航模式下点击的必是根节点
+            if (appGetters.navMode === 'mix') {
                 return this.onSelectRootMenu(index)
             }
 
             this.actionOnSelectMenu(index)
+        },
+        onSelectRootMenu(index) {
+            const root = getMenuByFullPath(index)
+
+            //vue-router中对应index的路由可能有子级且未设置redirect，此时访问index会404
+            const {leaf, hasOtherLeaf} = findFirstLeaf(root)
+
+            //如果该根节点已激活且有多个叶子节点，退出
+            if (!leaf || appGetters.activeRootMenu === index && hasOtherLeaf) {
+                return
+            }
+
+            this.actionOnSelectMenu(leaf.fullPath)
         },
 
         //获取el-menu的dom
@@ -122,7 +140,6 @@ export default {
         //获取初始菜单的总宽度，只在mounted时调用一次
         setChildrenWidth() {
             const ul = this.getMenuEl()
-            if (!this.isDom(ul)) return
 
             const menuItemNodes = ul.children
             if (!menuItemNodes || menuItemNodes.length === 0) return
@@ -156,33 +173,14 @@ export default {
             this.lastVisibleIndex = lastVisibleIndex
         },
         createResizeObserver() {
-            //菜单未渲染时，移除之前的observer
-            if (!this.isDom(this.getMenuEl())) {
-                if (this.resizeObserver) {
-                    this.resizeObserver.disconnect()
-                    this.resizeObserver = null
-                }
-                return
-            }
-
-            //如果已创建observer，则返回
-            if (this.resizeObserver) return
-
             this.resizeObserver = new window.ResizeObserver(this.resize)
             this.resizeObserver.observe(this.getMenuEl())
-        },
-
-        //判断是否为dom元素
-        isDom(obj) {
-            return obj && typeof obj === 'object' && obj.nodeType === 1 && typeof obj.nodeName === 'string'
         }
     },
 
     created() {
-        //从watch中拆分出来，避免初始化时触发两次setActiveMenu
-        if (this.setActiveRootMenuWhenRouteChange(this.$route)) {
-            this.setActiveMenu()
-        }
+        //切换导航模式时重新设置高亮菜单
+        this.$watch(() => appGetters.navMode, v => this.setActiveMenu(v))
     },
 
     mounted() {
@@ -191,7 +189,10 @@ export default {
     },
 
     beforeDestroy() {
-        this.resizeObserver && this.resizeObserver.disconnect()
+        if (this.resizeObserver) {
+            this.resizeObserver.disconnect()
+            this.resizeObserver = null
+        }
     },
 
     render() {
