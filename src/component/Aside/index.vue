@@ -19,7 +19,7 @@ export default {
 
         return (
             <aside class={`aside ${asideGetters.theme}`}>
-                {slot ? slot(this.$props) : <DefaultSidebar {...{props: this.$props}}/>}
+                {slot ? slot(this.$props) : <DefaultSidebar/>}
             </aside>
         )
     }

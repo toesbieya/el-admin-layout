@@ -195,7 +195,7 @@ export default {
     },
 
     render() {
-        if (this.menus.length <= 0) return
+        if (this.menus.length === 0) return
 
         return (
             <nav-menu
