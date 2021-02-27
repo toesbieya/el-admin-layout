@@ -20,6 +20,66 @@ function getOnlyChild(menu) {
     return null
 }
 
+//根据搜索词过滤菜单
+function filterMenuBySearchWord(menus, searchWord) {
+    if (!menus) return
+
+    return menus
+        .map(menu => ({...menu}))
+        .filter(menu => {
+            //如果匹配，那么其子节点无需再判断
+            if (menu.meta.title.includes(searchWord)) {
+                return true
+            }
+
+            const children = filterMenuBySearchWord(menu.children, searchWord)
+
+            if (children) menu.children = children
+
+            return children && children.length > 0
+        })
+}
+
+//根据查找结果展开菜单
+function expandAfterSearch(elMenu, searchWord, filteredMenus) {
+    //清空搜索词时还原原本展开的菜单
+    if (isEmpty(searchWord)) {
+        elMenu.openedMenus = []
+        return elMenu.initOpenedMenu()
+    }
+
+    const {openedMenus, submenus} = elMenu
+    const expandMenus = getSubHighlightMenu(searchWord, filteredMenus)
+
+    //不调用el-menu的open方法是为了避免uniqueOpened
+    for (const {fullPath} of expandMenus) {
+        const sub = submenus[fullPath]
+
+        if (!sub || openedMenus.includes(sub.index)) continue
+
+        sub.indexPath.forEach(i => {
+            !openedMenus.includes(i) && openedMenus.push(i)
+        })
+    }
+}
+
+//获取高亮菜单的sub-menu
+function getSubHighlightMenu(searchWord, children, parent) {
+    const result = []
+
+    children.forEach(child => {
+        if (child.meta.title.includes(searchWord)) {
+            parent && result.push(parent)
+        }
+
+        if (child.children) {
+            result.push(...getSubHighlightMenu(searchWord, child.children, child))
+        }
+    })
+
+    return [...new Set(result)]
+}
+
 export default {
     name: 'NavMenu',
 
@@ -90,9 +150,12 @@ export default {
     computed: {
         //实际用于渲染的菜单数组
         realMenus() {
-            return isEmpty(this.searchWord)
-                ? this.menus
-                : this.filterAfterSearch(this.menus)
+            const val = this.searchWord
+            const {menus} = this
+
+            return isEmpty(val)
+                ? menus
+                : filterMenuBySearchWord(menus, val)
         },
 
         //是否使用切换动画
@@ -111,7 +174,9 @@ export default {
     watch: {
         //搜索词改变时，展开高亮菜单
         searchWord() {
-            this.$nextTick(this.expandAfterSearch)
+            this.$nextTick(() => {
+                expandAfterSearch(this.$refs['el-menu'], this.searchWord, this.realMenus)
+            })
         },
 
         //defaultActive改变时直接修改el-menu的activeIndex，避免nav-menu重新渲染
@@ -129,66 +194,6 @@ export default {
         //将el-menu的select事件传递给外部
         onSelect(...args) {
             this.$emit('select', ...args)
-        },
-
-        //根据搜索词过滤菜单
-        filterAfterSearch(menus) {
-            if (!menus) return
-
-            return menus
-                .map(menu => ({...menu}))
-                .filter(menu => {
-                    //如果匹配，那么其子节点无需再判断
-                    if (menu.meta.title.includes(this.searchWord)) {
-                        return true
-                    }
-
-                    const children = this.filterAfterSearch(menu.children)
-
-                    if (children) menu.children = children
-
-                    return children && children.length > 0
-                })
-        },
-        //根据查找结果展开菜单
-        expandAfterSearch() {
-            const menu = this.$refs['el-menu']
-
-            //清空搜索词时还原原本展开的菜单
-            if (isEmpty(this.searchWord)) {
-                menu.openedMenus = []
-                return menu.initOpenedMenu()
-            }
-
-            const {openedMenus, submenus} = menu
-            const expandMenus = this.getSubHighlightMenu(this.realMenus)
-
-            //不调用el-menu的open方法是为了避免uniqueOpened
-            for (const {fullPath} of expandMenus) {
-                const sub = submenus[fullPath]
-
-                if (!sub || openedMenus.includes(sub.index)) continue
-
-                sub.indexPath.forEach(i => {
-                    !openedMenus.includes(i) && openedMenus.push(i)
-                })
-            }
-        },
-        //获取高亮菜单的sub-menu
-        getSubHighlightMenu(children, parent) {
-            const result = []
-
-            children.forEach(child => {
-                if (child.meta.title.includes(this.searchWord)) {
-                    parent && result.push(parent)
-                }
-
-                if (child.children) {
-                    result.push(...this.getSubHighlightMenu(child.children, child))
-                }
-            })
-
-            return [...new Set(result)]
         },
 
         //渲染菜单图标

@@ -37,11 +37,10 @@ export default {
             //移动端时，侧边栏只会按侧边栏导航模式渲染
             if (appGetters.isMobile) return menus
 
+            //只有导航模式为aside或mix时才会渲染侧边栏
             switch (appGetters.navMode) {
                 case 'aside':
                     return menus
-                case 'head':
-                    return []
                 case 'mix':
                     const root = menus.find(i => i.fullPath === appGetters.activeRootMenu)
                     return root ? root.children || [] : []
