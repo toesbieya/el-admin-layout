@@ -2,7 +2,7 @@
 @import "./component/DefaultSidebar/style";
 
 .aside {
-    box-shadow: 2px 0 6px rgba(0, 0, 0, .5);
+    box-shadow: 1px 0 4px rgba(0, 0, 0, .5);
     z-index: $header-z-index - 1;
 
     //移动端下不能设置z-index，否则会被el-drawer的遮罩遮住
