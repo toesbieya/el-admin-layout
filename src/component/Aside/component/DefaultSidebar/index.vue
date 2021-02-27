@@ -13,13 +13,6 @@ export default {
 
     mixins: [menuMixin],
 
-    props: {
-        menus: Array,
-        inlineIndent: Number,
-        switchTransition: Boolean,
-        switchTransitionName: String
-    },
-
     components: {Logo, NavMenu, Hamburger, MenuSearch},
 
     data() {
@@ -34,9 +27,9 @@ export default {
     computed: {
         //侧边栏菜单
         sidebarMenus() {
-            //优先使用props中的menus
-            if (Array.isArray(this.menus)) {
-                return this.menus
+            //优先使用Aside Props中的menus
+            if (Array.isArray(this.$parent.menus)) {
+                return this.$parent.menus
             }
 
             const menus = appGetters.menus
@@ -226,6 +219,40 @@ export default {
             if (!navMenuInstance) return
 
             navMenuInstance.searchWord = isEmpty(v) ? v : v.trim()
+        },
+
+        renderHeader() {
+            const defaultContent = [
+                this.showLogo && <logo show-title={!this.collapse}/>,
+                this.renderMenuSearch && <menu-search v-show={!this.collapse} on-search={this.handlerSearch}/>
+            ]
+            const {header} = this.$parent.$scopedSlots
+
+            return header ? header(defaultContent) : defaultContent
+        },
+        renderFooter() {
+            const defaultContent = !this.renderInDrawer && <hamburger/>
+            const {footer} = this.$parent.$scopedSlots
+
+            let children
+
+            if (footer) {
+                let renderResult = footer(defaultContent)
+                if (Array.isArray(renderResult)) {
+                    renderResult = renderResult.filter(Boolean)
+                    if (renderResult.length > 0) {
+                        children = renderResult
+                    }
+                }
+                else children = renderResult
+            }
+            else children = defaultContent
+
+            return children && (
+                <div class="sidebar-footer">
+                    {children}
+                </div>
+            )
         }
     },
 
@@ -266,13 +293,11 @@ export default {
     },
 
     render() {
-        if (this.sidebarMenus.length <= 0) return
+        if (this.sidebarMenus.length === 0) return
 
         const sidebar = (
             <div {...{class: this.sidebarClass, on: this.sidebarEvent}}>
-                {this.showLogo && <logo show-title={!this.collapse}/>}
-
-                {this.renderMenuSearch && <menu-search v-show={!this.collapse} on-search={this.handlerSearch}/>}
+                {this.renderHeader()}
 
                 <nav-menu
                     ref="nav-menu"
@@ -282,20 +307,16 @@ export default {
                     default-active={this.activeMenu}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
-                    inline-indent={this.inlineIndent}
-                    switch-transition={this.switchTransition}
-                    switch-transition-name={this.switchTransitionName}
+                    inline-indent={this.$parent.inlineIndent}
+                    switch-transition={this.$parent.switchTransition}
+                    switch-transition-name={this.$parent.switchTransitionName}
                     {...{
                         //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
                         on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
                     }}
                 />
 
-                {!this.renderInDrawer && (
-                    <div class="sidebar-footer">
-                        <hamburger/>
-                    </div>
-                )}
+                {this.renderFooter()}
             </div>
         )
 
