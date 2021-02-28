@@ -1,4 +1,4 @@
-<script type="jsx">
+<script>
 import {appGetters, headerGetters} from "el-admin-layout"
 import HeadMenu from "./HeadMenu"
 import Logo from "el-admin-layout/src/component/Logo"
@@ -9,15 +9,6 @@ export default {
     name: 'Header',
 
     components: {HeadMenu, Logo, Hamburger},
-
-    props: {
-        //头像地址
-        avatar: String,
-        //用户名称
-        username: String,
-        //自定义下拉菜单项，{icon:图标, content:菜单内容, handler:点击时触发的方法}
-        dropdownItems: {type: Array, default: () => []}
-    },
 
     methods: {
         //左侧logo
@@ -43,7 +34,7 @@ export default {
             //②导航模式为顶部导航或混合导航
             const renderHeadMenu = !appGetters.isMobile && ['head', 'mix'].includes(appGetters.navMode)
 
-            return renderHeadMenu && <head-menu/>
+            return renderHeadMenu && <head-menu ref="head-menu"/>
         },
         //右侧刷新按钮
         renderRefreshBtn() {
@@ -61,8 +52,8 @@ export default {
             return (
                 <el-dropdown class="header-item">
                     <div class="avatar-wrapper">
-                        <el-avatar size={30} src={this.avatar} icon="el-icon-user-solid"/>
-                        <span class="hide-on-mobile">{this.username}</span>
+                        <el-avatar size={30} src={headerGetters.avatar} icon="el-icon-user-solid"/>
+                        <span class="hide-on-mobile">{headerGetters.username}</span>
                     </div>
 
                     <el-dropdown-menu
@@ -72,7 +63,7 @@ export default {
                     >
                         {dropdownItems
                             ? dropdownItems()
-                            : this.dropdownItems.map(item => (
+                            : headerGetters.dropdownItems.map(item => (
                                 <el-dropdown-item
                                     icon={item.icon}
                                     {...{nativeOn: {click: item.handler}}}
