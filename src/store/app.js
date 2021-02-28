@@ -55,8 +55,9 @@ function transformMenu(menus, parent) {
         menu.parent = parent
         menuSearchMap[menu.fullPath] = menu
 
-        const r = transformMenu(menu.children, menu)
-        if (r) menu.children = r
+        if (menu.children) {
+            menu.children = transformMenu(menu.children, menu)
+        }
     })
 
     return copy

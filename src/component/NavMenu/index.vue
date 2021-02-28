@@ -9,12 +9,22 @@ import MenuItem from './ElMenu/item'
 import SubMenu from './ElMenu/sub'
 import {isEmpty} from "el-admin-layout/src/util"
 
-//获取不需要嵌套展示的菜单
+/**
+ * 获取不需要嵌套展示的菜单，如果需要嵌套展示，则返回null
+ *
+ * @param menu
+ * @returns {(*&{children: undefined})|null|*|{children: undefined}}
+ */
 function getOnlyChild(menu) {
-    const {children = [], meta: {alwaysShow} = {}} = menu
+    const {children, meta: {alwaysShow = true} = {}} = menu
 
-    if (!children.length) return {...menu, children: undefined}
+    //无子级
+    if (!children) return menu
 
+    //有children但是空数组
+    if (children.length === 0) return {...menu, children: undefined}
+
+    //只有一个子级
     if (children.length === 1) return alwaysShow ? null : getOnlyChild(children[0])
 
     return null
