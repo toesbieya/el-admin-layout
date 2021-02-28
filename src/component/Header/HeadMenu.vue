@@ -206,6 +206,7 @@ export default {
                 mode="horizontal"
                 default-active={this.activeMenu}
                 on-select={this.onSelect}
+                {...{scopedSlots: this.$parent.$scopedSlots}}
             />
         )
     }
