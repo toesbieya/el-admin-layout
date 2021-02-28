@@ -42,14 +42,14 @@
     }
 
     //右侧用户头像和用户名
-    .avatar-wrapper {
+    .user-dropdown-reference {
         display: flex;
         align-items: center;
         height: 100%;
 
-        span {
-            margin-right: 5px;
+        .username{
             font-size: 18px;
+            padding: 0 5px;
         }
     }
 }

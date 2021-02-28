@@ -4,6 +4,7 @@ import HeadMenu from "./HeadMenu"
 import Logo from "el-admin-layout/src/component/Logo"
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
 import {refreshPage} from "el-admin-layout/src/helper"
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: 'Header',
@@ -48,12 +49,13 @@ export default {
         //右侧下拉菜单
         renderUserDropdown() {
             const {dropdownItems} = this.$scopedSlots
+            const {username} = headerGetters
 
             return (
                 <el-dropdown class="header-item">
-                    <div class="avatar-wrapper">
+                    <div class="user-dropdown-reference">
                         <el-avatar size={30} src={headerGetters.avatar} icon="el-icon-user-solid"/>
-                        <span class="hide-on-mobile">{headerGetters.username}</span>
+                        {!isEmpty(username) && <span class="username hide-on-mobile">{username}</span>}
                     </div>
 
                     <el-dropdown-menu
