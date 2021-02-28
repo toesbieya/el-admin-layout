@@ -105,7 +105,7 @@ export default {
     },
 
     render() {
-        if (this.menus.length <= 0) return
+        if (this.menus.length === 0) return
 
         return (
             <div class={this.className}>
@@ -129,7 +129,7 @@ export default {
                     on-select={this.onSelect}
                 />
 
-                <div class="sidebar-action">
+                <div class="sidebar-footer">
                     <hamburger/>
                 </div>
             </div>

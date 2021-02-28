@@ -5,8 +5,8 @@
  */
 
 import {tagsViewGetters, tagsViewMutations} from "el-admin-layout"
-import {debounce} from "@example/util"
-import {getTagsView, setTagsView} from "@example/util/storage"
+import {debounce} from "@example/common/util"
+import {getTagsView, setTagsView} from "@example/common/util/storage"
 
 export default {
     computed: {

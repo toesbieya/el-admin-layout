@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import {debounce} from "el-admin-layout/src/util"
+import {debounce} from "@example/common/util"
 
 export default {
     name: "MenuSearch",
@@ -26,7 +26,7 @@ export default {
     },
 
     created() {
-        this.search = debounce(this.search)
+        this.search = debounce(this.search, 300)
     },
 
     beforeDestroy() {

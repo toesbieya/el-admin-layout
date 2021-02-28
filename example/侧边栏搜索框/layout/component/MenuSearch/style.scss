@@ -8,3 +8,9 @@
     color: $--color-white;
     background-color: lighten($menu-background-dark, 5%);
 }
+
+//菜单的高亮关键字
+.menu-highlight-result {
+    vertical-align: unset;
+    color: $--color-success;
+}

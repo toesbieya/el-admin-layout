@@ -75,13 +75,6 @@
                 @input="v => onChange('aside/autoHide', v)"
             />
         </div>
-        <div class="setting-drawer-item">
-            <span>显示搜索框</span>
-            <el-switch
-                :value="setting.aside.search"
-                @input="v => onChange('aside/search', v)"
-            />
-        </div>
 
         <el-divider>页面设置</el-divider>
         <div class="setting-drawer-item">
@@ -166,7 +159,7 @@ import tagsViewShortcutMixin from "./mixin/tagsViewShortcut"
 import CheckboxGroup from "./component/checkbox/Group"
 import ColorCheckbox from "./component/checkbox/ColorCheckbox"
 import ImgCheckbox from "./component/checkbox/ImgCheckbox"
-import {setLocalPersonalSettings} from "@example/util/storage"
+import {setLocalPersonalSettings} from "@example/common/util/storage"
 
 export default {
     name: "SettingDrawer",

@@ -1,6 +1,12 @@
-import {getLocalPersonalSettings, setLocalPersonalSettings} from '@example/util/storage'
-import {mergeObj} from "@example/util"
-import {appMutations, asideMutations, headerMutations, pageMutations, tagsViewMutations} from "el-admin-layout"
+import {mergeObj} from "@example/common/util"
+import {getLocalPersonalSettings, setLocalPersonalSettings} from '@example/common/util/storage'
+import {
+    appMutations,
+    asideMutations,
+    headerMutations,
+    pageMutations,
+    tagsViewMutations
+} from "el-admin-layout"
 
 const noop = () => undefined
 
@@ -95,8 +101,7 @@ const state = {
         uniqueOpen: true,
         collapse: false,
         showParentOnCollapse: false,
-        autoHide: false,
-        search: true
+        autoHide: false
     },
     header: {
         theme: 'dark'

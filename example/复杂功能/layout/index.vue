@@ -1,39 +1,41 @@
 <template>
-    <el-admin-layout :header-props="headerProps">
-        <template v-slot:menuItemContent="{menu, depth, context}">
-            <span>{{ menu.meta.title }}</span>
+    <div style="height: 100%">
+        <el-admin-layout :header-props="headerProps">
+            <template v-slot:menuContent="{menu, depth, context}">
+                <span>{{ menu.meta.title }}</span>
 
-            <span
-                v-if="menu.meta.title === '首页' && (depth > 1 || !context.collapse)"
-                class="menu-tag menu-tag--danger"
-            >
+                <span
+                    v-if="menu.meta.title === '首页' && (depth > 1 || !context.collapse)"
+                    class="menu-tag menu-tag--danger"
+                >
                 new
             </span>
-        </template>
+            </template>
 
-        <template v-slot:headerRight="defaultContent">
-            <header-right :default="defaultContent"/>
-        </template>
+            <template v-slot:headerRight="defaultContent">
+                <header-right :default="defaultContent"/>
+            </template>
 
-        <template v-if="renderOldQiniuSidebar" v-slot:asideDefault="props">
-            <old-qiniu-sidebar/>
-        </template>
+            <template v-if="renderOldQiniuSidebar" v-slot:asideDefault="props">
+                <old-qiniu-sidebar/>
+            </template>
 
-        <template v-slot:pageFooter>
-            <page-footer/>
-        </template>
+            <template v-slot:pageFooter>
+                <page-footer/>
+            </template>
+        </el-admin-layout>
 
         <el-backtop target=".page-content" :visibility-height="400" :bottom="66">
             <i class="el-icon-top"/>
         </el-backtop>
 
         <setting-drawer v-model="showSettingDrawer"/>
-    </el-admin-layout>
+    </div>
 </template>
 
 <script type="text/jsx">
-import ElAdminLayout, {appGetters, appMutations} from 'el-admin-layout'
-import menus from "@example/menu"
+import ElAdminLayout, {appGetters, appMutations, headerMutations} from 'el-admin-layout'
+import menus from "@example/common/menu"
 import PageFooter from './component/Footer'
 import OldQiniuSidebar from './component/OldQiniuSidebar'
 import SettingDrawer from './component/SettingDrawer'
@@ -42,6 +44,7 @@ import SettingDrawer from './component/SettingDrawer'
 appMutations.title('el-admin-layout')
 appMutations.logo('https://preview.pro.ant.design/static/logo.f0355d39.svg')
 appMutations.menus(menus)
+headerMutations.username('测试用户')
 
 export default {
     name: "Layout",

@@ -1,9 +1,26 @@
 const path = require('path')
+const packageInfo = require('./package.json')
 const isProd = process.env.NODE_ENV === 'production'
 const isBuildLib = (process.env.npm_lifecycle_script || '').includes('--target lib')
 
 function resolve(dir) {
     return path.join(__dirname, dir)
+}
+
+const defaultEntryProps = {
+    cdn: {
+        css: [
+            'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/theme-chalk/index.css'
+        ],
+        js: isProd
+            ? [
+                'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
+                'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js',
+                'https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js',
+                'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/index.js'
+            ]
+            : []
+    }
 }
 
 module.exports = {
@@ -12,26 +29,22 @@ module.exports = {
     assetsDir: 'static',
     pages: {
         index: {
-            // page 的入口
-            entry: 'example/main.js',
-            cdn: {
-                css: [
-                    'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/theme-chalk/index.css'
-                ],
-                js: isProd
-                    ? [
-                        'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
-                        'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js',
-                        'https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js',
-                        'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/index.js'
-                    ]
-                    : []
-            }
+            entry: 'example/复杂功能/main.js',
+            ...defaultEntryProps
+        },
+        'aside-search': {
+            entry: 'example/侧边栏搜索框/main.js',
+            ...defaultEntryProps
         }
     },
     productionSourceMap: false,
-    devServer: {port: 8079, open: true},
+    devServer: {
+        port: 8079,
+        historyApiFallback: false,
+        open: true
+    },
     configureWebpack: {
+        name: packageInfo.name,
         resolve: {
             alias: {
                 '@example': resolve('example'),
@@ -52,12 +65,12 @@ module.exports = {
             config.plugins.delete('html')
             config.output.library('ElAdminLayout')
         }
-        else {
+        /*else {
             config.plugin('html-index').tap((args) => {
                 args[0].scriptLoading = 'blocking'
                 args[0].publicPath = 'auto'
                 return args
             })
-        }
+        }*/
     }
 }
