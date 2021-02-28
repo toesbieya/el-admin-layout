@@ -13,12 +13,6 @@
         }
     }
 
-    //菜单的高亮关键字
-    .menu-highlight-result {
-        vertical-align: unset;
-        color: $--color-success;
-    }
-
     //子级菜单激活时，父级同样高亮
     .el-menu-item.is-active,
     .is-active > .el-submenu__title {

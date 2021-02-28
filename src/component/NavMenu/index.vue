@@ -20,76 +20,8 @@ function getOnlyChild(menu) {
     return null
 }
 
-//根据搜索词过滤菜单
-function filterMenuBySearchWord(menus, searchWord) {
-    if (!menus) return
-
-    return menus
-        .map(menu => ({...menu}))
-        .filter(menu => {
-            //如果匹配，那么其子节点无需再判断
-            if (menu.meta.title.includes(searchWord)) {
-                return true
-            }
-
-            const children = filterMenuBySearchWord(menu.children, searchWord)
-
-            if (children) menu.children = children
-
-            return children && children.length > 0
-        })
-}
-
-//根据查找结果展开菜单
-function expandAfterSearch(elMenu, searchWord, filteredMenus) {
-    //清空搜索词时还原原本展开的菜单
-    if (isEmpty(searchWord)) {
-        elMenu.openedMenus = []
-        return elMenu.initOpenedMenu()
-    }
-
-    const {openedMenus, submenus} = elMenu
-    const expandMenus = getSubHighlightMenu(searchWord, filteredMenus)
-
-    //不调用el-menu的open方法是为了避免uniqueOpened
-    for (const {fullPath} of expandMenus) {
-        const sub = submenus[fullPath]
-
-        if (!sub || openedMenus.includes(sub.index)) continue
-
-        sub.indexPath.forEach(i => {
-            !openedMenus.includes(i) && openedMenus.push(i)
-        })
-    }
-}
-
-//获取高亮菜单的sub-menu
-function getSubHighlightMenu(searchWord, children, parent) {
-    const result = []
-
-    children.forEach(child => {
-        if (child.meta.title.includes(searchWord)) {
-            parent && result.push(parent)
-        }
-
-        if (child.children) {
-            result.push(...getSubHighlightMenu(searchWord, child.children, child))
-        }
-    })
-
-    return [...new Set(result)]
-}
-
 export default {
     name: 'NavMenu',
-
-    inject: {
-        elAdminLayout: {
-            default: {
-                $scopedSlots: {}
-            }
-        }
-    },
 
     components: {MenuItem, SubMenu},
 
@@ -106,30 +38,8 @@ export default {
         //折叠时的展开菜单是否显示父级
         showParentOnCollapse: Boolean,
 
-        //menus变化时是否使用过渡动画
-        switchTransition: Boolean,
-
-        //menus过渡动画名称
+        //menus变化时的过渡动画名称
         switchTransitionName: String,
-
-        //菜单内容搜索结果的渲染器
-        searchResultRenderer: {
-            type: Function,
-            default: (h, menu, searchWord) => {
-                const {title} = menu.meta
-                const start = title.indexOf(searchWord)
-
-                if (start === -1) return title
-
-                const end = start + searchWord.length
-
-                return [
-                    title.substring(0, start),
-                    <span class="menu-highlight-result">{title.substring(start, end)}</span>,
-                    title.substring(end)
-                ]
-            }
-        },
 
         /*--------------el-menu原有props开始-------------*/
         /*https://element.eleme.cn/#/zh-CN/component/menu*/
@@ -140,29 +50,7 @@ export default {
         uniqueOpened: Boolean
     },
 
-    data() {
-        return {
-            //搜索词，不使用props是为了第三方能直接响应式地修改数据
-            searchWord: ''
-        }
-    },
-
     computed: {
-        //实际用于渲染的菜单数组
-        realMenus() {
-            const val = this.searchWord
-            const {menus} = this
-
-            return isEmpty(val)
-                ? menus
-                : filterMenuBySearchWord(menus, val)
-        },
-
-        //是否使用切换动画
-        useSwitchTransition() {
-            return this.switchTransition && !isEmpty(this.switchTransitionName)
-        },
-
         themeClass() {
             return `el-menu--${this.theme}`
         },
@@ -172,13 +60,6 @@ export default {
     },
 
     watch: {
-        //搜索词改变时，展开高亮菜单
-        searchWord() {
-            this.$nextTick(() => {
-                expandAfterSearch(this.$refs['el-menu'], this.searchWord, this.realMenus)
-            })
-        },
-
         //defaultActive改变时直接修改el-menu的activeIndex，避免nav-menu重新渲染
         defaultActive(v) {
             this.$nextTick(() => this.setElMenuActiveIndex(v))
@@ -198,7 +79,7 @@ export default {
 
         //渲染菜单图标
         renderMenuIcon(h, menu, depth) {
-            const {menuIcon: slot} = this.elAdminLayout.$scopedSlots
+            const {icon: slot} = this.$scopedSlots
 
             if (slot) return slot({menu, depth, context: this})
 
@@ -207,14 +88,11 @@ export default {
         },
         //渲染菜单内容
         renderMenuContent(h, menu, depth) {
-            const child = isEmpty(this.searchWord)
-                ? menu.meta.title
-                : this.searchResultRenderer(h, menu, this.searchWord)
-            const {menuItemContent: slot} = this.elAdminLayout.$scopedSlots
+            const {content: slot} = this.$scopedSlots
 
             return slot
-                ? slot({menu, depth, highlight: child, context: this})
-                : <span>{child}</span>
+                ? slot({menu, depth, context: this})
+                : <span>{menu.meta.title}</span>
         },
         //渲染无子级的菜单
         renderSingleMenu(h, menu, depth) {
@@ -260,23 +138,26 @@ export default {
             ]
         },
         //渲染菜单项
-        renderMenu(h, menu, depth = 1) {
-            const onlyOneChild = getOnlyChild(menu)
-            const showSingle = onlyOneChild && !onlyOneChild.children
+        renderMenus(h, menus, depth = 1) {
+            return menus.map(menu => {
+                const onlyOneChild = getOnlyChild(menu)
+                const showSingle = onlyOneChild && !onlyOneChild.children
 
-            if (showSingle) {
-                return this.renderSingleMenu(h, onlyOneChild, depth)
-            }
+                if (showSingle) {
+                    return this.renderSingleMenu(h, onlyOneChild, depth)
+                }
 
-            let children = menu.children.map(child => this.renderMenu(h, child, depth + 1))
+                //此处menu必有children属性
+                let children = this.renderMenus(h, menu.children, depth + 1)
 
-            //弹出菜单显示父级信息
-            if (this.collapse && this.showParentOnCollapse) {
-                //这里认为父级的深度应该+1
-                children = this.renderChildrenWithParentMenu(h, menu, children, depth + 1)
-            }
+                //弹出菜单显示父级信息
+                if (this.collapse && this.showParentOnCollapse) {
+                    //这里认为父级的深度应该+1
+                    children = this.renderChildrenWithParentMenu(h, menu, children, depth + 1)
+                }
 
-            return this.renderSubMenu(h, menu, children, depth)
+                return this.renderSubMenu(h, menu, children, depth)
+            })
         }
     },
 
@@ -286,12 +167,11 @@ export default {
     },
 
     render(h) {
-        let items = this.realMenus.map(menu => {
-            return this.renderMenu(h, menu)
-        })
+        let children = this.renderMenus(h, this.menus)
 
-        if (this.useSwitchTransition) {
-            items = <transition-group name={this.switchTransitionName}>{items}</transition-group>
+        const {switchTransitionName} = this
+        if (!isEmpty(switchTransitionName)) {
+            children = <transition-group name={switchTransitionName}>{children}</transition-group>
         }
 
         return (
@@ -304,7 +184,7 @@ export default {
                 unique-opened={this.uniqueOpened}
                 on-select={this.onSelect}
             >
-                {items}
+                {children}
             </el-menu>
         )
     }
