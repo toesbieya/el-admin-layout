@@ -4,19 +4,21 @@ import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
-import MenuSearch from '../MenuSearch'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
-import {isEmpty} from "el-admin-layout/src/util"
+import {copyMenus} from "el-admin-layout/src/util"
 
 export default {
     name: "DefaultSidebar",
 
     mixins: [menuMixin],
 
-    components: {Logo, NavMenu, Hamburger, MenuSearch},
+    components: {Logo, NavMenu, Hamburger},
 
     data() {
         return {
+            //传递给nav-menu，只会在activeMenu第一次变化时变化
+            defaultActive: '',
+
             //开启了自动隐藏时，判断鼠标是否在侧边栏外
             mouseOutside: true,
             //开启了自动隐藏时，用于判断鼠标是否在弹出菜单内
@@ -27,26 +29,28 @@ export default {
     computed: {
         //侧边栏菜单
         sidebarMenus() {
-            //优先使用Aside Props中的menus
-            if (Array.isArray(this.$parent.menus)) {
-                return this.$parent.menus
-            }
-
             const menus = appGetters.menus
+            let finalData
 
             //移动端时，侧边栏只会按侧边栏导航模式渲染
-            if (appGetters.isMobile) return menus
-
-            //只有导航模式为aside或mix时才会渲染侧边栏
-            switch (appGetters.navMode) {
-                case 'aside':
-                    return menus
-                case 'mix':
-                    const root = menus.find(i => i.fullPath === appGetters.activeRootMenu)
-                    return root ? root.children || [] : []
-                default:
-                    return []
+            if (appGetters.isMobile) finalData = menus
+            else {
+                //只有导航模式为aside或mix时才会渲染侧边栏
+                switch (appGetters.navMode) {
+                    case 'aside':
+                        finalData = menus
+                        break
+                    case 'mix':
+                        const root = menus.find(i => i.fullPath === appGetters.activeRootMenu)
+                        finalData = root ? root.children || [] : []
+                        break
+                    default:
+                        finalData = []
+                }
             }
+
+            const f = asideGetters.postMenus
+            return f ? f(copyMenus(finalData)) : finalData
         },
 
         //当是移动端或设置了侧边栏自动隐藏时将侧边栏用抽屉包裹
@@ -87,11 +91,6 @@ export default {
             return appGetters.showLogo && (appGetters.isMobile || appGetters.struct === 'left-right')
         },
 
-        //是否需要显示搜索框
-        renderMenuSearch() {
-            return !appGetters.isMobile && asideGetters.search
-        },
-
         sidebarClass() {
             return {'sidebar': true, 'collapse': this.collapse}
         },
@@ -105,7 +104,7 @@ export default {
     },
 
     watch: {
-        //路由变化时设置高亮菜单
+        //记录高亮菜单以及一些其他操作
         $route: {
             immediate: true,
             handler(to) {
@@ -212,19 +211,8 @@ export default {
             this.$nextTick(this.moveToActiveMenuVertically)
         },
 
-        //菜单搜索内容改变时
-        handlerSearch(v) {
-            const navMenuInstance = this.$refs['nav-menu']
-            if (!navMenuInstance) return
-
-            navMenuInstance.searchWord = isEmpty(v) ? v : v.trim()
-        },
-
         renderHeader() {
-            const defaultContent = [
-                this.showLogo && <logo show-title={!this.collapse}/>,
-                this.renderMenuSearch && <menu-search v-show={!this.collapse} on-search={this.handlerSearch}/>
-            ]
+            const defaultContent = this.showLogo && <logo show-title={!this.collapse}/>
             const {header} = this.$parent.$scopedSlots
 
             return header ? header(defaultContent) : defaultContent
@@ -255,11 +243,26 @@ export default {
         }
     },
 
-    mounted() {
-        //切换至移动端 或 切换至桌面端且设置了自动隐藏时，收起侧边栏
+    created() {
+        //侧边栏菜单变化时设置当前的高亮菜单
+        //在此前，activeMenu会在watch:$route中发生第一次变化（不会真有人把menu.meta.activeMenu设成''吧？）
         this.$watch(
-            () => appGetters.isMobile,
-            v => (v || asideGetters.autoHide) && asideMutations.close()
+            'sidebarMenus',
+            () => {
+                const newVal = this.activeMenu
+                const oldVal = this.defaultActive
+                this.defaultActive = newVal
+
+                //nav-menu中是通过watch去监听的defaultActive，所以在值未变化时需要强制变更
+                if (oldVal === newVal) {
+                    //避免与nav-menu的setElMenuActiveIndex重复
+                    const elMenu = this.$_getElMenuInstance()
+                    elMenu && this.$nextTick(() => {
+                        elMenu.updateActiveIndex(this.defaultActive)
+                    })
+                }
+            },
+            {immediate: true}
         )
 
         //添加或移除鼠标移动事件
@@ -285,6 +288,12 @@ export default {
             },
             {immediate: true}
         )
+
+        //切换至移动端 或 切换至桌面端且设置了自动隐藏时，收起侧边栏
+        this.$watch(
+            () => appGetters.isMobile,
+            v => (v || asideGetters.autoHide) && asideMutations.close()
+        )
     },
 
     beforeDestroy() {
@@ -292,7 +301,10 @@ export default {
     },
 
     render() {
-        if (this.sidebarMenus.length === 0) return
+        //没有菜单时，仅当设置了alwaysRender才退出后续渲染
+        if (this.sidebarMenus.length === 0 && !asideGetters.alwaysRender) {
+            return
+        }
 
         const sidebar = (
             <div {...{class: this.sidebarClass, on: this.sidebarEvent}}>
@@ -301,17 +313,17 @@ export default {
                 <nav-menu
                     ref="nav-menu"
                     menus={this.sidebarMenus}
-                    theme={asideGetters.theme}
                     collapse={this.collapse}
-                    default-active={this.activeMenu}
+                    default-active={this.defaultActive}
+                    theme={asideGetters.theme}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
-                    inline-indent={this.$parent.inlineIndent}
-                    switch-transition={this.$parent.switchTransition}
-                    switch-transition-name={this.$parent.switchTransitionName}
+                    inline-indent={asideGetters.inlineIndent}
+                    switch-transition-name={asideGetters.switchTransitionName}
                     {...{
                         //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
-                        on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
+                        on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus},
+                        scopedSlots: this.$parent.$scopedSlots
                     }}
                 />
 
