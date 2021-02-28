@@ -117,6 +117,8 @@ export default {
     },
 
     created() {
+        asideMutations.theme('dark')
+
         //避免搜索结果为空时侧边栏不渲染
         asideMutations.alwaysRender(true)
         asideMutations.postMenus(this.postMenus)
