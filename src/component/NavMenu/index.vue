@@ -79,7 +79,7 @@ export default {
 
         //渲染菜单图标
         renderMenuIcon(h, menu, depth) {
-            const {icon: slot} = this.$scopedSlots
+            const {menuIcon: slot} = this.$scopedSlots
 
             if (slot) return slot({menu, depth, context: this})
 
@@ -88,7 +88,7 @@ export default {
         },
         //渲染菜单内容
         renderMenuContent(h, menu, depth) {
-            const {content: slot} = this.$scopedSlots
+            const {menuContent: slot} = this.$scopedSlots
 
             return slot
                 ? slot({menu, depth, context: this})
