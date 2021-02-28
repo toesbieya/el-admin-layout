@@ -17,11 +17,6 @@ export default {
     },
 
     props: {
-        //传递给header的props
-        headerProps: Object,
-        //传递给aside的props
-        asideProps: Object,
-
         //点击logo容器时触发，会替换原有的逻辑
         onLogoClick: Function
     },
@@ -82,15 +77,13 @@ export default {
                 'has-tags-view': tagsViewGetters.enabled,
                 'left-right': this.isLeftRight
             }}>
-                <Header {...{props: this.headerProps, scopedSlots: header}}/>
+                <Header ref="header" {...{scopedSlots: header}}/>
 
-                {tagsViewGetters.enabled && <TagsView/>}
+                {tagsViewGetters.enabled && <TagsView ref="tags-view"/>}
 
-                {this.renderAside && <Aside {...{props: this.asideProps, scopedSlots: aside}}/>}
+                {this.renderAside && <Aside ref="aside" {...{scopedSlots: aside}}/>}
 
-                <Page {...{scopedSlots: page}}/>
-
-                {this.$scopedSlots.default && this.$scopedSlots.default()}
+                <Page ref="page" {...{scopedSlots: page}}/>
             </div>
         )
     }
