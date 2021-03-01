@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'

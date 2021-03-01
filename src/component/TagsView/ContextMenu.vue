@@ -6,7 +6,7 @@
     </ul>
 </template>
 
-<script type="text/jsx">
+<script>
 
 export default {
     name: "ContextMenu",

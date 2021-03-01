@@ -10,7 +10,7 @@
     </el-admin-layout>
 </template>
 
-<script type="text/jsx">
+<script>
 import ElAdminLayout, {appGetters, appMutations, asideGetters, asideMutations} from 'el-admin-layout'
 import menus from "@example/common/menu"
 import MenuSearch from './component/MenuSearch'

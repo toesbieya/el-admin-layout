@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import {pageGetters, tagsViewGetters} from "el-admin-layout"
 import {getRouterKey} from "el-admin-layout/src/config/logic"
 import KeepViewAlive from "./KeepViewAlive"

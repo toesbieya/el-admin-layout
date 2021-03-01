@@ -33,7 +33,7 @@
     </div>
 </template>
 
-<script type="text/jsx">
+<script>
 import ElAdminLayout, {appGetters, appMutations, headerMutations} from 'el-admin-layout'
 import menus from "@example/common/menu"
 import PageFooter from './component/Footer'

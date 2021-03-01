@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import {asideGetters} from "el-admin-layout"
 import DefaultSidebar from './DefaultSidebar'
 

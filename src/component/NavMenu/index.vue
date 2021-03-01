@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 /**
  * 基于el-menu封装的无限级菜单
  * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)

@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import {
     appGetters,
     pageGetters,

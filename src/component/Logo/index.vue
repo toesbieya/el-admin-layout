@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import {appGetters} from "el-admin-layout"
 import {isEmpty} from "el-admin-layout/src/util"
 

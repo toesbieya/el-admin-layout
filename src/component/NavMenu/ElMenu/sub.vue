@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import MenuMixin from './mixin'
 import Emitter from 'element-ui/lib/mixins/emitter'
 import Popper from 'element-ui/lib/utils/vue-popper'

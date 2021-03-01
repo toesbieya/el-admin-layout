@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
