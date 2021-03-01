@@ -53,7 +53,7 @@ export const mutations = {
 
     /**
      * 在页签栏上添加一个页签，没有标题、已存在的不会重复添加
-     * @param view
+     * @param view {View}
      */
     addTagOnly(view) {
         if (!view.meta || isEmpty(view.meta.title)) {
@@ -73,7 +73,7 @@ export const mutations = {
     /**
      * 将传入的页签加入缓存中
      * 以下调用无效：设置了不缓存、已缓存
-     * @param view
+     * @param view {View}
      */
     addCacheOnly(view) {
         const {noCache} = view.meta || {}
@@ -89,7 +89,7 @@ export const mutations = {
 
     /**
      * 同时调用{@link #addTagOnly}、{@link #addCacheOnly}
-     * @param view
+     * @param view {View}
      */
     addTagAndCache(view) {
         mutations.addTagOnly(view)
@@ -98,7 +98,7 @@ export const mutations = {
 
     /**
      * 从页签栏中移除一个页签
-     * @param view
+     * @param view {View}
      */
     delTagOnly(view) {
         const key = getRouterKey(view)
@@ -108,7 +108,7 @@ export const mutations = {
 
     /**
      * 删除对应的缓存
-     * @param view
+     * @param view {View}
      */
     delCacheOnly(view) {
         const key = getRouterKey(view)
@@ -122,7 +122,7 @@ export const mutations = {
 
     /**
      * 同时调用{@link #delTagOnly}、{@link #delCacheOnly}
-     * @param view
+     * @param view {View}
      */
     delTagAndCache(view) {
         mutations.delTagOnly(view)
@@ -131,7 +131,7 @@ export const mutations = {
 
     /**
      * 从页签栏上移除其他的非固定页签以及其他的缓存
-     * @param view
+     * @param view {View}
      */
     delOtherTagAndCache(view) {
         //记录被移除的iframe

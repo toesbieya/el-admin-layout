@@ -12,7 +12,7 @@ import {isEmpty} from "el-admin-layout/src/util"
 /**
  * 获取不需要嵌套展示的菜单，如果需要嵌套展示，则返回null
  *
- * @param menu
+ * @param menu {MenuItem}
  * @returns {(*&{children: undefined})|null|*|{children: undefined}}
  */
 function getOnlyChild(menu) {

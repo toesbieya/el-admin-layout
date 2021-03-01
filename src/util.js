@@ -70,8 +70,8 @@ export function findFirstLeaf(node, hasOtherLeaf = false) {
 
 /**
  * 返回传入的菜单数据的拷贝副本
- * @param menus
- * @returns menus
+ * @param menus {MenuItem[]}
+ * @returns menus {MenuItem[]}
  */
 export function copyMenus(menus) {
     return menus.map(menu => {
