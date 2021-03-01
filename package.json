@@ -3,6 +3,7 @@
   "version": "0.8.0",
   "description": "基于element-ui的后台管理layout",
   "main": "src/index.js",
+  "types": "types/index.d.ts",
   "author": "toesbieya",
   "license": "MIT",
   "homepage": "https://github.com/toesbieya/el-admin-layout/blob/main/README.md",
