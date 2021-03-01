@@ -47,12 +47,12 @@ export const mutations = {
         const index = store.iframeList.findIndex(i => i === src)
         index > -1 && store.iframeList.splice(index, 1)
     },
-    openIframe({src}) {
+    openIframe(src) {
         store.showIframe = true
         store.currentIframe = src
         mutations.addIframe(src)
     },
-    closeIframe({src, del}) {
+    closeIframe(src, del) {
         store.showIframe = false
         store.currentIframe = ''
         del && mutations.delIframe(src)

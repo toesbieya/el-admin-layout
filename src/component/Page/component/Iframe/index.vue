@@ -50,12 +50,12 @@ export default {
                 const key = getRouterKey(from)
                 const del = isEmpty(key) || !tagsViewGetters.cachedViews.includes(key)
 
-                pageMutations.closeIframe({src: from.meta.iframe, del})
+                pageMutations.closeIframe(from.meta.iframe, del)
             }
 
             //跳转至iframe页面时，打开iframe
             if (to.meta.iframe) {
-                pageMutations.openIframe({src: to.meta.iframe})
+                pageMutations.openIframe(to.meta.iframe)
             }
         }
     }
