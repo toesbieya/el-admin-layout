@@ -1,8 +1,8 @@
 /**
  * 顶部菜单和侧边栏菜单的公共混入
  */
-import {refreshPage} from "el-admin-layout/src/helper"
-import {getRouterKey} from "el-admin-layout/src/config/logic"
+import {refreshPage} from "../helper"
+import {getRouterKey} from "../config/logic"
 
 export default {
     data() {

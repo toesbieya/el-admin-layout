@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import {createGetters, createMutations} from "./util"
-import {isEmpty} from "el-admin-layout/src/util"
-import {isMobile} from "el-admin-layout/src/helper"
+import {isEmpty} from "../util"
+import {isMobile} from "../helper"
 
 //加速查找menu的哈希表：<k: menu.fullPath, v: menu>
 const menuSearchMap = {}
@@ -16,7 +16,7 @@ const state = {
     //logo地址
     logo: '',
 
-    //点击logo后跳转的路由，会传递给<router-link>的to属性
+    //点击logo后跳转的路由，作为router.push/replace的第一个参数
     logoRoute: '/',
 
     //是否显示侧边栏或顶栏的logo

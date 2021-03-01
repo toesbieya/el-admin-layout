@@ -4,8 +4,8 @@
 import Vue from 'vue'
 import {getters as pageGetters, mutations as pageMutations} from "./page"
 import {createGetters, createMutations} from "./util"
-import {isEmpty} from "el-admin-layout/src/util"
-import {getRouterKey} from "el-admin-layout/src/config/logic"
+import {isEmpty} from '../util'
+import {getRouterKey} from "../config/logic"
 
 const state = {
     //是否启用
@@ -16,7 +16,7 @@ const state = {
     //显示的页签
     visitedViews: [],
 
-    //缓存的页签，用于<keep-router-view-alive/>:include
+    //需要缓存的页签key的数组，用于<keep-router-view-alive/>:include
     cachedViews: []
 }
 

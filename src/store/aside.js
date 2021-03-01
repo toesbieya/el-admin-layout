@@ -66,12 +66,11 @@ export const mutations = {
             case 'close':
                 return mutations.close()
             default :
-                let open = true
-                if (appGetters.isMobile) {
-                    open = !store.show
-                }
-                else open = store.collapse
-                return open ? mutations.open() : mutations.close()
+                const open =
+                    appGetters.isMobile
+                        ? !store.show
+                        : store.collapse
+                open ? mutations.open() : mutations.close()
         }
     }
 }
