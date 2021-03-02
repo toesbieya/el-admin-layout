@@ -38,8 +38,8 @@ export default {
         //由于侧边栏菜单数组更新后，el-menu不一定会更新（当数组中不存在单级菜单时）
         //所以手动更新el-menu的当前高亮菜单
         resetActiveMenu() {
-            const menu = this.$_getElMenuInstance()
-            menu && menu.updateActiveIndex(this.activeMenu)
+            const elMenu = this.$_getElMenuInstance()
+            elMenu && elMenu.updateActiveIndex(this.activeMenu)
         },
 
         //获取el-menu实例

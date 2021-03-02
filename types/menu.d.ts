@@ -1,4 +1,4 @@
-interface MenuItemMeta {
+export interface MenuItemMeta {
     title: string
     alwaysShow?: boolean
     sort?: number
@@ -9,5 +9,10 @@ interface MenuItemMeta {
 export interface MenuItem {
     fullPath: string
     meta: MenuItemMeta
-    children?: Array<MenuItem>
+    children?: MenuItem[]
+}
+
+export interface StoreMenuItem extends MenuItem {
+    parent: StoreMenuItem
+    children?: StoreMenuItem[]
 }

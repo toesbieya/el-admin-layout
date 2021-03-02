@@ -22,7 +22,7 @@ export default {
             activeKey: '',
 
             //当前选中的页签
-            selectedTag: {},
+            selectedTag: undefined,
 
             //页签右键菜单的属性
             contextMenu: {
@@ -41,7 +41,7 @@ export default {
         contextMenuItems() {
             return [
                 {content: '刷新', click: this.refreshSelectedTag},
-                this.isAffix(this.selectedTag)
+                this.selectedTag && this.isAffix(this.selectedTag)
                     ? undefined
                     : {
                         content: '关闭',
@@ -72,7 +72,7 @@ export default {
             this.activeKey = getRouterKey(to)
         },
         isAffix(view) {
-            return view.meta && view.meta.affix
+            return view.meta.affix
         },
 
         //根据访问的tab页的左右顺序来确定路由动画
@@ -98,13 +98,13 @@ export default {
         getAffixTags(menus) {
             const tags = []
             menus.forEach(({fullPath, children, meta}) => {
-                if (meta && meta.affix === true) {
+                if (meta.affix === true) {
                     const {route} = this.$router.resolve(fullPath)
 
                     tags.push({
                         ...route,
                         meta: {
-                            ...meta,
+                            affix: true,
                             ...route.meta,
                             title: getRouterTitle(route)
                         }

@@ -1,4 +1,5 @@
 <script>
+// TODO 增加展开全部的api
 /**
  * 基于el-menu封装的无限级菜单
  * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
@@ -61,6 +62,18 @@ export default {
     },
 
     computed: {
+        children() {
+            const h = this.$createElement
+            let children = this.renderMenus(h, this.menus)
+
+            const {switchTransitionName: name} = this
+            if (!isEmpty(name)) {
+                children = h('transition-group', {props: {name}}, children)
+            }
+
+            return children
+        },
+
         themeClass() {
             return `el-menu--${this.theme}`
         },
@@ -176,14 +189,7 @@ export default {
         this.setElMenuActiveIndex(this.defaultActive)
     },
 
-    render(h) {
-        let children = this.renderMenus(h, this.menus)
-
-        const {switchTransitionName} = this
-        if (!isEmpty(switchTransitionName)) {
-            children = <transition-group name={switchTransitionName}>{children}</transition-group>
-        }
-
+    render() {
         return (
             <el-menu
                 ref="el-menu"
@@ -194,7 +200,7 @@ export default {
                 unique-opened={this.uniqueOpened}
                 on-select={this.onSelect}
             >
-                {children}
+                {this.children}
             </el-menu>
         )
     }

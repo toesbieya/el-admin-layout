@@ -5,7 +5,6 @@ import Logo from 'el-admin-layout/src/component/Logo'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
-import {copyMenus} from "el-admin-layout/src/util"
 
 export default {
     name: "DefaultSidebar",
@@ -50,7 +49,7 @@ export default {
             }
 
             const f = asideGetters.postMenus
-            return f ? f(copyMenus(finalData)) : finalData
+            return f ? f(this.copyMenus(finalData)) : finalData
         },
 
         //当是移动端或设置了侧边栏自动隐藏时将侧边栏用抽屉包裹
@@ -112,12 +111,15 @@ export default {
 
                 this.activeMenu = getRouterActiveMenu(this.$route)
 
-                const menu = this.$_getElMenuInstance()
-                if (!menu) return
-                const item = menu.items[this.activeMenu]
+                const elMenu = this.$_getElMenuInstance()
+                if (!elMenu) return
+
+                this.resetActiveMenu()
+
+                const item = elMenu.items[this.activeMenu]
 
                 //如果侧边栏中没有对应的激活菜单，则收起全部，退出
-                if (!item) return menu.openedMenus = []
+                if (!item) return elMenu.openedMenus = []
 
                 //由于elMenu的initOpenedMenu()不会触发select事件，所以选择手动触发
                 this.onSelect(item.index, item.indexPath, item, false)
@@ -129,13 +131,24 @@ export default {
     },
 
     methods: {
+        //返回传入的菜单数据的拷贝副本
+        copyMenus(menus) {
+            return menus.map(menu => {
+                const result = {...menu}
+                if (result.children) {
+                    result.children = this.copyMenus(result.children)
+                }
+                return result
+            })
+        },
+
         //模拟选中菜单
         onSelect(index, indexPath, item, jump = true) {
             //开启手风琴模式时，激活没有子级的菜单时收起其它展开项
             if (asideGetters.uniqueOpen && indexPath.length === 1) {
-                const menu = this.$_getElMenuInstance()
-                const opened = menu.openedMenus
-                opened.forEach(i => i !== index && menu.closeMenu(i))
+                const elMenu = this.$_getElMenuInstance()
+                const opened = elMenu.openedMenus
+                opened.forEach(i => i !== index && elMenu.closeMenu(i))
             }
 
             jump && this.actionOnSelectMenu(index)
@@ -149,19 +162,19 @@ export default {
 
         //将当前激活的菜单移动到视窗中
         moveToActiveMenuVertically() {
-            const menu = this.$_getElMenuInstance()
-            if (!menu) return
+            const elMenu = this.$_getElMenuInstance()
+            if (!elMenu) return
 
-            const cur = menu.activeIndex
+            const cur = elMenu.activeIndex
             if (!cur) return
 
-            const curInstance = menu.items[cur]
+            const curInstance = elMenu.items[cur]
             if (!curInstance) return
 
             let el = curInstance.$el
 
             //当侧边栏折叠时，需要滚动至可视区域的元素是激活菜单的最顶层父节点
-            if (menu.collapse) {
+            if (elMenu.collapse) {
                 let rootParent = curInstance
                 while (rootParent.$parent.$options.componentName !== 'ElMenu') {
                     rootParent = rootParent.$parent
@@ -198,10 +211,10 @@ export default {
                 this.watchOpenedMenusCallback = null
             }
 
-            const menu = this.$_getElMenuInstance()
-            if (!menu) return
+            const elMenu = this.$_getElMenuInstance()
+            if (!elMenu) return
 
-            this.watchOpenedMenusCallback = menu.$watch('openedMenus', v => {
+            this.watchOpenedMenusCallback = elMenu.$watch('openedMenus', v => {
                 this.openedMenuNum = v.length
             })
         },
@@ -257,9 +270,7 @@ export default {
                 if (oldVal === newVal) {
                     //避免与nav-menu的setElMenuActiveIndex重复
                     const elMenu = this.$_getElMenuInstance()
-                    elMenu && this.$nextTick(() => {
-                        elMenu.updateActiveIndex(this.defaultActive)
-                    })
+                    elMenu && this.$nextTick(this.resetActiveMenu)
                 }
             },
             {immediate: true}
@@ -314,7 +325,7 @@ export default {
                     ref="nav-menu"
                     menus={this.sidebarMenus}
                     collapse={this.collapse}
-                    default-active={this.defaultActive}
+                    default-active={this.activeMenu}
                     theme={asideGetters.theme}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}

@@ -56,7 +56,7 @@ export const mutations = {
      * @param view {View}
      */
     addTagOnly(view) {
-        if (!view.meta || isEmpty(view.meta.title)) {
+        if (isEmpty(view.meta.title)) {
             return
         }
 
@@ -76,7 +76,7 @@ export const mutations = {
      * @param view {View}
      */
     addCacheOnly(view) {
-        const {noCache} = view.meta || {}
+        const {noCache} = view.meta
 
         const key = getRouterKey(view)
 
@@ -116,7 +116,7 @@ export const mutations = {
         index > -1 && store.cachedViews.splice(index, 1)
 
         //移除iframe
-        const iframe = view.meta && view.meta.iframe
+        const {iframe} = view.meta
         iframe && pageMutations.delIframe(iframe)
     },
 
@@ -166,7 +166,7 @@ export const mutations = {
      * 从页签栏上移除所有非固定页签，并且移除所有缓存
      */
     delAllTagAndCache() {
-        store.visitedViews = store.visitedViews.filter(v => v.meta && v.meta.affix)
+        store.visitedViews = store.visitedViews.filter(v => v.meta.affix)
         mutations.delAllCache()
     }
 }

@@ -6,7 +6,7 @@ import Const from "./const"
 
 /**
  * 获取每个路由对应的唯一key
- * @param route
+ * @param route {Route}
  * @returns {string}
  */
 export function getRouterKey(route) {
@@ -20,7 +20,7 @@ export function getRouterKey(route) {
 
 /**
  * 获取路由标题
- * @param route
+ * @param route {Route}
  * @returns {string}
  */
 export function getRouterTitle(route) {
@@ -33,7 +33,7 @@ export function getRouterTitle(route) {
 
 /**
  * 获取路由对应的激活菜单index
- * @param route
+ * @param route {Route}
  * @returns {string}
  */
 export function getRouterActiveMenu(route) {
@@ -44,7 +44,7 @@ export function getRouterActiveMenu(route) {
 
 /**
  * 判断路由是否为redirect路由，是则返回true
- * @param route
+ * @param route {Route}
  * @returns {boolean}
  */
 export function isRedirectRouter(route) {

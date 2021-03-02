@@ -1,9 +1,8 @@
 import {Route, RawLocation} from 'vue-router'
-import {MenuItem} from "./menu";
+import {MenuItem, MenuItemMeta, StoreMenuItem} from "./menu";
 import {RouteMeta} from "./route";
 
 type Mutation<T> = (val: T) => void
-
 
 
 interface AppGetters {
@@ -13,13 +12,17 @@ interface AppGetters {
     logoRoute: RawLocation
     showLogo: boolean
     activeRootMenu: string
-    menus: MenuItem[]
+    menus: StoreMenuItem[]
     struct: 'top-bottom' | 'left-right'
     navMode: 'aside' | 'mix' | 'head'
 }
 
-type AppMutations = { [K in keyof AppGetters]: Mutation<AppGetters[K]> }
+type BaseAppMutations = { [K in keyof AppGetters]: Mutation<AppGetters[K]> }
 
+type AppMutations = Omit<BaseAppMutations, 'menus'> & {
+    menus: Mutation<MenuItem[]>
+    modifyMenuMeta: (fullPath: string, meta: MenuItemMeta) => void
+}
 
 
 interface AsideGetters {
@@ -30,7 +33,7 @@ interface AsideGetters {
     showParentOnCollapse: boolean
     autoHide: boolean
     alwaysRender: boolean
-    postMenus: (menus: MenuItem[]) => MenuItem[]
+    postMenus: (menus: StoreMenuItem[]) => MenuItem[]
     inlineIndent: number
     switchTransitionName: string
 }
@@ -42,7 +45,6 @@ type AsideMutations = BaseAsideMutations & {
     close: () => void
     switch: (action?: 'open' | 'close') => void
 }
-
 
 
 interface DropdownItem {
@@ -59,7 +61,6 @@ interface HeaderGetters {
 }
 
 type HeaderMutations = { [K in keyof HeaderGetters]: Mutation<HeaderGetters[K]> }
-
 
 
 interface PageGetters {
@@ -84,7 +85,6 @@ type PageMutations = BasePageMutations & {
     openIframe: (src: string) => void
     closeIframe: (src: string, del?: boolean) => void
 }
-
 
 
 interface View extends Route {
@@ -115,7 +115,6 @@ type TagsViewMutations = BaseTagsViewMutations & {
     delAllCache: () => void
     delAllTagAndCache: () => void
 }
-
 
 
 export const appGetters: AppGetters

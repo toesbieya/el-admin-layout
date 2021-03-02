@@ -67,18 +67,3 @@ export function findFirstLeaf(node, hasOtherLeaf = false) {
 
     return findFirstLeaf(node.children[0], hasOtherLeaf || node.children.length > 1)
 }
-
-/**
- * 返回传入的菜单数据的拷贝副本
- * @param menus {MenuItem[]}
- * @returns {MenuItem[]}
- */
-export function copyMenus(menus) {
-    return menus.map(menu => {
-        const result = {...menu}
-        if (result.children) {
-            result.children = copyMenus(result.children)
-        }
-        return result
-    })
-}

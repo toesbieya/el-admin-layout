@@ -2,7 +2,7 @@
     <div class="breadcrumb">
         <transition-group name="breadcrumb">
             <div
-                v-for="({fullPath, title}, index) in items"
+                v-for="({fullPath, meta: {title}}, index) in items"
                 v-if="index !== items.length - 1"
                 :key="fullPath"
                 class="breadcrumb-item"
@@ -14,7 +14,7 @@
             </div>
 
             <div v-if="lastItem" :key="lastItem.fullPath" class="breadcrumb-item">
-                <span class="breadcrumb-inner">{{ lastItem.title }}</span>
+                <span class="breadcrumb-inner">{{ lastItem.meta.title }}</span>
             </div>
         </transition-group>
     </div>
@@ -22,7 +22,6 @@
 
 <script>
 import {getMenuByFullPath} from "el-admin-layout/src/store/app"
-import {isEmpty} from "el-admin-layout/src/util"
 import {getRouterKey, getRouterTitle, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
@@ -45,46 +44,10 @@ export default {
     watch: {
         $route: {
             handler(to) {
-                const {path, fullPath, meta: {activeMenu}} = to
-
-                //刷新时不作处理
-                if (isRedirectRouter(to)) return
-
-                //使用route.path而非fullPath进行匹配
-                const menuFullPath = activeMenu || path
-                const menu = getMenuByFullPath(menuFullPath)
-
-                if (!menu) {
-                    console.warn(`[面包屑]：未找到'${menuFullPath}'对应的菜单`)
-                    this.items = []
-                    return
+                const result = this.generateBreadcrumb(to)
+                if (Array.isArray(result) && result.length !== 0) {
+                    this.items = result
                 }
-
-                //将菜单的所有父级放入数组
-                const items = [menu]
-                let parent = menu.parent
-                while (parent) {
-                    items.unshift(parent)
-                    parent = parent.parent
-                }
-
-                //使用了activeMenu的还需要拼接上自己的标题
-                if (activeMenu) {
-                    items.push({
-                        fullPath,
-                        meta: {
-                            title: getRouterTitle(to)
-                        }
-                    })
-                }
-
-                this.items = items
-                    .map(menu => {
-                        //菜单必须要有固定标题
-                        const title = menu.meta && menu.meta.title
-                        return !isEmpty(title) && {title, fullPath: menu.fullPath}
-                    })
-                    .filter(Boolean)
             },
             immediate: true
         }
@@ -106,6 +69,38 @@ export default {
             if (getRouterKey(route) !== getRouterKey(this.$route)) {
                 this.$router.push(route)
             }
+        },
+
+        generateBreadcrumb(route) {
+            const {path, fullPath, meta: {activeMenu}} = route
+
+            //刷新时返回undefined
+            if (isRedirectRouter(route)) return
+
+            //使用route.path而非fullPath进行匹配
+            const menuFullPath = activeMenu || path
+            const menu = getMenuByFullPath(menuFullPath)
+
+            //没有匹配的菜单
+            if (!menu) return []
+
+            //将菜单的所有父级放入数组
+            const items = [menu]
+            let parent = menu.parent
+            while (parent) {
+                items.unshift(parent)
+                parent = parent.parent
+            }
+
+            //使用了activeMenu的还需要拼接上自己的标题
+            if (activeMenu) {
+                items.push({
+                    fullPath,
+                    meta: {title: getRouterTitle(route)}
+                })
+            }
+
+            return items
         }
     }
 }
