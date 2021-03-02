@@ -38,13 +38,21 @@ export default {
                 return obj
             }, Object.create(null))
 
-            if (!this.$scopedSlots) return result
+            const slots = this.$scopedSlots
 
-            Object.entries(this.$scopedSlots).forEach(([k, v]) => {
+            if (!slots) return result
+
+            Object.entries(slots).forEach(([k, v]) => {
                 const childName = childNames.find(i => k.startsWith(i))
                 if (childName) {
-                    const lowerCase = k.charAt(childName.length).toLowerCase() + k.slice(childName.length + 1)
-                    result[childName][lowerCase] = v
+                    //aside -> aside:{default:...}
+                    if (childName.length === k.length) {
+                        return result[childName].default = v
+                    }
+
+                    //aside-header -> aside:{header:...}
+                    const childSlotName = [...k.slice(childName.length + 1)].join('')
+                    result[childName][childSlotName] = v
                 }
             })
 
