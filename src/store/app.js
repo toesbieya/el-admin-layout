@@ -3,10 +3,10 @@ import {createGetters, createMutations} from "./util"
 import {isEmpty} from "../util"
 import {isMobile} from "../helper"
 
-//加速查找menu的哈希表：<k: menu.fullPath, v: menu>
-const menuSearchMap = {}
-
 const state = {
+    //加速查找menu的哈希表：<k: menu.fullPath, v: menu>，内部使用、不在文档中列出
+    $_menuSearchMap: {},
+
     //区分pc和移动端
     isMobile: isMobile(),
 
@@ -53,7 +53,7 @@ function transformMenu(menus, parent) {
 
     copy.forEach(menu => {
         menu.parent = parent
-        menuSearchMap[menu.fullPath] = menu
+        store.$_menuSearchMap[menu.fullPath] = menu
 
         if (menu.children) {
             menu.children = transformMenu(menu.children, menu)
@@ -91,15 +91,36 @@ export const mutations = {
     ...createMutations(store),
 
     menus(v) {
+        //每次更新菜单时都需要清空menuSearchMap
+        mutations.$_menuSearchMap({})
+
         if (!Array.isArray(v)) {
             return store.menus = []
         }
 
         store.menus = transformMenu(v)
+    },
+
+    /**
+     * 修改某一个菜单的meta属性
+     *
+     * @param fullPath {string} 菜单的fullPath
+     * @param meta {MenuItemMeta}
+     */
+    modifyMenuMeta(fullPath, meta) {
+        const menu = getMenuByFullPath(fullPath)
+        if (!menu) {
+            if (process.env.NODE_ENV !== 'production') {
+                console.warn(`[appMutations.modifyMenu] 没有fullPath为${fullPath}的菜单`)
+            }
+            return
+        }
+
+        menu.meta = {...menu.meta, ...meta}
     }
 }
 
 //根据菜单的fullPath快速查找菜单
 export function getMenuByFullPath(fullPath) {
-    return menuSearchMap[fullPath]
+    return store.$_menuSearchMap[fullPath]
 }
