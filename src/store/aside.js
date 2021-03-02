@@ -11,7 +11,7 @@ const state = {
     show: false,
 
     //主题，light 或 dark
-    theme: 'light',
+    theme: 'dark',
 
     //手风琴效果
     uniqueOpen: true,
