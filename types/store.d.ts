@@ -32,6 +32,7 @@ interface AsideGetters {
     uniqueOpen: boolean
     collapse: boolean
     showParentOnCollapse: boolean
+    showHamburger: boolean
     autoHide: boolean
     alwaysRender: boolean
     postMenus: (menus: StoreMenuItem[]) => MenuItem[]

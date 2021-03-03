@@ -232,7 +232,7 @@ export default {
             return header ? header(defaultContent) : defaultContent
         },
         renderFooter() {
-            const defaultContent = !this.renderInDrawer && <hamburger/>
+            const defaultContent = asideGetters.showHamburger && !this.renderInDrawer && <hamburger/>
             const {footer} = this.$parent.$scopedSlots
 
             let children

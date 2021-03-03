@@ -22,6 +22,9 @@ const state = {
     //折叠时显示上级
     showParentOnCollapse: false,
 
+    //是否显示汉堡包
+    showHamburger: true,
+
     //自动隐藏
     autoHide: false,
 
