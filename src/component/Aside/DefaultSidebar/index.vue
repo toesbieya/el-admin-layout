@@ -325,7 +325,7 @@ export default {
                     ref="nav-menu"
                     menus={this.sidebarMenus}
                     collapse={this.collapse}
-                    default-active={this.activeMenu}
+                    default-active={this.defaultActive}
                     theme={asideGetters.theme}
                     unique-opened={asideGetters.uniqueOpen}
                     show-parent-on-collapse={asideGetters.showParentOnCollapse}
