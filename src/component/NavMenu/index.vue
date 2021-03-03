@@ -104,7 +104,7 @@ export default {
         renderMenuIcon(h, menu, depth) {
             const {'menu-icon': slot} = this.$scopedSlots
 
-            if (slot) return slot({menu, depth, context: this})
+            if (slot) return slot({menu, depth})
 
             const icon = menu.meta.icon
             return icon && <i class={`menu-icon ${icon}`}/>
@@ -114,7 +114,7 @@ export default {
             const {'menu-content': slot} = this.$scopedSlots
 
             return slot
-                ? slot({menu, depth, context: this})
+                ? slot({menu, depth})
                 : <span>{menu.meta.title}</span>
         },
         //渲染无子级的菜单

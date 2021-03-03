@@ -31,7 +31,7 @@ export default {
         const title = !isEmpty(txt) && this.showTitle && <h1>{txt}</h1>
 
         const {logo} = this.elAdminLayout.$scopedSlots
-        const children = logo ? logo({img, title, context: this}) : [img, title]
+        const children = logo ? logo({img, title, props: this.$props}) : [img, title]
 
         if (!children || Array.isArray(children) && children.filter(Boolean).length === 0) {
             return
