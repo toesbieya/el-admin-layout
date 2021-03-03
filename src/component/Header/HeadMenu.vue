@@ -1,10 +1,12 @@
 <script>
+//TODO activeMenu变动时会导致自身以及nav-menu的渲染，需要改造成和default-sidebar一样
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
 import menuMixin from "el-admin-layout/src/mixin/menu"
 import {appGetters, appMutations, headerGetters} from "el-admin-layout"
 import NavMenu from "el-admin-layout/src/component/NavMenu"
+import LoadingSpinner from 'el-admin-layout/src/component/LoadingSpinner'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
 import {getMenuByFullPath} from "el-admin-layout/src/store/app"
 import {findFirstLeaf} from "el-admin-layout/src/util"
@@ -14,7 +16,7 @@ export default {
 
     mixins: [menuMixin],
 
-    components: {NavMenu},
+    components: {NavMenu, LoadingSpinner},
 
     data() {
         return {
@@ -196,6 +198,14 @@ export default {
     },
 
     render() {
+        if (appGetters.loadingMenu) {
+            return (
+                <div style="position: relative;width: 100%;height: 100%">
+                    <loading-spinner/>
+                </div>
+            )
+        }
+
         if (this.menus.length === 0) return
 
         return (

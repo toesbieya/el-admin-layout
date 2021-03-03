@@ -4,6 +4,7 @@ import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
 import Logo from 'el-admin-layout/src/component/Logo'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
+import LoadingSpinner from 'el-admin-layout/src/component/LoadingSpinner'
 import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
 
 export default {
@@ -11,7 +12,7 @@ export default {
 
     mixins: [menuMixin],
 
-    components: {Logo, NavMenu, Hamburger},
+    components: {Logo, NavMenu, Hamburger, LoadingSpinner},
 
     data() {
         return {
@@ -321,22 +322,29 @@ export default {
             <div {...{class: this.sidebarClass, on: this.sidebarEvent}}>
                 {this.renderHeader()}
 
-                <nav-menu
-                    ref="nav-menu"
-                    menus={this.sidebarMenus}
-                    collapse={this.collapse}
-                    default-active={this.defaultActive}
-                    theme={asideGetters.theme}
-                    unique-opened={asideGetters.uniqueOpen}
-                    show-parent-on-collapse={asideGetters.showParentOnCollapse}
-                    inline-indent={asideGetters.inlineIndent}
-                    switch-transition-name={asideGetters.switchTransitionName}
-                    {...{
-                        //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
-                        on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus},
-                        scopedSlots: this.$parent.$scopedSlots
-                    }}
-                />
+                {appGetters.loadingMenu
+                    ? (
+                        <div style="position: relative;flex: 1">
+                            <loading-spinner/>
+                        </div>
+                    )
+                    : <nav-menu
+                        ref="nav-menu"
+                        menus={this.sidebarMenus}
+                        collapse={this.collapse}
+                        default-active={this.activeMenu}
+                        theme={asideGetters.theme}
+                        unique-opened={asideGetters.uniqueOpen}
+                        show-parent-on-collapse={asideGetters.showParentOnCollapse}
+                        inline-indent={asideGetters.inlineIndent}
+                        switch-transition-name={asideGetters.switchTransitionName}
+                        {...{
+                            //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
+                            on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus},
+                            scopedSlots: this.$parent.$scopedSlots
+                        }}
+                    />
+                }
 
                 {this.renderFooter()}
             </div>

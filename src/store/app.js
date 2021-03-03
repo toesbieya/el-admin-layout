@@ -25,8 +25,11 @@ const state = {
     //当前激活的顶部菜单的fullPath
     activeRootMenu: '',
 
-    //所有的树形菜单，每个元素为顶部菜单，顶部菜单的子级（如果有）为侧边栏菜单
+    //所有的树形菜单，mix导航模式时，每个元素为顶部菜单，顶部菜单的子级（如果有）为侧边栏菜单
     menus: [],
+
+    //是否正在加载菜单，会让侧边栏菜单和顶栏菜单呈现加载状态
+    loadingMenu: false,
 
     //分层结构，上下（'top-bottom'）、左右（'left-right'）
     struct: 'left-right',

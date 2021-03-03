@@ -13,6 +13,7 @@ interface AppGetters {
     showLogo: boolean
     activeRootMenu: string
     menus: StoreMenuItem[]
+    loadingMenu: boolean
     struct: 'top-bottom' | 'left-right'
     navMode: 'aside' | 'mix' | 'head'
 }
