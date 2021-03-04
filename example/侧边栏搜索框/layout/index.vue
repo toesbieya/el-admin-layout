@@ -1,20 +1,21 @@
 <template>
     <el-admin-layout ref="layout">
-        <template v-slot:asideHeader="defaultContent">
+        <template v-slot:aside-header="defaultContent">
             <aside-header :default="defaultContent"/>
         </template>
 
-        <template v-slot:asideMenuContent="{menu}">
+        <template v-slot:aside-menu-content="{menu}">
             <aside-menu-content :title="menu.meta.title" :search-word="searchWord"/>
         </template>
     </el-admin-layout>
 </template>
 
 <script>
-import ElAdminLayout, {appGetters, appMutations, asideGetters, asideMutations} from 'el-admin-layout'
+import ElAdminLayout, {appMutations, asideMutations} from 'el-admin-layout'
 import menus from "@example/common/menu"
-import MenuSearch from './component/MenuSearch'
-import {filterMenuBySearchWord, expandAfterSearch} from "../util"
+import AsideHeader from './AsideHeader'
+import AsideMenuContent from './AsideMenuContent'
+import {filterMenuBySearchWord, expandAfterSearch} from "./util"
 
 appMutations.title('侧边栏搜索框')
 appMutations.menus(menus)
@@ -23,75 +24,7 @@ appMutations.navMode('aside')
 export default {
     name: "Layout",
 
-    components: {
-        ElAdminLayout,
-
-        AsideHeader: {
-            functional: true,
-
-            props: {default: Object},
-
-            render(h, context) {
-                return [
-                    context.props.default,
-                    !appGetters.isMobile && (
-                        <MenuSearch
-                            v-show={!asideGetters.collapse}
-                            on-search={context.parent.searchWordMutation}
-                        />
-                    )
-                ]
-            }
-        },
-
-        AsideMenuContent: {
-            props: {
-                title: String,
-                searchWord: String
-            },
-
-            render() {
-                const {title, searchWord} = this
-
-                if (!searchWord) return <span>{title}</span>
-
-                const start = title.indexOf(searchWord)
-
-                if (start === -1) return <span>{title}</span>
-
-                const end = start + searchWord.length
-
-                return (
-                    <span>
-                        {title.substring(0, start)}
-                        <span class="menu-highlight-result">{title.substring(start, end)}</span>
-                        {title.substring(end)}
-                    </span>
-                )
-            }
-        }
-    },
-
-    props: {
-        //菜单内容搜索结果的渲染器
-        searchResultRenderer: {
-            type: Function,
-            default: (h, menu, searchWord) => {
-                const {title} = menu.meta
-                const start = title.indexOf(searchWord)
-
-                if (start === -1) return title
-
-                const end = start + searchWord.length
-
-                return [
-                    title.substring(0, start),
-                    <span class="menu-highlight-result">{title.substring(start, end)}</span>,
-                    title.substring(end)
-                ]
-            }
-        },
-    },
+    components: {ElAdminLayout, AsideHeader, AsideMenuContent},
 
     data: () => ({searchWord: ''}),
 
@@ -103,7 +36,7 @@ export default {
             const searchWord = this.searchWord
             const filtered = filterMenuBySearchWord(menus, searchWord)
 
-            //在新的菜单渲染完毕后
+            //在新的菜单渲染完毕后展开sub-menu
             this.$nextTick(() => {
                 const sidebar = this.$refs['layout'].$refs['aside'].$refs['default-sidebar']
                 const elMenu = sidebar.$_getElMenuInstance()
@@ -117,8 +50,6 @@ export default {
     },
 
     created() {
-        asideMutations.theme('dark')
-
         //避免搜索结果为空时侧边栏不渲染
         asideMutations.alwaysRender(true)
         asideMutations.postMenus(this.postMenus)

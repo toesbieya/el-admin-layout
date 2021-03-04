@@ -1,7 +1,7 @@
 export default [
     {
         fullPath: '/',
-        meta: {title: '根菜单1', icon: 'el-icon-success'},
+        meta: {title: '根菜单', icon: 'el-icon-success'},
         children: [
             {
                 fullPath: '/index',

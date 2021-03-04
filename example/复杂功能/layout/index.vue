@@ -1,26 +1,26 @@
 <template>
     <div style="height: 100%">
         <el-admin-layout :header-props="headerProps">
-            <template v-slot:menuContent="{menu, depth, context}">
+            <template v-slot:menu-content="{menu, depth, context}">
                 <span>{{ menu.meta.title }}</span>
 
                 <span
                     v-if="menu.meta.title === '首页' && (depth > 1 || !context.collapse)"
                     class="menu-tag menu-tag--danger"
                 >
-                new
-            </span>
+                    new
+                </span>
             </template>
 
-            <template v-slot:headerRight="defaultContent">
+            <template v-slot:header-right="defaultContent">
                 <header-right :default="defaultContent"/>
             </template>
 
-            <template v-if="renderOldQiniuSidebar" v-slot:asideDefault="props">
+            <template v-if="renderOldQiniuSidebar" v-slot:aside="props">
                 <old-qiniu-sidebar/>
             </template>
 
-            <template v-slot:pageFooter>
+            <template v-slot:page-footer>
                 <page-footer/>
             </template>
         </el-admin-layout>

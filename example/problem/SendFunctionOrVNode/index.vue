@@ -1,4 +1,4 @@
-<script type="text/jsx">
+<script>
 /**
  * () => VNode  vs  VNode
  * 两者区别不大？直接返回VNode(h(...))并不会触发组件的渲染
