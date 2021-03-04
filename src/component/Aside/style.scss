@@ -4,11 +4,6 @@
     box-shadow: 1px 0 4px rgba(0, 0, 0, .5);
     z-index: $header-z-index - 1;
 
-    //移动端下不能设置z-index，否则会被el-drawer的遮罩遮住
-    @media (max-width: $max-mobile-width) {
-        z-index: unset !important;
-    }
-
     //侧边栏底部区域
     .sidebar-footer {
         border-top-width: 1px;
