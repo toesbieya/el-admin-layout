@@ -28,8 +28,8 @@
     "vue-template-compiler": "^2.6.12"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.0-alpha.4",
-    "@vue/cli-service": "^5.0.0-alpha.4",
+    "@vue/cli-plugin-babel": "^5.0.0-alpha.5",
+    "@vue/cli-service": "^5.0.0-alpha.5",
     "element-ui": "^2.15.0",
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
