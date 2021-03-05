@@ -15,8 +15,8 @@
 
 <script>
 import {pageGetters, pageMutations, tagsViewGetters} from "el-admin-layout"
-import {getRouterKey} from "@/config/logic"
-import {isEmpty} from "@/util"
+import {getRouterKey} from "el-admin-layout/src/config/logic"
+import {isEmpty} from "el-admin-layout/src/util"
 
 export default {
     name: "PageIframe",
