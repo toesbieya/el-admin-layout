@@ -1,11 +1,11 @@
 <template>
     <el-drawer
-        :visible="value"
+        :visible="visible"
         :with-header="false"
         custom-class="setting-drawer"
         append-to-body
         size="300px"
-        @close="close"
+        @close="visible = false"
     >
         <el-divider>导航模式</el-divider>
         <div class="setting-drawer-item">
@@ -168,12 +168,9 @@ export default {
 
     components: {CheckboxGroup, ColorCheckbox, ImgCheckbox},
 
-    props: {
-        value: Boolean
-    },
-
     data() {
         return {
+            visible: false,
             navModes: [
                 {
                     label: '侧边栏导航',
@@ -206,11 +203,6 @@ export default {
     },
 
     methods: {
-        //关闭抽屉
-        close() {
-            this.$emit('input', false)
-        },
-
         //表单数据发生改变时，修改vuex的数据
         onChange(type, val) {
             this.$store.commit(`setting/${type}`, val)

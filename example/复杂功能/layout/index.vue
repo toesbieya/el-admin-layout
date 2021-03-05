@@ -1,6 +1,6 @@
 <template>
     <div style="height: 100%">
-        <el-admin-layout :header-props="headerProps">
+        <el-admin-layout>
             <template v-slot:menu-content="{menu, depth, context}">
                 <span>{{ menu.meta.title }}</span>
 
@@ -29,7 +29,7 @@
             <i class="el-icon-top"/>
         </el-backtop>
 
-        <setting-drawer v-model="showSettingDrawer"/>
+        <setting-drawer ref="setting-drawer"/>
     </div>
 </template>
 
@@ -44,7 +44,7 @@ import SettingDrawer from './component/SettingDrawer'
 appMutations.title('el-admin-layout')
 appMutations.logo('https://preview.pro.ant.design/static/logo.f0355d39.svg')
 appMutations.menus(menus)
-headerMutations.username('测试用户')
+
 
 export default {
     name: "Layout",
@@ -72,22 +72,7 @@ export default {
         }
     },
 
-    data: () => ({showSettingDrawer: false}),
-
     computed: {
-        headerProps() {
-            return {
-                username: '测试用户',
-                dropdownItems: [
-                    {
-                        icon: 'el-icon-switch-button',
-                        content: '退出登录',
-                        handler: this.logout
-                    }
-                ]
-            }
-        },
-
         //仅在非移动端且navMode为aside-two-part时渲染
         renderOldQiniuSidebar() {
             return !appGetters.isMobile && this.$store.state.setting.app.navMode === 'aside-two-part'
@@ -100,12 +85,17 @@ export default {
         },
 
         openSettingDrawer() {
-            this.showSettingDrawer = true
+            this.$refs['setting-drawer'].visible = true
         }
     },
 
-    mounted() {
-        //setTimeout(() => this.showSettingDrawer = true, 1000)
+    created() {
+        headerMutations.username('测试用户')
+        headerMutations.dropdownItems([{
+            icon: 'el-icon-switch-button',
+            content: '退出登录',
+            handler: this.logout
+        }])
     }
 }
 </script>
