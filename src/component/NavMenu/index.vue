@@ -11,12 +11,12 @@ import SubMenu from './ElMenu/sub'
 import {isEmpty} from "el-admin-layout/src/util"
 
 /**
- * 获取不需要嵌套展示的菜单，如果需要嵌套展示，则返回null
+ * 判断菜单是否以el-menu形式展示，是则返回剔除了children属性的菜单，否则返回null
  *
  * @param menu {MenuItem}
- * @returns {(*&{children: undefined})|null|*|{children: undefined}}
+ * @returns {MenuItem|null}
  */
-function getOnlyChild(menu) {
+function getSingleMenu(menu) {
     const {children, meta: {alwaysShow = true} = {}} = menu
 
     //无子级
@@ -26,7 +26,7 @@ function getOnlyChild(menu) {
     if (children.length === 0) return {...menu, children: undefined}
 
     //只有一个子级
-    if (children.length === 1) return alwaysShow ? null : getOnlyChild(children[0])
+    if (children.length === 1) return alwaysShow ? null : getSingleMenu(children[0])
 
     return null
 }
@@ -163,11 +163,10 @@ export default {
         //渲染菜单项
         renderMenus(h, menus, depth = 1) {
             return menus.map(menu => {
-                const onlyOneChild = getOnlyChild(menu)
-                const showSingle = onlyOneChild && !onlyOneChild.children
+                const singleMenu = getSingleMenu(menu)
 
-                if (showSingle) {
-                    return this.renderSingleMenu(h, onlyOneChild, depth)
+                if (singleMenu) {
+                    return this.renderSingleMenu(h, singleMenu, depth)
                 }
 
                 //此处menu必有children属性
