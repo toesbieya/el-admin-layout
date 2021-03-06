@@ -1,5 +1,4 @@
 <script>
-//TODO activeMenu变动时会导致自身以及nav-menu的渲染，需要改造成和default-sidebar一样
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
