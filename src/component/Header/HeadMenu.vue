@@ -87,7 +87,7 @@ export default {
     },
 
     methods: {
-        //路由变化时设置高亮根节点菜单，设置成功时返回true
+        //路由变化时设置高亮根节点菜单，有匹配路由且非redirect路由时返回true
         setActiveRootMenu(route) {
             const {matched} = route
 
@@ -104,12 +104,16 @@ export default {
             return true
         },
         setActiveMenu(navMode = appGetters.navMode, route = this.$route) {
+            const oldVal = this.activeMenu
+
             //只有在混合导航模式下才将当前激活的顶部菜单认为是当前菜单
             if (navMode === 'mix') {
                 this.activeMenu = appGetters.activeRootMenu
             }
             //否则按照路由配置项设置
             else this.activeMenu = getRouterActiveMenu(route)
+
+            this.activeMenu !== oldVal && this.resetActiveMenu()
         },
 
         //点击菜单时触发
@@ -181,8 +185,15 @@ export default {
     },
 
     created() {
-        //切换导航模式时重新设置高亮菜单
-        this.$watch(() => appGetters.navMode, v => this.setActiveMenu(v))
+        //顶部菜单变动时设置当前的高亮菜单
+        this.$watch(
+            'realMenus',
+            v => {
+                this.setActiveMenu()
+                this.setDefaultActiveMenu(v)
+            },
+            {immediate: true}
+        )
     },
 
     mounted() {
@@ -214,7 +225,7 @@ export default {
                 menus={this.realMenus}
                 theme={headerGetters.theme}
                 mode="horizontal"
-                default-active={this.activeMenu}
+                default-active={this.defaultActive}
                 on-select={this.onSelect}
                 {...{scopedSlots: this.$parent.$scopedSlots}}
             />

@@ -16,9 +16,6 @@ export default {
 
     data() {
         return {
-            //传递给nav-menu，只会在activeMenu第一次变化时变化
-            defaultActive: '',
-
             //开启了自动隐藏时，判断鼠标是否在侧边栏外
             mouseOutside: true,
             //开启了自动隐藏时，用于判断鼠标是否在弹出菜单内
@@ -260,22 +257,7 @@ export default {
     created() {
         //侧边栏菜单变化时设置当前的高亮菜单
         //在此前，activeMenu会在watch:$route中发生第一次变化（不会真有人把menu.meta.activeMenu设成''吧？）
-        this.$watch(
-            'sidebarMenus',
-            () => {
-                const newVal = this.activeMenu
-                const oldVal = this.defaultActive
-                this.defaultActive = newVal
-
-                //nav-menu中是通过watch去监听的defaultActive，所以在值未变化时需要强制变更
-                if (oldVal === newVal) {
-                    //避免与nav-menu的setElMenuActiveIndex重复
-                    const elMenu = this.$_getElMenuInstance()
-                    elMenu && this.$nextTick(this.resetActiveMenu)
-                }
-            },
-            {immediate: true}
-        )
+        this.$watch('sidebarMenus', this.setDefaultActiveMenu, {immediate: true})
 
         //添加或移除鼠标移动事件
         this.$watch(
@@ -332,7 +314,7 @@ export default {
                         ref="nav-menu"
                         menus={this.sidebarMenus}
                         collapse={this.collapse}
-                        default-active={this.activeMenu}
+                        default-active={this.defaultActive}
                         theme={asideGetters.theme}
                         unique-opened={asideGetters.uniqueOpen}
                         show-parent-on-collapse={asideGetters.showParentOnCollapse}

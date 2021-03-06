@@ -9,7 +9,10 @@ export default {
         return {
             //当前激活的菜单的fullPath
             //之所以手动维护是因为el-menu在点击后就会设置activeIndex
-            activeMenu: ''
+            activeMenu: '',
+
+            //传递给nav-menu，只会在activeMenu第一次变化时变化
+            defaultActive: '',
         }
     },
 
@@ -35,11 +38,25 @@ export default {
                 : this.$router.push(route)
         },
 
-        //由于侧边栏菜单数组更新后，el-menu不一定会更新（当数组中不存在单级菜单时）
-        //所以手动更新el-menu的当前高亮菜单
+        //el-menu的高亮结果可能有误，所以手动更新
         resetActiveMenu() {
             const elMenu = this.$_getElMenuInstance()
             elMenu && elMenu.updateActiveIndex(this.activeMenu)
+        },
+
+        //将defaultActive更新为activeMenu的值，如果两者相同会调用resetActiveMenu()
+        //尽量少调用，defaultActive的变化将导致调用方以及nav-menu的重新渲染
+        setDefaultActiveMenu() {
+            const newVal = this.activeMenu
+            const oldVal = this.defaultActive
+
+            //该值变化时，nav-menu会重新渲染来更新高亮菜单
+            this.defaultActive = newVal
+
+            //未变化时需要手动更新
+            if (oldVal === newVal) {
+                this.resetActiveMenu()
+            }
         },
 
         //获取el-menu实例
