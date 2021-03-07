@@ -39,6 +39,7 @@ interface AsideGetters {
     postMenus: (menus: StoreMenuItem[]) => MenuItem[]
     inlineIndent: number
     switchTransitionName: string
+    defaultOpeneds: string[]
 }
 
 type BaseAsideMutations = { [K in keyof AsideGetters]: Mutation<AsideGetters[K]> }

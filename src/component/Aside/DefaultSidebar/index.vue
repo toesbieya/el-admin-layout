@@ -115,9 +115,7 @@ export default {
                 this.resetActiveMenu()
 
                 const item = elMenu.items[this.activeMenu]
-
-                //如果侧边栏中没有对应的激活菜单，则收起全部，退出
-                if (!item) return elMenu.openedMenus = []
+                if (!item) return
 
                 //由于elMenu的initOpenedMenu()不会触发select事件，所以选择手动触发
                 this.onSelect(item.index, item.indexPath, item, false)
@@ -142,11 +140,10 @@ export default {
 
         //模拟选中菜单
         onSelect(index, indexPath, item, jump = true) {
-            //开启手风琴模式时，激活没有子级的菜单时收起其它展开项
-            if (asideGetters.uniqueOpen && indexPath.length === 1) {
+            //开启手风琴模式时，收起其它展开项
+            if (asideGetters.uniqueOpen) {
                 const elMenu = this.$_getElMenuInstance()
-                const opened = elMenu.openedMenus
-                opened.forEach(i => i !== index && elMenu.closeMenu(i))
+                elMenu.openedMenus = indexPath.slice(0, -1)
             }
 
             jump && this.actionOnSelectMenu(index)
@@ -315,6 +312,7 @@ export default {
                         menus={this.sidebarMenus}
                         collapse={this.collapse}
                         default-active={this.defaultActive}
+                        default-openeds={asideGetters.defaultOpeneds}
                         theme={asideGetters.theme}
                         unique-opened={asideGetters.uniqueOpen}
                         show-parent-on-collapse={asideGetters.showParentOnCollapse}

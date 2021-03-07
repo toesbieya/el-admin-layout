@@ -38,7 +38,10 @@ const state = {
     inlineIndent: parseFloat(cssVar.menuPadding),
 
     //侧边栏菜单变化时的过渡动画名称，最终传递给transition的name属性，为空时不使用过渡动画
-    switchTransitionName: 'sidebar'
+    switchTransitionName: 'sidebar',
+
+    //默认展开的菜单的fullPath数组
+    defaultOpeneds: []
 }
 
 const store = Vue.observable(state)
