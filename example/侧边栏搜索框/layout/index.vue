@@ -40,9 +40,7 @@ export default {
             this.$nextTick(() => {
                 const sidebar = this.$refs['layout'].$refs['aside'].$refs['default-sidebar']
                 const elMenu = sidebar.$_getElMenuInstance()
-                if (elMenu) {
-                    expandAfterSearch(elMenu, searchWord, filtered)
-                }
+                elMenu && expandAfterSearch(elMenu, searchWord, filtered)
             })
 
             return filtered

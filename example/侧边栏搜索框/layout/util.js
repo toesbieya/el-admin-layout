@@ -45,17 +45,14 @@ export function expandAfterSearch(elMenu, searchWord, filteredMenus) {
         return elMenu.initOpenedMenu()
     }
 
-    const {openedMenus, submenus} = elMenu
     const expandMenus = getSubHighlightMenu(searchWord, filteredMenus)
+    const expandMenuIndexList = [...elMenu.openedMenus]
+
+    for (const {fullPath} of expandMenus) {
+        const sub = elMenu.submenus[fullPath]
+        sub && expandMenuIndexList.push(...sub.indexPath)
+    }
 
     //不调用el-menu的open方法是为了避免uniqueOpened
-    for (const {fullPath} of expandMenus) {
-        const sub = submenus[fullPath]
-
-        if (!sub || openedMenus.includes(sub.index)) continue
-
-        sub.indexPath.forEach(i => {
-            !openedMenus.includes(i) && openedMenus.push(i)
-        })
-    }
+    elMenu.openedMenus = [...new Set(expandMenuIndexList)]
 }
