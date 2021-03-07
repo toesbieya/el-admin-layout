@@ -1,5 +1,4 @@
 <script>
-// TODO 增加展开全部的api
 /**
  * 基于el-menu封装的无限级菜单
  * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
@@ -57,7 +56,8 @@ export default {
 
         mode: {type: String, default: 'vertical'},  //在el-menu原效果上加了样式名
         collapse: Boolean,
-        defaultActive: String,
+        defaultActive: String, //不参与渲染
+        defaultOpeneds: Array, //不参与渲染
         uniqueOpened: Boolean
     },
 
@@ -83,9 +83,19 @@ export default {
     },
 
     watch: {
-        //defaultActive改变时直接修改el-menu的activeIndex，避免nav-menu重新渲染
+        //值变化时直接修改el-menu的activeIndex
         defaultActive(v) {
             this.$nextTick(() => this.setElMenuActiveIndex(v))
+        },
+
+        //值变化时直接修改el-menu的openedMenus
+        defaultOpeneds(v) {
+            const elMenu = this.$refs['el-menu']
+
+            //模仿el-menu原有逻辑
+            if (elMenu && !this.collapse) {
+                elMenu.openedMenus = v
+            }
         }
     },
 
