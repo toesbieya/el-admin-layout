@@ -41,7 +41,11 @@ export default {
         //el-menu的高亮结果可能有误，所以手动更新
         resetActiveMenu() {
             const elMenu = this.$_getElMenuInstance()
-            elMenu && elMenu.updateActiveIndex(this.activeMenu)
+
+            //仅当存在index为this.activeMenu的el-menu-item时才更新
+            if (elMenu && elMenu.items[this.activeMenu]) {
+                elMenu.updateActiveIndex(this.activeMenu)
+            }
         },
 
         //将defaultActive更新为activeMenu的值，如果两者相同会调用resetActiveMenu()
