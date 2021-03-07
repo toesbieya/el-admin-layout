@@ -10,6 +10,7 @@ interface AppGetters {
     title: string
     logo: string
     logoRoute: RawLocation
+    onLogoClick: (e: Event) => any
     showLogo: boolean
     activeRootMenu: string
     menus: StoreMenuItem[]

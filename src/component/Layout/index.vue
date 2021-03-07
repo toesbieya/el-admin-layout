@@ -16,11 +16,6 @@ export default {
         }
     },
 
-    props: {
-        //点击logo容器时触发，会替换原有的逻辑
-        onLogoClick: Function
-    },
-
     computed: {
         isLeftRight() {
             return appGetters.struct === 'left-right'

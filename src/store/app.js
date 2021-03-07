@@ -19,6 +19,9 @@ const state = {
     //点击logo后跳转的路由，作为router.push/replace的第一个参数
     logoRoute: '/',
 
+    //点击logo容器时触发，会替换原有的逻辑，(e) => any
+    onLogoClick: undefined,
+
     //是否显示侧边栏或顶栏的logo
     showLogo: true,
 

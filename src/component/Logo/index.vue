@@ -16,7 +16,10 @@ export default {
     props: {showTitle: Boolean},
 
     methods: {
-        onClick() {
+        onClick(e) {
+            const {onLogoClick} = appGetters
+            if (onLogoClick) return onLogoClick(e)
+
             const to = appGetters.logoRoute
             const method = typeof to === 'object' && to.replace ? 'replace' : 'push'
 
@@ -37,13 +40,8 @@ export default {
             return
         }
 
-        const {onLogoClick} = this.elAdminLayout
-
         return (
-            <div
-                class="logo-container"
-                on-click={onLogoClick ? onLogoClick : this.onClick}
-            >
+            <div class="logo-container" on-click={this.onClick}>
                 {children}
             </div>
         )
