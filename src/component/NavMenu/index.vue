@@ -56,8 +56,8 @@ export default {
 
         mode: {type: String, default: 'vertical'},  //在el-menu原效果上加了样式名
         collapse: Boolean,
-        defaultActive: String, //不参与渲染
-        defaultOpeneds: Array, //不参与渲染
+        defaultActive: String,
+        defaultOpeneds: Array,
         uniqueOpened: Boolean
     },
 
@@ -82,29 +82,7 @@ export default {
         }
     },
 
-    watch: {
-        //值变化时直接修改el-menu的activeIndex
-        defaultActive(v) {
-            this.$nextTick(() => this.setElMenuActiveIndex(v))
-        },
-
-        //值变化时直接修改el-menu的openedMenus
-        defaultOpeneds(v) {
-            const elMenu = this.$refs['el-menu']
-
-            //模仿el-menu原有逻辑
-            if (elMenu && !this.collapse) {
-                elMenu.openedMenus = v
-            }
-        }
-    },
-
     methods: {
-        //手动调用el-menu的updateActiveIndex方法
-        setElMenuActiveIndex(v) {
-            const elMenu = this.$refs['el-menu']
-            elMenu && elMenu.updateActiveIndex(v)
-        },
         //将el-menu的select事件传递给外部
         onSelect(...args) {
             this.$emit('select', ...args)
@@ -193,11 +171,6 @@ export default {
         }
     },
 
-    mounted() {
-        //nav-menu mounted时，el-menu必定mounted
-        this.setElMenuActiveIndex(this.defaultActive)
-    },
-
     render() {
         return (
             <el-menu
@@ -207,6 +180,8 @@ export default {
                 collapse={this.collapse}
                 collapse-transition={false}
                 unique-opened={this.uniqueOpened}
+                default-active={this.defaultActive}
+                default-openeds={this.defaultOpeneds}
                 on-select={this.onSelect}
             >
                 {this.children}
