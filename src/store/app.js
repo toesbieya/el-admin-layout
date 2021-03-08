@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import {createGetters, createMutations} from "./util"
-import {isEmpty} from "../util"
 import {isMobile} from "../helper"
 
 const state = {
@@ -72,16 +71,14 @@ function transformMenu(menus, parent) {
 //菜单排序值的空值处理
 function getSortValue(item) {
     const sort = deepGetSortValue(item)
-    return isEmpty(sort) ? 10000 : sort
+    return sort == null ? 10000 : sort
 }
 
 //获取菜单的排序值
 function deepGetSortValue(item) {
-    const {children = [], meta: {hidden, sort} = {}} = item
+    const {children = [], meta: {sort} = {}} = item
 
-    if (hidden) return null
-
-    if (!isEmpty(sort)) return sort
+    if (sort == null) return sort
 
     //如果只有一个子节点，那么取子节点的排序值
     if (children.length === 1) {
