@@ -1,6 +1,7 @@
 @import "~element-ui/packages/theme-chalk/src/common/var.scss";
 
 //移动端的最大宽度
+//值变动时需同时修改../config/const.js maxMobileWidth
 $max-mobile-width: 500px !default;
 
 //logo的宽高
@@ -11,6 +12,7 @@ $menu-icon-size: 16px !default;
 //菜单中icon和文字的距离
 $menu-icon-text-gap: 10px !default;
 //菜单的padding
+//值变动时需同时修改../store/aside.js inlineIndent
 $menu-padding: $menu-icon-size + $menu-icon-text-gap !default;
 //暗色菜单的背景色
 $menu-background-dark: #304156 !default;
@@ -65,8 +67,3 @@ $page-footer-height: 64px !default;
 
 //暗色边框的颜色，用于nav-menu和侧边栏
 $--border-color-dark: darken($header-background-dark, 5%) !default;
-
-:export {
-    maxMobileWidth: $max-mobile-width;
-    menuPadding: $menu-padding;
-}

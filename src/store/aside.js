@@ -4,7 +4,6 @@
 import Vue from 'vue'
 import {getters as appGetters} from "./app"
 import {createGetters, createMutations} from "./util"
-import cssVar from "../style/var.scss"
 
 const state = {
     //抽屉模式时的显隐
@@ -34,8 +33,8 @@ const state = {
     //在侧边栏渲染前对菜单数据进行操作的函数（menus => changedMenus:array），需要返回修改后的菜单数组！
     postMenus: null,
 
-    //传递给nav-menu，子菜单的单位缩进距离
-    inlineIndent: parseFloat(cssVar.menuPadding),
+    //传递给nav-menu，子菜单的单位缩进距离，默认为var.scss中的$menu-padding
+    inlineIndent: 26,
 
     //侧边栏菜单变化时的过渡动画名称，最终传递给transition的name属性，为空时不使用过渡动画
     switchTransitionName: 'sidebar',
