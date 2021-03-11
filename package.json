@@ -19,7 +19,8 @@
     "serve": "vue-cli-service serve",
     "build:example": "vue-cli-service build",
     "build:lib-umd": "vue-cli-service build --target lib --formats umd-min --name index build/umd.js",
-    "build:lib-esm": "node build/esm.js"
+    "build:lib-esm": "node build/esm.js",
+    "build:css": "node build/css.js"
   },
   "peerDependencies": {
     "element-ui": "^2.15.0",

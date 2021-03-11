@@ -6,6 +6,7 @@ const fs = require('fs')
 const path = require('path')
 const rimraf = require('rimraf')
 const compile = require('./compile')
+const {calcTimeCost} = require('./util')
 
 //输入目录，绝对路径
 const inputDir = path.resolve(__dirname, '../src')
@@ -107,17 +108,9 @@ function mkdirWhenNoExist(relativePath) {
 }
 
 
-function main() {
-    const start = Date.now()
-    console.log('\033[44;30m START \033[40;34m Start Compilation ... \033[0m\n')
-
+calcTimeCost(() => {
     fs.existsSync(outputDir) && rimraf.sync(outputDir)
     fs.mkdirSync(outputDir)
 
     handler(fs.readdirSync(inputDir))
-
-    const spend = Date.now() - start
-    console.log('\033[42;30m DONE \033[40;32m Finish Compilation in ' + spend + 'ms\033[0m')
-}
-
-main()
+}, 'Start library compilation ...', 'Finish library compilation')
