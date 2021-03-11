@@ -2,13 +2,13 @@
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
-import menuMixin from "el-admin-layout/src/mixin/menu"
+import menuMixin from "../../mixin/menu"
 import {appGetters, appMutations, headerGetters} from "el-admin-layout"
-import NavMenu from "el-admin-layout/src/component/NavMenu"
-import LoadingSpinner from 'el-admin-layout/src/component/LoadingSpinner'
-import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
-import {getMenuByFullPath} from "el-admin-layout/src/store/app"
-import {findFirstLeaf} from "el-admin-layout/src/util"
+import NavMenu from "../../component/NavMenu"
+import LoadingSpinner from '../../component/LoadingSpinner'
+import {getRouterActiveMenu, isRedirectRouter} from "../../config/logic"
+import {getMenuByFullPath} from "../../store/app"
+import {findFirstLeaf} from "../../util"
 
 export default {
     name: "HeadMenu",

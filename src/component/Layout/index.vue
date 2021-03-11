@@ -4,8 +4,8 @@ import Header from '../Header'
 import TagsView from '../TagsView'
 import Page from '../Page'
 import {appGetters, appMutations, tagsViewGetters} from "el-admin-layout"
-import {isMobile} from "el-admin-layout/src/helper"
-import {debounce} from "el-admin-layout/src/util"
+import {isMobile} from "../../helper"
+import {debounce} from "../../util"
 
 export default {
     name: 'ElAdminLayout',

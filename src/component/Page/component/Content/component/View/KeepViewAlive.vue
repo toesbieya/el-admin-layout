@@ -1,6 +1,6 @@
 <script>
-import {isEmpty} from "el-admin-layout/src/util"
-import {getRouterKey} from "el-admin-layout/src/config/logic"
+import {isEmpty} from "../../../../../../util"
+import {getRouterKey} from "../../../../../../config/logic"
 
 //添加到组件实例的componentOptions对象的缓存标识的属性名
 const KEY = '_routerViewKey'

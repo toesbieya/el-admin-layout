@@ -2,10 +2,10 @@
 //TODO header会在head-menu渲染后再次渲染，初步排查是head-menu中的activeMenu改变所致
 import {appGetters, headerGetters} from "el-admin-layout"
 import HeadMenu from "./HeadMenu"
-import Logo from "el-admin-layout/src/component/Logo"
-import Hamburger from 'el-admin-layout/src/component/Hamburger'
-import {refreshPage} from "el-admin-layout/src/helper"
-import {isEmpty} from "el-admin-layout/src/util"
+import Logo from "../../component/Logo"
+import Hamburger from '../../component/Hamburger'
+import {refreshPage} from "../../helper"
+import {isEmpty} from "../../util"
 
 export default {
     name: 'Header',

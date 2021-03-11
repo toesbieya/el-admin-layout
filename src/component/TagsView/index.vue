@@ -8,8 +8,8 @@ import {
 } from "el-admin-layout"
 import ContextMenu from "./ContextMenu"
 import ScrollPanel from './ScrollPanel'
-import {refreshPage} from "el-admin-layout/src/helper"
-import {getRouterKey, getRouterTitle, isRedirectRouter} from "el-admin-layout/src/config/logic"
+import {refreshPage} from "../../helper"
+import {getRouterKey, getRouterTitle, isRedirectRouter} from "../../config/logic"
 
 export default {
     name: 'TagsView',

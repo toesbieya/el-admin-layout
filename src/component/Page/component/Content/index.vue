@@ -2,7 +2,7 @@
 import PageHeader from "./component/Header"
 import PageFooter from "./component/Footer"
 import PageView from "./component/View"
-import Breadcrumb from 'el-admin-layout/src/component/Breadcrumb'
+import Breadcrumb from '../../../../component/Breadcrumb'
 import {pageGetters} from "el-admin-layout"
 
 export default {

@@ -1,6 +1,6 @@
 <script>
 import {appGetters} from "el-admin-layout"
-import {isEmpty} from "el-admin-layout/src/util"
+import {isEmpty} from "../../util"
 
 export default {
     name: 'Logo',

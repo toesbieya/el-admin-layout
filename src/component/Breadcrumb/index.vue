@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import {getMenuByFullPath} from "el-admin-layout/src/store/app"
-import {getRouterKey, getRouterTitle, isRedirectRouter} from "el-admin-layout/src/config/logic"
+import {getMenuByFullPath} from "../../store/app"
+import {getRouterKey, getRouterTitle, isRedirectRouter} from "../../config/logic"
 
 export default {
     name: "Breadcrumb",
