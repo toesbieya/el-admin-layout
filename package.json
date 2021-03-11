@@ -17,15 +17,13 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build:example": "vue-cli-service build",
-    "build:lib": "vue-cli-service build --target lib --formats umd-min --name index build/entry.js"
+    "build:lib-umd": "vue-cli-service build --target lib --formats umd-min --name index build/umd.js",
+    "build:lib-esm": "node build/esm.js"
   },
   "peerDependencies": {
-    "@vue/cli-plugin-babel": "~4.0.0 || ~5.0.0-0",
-    "@vue/cli-service": "~4.0.0 || ~5.0.0-0",
     "element-ui": "^2.15.0",
     "vue": "^2.6.12",
-    "vue-router": "^3.3.4",
-    "vue-template-compiler": "^2.6.12"
+    "vue-router": "^3.3.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^5.0.0-alpha.5",

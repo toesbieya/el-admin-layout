@@ -3,13 +3,14 @@
  */
 
 const fs = require('fs')
+const path = require('path')
 const rimraf = require('rimraf')
 const compile = require('./compile')
 
-//输入目录
-const inputDir = '../src'
-//输出目录
-const outputDir = '../dist/esm'
+//输入目录，绝对路径
+const inputDir = path.resolve(__dirname, '../src')
+//输出目录，绝对路径
+const outputDir = path.resolve(__dirname, '../dist/esm')
 //忽略目录，相对于输入目录
 const exclude = ['/style']
 //忽略文件后缀
@@ -19,11 +20,12 @@ const onlyCopy = ['/config', '/mixin', '/store']
 //仅需拷贝的文件后缀
 const onlyCopyExtension = ['.js']
 
-function handler(children, parent = '') {
-    if (!children || children.length === 0) return
 
-    children.forEach(child => {
-        const relativePath = parent + '/' + child
+function handler(filePathList, parentPath = '') {
+    if (!filePathList || filePathList.length === 0) return
+
+    filePathList.forEach(filePath => {
+        const relativePath = parentPath + '/' + filePath
         const fullPath = inputDir + relativePath
         const stat = fs.statSync(fullPath)
 
@@ -41,18 +43,18 @@ function handler(children, parent = '') {
         }
 
         //是被忽略的文件
-        if (excludeExtension.some(i => child.endsWith(i))) {
+        if (excludeExtension.some(i => filePath.endsWith(i))) {
             return
         }
 
         //是只需要拷贝的文件
-        if (onlyCopyExtension.some(i => child.endsWith(i))) {
+        if (onlyCopyExtension.some(i => filePath.endsWith(i))) {
             return copy(relativePath)
         }
 
         //转译文件
         const source = fs.readFileSync(fullPath).toString('utf8')
-        const filename = child.substring(child.lastIndexOf('/'))
+        const filename = filePath.substring(filePath.lastIndexOf('/'))
         const compiled = compile(filename, source)
         //改变文件后缀：.vue -> .js
         write(relativePath.substring(0, relativePath.lastIndexOf('.')) + '.js', compiled)
@@ -103,6 +105,7 @@ function mkdirWhenNoExist(relativePath) {
         !fs.existsSync(path) && fs.mkdirSync(path)
     }
 }
+
 
 function main() {
     const start = Date.now()
