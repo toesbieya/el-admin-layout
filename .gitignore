@@ -1,4 +1,5 @@
 .DS_Store
+dist/example
 node_modules
 test
 
