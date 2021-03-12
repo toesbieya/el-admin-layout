@@ -29,7 +29,7 @@ import {MenuItem} from 'element-ui'
 export default {
     ...MenuItem,
 
-    mixins: [MenuMixin, MenuItem.mixins.slice(1)],
+    mixins: [MenuMixin, ...MenuItem.mixins.slice(1)],
 
     computed: {
         active: MenuItem.computed.active,
