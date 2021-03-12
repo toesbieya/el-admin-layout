@@ -140,8 +140,8 @@ export default {
 
         //模拟选中菜单
         onSelect(index, indexPath, item, jump = true) {
-            //开启手风琴模式时，收起其它展开项
-            if (asideGetters.uniqueOpen) {
+            //非折叠且开启手风琴模式时，收起其它展开项
+            if (!asideGetters.collapse && asideGetters.uniqueOpen) {
                 const elMenu = this.$_getElMenuInstance()
                 elMenu.openedMenus = indexPath.slice(0, -1)
             }
