@@ -1,209 +1,56 @@
 <script>
-import MenuMixin from './mixin'
-import Emitter from 'element-ui/lib/mixins/emitter'
-import Popper from 'element-ui/lib/utils/vue-popper'
+/**
+ * 改写el-submenu
+ *
+ * 移除了所有背景色、hover颜色，由样式控制
+ * props中popperAppendToBody默认为true
+ */
 
-const PopperMixin = {
-    props: {
-        transformOrigin: {type: [Boolean, String], default: false},
-        offset: Popper.props.offset,
-        boundariesPadding: Popper.props.boundariesPadding,
-        popperOptions: Popper.props.popperOptions
-    },
-    data: Popper.data,
-    methods: Popper.methods,
-    beforeDestroy: Popper.beforeDestroy,
-    deactivated: Popper.deactivated
-}
+import MenuMixin from './mixin'
+import {Submenu} from 'element-ui'
 
 export default {
-    name: 'ElSubmenu',
+    ...Submenu,
 
-    componentName: 'ElSubmenu',
-
-    mixins: [MenuMixin, Emitter, PopperMixin],
+    mixins: [MenuMixin, ...Submenu.mixins.slice(1)],
 
     props: {
-        index: String,
-        showTimeout: {type: Number, default: 300},
-        hideTimeout: {type: Number, default: 300},
-        popperClass: String,
-        disabled: Boolean,
+        ...Submenu.props,
         popperAppendToBody: {type: Boolean, default: true}
     },
 
-    data() {
-        return {
-            popperJS: null,
-            timeout: null,
-            items: {},
-            submenus: {},
-            mouseInChild: false
-        }
-    },
-
     computed: {
-        appendToBody() {
-            return this.popperAppendToBody === undefined
-                ? this.isFirstLevel
-                : this.popperAppendToBody
-        },
-        menuTransitionName() {
-            return this.rootMenu.collapse ? 'el-zoom-in-left' : 'el-zoom-in-top'
-        },
-        opened() {
-            return this.rootMenu.openedMenus.includes(this.index)
-        },
-        active() {
-            const active = Object.values(this.items).some(v => v.active)
-            return active || Object.values(this.submenus).some(v => v.active)
-        },
-        mode() {
-            return this.rootMenu.mode
-        },
-        isMenuPopup() {
-            return this.rootMenu.isMenuPopup
-        },
-        isFirstLevel() {
-            const arr = ['ElSubmenu', 'ElMenuItemGroup']
-            let isFirstLevel = true
-            let parent = this.$parent
-
-            while (parent && parent !== this.rootMenu) {
-                if (arr.includes(parent.$options.componentName)) {
-                    isFirstLevel = false
-                    break
-                }
-                parent = parent.$parent
+        appendToBody: Submenu.computed.appendToBody,
+        menuTransitionName: Submenu.computed.menuTransitionName,
+        opened: Submenu.computed.opened,
+        active: Submenu.computed.active,
+        mode: Submenu.computed.mode,
+        isMenuPopup: Submenu.computed.isMenuPopup,
+        isFirstLevel: Submenu.computed.isFirstLevel,
+        className() {
+            return {
+                'el-submenu': true,
+                'is-active': this.active,
+                'is-opened': this.opened,
+                'is-disabled': this.disabled
             }
-            return isFirstLevel
         },
-        submenuTitleIcon() {
-            return (
-                this.rootMenu.mode === 'horizontal' && this.isFirstLevel ||
-                this.rootMenu.mode === 'vertical' && !this.rootMenu.collapse
-            ) ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
+        submenuArrowClass() {
+            const icon =
+                this.rootMenu.mode === 'horizontal' && this.isFirstLevel
+                || this.rootMenu.mode === 'vertical' && !this.rootMenu.collapse
+                    ? 'el-icon-arrow-down' : 'el-icon-arrow-right'
+            return 'el-submenu__icon-arrow ' + icon
+        },
+        popupMenuClass() {
+            return `el-menu el-menu--popup el-menu--popup-${this.currentPlacement}`
         }
-    },
-
-    watch: {
-        opened() {
-            this.isMenuPopup && this.$nextTick(this.updatePopper)
-        }
-    },
-
-    methods: {
-        handleCollapseToggle(value) {
-            value ? this.initPopper() : this.doDestroy()
-        },
-
-        addItem(item) {
-            this.$set(this.items, item.index, item)
-        },
-        removeItem(item) {
-            delete this.items[item.index]
-        },
-        addSubmenu(item) {
-            this.$set(this.submenus, item.index, item)
-        },
-        removeSubmenu(item) {
-            delete this.submenus[item.index]
-        },
-
-        handleClick() {
-            const {rootMenu, disabled} = this
-            if (
-                (rootMenu.menuTrigger === 'hover' && rootMenu.mode === 'horizontal') ||
-                (rootMenu.collapse && rootMenu.mode === 'vertical') ||
-                disabled
-            ) {
-                return
-            }
-            this.dispatch('ElMenu', 'submenu-click', this)
-        },
-
-        handleMouseenter(event, showTimeout = this.showTimeout) {
-            if (!('ActiveXObject' in window) && event.type === 'focus' && !event.relatedTarget) {
-                return
-            }
-
-            const {rootMenu, disabled} = this
-
-            if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal'
-                || !rootMenu.collapse && rootMenu.mode === 'vertical'
-                || disabled) return
-
-            this.dispatch('ElSubmenu', 'mouse-enter-child')
-
-            window.clearTimeout(this.timeout)
-            this.timeout = window.setTimeout(() => this.rootMenu.openMenu(this.index, this.indexPath), showTimeout)
-
-            this.appendToBody && this.$parent.$el.dispatchEvent(new MouseEvent('mouseenter'))
-        },
-
-        handleMouseleave(deepDispatch = false) {
-            const {rootMenu} = this
-
-            if (rootMenu.menuTrigger === 'click' && rootMenu.mode === 'horizontal'
-                || !rootMenu.collapse && rootMenu.mode === 'vertical') return
-
-            this.dispatch('ElSubmenu', 'mouse-leave-child')
-
-            window.clearTimeout(this.timeout)
-            this.timeout = window.setTimeout(() => !this.mouseInChild && this.rootMenu.closeMenu(this.index), this.hideTimeout)
-
-            if (this.appendToBody && deepDispatch) {
-                if (this.$parent.$options.name === 'ElSubmenu') {
-                    this.$parent.handleMouseleave(true)
-                }
-            }
-        },
-
-        updatePlacement() {
-            this.placement = this.mode === 'horizontal' && this.isFirstLevel
-                ? 'bottom-start'
-                : 'right-start'
-        },
-
-        initPopper() {
-            this.referenceElm = this.$el
-            this.popperElm = this.$refs.menu
-            this.updatePlacement()
-        }
-    },
-
-    created() {
-        this.$on('toggle-collapse', this.handleCollapseToggle)
-        this.$on('mouse-enter-child', () => {
-            this.mouseInChild = true
-            window.clearTimeout(this.timeout)
-        })
-        this.$on('mouse-leave-child', () => {
-            this.mouseInChild = false
-            window.clearTimeout(this.timeout)
-        })
-    },
-
-    mounted() {
-        this.parentMenu.addSubmenu(this)
-        this.rootMenu.addSubmenu(this)
-        this.initPopper()
-    },
-
-    beforeDestroy() {
-        this.parentMenu.removeSubmenu(this)
-        this.rootMenu.removeSubmenu(this)
     },
 
     render() {
         return (
             <li
-                class={{
-                    'el-submenu': true,
-                    'is-active': this.active,
-                    'is-opened': this.opened,
-                    'is-disabled': this.disabled
-                }}
+                class={this.className}
                 on-mouseenter={this.handleMouseenter}
                 on-mouseleave={() => this.handleMouseleave(false)}
                 on-focus={this.handleMouseenter}
@@ -215,7 +62,7 @@ export default {
                     on-click={this.handleClick}
                 >
                     {this.$slots.title}
-                    <i class={['el-submenu__icon-arrow', this.submenuTitleIcon]}/>
+                    <i class={this.submenuArrowClass}/>
                 </div>
                 {this.isMenuPopup
                     ? (
@@ -226,8 +73,9 @@ export default {
                                 class={[`el-menu--${this.mode}`, this.popperClass]}
                                 on-mouseenter={e => this.handleMouseenter(e, 100)}
                                 on-mouseleave={() => this.handleMouseleave(true)}
-                                on-focus={e => this.handleMouseenter(e, 100)}>
-                                <ul class={['el-menu el-menu--popup', `el-menu--popup-${this.currentPlacement}`]}>
+                                on-focus={e => this.handleMouseenter(e, 100)}
+                            >
+                                <ul class={this.popupMenuClass}>
                                     {this.$slots.default}
                                 </ul>
                             </div>

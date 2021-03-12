@@ -1,15 +1,6 @@
 <template>
-    <li
-        class="el-menu-item"
-        :style="paddingStyle"
-        :class="{'is-active': active,'is-disabled': disabled}"
-        @click="handleClick"
-    >
-        <el-tooltip
-            v-if="parentMenu.$options.componentName === 'ElMenu' && rootMenu.collapse && $slots.title"
-            effect="dark"
-            placement="right"
-        >
+    <li :class="className" :style="paddingStyle" @click="handleClick">
+        <el-tooltip v-if="showTooltip" effect="dark" placement="right">
             <template v-slot:content>
                 <slot name="title"/>
             </template>
@@ -26,49 +17,39 @@
 </template>
 
 <script>
+/**
+ * 改写el-menu-item
+ *
+ * 移除了所有背景色、hover颜色，由样式控制
+ */
+
 import MenuMixin from './mixin'
-import Emitter from 'element-ui/lib/mixins/emitter'
+import {MenuItem} from 'element-ui'
 
 export default {
-    name: 'ElMenuItem',
+    ...MenuItem,
 
-    componentName: 'ElMenuItem',
-
-    mixins: [MenuMixin, Emitter],
-
-    props: {
-        index: String,
-        route: [String, Object],
-        disabled: Boolean
-    },
+    mixins: [MenuMixin, MenuItem.mixins.slice(1)],
 
     computed: {
-        active() {
-            return this.index === this.rootMenu.activeIndex
+        active: MenuItem.computed.active,
+        className() {
+            return {
+                'el-menu-item': true,
+                'is-active': this.active,
+                'is-disabled': this.disabled
+            }
         },
-
+        showTooltip() {
+            return this.parentMenu.$options.componentName === 'ElMenu' && this.rootMenu.collapse && this.$slots.title
+        },
         iconContainerStyle() {
             return `position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 ${this.inlineIndent}px;`
         }
     },
 
     methods: {
-        handleClick() {
-            if (!this.disabled) {
-                this.dispatch('ElMenu', 'item-click', this)
-                this.$emit('click', this)
-            }
-        }
-    },
-
-    mounted() {
-        this.parentMenu.addItem(this)
-        this.rootMenu.addItem(this)
-    },
-
-    beforeDestroy() {
-        this.parentMenu.removeItem(this)
-        this.rootMenu.removeItem(this)
+        handleClick: MenuItem.methods.handleClick
     }
 }
 </script>

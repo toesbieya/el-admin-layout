@@ -1,26 +1,36 @@
 /**
  * 在原基础上增加了 inlineIndent 属性，用于确定每级节点的单位缩进距离
  */
-import original from 'element-ui/packages/menu/src/menu-mixin'
+import {MenuItem} from 'element-ui'
 
-original.props = {inlineIndent: {type: Number, default: 20}}
+export default {
+    ...MenuItem.mixins[0],
 
-original.computed.paddingStyle = function () {
-    if (this.rootMenu.mode !== 'vertical') return {}
+    props: {
+        inlineIndent: {
+            type: Number, default: 20
+        }
+    },
 
-    let padding = this.inlineIndent
+    computed: {
+        ...MenuItem.mixins[0].computed,
 
-    if (!this.rootMenu.collapse) {
-        let parent = this.$parent
-        while (parent && parent.$options.componentName !== 'ElMenu') {
-            if (parent.$options.componentName === 'ElSubmenu') {
-                padding += this.inlineIndent
+        paddingStyle() {
+            if (this.rootMenu.mode !== 'vertical') return undefined
+
+            let padding = this.inlineIndent
+
+            if (!this.rootMenu.collapse) {
+                let parent = this.$parent
+                while (parent && parent.$options.componentName !== 'ElMenu') {
+                    if (parent.$options.componentName === 'ElSubmenu') {
+                        padding += this.inlineIndent
+                    }
+                    parent = parent.$parent
+                }
             }
-            parent = parent.$parent
+
+            return {'padding-left': `${padding}px`}
         }
     }
-
-    return {'padding-left': `${padding}px`}
 }
-
-export default original
