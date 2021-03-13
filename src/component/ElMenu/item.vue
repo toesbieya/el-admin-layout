@@ -27,9 +27,13 @@ import MenuMixin from './mixin'
 import {MenuItem} from 'element-ui'
 
 export default {
-    ...MenuItem,
+    name: MenuItem.name,
+
+    componentName: MenuItem.componentName,
 
     mixins: [MenuMixin, ...MenuItem.mixins.slice(1)],
+
+    props: MenuItem.props,
 
     computed: {
         active: MenuItem.computed.active,
@@ -50,6 +54,10 @@ export default {
 
     methods: {
         handleClick: MenuItem.methods.handleClick
-    }
+    },
+
+    mounted: MenuItem.mounted,
+
+    beforeDestroy: MenuItem.beforeDestroy
 }
 </script>

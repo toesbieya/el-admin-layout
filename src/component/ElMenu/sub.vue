@@ -10,7 +10,9 @@ import MenuMixin from './mixin'
 import {Submenu} from 'element-ui'
 
 export default {
-    ...Submenu,
+    name: Submenu.name,
+
+    componentName: Submenu.componentName,
 
     mixins: [MenuMixin, ...Submenu.mixins.slice(1)],
 
@@ -18,6 +20,8 @@ export default {
         ...Submenu.props,
         popperAppendToBody: {type: Boolean, default: true}
     },
+
+    data: Submenu.data,
 
     computed: {
         appendToBody: Submenu.computed.appendToBody,
@@ -46,6 +50,16 @@ export default {
             return `el-menu el-menu--popup el-menu--popup-${this.currentPlacement}`
         }
     },
+
+    watch: Submenu.watch,
+
+    methods: Submenu.methods,
+
+    created: Submenu.created,
+
+    mounted: Submenu.mounted,
+
+    beforeDestroy: Submenu.beforeDestroy,
 
     render() {
         return (
