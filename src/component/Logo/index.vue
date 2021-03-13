@@ -1,5 +1,5 @@
 <script>
-import {appGetters} from "el-admin-layout"
+import {appGetters} from "../../store"
 import {isEmpty} from "../../util"
 
 export default {

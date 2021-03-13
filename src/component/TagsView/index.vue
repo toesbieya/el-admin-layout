@@ -5,16 +5,14 @@ import {
     pageMutations,
     tagsViewGetters,
     tagsViewMutations
-} from "el-admin-layout"
-import ContextMenu from "./ContextMenu"
-import ScrollPanel from './ScrollPanel'
+} from "../../store"
+import ContextMenu from "../../component/ContextMenu"
+import HorizontalScroller from '../../component/HorizontalScroller'
 import {refreshPage} from "../../helper"
 import {getRouterKey, getRouterTitle, isRedirectRouter} from "../../config/logic"
 
 export default {
     name: 'TagsView',
-
-    components: {ContextMenu, ScrollPanel},
 
     data() {
         return {
@@ -138,7 +136,7 @@ export default {
 
         //横向滚动条移动至当前tab
         moveToCurrentTag() {
-            const scroller = this.$refs['scroll-panel']
+            const scroller = this.$refs['scroller']
             const cur =
                 Array
                     .from(scroller.$el.children)
@@ -232,11 +230,11 @@ export default {
     render() {
         return (
             <nav class="tags-view">
-                <scroll-panel ref="scroll-panel" class="tags-view-scroller">
+                <HorizontalScroller ref="scroller">
                     {this.renderTags()}
-                </scroll-panel>
+                </HorizontalScroller>
 
-                <context-menu
+                <ContextMenu
                     v-model={this.contextMenu.show}
                     items={this.contextMenuItems}
                     left={this.contextMenu.left}

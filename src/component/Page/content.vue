@@ -1,9 +1,9 @@
 <script>
-import PageHeader from "./component/Header"
-import PageFooter from "./component/Footer"
-import PageView from "./component/View"
-import Breadcrumb from '../../../../component/Breadcrumb'
-import {pageGetters} from "el-admin-layout"
+import PageHeader from "./header"
+import PageFooter from "./footer"
+import PageView from "./view"
+import Breadcrumb from '../../component/Breadcrumb'
+import {pageGetters} from "../../store"
 
 export default {
     name: "PageContent",

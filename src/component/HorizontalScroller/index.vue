@@ -1,12 +1,12 @@
 <template>
-    <div @wheel="handleScroll">
+    <div class="horizontal-scroller" @wheel="handleScroll">
         <slot/>
     </div>
 </template>
 
 <script>
 export default {
-    name: 'ScrollPanel',
+    name: 'HorizontalScroller',
 
     props: {
         between: {type: Number, default: 4}

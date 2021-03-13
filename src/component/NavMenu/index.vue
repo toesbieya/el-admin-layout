@@ -5,8 +5,8 @@
  * 自带亮色、暗色两种主题
  */
 
-import MenuItem from './ElMenu/item'
-import SubMenu from './ElMenu/sub'
+import MenuItem from '../../component/ElMenu/item'
+import SubMenu from '../../component/ElMenu/sub'
 import {isEmpty} from "../../util"
 
 /**

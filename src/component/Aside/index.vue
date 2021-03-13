@@ -1,5 +1,5 @@
 <script>
-import {appGetters, asideGetters} from "el-admin-layout"
+import {appGetters, asideGetters} from "../../store"
 import DefaultSidebar from './DefaultSidebar'
 
 export default {

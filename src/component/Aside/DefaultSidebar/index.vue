@@ -1,6 +1,6 @@
 <script>
 import menuMixin from "../../../mixin/menu"
-import {appGetters, asideGetters, asideMutations} from "el-admin-layout"
+import {appGetters, asideGetters, asideMutations} from "../../../store"
 import Logo from '../../../component/Logo'
 import NavMenu from '../../../component/NavMenu'
 import Hamburger from '../../../component/Hamburger'

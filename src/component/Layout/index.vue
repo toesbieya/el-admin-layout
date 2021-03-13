@@ -3,7 +3,7 @@ import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'
 import Page from '../Page'
-import {appGetters, appMutations, tagsViewGetters} from "el-admin-layout"
+import {appGetters, appMutations, tagsViewGetters} from "../../store"
 import {isMobile} from "../../helper"
 import {debounce} from "../../util"
 

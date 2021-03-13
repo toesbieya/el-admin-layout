@@ -1,6 +1,6 @@
 <script>
 //TODO header会在head-menu渲染后再次渲染，初步排查是head-menu中的activeMenu改变所致
-import {appGetters, headerGetters} from "el-admin-layout"
+import {appGetters, headerGetters} from "../../store"
 import HeadMenu from "./HeadMenu"
 import Logo from "../../component/Logo"
 import Hamburger from '../../component/Hamburger'

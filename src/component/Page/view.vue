@@ -1,7 +1,7 @@
 <script>
-import {pageGetters, tagsViewGetters} from "el-admin-layout"
-import {getRouterKey} from "../../../../../../config/logic"
-import KeepViewAlive from "./KeepViewAlive"
+import {pageGetters, tagsViewGetters} from "../../store"
+import {getRouterKey} from "../../config/logic"
+import KeepViewAlive from "../../component/KeepViewAlive"
 
 export default {
     name: "PageView",

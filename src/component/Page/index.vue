@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import PageIframe from "./component/Iframe"
-import PageContent from "./component/Content"
+import PageIframe from "./iframe"
+import PageContent from "./content"
 
 export default {
     name: 'Page',

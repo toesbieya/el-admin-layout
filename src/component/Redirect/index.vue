@@ -1,5 +1,5 @@
 <script>
-import {Const} from "el-admin-layout"
+import {Const} from "../../config"
 
 export default {
     mounted() {
