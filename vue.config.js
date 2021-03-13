@@ -28,7 +28,7 @@ function createExamplePage(folder) {
 
 module.exports = {
     publicPath: isProd ? '/el-admin-layout/' : '/',
-    outputDir: `dist/${isBuildLib ? 'lib' : 'example'}`,
+    outputDir: isBuildLib ? 'dist' : 'dist/example',
     assetsDir: 'static',
     pages: {
         'index': createExamplePage('复杂功能'),
@@ -57,7 +57,7 @@ module.exports = {
                 'el-admin-layout': resolve('')
             }
         },
-        externals: isProd && !isBuildLib
+        externals: isProd
             ? {
                 'vue': 'Vue',
                 'vuex': 'Vuex',
@@ -68,7 +68,6 @@ module.exports = {
     },
     chainWebpack: config => {
         if (isBuildLib) {
-            config.plugins.delete('html')
             config.output.library('ElAdminLayout')
         }
         /*else {
