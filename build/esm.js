@@ -69,4 +69,4 @@ function handler(filePathList, parentPath = '') {
 calcTimeCost(() => {
     cleanDir(outputDir)
     handler(fs.readdirSync(inputDir))
-}, 'Start library compilation ...', 'Finish library compilation')
+}, 'Start es module compilation ...', 'Finish es module compilation')
