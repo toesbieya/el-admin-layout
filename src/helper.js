@@ -6,12 +6,12 @@ import {Const} from "./config"
 import {tagsViewMutations} from "./store"
 
 /**
- * 根据body宽度判断是否为移动端，是则返回true
+ * 根据宽度判断是否为移动端，是则返回true
  *
  * @return {boolean}
  */
 export function isMobile() {
-    return document.body.clientWidth <= Const.maxMobileWidth
+    return window.innerWidth <= Const.maxMobileWidth
 }
 
 /**
