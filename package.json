@@ -4,6 +4,7 @@
   "description": "基于element-ui的后台管理layout",
   "main": "src/index.js",
   "module": "dist/esm/index.js",
+  "jsdelivr": "dist/index.umd.min.js",
   "types": "types/index.d.ts",
   "author": "toesbieya",
   "license": "MIT",
