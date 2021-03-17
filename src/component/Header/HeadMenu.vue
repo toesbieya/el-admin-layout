@@ -145,14 +145,29 @@ export default {
         //获取初始菜单的总宽度，只在mounted时调用一次
         setChildrenWidth() {
             const ul = this.getMenuEl()
+            if (!ul) return
 
             const menuItemNodes = ul.children
             if (!menuItemNodes || menuItemNodes.length === 0) return
 
-            //'更多'菜单的宽度，由于不考虑自定义，所以直接写死
-            this.overflowedIndicatorWidth = 50
             this.menuItemSizes = Array.from(menuItemNodes).map(i => i.getBoundingClientRect().width)
             this.originalTotalWidth = this.menuItemSizes.reduce((acc, cur) => acc + cur, 0)
+        },
+        //设置'...'菜单的宽度，只在mounted时调用一次
+        setOverflowedIndicatorWidth() {
+            const ul = document.createElement('ul')
+
+            ul.className = 'el-menu--horizontal el-menu el-menu--horizontal'
+            ul.style.position = 'fixed'
+            ul.style.top = '-100px'
+            ul.style.right = '-1000px'
+            ul.innerHTML = `<li class="el-submenu"><div class="el-submenu__title"><span>...</span></div></li>`
+
+            document.body.appendChild(ul)
+
+            this.overflowedIndicatorWidth = ul.children[0].offsetWidth + 1
+
+            document.body.removeChild(ul)
         },
 
         resize() {
@@ -164,11 +179,12 @@ export default {
             if (this.originalTotalWidth > width) {
                 lastVisibleIndex = -1
 
+                const {menuItemSizes, overflowedIndicatorWidth} = this
+
                 //得到满足总宽度不超出容器宽度的最大菜单下标
-                let currentSumWidth = 0
-                for (const liWidth of this.menuItemSizes) {
-                    currentSumWidth += liWidth
-                    if (currentSumWidth + this.overflowedIndicatorWidth > width) {
+                for (let i = menuItemSizes.length - 1, sum = 0; i >= 0; i--) {
+                    sum += menuItemSizes[i]
+                    if (sum + overflowedIndicatorWidth > width) {
                         break
                     }
                     lastVisibleIndex += 1
@@ -176,10 +192,6 @@ export default {
             }
 
             this.lastVisibleIndex = lastVisibleIndex
-        },
-        createResizeObserver() {
-            this.resizeObserver = new window.ResizeObserver(this.resize)
-            this.resizeObserver.observe(this.getMenuEl())
         }
     },
 
@@ -195,9 +207,14 @@ export default {
         )
     },
 
-    mounted() {
+    async mounted() {
+        await this.$nextTick()
+
+        this.setOverflowedIndicatorWidth()
         this.setChildrenWidth()
-        this.createResizeObserver()
+
+        this.resizeObserver = new window.ResizeObserver(this.resize)
+        this.resizeObserver.observe(this.getMenuEl())
     },
 
     beforeDestroy() {
