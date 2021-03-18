@@ -39,7 +39,7 @@ export default {
         contextMenuItems() {
             return [
                 {content: '刷新', click: this.refreshSelectedTag},
-                this.selectedTag && this.isAffix(this.selectedTag)
+                this.visitedViews.length <= 1 || this.selectedTag && this.isAffix(this.selectedTag)
                     ? undefined
                     : {
                         content: '关闭',
@@ -154,7 +154,7 @@ export default {
             refreshPage(this.$router, this.selectedTag)
         },
         closeSelectedTag(view, e) {
-            if (this.isAffix(view)) return
+            if (this.visitedViews.length <= 1 || this.isAffix(view)) return
 
             e && e.preventDefault()
 
@@ -171,11 +171,13 @@ export default {
         },
 
         gotoLastTag() {
-            if (this.visitedViews.length === 0) {
+            const views = this.visitedViews
+
+            if (views.length === 0) {
                 return this.$router.push('/')
             }
 
-            const latest = this.visitedViews[this.visitedViews.length - 1]
+            const latest = views[views.length - 1]
 
             //未激活时才跳转
             this.activeKey !== latest.key && this.$router.push(latest)
@@ -197,10 +199,11 @@ export default {
         },
 
         renderTags() {
-            return this.visitedViews.map(view => {
+            return this.visitedViews.map((view, _, arr) => {
                 const active = this.activeKey === view.key
                 const className = {'tags-view-item': true, active}
                 const affix = this.isAffix(view)
+                const showClose = !affix && arr.length > 1
                 const on = {
                     contextmenu: e => this.openContextMenu(view, e),
                     dblclick: e => this.closeSelectedTag(view, e)
@@ -217,7 +220,7 @@ export default {
                 return (
                     <div key={view.key} class={className} {...{on}}>
                         <span>{view.meta.title}</span>
-                        {!affix && <i class="el-icon-close" on-click={onIconClick}/>}
+                        {showClose && <i class="el-icon-close" on-click={onIconClick}/>}
                     </div>
                 )
             })
