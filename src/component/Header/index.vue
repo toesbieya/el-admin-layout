@@ -12,9 +12,9 @@ export default {
 
     components: {HeadMenu, Logo, Hamburger},
 
-    methods: {
+    computed: {
         //左侧logo
-        renderLogo() {
+        defaultLogo() {
             //渲染顶栏logo的条件
             //①桌面端
             //②设置了显示logo
@@ -25,12 +25,12 @@ export default {
             return renderLogo && <logo show-title/>
         },
         //左侧汉堡包
-        renderHamburger() {
+        defaultHamburger() {
             //移动端时必须渲染，不然侧边栏怎么出来
             return appGetters.isMobile && <hamburger class="header-item header-icon"/>
         },
         //中间的导航菜单
-        renderHeadMenu() {
+        defaultHeadMenu() {
             //渲染顶部导航菜单的条件
             //①桌面端
             //②导航模式为顶部导航或混合导航
@@ -39,7 +39,7 @@ export default {
             return renderHeadMenu && <head-menu ref="head-menu"/>
         },
         //右侧刷新按钮
-        renderRefreshBtn() {
+        defaultRefreshBtn() {
             //这里为了可读性，不再将click事件放到外面
             return (
                 <div title="刷新" class="header-item" on-click={() => refreshPage(this.$router)}>
@@ -47,8 +47,8 @@ export default {
                 </div>
             )
         },
-        //右侧下拉菜单
-        renderUserDropdown() {
+        //右侧下拉菜单，此处使用了$scopedSlots，可能导致更新不及时
+        defaultUserDropdown() {
             const {dropdownItems} = this.$scopedSlots
             const {username} = headerGetters
 
@@ -78,22 +78,24 @@ export default {
                 </el-dropdown>
             )
         },
+    },
 
+    methods: {
         /*顶栏的左、中、右三部分内容*/
         renderLeftContent() {
-            const defaultContent = [this.renderLogo(), this.renderHamburger()]
+            const defaultContent = [this.defaultLogo, this.defaultHamburger]
             const {left} = this.$scopedSlots
 
             return left ? left(defaultContent) : defaultContent
         },
         renderCenterContent() {
-            const defaultContent = [this.renderHeadMenu()]
+            const defaultContent = [this.defaultHeadMenu]
             const {center} = this.$scopedSlots
 
             return center ? center(defaultContent) : defaultContent
         },
         renderRightContent() {
-            const defaultContent = [this.renderRefreshBtn(), this.renderUserDropdown()]
+            const defaultContent = [this.defaultRefreshBtn, this.defaultUserDropdown]
             const {right} = this.$scopedSlots
 
             return right ? right(defaultContent) : defaultContent
