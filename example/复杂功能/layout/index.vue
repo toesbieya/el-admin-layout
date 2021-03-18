@@ -1,11 +1,11 @@
 <template>
     <div style="height: 100%">
         <el-admin-layout>
-            <template v-slot:menu-content="{menu, depth, context}">
+            <template v-slot:aside-menu-content="{menu, depth}">
                 <span>{{ menu.meta.title }}</span>
 
                 <span
-                    v-if="menu.meta.title === '首页' && (depth > 1 || !context.collapse)"
+                    v-if="menu.meta.title === '首页'"
                     class="menu-tag menu-tag--danger"
                 >
                     new
