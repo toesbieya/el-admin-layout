@@ -5,14 +5,6 @@ import {isEmpty} from "../../util"
 export default {
     name: 'Logo',
 
-    inject: {
-        elAdminLayout: {
-            default: {
-                $scopedSlots: {}
-            }
-        }
-    },
-
     props: {showTitle: Boolean},
 
     methods: {
@@ -27,14 +19,13 @@ export default {
         }
     },
 
-    render() {
-        const src = appGetters.logo, txt = appGetters.title
+    render(h) {
+        const {logo: src, title: txt, logoSlot} = appGetters
 
         const img = src && <img src={src}/>
         const title = !isEmpty(txt) && this.showTitle && <h1>{txt}</h1>
 
-        const {logo} = this.elAdminLayout.$scopedSlots
-        const children = logo ? logo({img, title, props: this.$props}) : [img, title]
+        const children = logoSlot ? logoSlot(h, {img, title, props: this.$props}) : [img, title]
 
         if (!children || Array.isArray(children) && children.filter(Boolean).length === 0) {
             return

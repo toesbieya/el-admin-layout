@@ -219,20 +219,20 @@ export default {
             this.$nextTick(this.moveToActiveMenuVertically)
         },
 
-        renderHeader() {
+        renderHeader(h) {
             const defaultContent = this.showLogo && <logo show-title={!this.collapse}/>
-            const {header} = this.$parent.$scopedSlots
+            const {headerSlot} = asideGetters
 
-            return header ? header(defaultContent) : defaultContent
+            return headerSlot ? headerSlot(h, defaultContent) : defaultContent
         },
-        renderFooter() {
+        renderFooter(h) {
             const defaultContent = asideGetters.showHamburger && !this.renderInDrawer && <hamburger/>
-            const {footer} = this.$parent.$scopedSlots
+            const {footerSlot} = asideGetters
 
             let children
 
-            if (footer) {
-                let renderResult = footer(defaultContent)
+            if (footerSlot) {
+                let renderResult = footerSlot(h, defaultContent)
                 if (Array.isArray(renderResult)) {
                     renderResult = renderResult.filter(Boolean)
                     if (renderResult.length > 0) {
@@ -291,7 +291,7 @@ export default {
         window.removeEventListener('mousemove', this.onMouseMove)
     },
 
-    render() {
+    render(h) {
         //没有菜单时，仅当设置了alwaysRender才退出后续渲染
         if (this.sidebarMenus.length === 0 && !asideGetters.alwaysRender) {
             return
@@ -299,7 +299,7 @@ export default {
 
         const sidebar = (
             <div {...{class: this.sidebarClass, on: this.sidebarEvent}}>
-                {this.renderHeader()}
+                {this.renderHeader(h)}
 
                 {appGetters.loadingMenu
                     ? (
@@ -318,15 +318,16 @@ export default {
                         show-parent-on-collapse={asideGetters.showParentOnCollapse}
                         inline-indent={asideGetters.inlineIndent}
                         switch-transition-name={asideGetters.switchTransitionName}
+                        menu-icon-slot={asideGetters.menuIconSlot}
+                        menu-content-slot={asideGetters.menuContentSlot}
                         {...{
                             //只能在nav-menu的mounted里，自身mounted时nav-menu可能还未渲染
-                            on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus},
-                            scopedSlots: this.$parent.$scopedSlots
+                            on: {select: this.onSelect, 'hook:mounted': this.watchOpenedMenus}
                         }}
                     />
                 }
 
-                {this.renderFooter()}
+                {this.renderFooter(h)}
             </div>
         )
 

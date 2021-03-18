@@ -242,8 +242,9 @@ export default {
                 theme={headerGetters.theme}
                 mode="horizontal"
                 default-active={this.defaultActive}
+                menu-icon-slot={headerGetters.menuIconSlot}
+                menu-content-slot={headerGetters.menuContentSlot}
                 on-select={this.onSelect}
-                {...{scopedSlots: this.$parent.$scopedSlots}}
             />
         )
     }

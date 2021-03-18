@@ -51,6 +51,12 @@ export default {
         //menus变化时的过渡动画名称
         switchTransitionName: String,
 
+        //自定义渲染菜单图标，(h, {menu, depth}) => VNode
+        menuIconSlot: Function,
+
+        //自定义渲染菜单内容，(h, {menu, depth}) => VNode
+        menuContentSlot: Function,
+
         /*--------------el-menu原有props开始-------------*/
         /*https://element.eleme.cn/#/zh-CN/component/menu*/
 
@@ -90,20 +96,18 @@ export default {
 
         //渲染菜单图标
         renderMenuIcon(h, menu, depth) {
-            const {'menu-icon': slot} = this.$scopedSlots
+            const slot = this.menuIconSlot
 
-            if (slot) return slot({menu, depth})
+            if (slot) return slot(h, {menu, depth})
 
             const icon = menu.meta.icon
             return icon && <i class={`menu-icon ${icon}`}/>
         },
         //渲染菜单内容
         renderMenuContent(h, menu, depth) {
-            const {'menu-content': slot} = this.$scopedSlots
+            const slot = this.menuContentSlot
 
-            return slot
-                ? slot({menu, depth})
-                : <span>{menu.meta.title}</span>
+            return slot ? slot(h, {menu, depth}) : <span>{menu.meta.title}</span>
         },
         //渲染无子级的菜单
         renderSingleMenu(h, menu, depth) {

@@ -47,9 +47,9 @@ export default {
                 </div>
             )
         },
-        //右侧下拉菜单，此处使用了$scopedSlots，可能导致更新不及时
+        //右侧下拉菜单
         defaultUserDropdown() {
-            const {dropdownItems} = this.$scopedSlots
+            const {dropdownItemsSlot} = headerGetters
             const {username} = headerGetters
 
             return (
@@ -64,8 +64,8 @@ export default {
                         class={`header-dropdown ${headerGetters.theme}`}
                         visible-arrow={false}
                     >
-                        {dropdownItems
-                            ? dropdownItems()
+                        {dropdownItemsSlot
+                            ? dropdownItemsSlot(this.$createElement)
                             : headerGetters.dropdownItems.map(item => (
                                 <el-dropdown-item
                                     icon={item.icon}
@@ -82,39 +82,39 @@ export default {
 
     methods: {
         /*顶栏的左、中、右三部分内容*/
-        renderLeftContent() {
+        renderLeftContent(h) {
             const defaultContent = [this.defaultLogo, this.defaultHamburger]
-            const {left} = this.$scopedSlots
+            const {leftSlot} = headerGetters
 
-            return left ? left(defaultContent) : defaultContent
+            return leftSlot ? leftSlot(h, defaultContent) : defaultContent
         },
-        renderCenterContent() {
+        renderCenterContent(h) {
             const defaultContent = [this.defaultHeadMenu]
-            const {center} = this.$scopedSlots
+            const {centerSlot} = headerGetters
 
-            return center ? center(defaultContent) : defaultContent
+            return centerSlot ? centerSlot(h, defaultContent) : defaultContent
         },
-        renderRightContent() {
+        renderRightContent(h) {
             const defaultContent = [this.defaultRefreshBtn, this.defaultUserDropdown]
-            const {right} = this.$scopedSlots
+            const {rightSlot} = headerGetters
 
-            return right ? right(defaultContent) : defaultContent
+            return rightSlot ? rightSlot(h, defaultContent) : defaultContent
         }
     },
 
-    render() {
+    render(h) {
         return (
             <header class={`header ${headerGetters.theme}`}>
                 <div class="header-left">
-                    {this.renderLeftContent()}
+                    {this.renderLeftContent(h)}
                 </div>
 
                 <div class="header-center">
-                    {this.renderCenterContent()}
+                    {this.renderCenterContent(h)}
                 </div>
 
                 <div class="header-right">
-                    {this.renderRightContent()}
+                    {this.renderRightContent(h)}
                 </div>
             </header>
         )

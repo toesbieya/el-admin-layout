@@ -25,7 +25,11 @@ const state = {
     //是否显示页头
     showHeader: true,
     //是否显示页脚
-    showFooter: true
+    showFooter: true,
+    //自定义渲染页头内容，(h) => VNode | VNode[]
+    headerSlot: undefined,
+    //自定义渲染页脚内容，(h) => VNode | VNode[]
+    footerSlot: undefined
 }
 
 const store = Vue.observable(state)

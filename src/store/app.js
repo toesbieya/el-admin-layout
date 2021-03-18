@@ -21,6 +21,9 @@ const state = {
     //点击logo容器时触发，会替换原有的逻辑，(e) => any
     onLogoClick: undefined,
 
+    //自定义渲染logo，(h, {img, title, props}) => VNode | VNode[]
+    logoSlot: undefined,
+
     //是否显示侧边栏或顶栏的logo
     showLogo: true,
 

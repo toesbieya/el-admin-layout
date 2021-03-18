@@ -1,3 +1,4 @@
+import {CreateElement, VNode} from 'vue'
 import {Route, RawLocation} from 'vue-router'
 import {MenuItem, MenuItemMeta, StoreMenuItem} from "./menu";
 import {RouteMeta} from "./route";
@@ -11,6 +12,7 @@ interface AppGetters {
     logo: string
     logoRoute: RawLocation
     onLogoClick: (e: Event) => any
+    logoSlot: (h: CreateElement, param?: { img: VNode, title: VNode, props: object }) => VNode | VNode[]
     showLogo: boolean
     activeRootMenu: string
     menus: StoreMenuItem[]
@@ -40,14 +42,19 @@ interface AsideGetters {
     inlineIndent: number
     switchTransitionName: string
     defaultOpeneds: string[]
+    defaultSlot: (h: CreateElement) => VNode
+    headerSlot: (h: CreateElement, logo: VNode) => VNode | VNode[]
+    footerSlot: (h: CreateElement, hamburger: VNode) => VNode | VNode[]
+    menuIconSlot: (h: CreateElement, {menu: MenuItem, depth: number}) => VNode
+    menuContentSlot: (h: CreateElement, {menu: MenuItem, depth: number}) => VNode
 }
 
 type BaseAsideMutations = { [K in keyof AsideGetters]: Mutation<AsideGetters[K]> }
 
 type AsideMutations = BaseAsideMutations & {
-    open: () => void
-    close: () => void
-    switch: (action?: 'open' | 'close') => void
+    open(): void
+    close(): void
+    switch(action?: 'open' | 'close'): void
 }
 
 
@@ -62,6 +69,12 @@ interface HeaderGetters {
     avatar: string
     username: string
     dropdownItems: DropdownItem[]
+    dropdownItemsSlot: (h: CreateElement) => VNode[]
+    leftSlot: (h: CreateElement, [logo, hamburger]: VNode[]) => VNode | VNode[]
+    centerSlot: (h: CreateElement, [headMenu]: VNode[]) => VNode | VNode[]
+    rightSlot: (h: CreateElement, [refreshBtn, dropdown]: VNode[]) => VNode | VNode[]
+    menuIconSlot: (h: CreateElement, {menu: MenuItem, depth: number}) => VNode
+    menuContentSlot: (h: CreateElement, {menu: MenuItem, depth: number}) => VNode
 }
 
 type HeaderMutations = { [K in keyof HeaderGetters]: Mutation<HeaderGetters[K]> }
@@ -79,6 +92,8 @@ interface PageGetters {
     iframeList: string[]
     showHeader: boolean
     showFooter: boolean
+    headerSlot: (h: CreateElement) => VNode | VNode[]
+    footerSlot: (h: CreateElement) => VNode | VNode[]
 }
 
 type BasePageMutations = { [K in keyof PageGetters]: Mutation<PageGetters[K]> }

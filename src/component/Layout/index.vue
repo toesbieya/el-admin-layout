@@ -1,20 +1,23 @@
 <script>
+import {Const} from '../../config'
 import Aside from '../Aside'
 import Header from '../Header'
 import TagsView from '../TagsView'
 import Page from '../Page'
-import {appGetters, appMutations, tagsViewGetters} from "../../store"
+import {
+    appGetters,
+    appMutations,
+    asideMutations,
+    headerMutations,
+    tagsViewGetters,
+    tagsViewMutations,
+    pageMutations
+} from "../../store"
 import {isMobile} from "../../helper"
 import {debounce} from "../../util"
 
 export default {
     name: 'ElAdminLayout',
-
-    provide() {
-        return {
-            elAdminLayout: this
-        }
-    },
 
     computed: {
         isLeftRight() {
@@ -26,33 +29,87 @@ export default {
     },
 
     methods: {
-        //从自身的$scopedSlots中获取以childName开头的slot
-        getSlotsForChild(...childNames) {
-            const result = childNames.reduce((obj, name) => {
-                obj[name] = Object.create(null)
-                return obj
-            }, Object.create(null))
+        //render时调用，根据插槽的变化修改store数据
+        mutateStoreSlot() {
+            const cache = this.$_cachedScopedSlots
+            const curr = this.$scopedSlots
 
-            const slots = this.$scopedSlots
-
-            if (!slots) return result
-
-            Object.entries(slots).forEach(([k, v]) => {
-                const childName = childNames.find(i => k.startsWith(i))
-                if (childName) {
-                    //aside -> aside:{default:...}
-                    if (childName.length === k.length) {
-                        return result[childName].default = v
-                    }
-
-                    //aside-header -> aside:{header:...}
-                    const childSlotName = [...k.slice(childName.length + 1)].join('')
-                    result[childName][childSlotName] = v
+            //减少的
+            Object.keys(cache).forEach(k => {
+                //缓存中有，本次没有
+                if (!curr[k]) {
+                    const f = this.getMutationBySlot(k)
+                    f(undefined)
                 }
             })
 
-            return result
+            //新增的
+            Object.keys(curr).forEach(k => {
+                //本次有，缓存中没有
+                if (!cache[k]) {
+                    const f = this.getMutationBySlot(k)
+                    //scopedSlots: (props) => VNode
+                    //render: (h, props) => VNode
+                    f((...args) => curr[k](...args.slice(1)))
+                }
+            })
+
+            this.$_cachedScopedSlots = curr
+        },
+        getMutations(prefix) {
+            switch (prefix) {
+                case 'app':
+                    return appMutations
+                case 'aside':
+                    return asideMutations
+                case 'header':
+                    return headerMutations
+                case 'tagsView':
+                    return tagsViewMutations
+                case 'page':
+                    return pageMutations
+            }
+        },
+        getMutationBySlot(slot) {
+            const cache = this.$_slotMutationsMap
+
+            if (cache[slot]) return cache[slot]
+
+            //不规则的
+            if (slot === 'logo') {
+                cache[slot] = appMutations.logoSlot
+                return cache[slot]
+            }
+
+            //aside -> asideMutations.defaultSlot
+            //aside-header -> asideMutations.headerSlot
+            //aside-menu-icon -> asideMutations.menuIconSlot
+            const arr = slot.split('-')
+            const mutations = this.getMutations(arr[0])
+
+            if (arr.length === 1) {
+                cache[slot] = mutations.defaultSlot
+            }
+            else {
+                let method = arr[1]
+
+                for (let i = 2, len = arr.length; i < len; i++) {
+                    method += arr[i][0].toUpperCase() + [...arr[i].slice(1)].join('')
+                }
+
+                cache[slot] = mutations[method += 'Slot']
+            }
+
+            return cache[slot]
         }
+    },
+
+    beforeCreate() {
+        //缓存当前的插槽
+        this.$_cachedScopedSlots = Object.create(null)
+
+        //用于加速根据插槽名查找store mutation的缓存map
+        this.$_slotMutationsMap = Object.create(null)
     },
 
     mounted() {
@@ -67,11 +124,13 @@ export default {
             window.removeEventListener('resize', this.$_resize)
             delete this.$_resize
         }
+
+        delete this.$_cachedScopedSlots
+        delete this.$_slotMutationsMap
     },
 
     render() {
-        //TODO 此处需要优化，否则在自身render时，子组件也会强制render，见 https://codepen.io/toesbieya/pen/dyOJZZZ
-        const {header, aside, page} = this.getSlotsForChild('header', 'aside', 'page')
+        Const.enableLayoutSlot && this.mutateStoreSlot()
 
         return (
             <div class={{
@@ -80,13 +139,13 @@ export default {
                 'has-tags-view': tagsViewGetters.enabled,
                 'left-right': this.isLeftRight
             }}>
-                <Header ref="header" {...{scopedSlots: header}}/>
+                <Header ref="header"/>
 
                 {tagsViewGetters.enabled && <TagsView ref="tags-view"/>}
 
-                {this.renderAside && <Aside ref="aside" {...{scopedSlots: aside}}/>}
+                {this.renderAside && <Aside ref="aside"/>}
 
-                <Page ref="page" {...{scopedSlots: page}}/>
+                <Page ref="page"/>
             </div>
         )
     }

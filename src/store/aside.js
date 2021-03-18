@@ -40,7 +40,19 @@ const state = {
     switchTransitionName: 'sidebar',
 
     //默认展开的菜单的fullPath数组
-    defaultOpeneds: []
+    defaultOpeneds: [],
+
+    //自定义渲染侧边栏内容，(h) => VNode
+    defaultSlot: undefined,
+    //自定义渲染侧边栏头部内容，(h, logo) => VNode | VNode[]
+    headerSlot: undefined,
+    //自定义渲染侧边栏底部内容，(h, hamburger) => VNode | VNode[]
+    footerSlot: undefined,
+
+    //自定义渲染菜单图标，(h, {menu, depth}) => VNode
+    menuIconSlot: undefined,
+    //自定义渲染菜单内容，(h, {menu, depth}) => VNode
+    menuContentSlot: undefined
 }
 
 const store = Vue.observable(state)

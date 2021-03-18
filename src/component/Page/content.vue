@@ -8,8 +8,6 @@ import {pageGetters} from "../../store"
 export default {
     name: "PageContent",
 
-    components: {PageHeader, PageFooter, PageView, Breadcrumb},
-
     computed: {
         showHeader() {
             return pageGetters.showHeader && this.$route.meta.pageHeader !== false
@@ -26,23 +24,23 @@ export default {
         }
     },
 
-    render() {
-        const {header, footer} = this.$parent.$scopedSlots
+    render(h) {
+        const {headerSlot, footerSlot} = pageGetters
 
         return (
             <div class={this.className}>
                 {this.showHeader && (
-                    <page-header>
-                        {header ? header() : <breadcrumb/>}
-                    </page-header>
+                    <PageHeader>
+                        {headerSlot ? headerSlot(h) : <Breadcrumb/>}
+                    </PageHeader>
                 )}
 
-                <page-view/>
+                <PageView/>
 
-                {this.showFooter && footer && (
-                    <page-footer>
-                        {footer()}
-                    </page-footer>
+                {this.showFooter && footerSlot && (
+                    <PageFooter>
+                        {footerSlot(h)}
+                    </PageFooter>
                 )}
             </div>
         )

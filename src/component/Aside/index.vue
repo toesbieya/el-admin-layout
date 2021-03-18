@@ -12,12 +12,12 @@ export default {
         }
     },
 
-    render() {
-        const {default: slot} = this.$scopedSlots
+    render(h) {
+        const {defaultSlot} = asideGetters
 
         return (
             <aside class={`aside ${asideGetters.theme}`} style={this.style}>
-                {slot ? slot() : <DefaultSidebar ref="default-sidebar"/>}
+                {defaultSlot ? defaultSlot(h) : <DefaultSidebar ref="default-sidebar"/>}
             </aside>
         )
     }
