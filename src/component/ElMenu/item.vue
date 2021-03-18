@@ -1,12 +1,12 @@
 <template>
     <li :class="className" :style="paddingStyle" @click="handleClick">
         <el-tooltip v-if="showTooltip" effect="dark" placement="right">
-            <template v-slot:content>
-                <slot name="title"/>
-            </template>
             <div :style="iconContainerStyle">
                 <slot/>
             </div>
+            <template v-slot:content>
+                <slot name="title"/>
+            </template>
         </el-tooltip>
 
         <template v-else>
@@ -45,7 +45,7 @@ export default {
             }
         },
         showTooltip() {
-            return this.parentMenu.$options.componentName === 'ElMenu' && this.rootMenu.collapse && this.$slots.title
+            return this.parentMenu.$options.componentName === 'ElMenu' && this.rootMenu.collapse
         },
         iconContainerStyle() {
             return `position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 ${this.inlineIndent}px;`
