@@ -94,12 +94,11 @@ export default {
 
         //获取菜单树中所有需要固定显示的页签
         getAffixTags(menus) {
-            const tags = []
-            menus.forEach(({fullPath, children, meta}) => {
+            return menus.reduce((affixTags, {fullPath, children, meta}) => {
                 if (meta.affix === true) {
                     const {route} = this.$router.resolve(fullPath)
 
-                    tags.push({
+                    affixTags.push({
                         ...route,
                         meta: {
                             affix: true,
@@ -108,15 +107,18 @@ export default {
                         }
                     })
                 }
+
                 if (children) {
                     const tempTags = this.getAffixTags(children)
-                    tempTags.length && tags.push(...tempTags)
+                    tempTags.length && affixTags.push(...tempTags)
                 }
-            })
-            return tags
+
+                return affixTags
+            }, [])
         },
         //初始化固定显示的页签
         initTags() {
+            //TODO 如果页签栏初始化后菜单未加载，则固定页签会出问题
             //添加所有固定显示的页签
             this.getAffixTags(this.menus).forEach(tagsViewMutations.addTagOnly)
 
