@@ -12,8 +12,6 @@ export default {
 
     mixins: [menuMixin],
 
-    components: {Logo, NavMenu, Hamburger, LoadingSpinner},
-
     data() {
         return {
             //开启了自动隐藏时，判断鼠标是否在侧边栏外
@@ -220,13 +218,13 @@ export default {
         },
 
         renderHeader(h) {
-            const defaultContent = this.showLogo && <logo show-title={!this.collapse}/>
+            const defaultContent = this.showLogo && <Logo show-title={!this.collapse}/>
             const {headerSlot} = asideGetters
 
             return headerSlot ? headerSlot(h, defaultContent) : defaultContent
         },
         renderFooter(h) {
-            const defaultContent = asideGetters.showHamburger && !this.renderInDrawer && <hamburger/>
+            const defaultContent = asideGetters.showHamburger && !this.renderInDrawer && <Hamburger/>
             const {footerSlot} = asideGetters
 
             let children
@@ -304,10 +302,10 @@ export default {
                 {appGetters.loadingMenu
                     ? (
                         <div style="position: relative;flex: 1">
-                            <loading-spinner/>
+                            <LoadingSpinner/>
                         </div>
                     )
-                    : <nav-menu
+                    : <NavMenu
                         ref="nav-menu"
                         menus={this.sidebarMenus}
                         collapse={this.collapse}

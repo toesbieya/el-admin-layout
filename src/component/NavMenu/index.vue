@@ -33,8 +33,6 @@ function getSingleMenu(menu) {
 export default {
     name: 'NavMenu',
 
-    components: {MenuItem, SubMenu},
-
     props: {
         //路由配置项组成的树形数组
         menus: {type: Array, default: () => []},
@@ -113,12 +111,12 @@ export default {
         renderSingleMenu(h, menu, depth) {
             const {fullPath} = menu
             return (
-                <menu-item key={fullPath} index={fullPath} inline-indent={this.inlineIndent}>
+                <MenuItem key={fullPath} index={fullPath} inline-indent={this.inlineIndent}>
                     {this.renderMenuIcon(h, menu, depth)}
                     <template slot="title">
                         {this.renderMenuContent(h, menu, depth)}
                     </template>
-                </menu-item>
+                </MenuItem>
             )
         },
         //渲染有子级的菜单
@@ -127,7 +125,7 @@ export default {
             const noContent = depth === 1 && this.collapse && this.mode === 'vertical'
 
             return (
-                <sub-menu
+                <SubMenu
                     key={fullPath}
                     index={fullPath}
                     inline-indent={this.inlineIndent}
@@ -139,7 +137,7 @@ export default {
                         {!noContent && this.renderMenuContent(h, menu, depth)}
                     </template>
                     {children}
-                </sub-menu>
+                </SubMenu>
             )
         },
         //渲染有子级且需要显示父级的菜单

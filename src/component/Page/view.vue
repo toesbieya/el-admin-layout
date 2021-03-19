@@ -6,8 +6,6 @@ import KeepViewAlive from "../../component/KeepViewAlive"
 export default {
     name: "PageView",
 
-    components: {KeepViewAlive},
-
     render() {
         let view = (
             <transition name={pageGetters.transition.curr} mode="out-in">
@@ -16,7 +14,7 @@ export default {
         )
 
         if (tagsViewGetters.enabled && tagsViewGetters.enableCache) {
-            view = <keep-view-alive include={tagsViewGetters.cachedViews}>{view}</keep-view-alive>
+            view = <KeepViewAlive include={tagsViewGetters.cachedViews}>{view}</KeepViewAlive>
         }
 
         return <div class="page-view">{view}</div>

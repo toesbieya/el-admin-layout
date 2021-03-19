@@ -15,8 +15,6 @@ export default {
 
     mixins: [menuMixin],
 
-    components: {NavMenu, LoadingSpinner},
-
     data() {
         return {
             //最后一个不被隐藏的顶部菜单的数组下标
@@ -228,7 +226,7 @@ export default {
         if (appGetters.loadingMenu) {
             return (
                 <div style="position: relative;width: 100%;height: 100%">
-                    <loading-spinner/>
+                    <LoadingSpinner/>
                 </div>
             )
         }
@@ -236,7 +234,7 @@ export default {
         if (this.menus.length === 0) return
 
         return (
-            <nav-menu
+            <NavMenu
                 ref="nav-menu"
                 menus={this.realMenus}
                 theme={headerGetters.theme}

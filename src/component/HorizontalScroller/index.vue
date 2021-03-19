@@ -9,18 +9,25 @@ export default {
     name: 'HorizontalScroller',
 
     props: {
+        //元素之间的距离（px）
         between: {type: Number, default: 4}
     },
 
     methods: {
         handleScroll(e) {
-            const eventDelta = e.wheelDelta || -(e.detail || 0) * 40
+            const eventDelta = e.deltaY
             const {scrollLeft, scrollWidth, clientWidth} = this.$el
-            if (eventDelta > 0 && scrollLeft === 0
-                || eventDelta < 0 && scrollWidth <= scrollLeft + clientWidth) {
+
+            /**
+             * ①滚轮向上滚动并且是最左边
+             * ②滚轮向下滚动并且是最右边
+             */
+            if (eventDelta < 0 && scrollLeft === 0
+                || eventDelta > 0 && scrollWidth <= scrollLeft + clientWidth) {
                 return
             }
-            this.$el.scrollLeft += -eventDelta
+
+            this.$el.scrollLeft += eventDelta
         },
 
         moveToTarget(target) {

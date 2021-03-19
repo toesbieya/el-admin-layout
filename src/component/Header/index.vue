@@ -10,8 +10,6 @@ import {isEmpty} from "../../util"
 export default {
     name: 'Header',
 
-    components: {HeadMenu, Logo, Hamburger},
-
     computed: {
         //左侧logo
         defaultLogo() {
@@ -22,12 +20,12 @@ export default {
             const renderLogo = !appGetters.isMobile
                 && appGetters.showLogo
                 && (appGetters.navMode === 'head' || appGetters.struct === 'top-bottom')
-            return renderLogo && <logo show-title/>
+            return renderLogo && <Logo show-title/>
         },
         //左侧汉堡包
         defaultHamburger() {
             //移动端时必须渲染，不然侧边栏怎么出来
-            return appGetters.isMobile && <hamburger class="header-item header-icon"/>
+            return appGetters.isMobile && <Hamburger class="header-item header-icon"/>
         },
         //中间的导航菜单
         defaultHeadMenu() {
@@ -36,7 +34,7 @@ export default {
             //②导航模式为顶部导航或混合导航
             const renderHeadMenu = !appGetters.isMobile && ['head', 'mix'].includes(appGetters.navMode)
 
-            return renderHeadMenu && <head-menu ref="head-menu"/>
+            return renderHeadMenu && <HeadMenu ref="head-menu"/>
         },
         //右侧刷新按钮
         defaultRefreshBtn() {
