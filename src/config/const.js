@@ -20,5 +20,5 @@ export default {
      * 是否开启Layout组件的插槽功能
      * 关闭后只能通过store使用render方式来自定义渲染内容，不过可以提高一丢丢性能
      */
-    enableLayoutSlot: false
+    enableLayoutSlot: true
 }

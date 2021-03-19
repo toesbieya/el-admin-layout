@@ -50,7 +50,7 @@ export default {
                     const f = this.getMutationBySlot(k)
                     //scopedSlots: (props) => VNode
                     //render: (h, props) => VNode
-                    f((...args) => curr[k](...args.slice(1)))
+                    f((h, props) => curr[k](props))
                 }
             })
 
