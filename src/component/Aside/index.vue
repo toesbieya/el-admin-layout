@@ -1,4 +1,9 @@
 <script>
+/**
+ * 侧边栏
+ * 拆成Aside和DefaultSidebar是为了能让用户自定义侧边栏内容
+ */
+
 import {appGetters, asideGetters} from "../../store"
 import DefaultSidebar from './DefaultSidebar'
 

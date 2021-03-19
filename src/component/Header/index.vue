@@ -1,4 +1,8 @@
 <script>
+/**
+ * 顶栏
+ */
+
 //TODO header会在head-menu渲染后再次渲染，初步排查是head-menu中的activeMenu改变所致
 import {appGetters, headerGetters} from "../../store"
 import HeadMenu from "./HeadMenu"

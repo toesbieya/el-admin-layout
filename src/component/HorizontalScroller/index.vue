@@ -5,6 +5,11 @@
 </template>
 
 <script>
+/**
+ * 水平滚动区域，能够通过鼠标滚轮来进行水平滚动，用于页签栏
+ * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
+ */
+
 export default {
     name: 'HorizontalScroller',
 

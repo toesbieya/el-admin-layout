@@ -1,4 +1,8 @@
 <script>
+/**
+ * 默认的侧边栏实现，支持以抽屉形式渲染
+ */
+
 import menuMixin from "../../../mixin/menu"
 import {appGetters, asideGetters, asideMutations} from "../../../store"
 import Logo from '../../../component/Logo'

@@ -1,4 +1,8 @@
 <script>
+/**
+ * 用于刷新路由的工具组件
+ */
+
 import {Const} from "../../config"
 
 export default {

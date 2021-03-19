@@ -1,4 +1,8 @@
 <script>
+/**
+ * 页签栏
+ */
+
 import {
     appGetters,
     pageGetters,

@@ -7,6 +7,10 @@
 </template>
 
 <script>
+/**
+ * 右键菜单，用于页签栏，右键点击页签时弹出
+ */
+
 export default {
     name: "ContextMenu",
 

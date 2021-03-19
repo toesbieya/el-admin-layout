@@ -1,4 +1,9 @@
 <script>
+/**
+ * 能够缓存多种路由页面的keep-alive，用于页面内容（PageView）
+ * 借鉴[vue-router-tab](https://github.com/bhuh12/vue-router-tab)
+ */
+
 import {isEmpty} from "../../util"
 import {getRouterKey} from "../../config/logic"
 

@@ -2,6 +2,7 @@
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */
+
 import menuMixin from "../../mixin/menu"
 import {appGetters, appMutations, headerGetters} from "../../store"
 import NavMenu from "../../component/NavMenu"

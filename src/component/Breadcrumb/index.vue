@@ -21,6 +21,10 @@
 </template>
 
 <script>
+/**
+ * 面包屑，用于页面（Page）的页头
+ */
+
 import {getMenuByFullPath} from "../../store/app"
 import {getRouterKey, getRouterTitle, isRedirectRouter} from "../../config/logic"
 
