@@ -1,14 +1,10 @@
 import VueRouter, {Route, RawLocation} from "vue-router";
 
-interface RefreshPage {
+export declare const refreshPage: {
     (router: VueRouter, route?: Route, replace?: boolean): Promise<Route>
 }
-
-interface CloseCurrentPage {
+export declare const closeCurrentPage: {
     (router: VueRouter): void
 
     (router: VueRouter, next: RawLocation): Promise<Route>
 }
-
-export const refreshPage: RefreshPage
-export const closeCurrentPage: CloseCurrentPage

@@ -136,13 +136,13 @@ type TagsViewMutations = BaseTagsViewMutations & {
 }
 
 
-export const appGetters: AppGetters
-export const appMutations: AppMutations
-export const asideGetters: AsideGetters
-export const asideMutations: AsideMutations
-export const headerGetters: HeaderGetters
-export const headerMutations: HeaderMutations
-export const pageGetters: PageGetters
-export const pageMutations: PageMutations
-export const tagsViewGetters: TagsViewGetters
-export const tagsViewMutations: TagsViewMutations
+export declare const appGetters: AppGetters
+export declare const appMutations: AppMutations
+export declare const asideGetters: AsideGetters
+export declare const asideMutations: AsideMutations
+export declare const headerGetters: HeaderGetters
+export declare const headerMutations: HeaderMutations
+export declare const pageGetters: PageGetters
+export declare const pageMutations: PageMutations
+export declare const tagsViewGetters: TagsViewGetters
+export declare const tagsViewMutations: TagsViewMutations

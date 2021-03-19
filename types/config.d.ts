@@ -3,14 +3,10 @@ import {RouteConfig} from "vue-router"
 
 type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent
 
-interface Const {
+export declare const Const: {
     maxMobileWidth: number
     redirectPath: string
 }
-
-interface InjectDefaultRoute {
+export declare const injectDefaultRoute: {
     (layout: Component): RouteConfig[]
 }
-
-export const Const: Const
-export const injectDefaultRoute: InjectDefaultRoute
