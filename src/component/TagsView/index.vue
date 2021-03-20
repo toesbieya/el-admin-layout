@@ -59,7 +59,7 @@ export default {
         $route(to, from) {
             this.decideRouteTransition(to, from)
 
-            //如果是刷新的话，后续的三个操作都不需要进行
+            //如果是刷新的话，不需要进行后续操作
             if (isRedirectRouter(to)) return
 
             this.setActiveKey(to)
@@ -171,10 +171,10 @@ export default {
         },
         closeAllTags() {
             tagsViewMutations.delAllTagAndCache()
-            this.gotoLastTag()
+            this.gotoLastTag(true)
         },
 
-        gotoLastTag() {
+        gotoLastTag(refresh = false) {
             const views = this.visitedViews
 
             if (views.length === 0) {
@@ -183,8 +183,11 @@ export default {
 
             const latest = views[views.length - 1]
 
-            //未激活时才跳转
-            this.activeKey !== latest.key && this.$router.push(latest)
+            //目标路由是当前路由时需要刷新，否则直接跳转
+            this.activeKey === latest.key
+                ? refresh && refreshPage(this.$router)
+                //需要套一层$nextTick，否则tagsViewStore.visitedViews可能只会变动一次
+                : this.$nextTick(() => this.$router.push(latest))
         },
 
         openContextMenu(tag, e) {
@@ -209,14 +212,15 @@ export default {
                 const affix = this.isAffix(view)
                 const showClose = !affix && arr.length > 1
                 const on = {
-                    contextmenu: e => this.openContextMenu(view, e),
-                    dblclick: e => this.closeSelectedTag(view, e)
+                    contextmenu: e => this.openContextMenu(view, e)
                 }
                 const onIconClick = e => {
+                    //需要阻止事件冒泡，不然会触发tag的click事件
                     e.stopPropagation()
-                    on.dblclick(e)
+                    this.closeSelectedTag(view, e)
                 }
 
+                //非激活页签时，绑定点击事件，点击跳转到页签对应的路由
                 if (!active) {
                     on.click = () => this.$router.push(view, () => undefined)
                 }
