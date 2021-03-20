@@ -3,9 +3,6 @@ import {createGetters, createMutations} from "./util"
 import {isMobile} from "../helper"
 
 const state = {
-    //加速查找menu的哈希表：<k: menu.fullPath, v: menu>，内部使用、不在文档中列出
-    $_menuSearchMap: {},
-
     //区分pc和移动端
     isMobile: isMobile(),
 
@@ -45,6 +42,9 @@ const state = {
 
 const store = Vue.observable(state)
 
+//加速查找menu的哈希表：<k: menu.fullPath, v: menu>
+let MenuSearchMap = Object.create(null)
+
 //对菜单进行排序、增加parent属性，并将转换后的菜单节点放入查找表中
 function transformMenu(menus, parent) {
     if (!menus) return
@@ -61,7 +61,7 @@ function transformMenu(menus, parent) {
 
     copy.forEach(menu => {
         menu.parent = parent
-        store.$_menuSearchMap[menu.fullPath] = menu
+        MenuSearchMap[menu.fullPath] = menu
 
         if (menu.children) {
             menu.children = transformMenu(menu.children, menu)
@@ -97,8 +97,8 @@ export const mutations = {
     ...createMutations(store),
 
     menus(v) {
-        //每次更新菜单时都需要清空menuSearchMap
-        mutations.$_menuSearchMap({})
+        //每次更新菜单时都需要清空加速表
+        MenuSearchMap = Object.create(null)
 
         if (!Array.isArray(v)) {
             return store.menus = []
@@ -128,5 +128,5 @@ export const mutations = {
 
 //根据菜单的fullPath快速查找菜单
 export function getMenuByFullPath(fullPath) {
-    return store.$_menuSearchMap[fullPath]
+    return MenuSearchMap[fullPath]
 }
