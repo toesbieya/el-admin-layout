@@ -26,6 +26,7 @@ const state = {
     showHeader: true,
     //是否显示页脚
     showFooter: true,
+
     //自定义渲染页头内容，(h) => VNode | VNode[]
     headerSlot: undefined,
     //自定义渲染页脚内容，(h) => VNode | VNode[]

@@ -48,7 +48,6 @@ const state = {
     headerSlot: undefined,
     //自定义渲染侧边栏底部内容，(h, hamburger) => VNode | VNode[]
     footerSlot: undefined,
-
     //自定义渲染菜单图标，(h, {menu, depth}) => VNode
     menuIconSlot: undefined,
     //自定义渲染菜单内容，(h, {menu, depth}) => VNode
