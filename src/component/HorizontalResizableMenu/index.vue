@@ -12,7 +12,7 @@ import {getMenuByFullPath} from "../../store/app"
 import {findFirstLeaf} from "../../util"
 
 export default {
-    name: "HeadMenu",
+    name: "HorizontalResizableMenu",
 
     mixins: [menuMixin],
 

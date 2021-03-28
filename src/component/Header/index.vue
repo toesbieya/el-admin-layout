@@ -5,9 +5,9 @@
 
 //TODO header会在head-menu渲染后再次渲染，初步排查是head-menu中的activeMenu改变所致
 import {appGetters, headerGetters} from "../../store"
-import HeadMenu from "./HeadMenu"
 import Logo from "../../component/Logo"
 import Hamburger from '../../component/Hamburger'
+import HorizontalResizableMenu from '../../component/HorizontalResizableMenu'
 import {refreshPage} from "../../helper"
 import {isEmpty} from "../../util"
 
@@ -38,7 +38,7 @@ export default {
             //②导航模式为顶部导航或混合导航
             const renderHeadMenu = !appGetters.isMobile && ['head', 'mix'].includes(appGetters.navMode)
 
-            return renderHeadMenu && <HeadMenu ref="head-menu"/>
+            return renderHeadMenu && <HorizontalResizableMenu ref="head-menu"/>
         },
         //右侧刷新按钮
         defaultRefreshBtn() {
