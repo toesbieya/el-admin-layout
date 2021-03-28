@@ -24,20 +24,4 @@
             color: $--color-text-secondary;
         }
     }
-
-    &-enter-active,
-    &-leave-active,
-    &-move {
-        transition: transform .5s, opacity .5s;
-    }
-
-    &-enter,
-    &-leave-active {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-
-    &-leave-active {
-        position: absolute;
-    }
 }

@@ -20,21 +20,5 @@
     }
 }
 
-/* 侧边栏切换动画 */
-
-.sidebar-enter-active {
-    transition: all 0.2s;
-}
-
-.sidebar-enter,
-.sidebar-leave-active {
-    opacity: 0;
-    transform: translateY(30px) skewY(10deg)
-}
-
-.sidebar-leave-active {
-    position: absolute;
-}
-
 @import "./theme-light";
 @import "./theme-dark";

@@ -45,36 +45,3 @@
     margin: $page-view-margin;
     flex: 1;
 }
-
-//路由过渡动画
-.right-out,
-.left-out {
-    &-leave-active,
-    &-enter-active {
-        transition: transform .2s, opacity .2s;
-    }
-}
-
-.right-out {
-    &-enter {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-
-    &-leave-to {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-}
-
-.left-out {
-    &-enter {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-
-    &-leave-to {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-}
