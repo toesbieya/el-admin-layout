@@ -52,6 +52,16 @@ export default {
                 {content: '关闭其他', click: this.closeOthersTags},
                 {content: '关闭全部', click: this.closeAllTags}
             ]
+        },
+
+        //避免HorizontalScroller在右键时触发$forceUpdate
+        //https://segmentfault.com/q/1010000040171066
+        tagsSlot() {
+            return this._u([{
+                key: 'default',
+                fn: this.renderTags,
+                proxy: true
+            }])
         }
     },
 
@@ -243,9 +253,7 @@ export default {
     render() {
         return (
             <nav class="tags-view">
-                <HorizontalScroller ref="scroller">
-                    {this.renderTags()}
-                </HorizontalScroller>
+                <HorizontalScroller ref="scroller" scopedSlots={this.tagsSlot}/>
 
                 <ContextMenu
                     v-model={this.contextMenu.show}
