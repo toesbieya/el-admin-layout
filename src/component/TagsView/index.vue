@@ -9,11 +9,11 @@ import {
     pageMutations,
     tagsViewGetters,
     tagsViewMutations
-} from "../../store"
-import ContextMenu from "../../component/ContextMenu"
+} from '../../store'
+import ContextMenu from '../../component/ContextMenu'
 import HorizontalScroller from '../../component/HorizontalScroller'
-import {refreshPage} from "../../helper"
-import {getRouterKey, getRouterTitle, isRedirectRouter} from "../../config/logic"
+import {refreshPage} from '../../helper'
+import {getRouterKey, getRouterTitle, isRedirectRouter} from '../../config/logic'
 
 export default {
     name: 'TagsView',
@@ -67,7 +67,7 @@ export default {
 
     watch: {
         $route(to, from) {
-            this.decideRouteTransition(to, from)
+            tagsViewGetters.enableChangeTransition && this.decideRouteTransition(to, from)
 
             //如果是刷新的话，不需要进行后续操作
             if (isRedirectRouter(to)) return

@@ -5,6 +5,8 @@ import Vue from 'vue'
 import {createGetters, createMutations} from "./util"
 
 const state = {
+    //是否启用过渡动画
+    enableTransition: true,
     //路由过渡动画
     transition: {
         //当未启用多页签时的路由动画

@@ -81,6 +81,7 @@ type HeaderMutations = { [K in keyof HeaderGetters]: Mutation<HeaderGetters[K]> 
 
 
 interface PageGetters {
+    enableTransition: boolean;
     transition: {
         default?: string
         next?: string
@@ -117,6 +118,7 @@ interface VisitedView extends View {
 interface TagsViewGetters {
     enabled: boolean
     enableCache: boolean
+    enableChangeTransition: boolean
     visitedViews: VisitedView[]
     cachedViews: string[]
 }

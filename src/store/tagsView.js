@@ -2,16 +2,18 @@
  * 多页签的响应式数据
  */
 import Vue from 'vue'
-import {getters as pageGetters, mutations as pageMutations} from "./page"
-import {createGetters, createMutations} from "./util"
+import {getters as pageGetters, mutations as pageMutations} from './page'
+import {createGetters, createMutations} from './util'
 import {isEmpty} from '../util'
-import {getRouterKey} from "../config/logic"
+import {getRouterKey} from '../config/logic'
 
 const state = {
     //是否启用
     enabled: true,
     //是否启用缓存功能
     enableCache: true,
+    //是否启用根据页签顺序来确定过渡动画的功能
+    enableChangeTransition: true,
 
     //显示的页签
     visitedViews: [],
@@ -44,11 +46,21 @@ export const mutations = {
     /**
      * 多页签缓存功能的启用/停用
      * 停用时会移除所有缓存
-     * @param v
+     * @param v {boolean}
      */
     enableCache(v) {
         store.enableCache = v
         !v && mutations.delAllCache()
+    },
+
+    /**
+     * 根据页签顺序来确定过渡动画功能的启用/停用
+     * 停用时会将pageGetters.transition.curr设为为默认值
+     * @param v {boolean}
+     */
+    enableChangeTransition(v) {
+        store.enableChangeTransition = v
+        pageMutations.transition({curr: pageGetters.transition.default})
     },
 
     /**
