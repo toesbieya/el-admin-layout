@@ -71,13 +71,12 @@ export default {
         include: {
             deep: true,
             handler(val) {
-                const {cache, $route} = this
-                for (const [k, v] of Object.entries(cache)) {
-                    const cacheKey = getCacheKey($route, v.componentOptions)
-                    if (!val || !val.includes(cacheKey)) {
-                        removeCache(cache, k)
+                const {cache} = this
+                Object.keys(cache).forEach(key => {
+                    if (!val || !val.includes(key)) {
+                        removeCache(cache, key)
                     }
-                }
+                })
             }
         }
     },
