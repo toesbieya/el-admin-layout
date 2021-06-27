@@ -126,6 +126,13 @@
 
         <el-divider>page</el-divider>
         <div class="setting-drawer-item">
+            <span>启用过渡动画</span>
+            <el-switch
+                :value="pageGetters.enableTransition"
+                @input="v => onChange('pageMutations', 'enableTransition', v)"
+            />
+        </div>
+        <div class="setting-drawer-item">
             <span>显示页头</span>
             <el-switch
                 :value="pageGetters.showHeader"
@@ -148,6 +155,13 @@
                 @input="v => onChange('tagsViewMutations', 'enableCache', v)"
             />
         </div>
+        <div class="setting-drawer-item">
+            <span>根据页签顺序确定过渡动画</span>
+            <el-switch
+                :value="tagsViewGetters.enableChangeTransition"
+                @input="v => onChange('tagsViewMutations', 'enableChangeTransition', v)"
+            />
+        </div>
     </el-drawer>
 </template>
 
@@ -166,7 +180,7 @@ import {
 } from 'el-admin-layout'
 
 export default {
-    name: "SettingDrawer",
+    name: 'SettingDrawer',
 
     //让el-input、el-select的size为mini
     provide: () => ({elFormItem: {elFormItemSize: 'mini'}}),
