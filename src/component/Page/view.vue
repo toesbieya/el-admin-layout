@@ -12,10 +12,12 @@ import {isEmpty} from '../../util'
 function pruneCacheEntry(key, instance) {
     if (!instance) return
 
-    const {cache} = instance
+    const {cache, _vnode: current} = instance
     const entry = cache[key]
 
-    entry && entry.componentInstance.$destroy()
+    if (entry && (!current || entry.tag !== current.tag)) {
+        entry.componentInstance.$destroy()
+    }
 
     delete cache[key]
 
