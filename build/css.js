@@ -35,7 +35,7 @@ async function compile() {
         })
 
         //from: undefined 用来阻止cssnano显示警告
-        const {css} = await cssnano.process(result.css, {from: undefined})
+        const {css} = await cssnano().process(result.css, {from: undefined})
 
         fs.writeFileSync(output, css)
     }
