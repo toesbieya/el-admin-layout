@@ -1,12 +1,12 @@
 <script>
-import PageHeader from "./header"
-import PageFooter from "./footer"
-import PageView from "./view"
+import PageHeader from './header'
+import PageFooter from './footer'
+import PageView from './view'
 import Breadcrumb from '../../component/Breadcrumb'
-import {pageGetters} from "../../store"
+import {pageGetters} from '../../store'
 
 export default {
-    name: "PageContent",
+    name: 'PageContent',
 
     computed: {
         showHeader() {
@@ -14,21 +14,21 @@ export default {
         },
         showFooter() {
             return pageGetters.showFooter && this.$route.meta.pageFooter !== false
-        },
-        className() {
-            return {
-                'page-content': true,
-                'has-page-header': this.showHeader,
-                'has-page-footer': this.showFooter
-            }
         }
     },
 
     render(h) {
         const {headerSlot, footerSlot} = pageGetters
+        const showFooter = this.showFooter && footerSlot
+
+        const className = {
+            'page-content': true,
+            'has-page-header': this.showHeader,
+            'has-page-footer': showFooter
+        }
 
         return (
-            <div class={this.className}>
+            <div class={className}>
                 {this.showHeader && (
                     <PageHeader>
                         {headerSlot ? headerSlot(h) : <Breadcrumb/>}
@@ -37,11 +37,7 @@ export default {
 
                 <PageView/>
 
-                {this.showFooter && footerSlot && (
-                    <PageFooter>
-                        {footerSlot(h)}
-                    </PageFooter>
-                )}
+                {showFooter && <PageFooter>{footerSlot(h)}</PageFooter>}
             </div>
         )
     }
