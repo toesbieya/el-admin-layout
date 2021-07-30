@@ -23,6 +23,7 @@
 
 .page-header {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     height: $page-header-height;
     padding: $page-header-padding $page-view-margin $page-header-padding $page-view-margin;
