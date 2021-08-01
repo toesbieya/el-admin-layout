@@ -1,4 +1,4 @@
-@import "~element-ui/packages/theme-chalk/src/common/var.scss";
+@import '~element-ui/packages/theme-chalk/src/common/var.scss';
 
 //移动端的最大宽度
 //值变动时需同时修改../config/const.js maxMobileWidth
@@ -53,6 +53,18 @@ $header-z-index: 10 !default;
 $tags-view-height: 32px !default;
 //页签栏背景色
 $tags-view-background-color: #f0f2f5 !default;
+//页签栏阴影
+$tags-view-shadow: inset 0 0 3px 2px hsla(0, 0%, 39.2%, .1) !default;
+//页签字体大小
+$tags-view-item-font-size: $--font-size-extra-small !default;
+//页签边框
+$tags-view-item-border: 1px solid $--border-color-base !default;
+//页签圆角大小
+$tags-view-item-border-radius: 3px !default;
+//页签padding
+$tags-view-item-padding: 0 12px !default;
+//页签之间的距离
+$tags-view-item-between: 8px !default;
 
 //页面背景色
 $page-background-color: #f0f2f5 !default;

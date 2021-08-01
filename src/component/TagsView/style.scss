@@ -1,59 +1,51 @@
 .tags-view {
     height: $tags-view-height;
     background-color: $tags-view-background-color;
-    box-shadow: inset 0 0 3px 2px hsla(0, 0%, 39.2%, .1);
+    box-shadow: $tags-view-shadow;
     overflow: hidden;
 
     &-item {
-        $margin: 4px;
-        $border-width: 1px;
-
-        display: inline-block;
-        cursor: pointer;
-        box-sizing: border-box;
-        height: $tags-view-height - $margin * 2;
-        line-height: $tags-view-height - $margin * 2 - $border-width * 2;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        border: $tags-view-item-border;
+        border-radius: $tags-view-item-border-radius;
+        padding: $tags-view-item-padding;
+        margin: $tags-view-item-between / 2;
+        font-size: $tags-view-item-font-size;
         color: $--color-text-secondary;
         background-color: $--color-white;
-        border-radius: 3px;
-        border: $border-width solid $--border-color-base;
-        padding: 0 12px;
-        font-size: 12px;
-        margin: $margin;
+        box-sizing: border-box;
         user-select: none;
+        cursor: pointer;
 
         &:first-of-type {
-            margin-left: 15px;
+            margin-left: $tags-view-item-between;
         }
 
         &:last-of-type {
-            margin-right: 15px;
-        }
-
-        &::before {
-            content: '';
-            position: relative;
-            background-color: #e8eaec;
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            top: 1px;
-            margin-right: 5px;
+            margin-right: $tags-view-item-between;
         }
 
         &.active {
             color: $--color-primary;
 
-            &::before {
+            .tags-view-item__dot {
                 background-color: $--color-primary;
             }
         }
 
-        .el-icon-close {
+        &__dot {
+            background-color: #e8eaec;
+            width: $tags-view-item-font-size;
+            height: $tags-view-item-font-size;
             border-radius: 50%;
-            font-size: 14px;
-            margin-left: 10px;
+            margin-right: .5em;
+        }
+
+        .el-icon-close {
+            font-size: $tags-view-item-font-size + 2;
+            margin-left: 1em;
         }
     }
 }

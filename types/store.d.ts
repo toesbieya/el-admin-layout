@@ -119,6 +119,7 @@ interface TagsViewGetters {
     enabled: boolean
     enableCache: boolean
     enableChangeTransition: boolean
+    itemSlot: (h: CreateElement, param?: { key: string, active: boolean, on?: { [k: string]: Function }, title: string, close?: Function }) => VNode
     visitedViews: VisitedView[]
     cachedViews: string[]
 }

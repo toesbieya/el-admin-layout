@@ -15,6 +15,29 @@ import HorizontalScroller from '../../component/HorizontalScroller'
 import {refreshPage} from '../../helper'
 import {getRouterKey, getRouterTitle, isRedirectRouter} from '../../config/logic'
 
+/**
+ * 渲染默认样式的页签
+ *
+ * @param h {CreateElement}
+ * @param key {string}
+ * @param active {boolean}
+ * @param on {?Object<string, function>}
+ * @param title {string}
+ * @param close {?function}
+ * @return {VNode}
+ */
+function renderDefaultStyleTag(h, {key, active, on, title, close}) {
+    const className = `tags-view-item${active ? ' active' : ''}`
+
+    return (
+        <div key={key} class={className} {...{on}}>
+            <div class="tags-view-item__dot"/>
+            <span>{title}</span>
+            {close && <i class="el-icon-close" on-click={close}/>}
+        </div>
+    )
+}
+
 export default {
     name: 'TagsView',
 
@@ -211,15 +234,16 @@ export default {
         },
 
         renderTags() {
+            const h = this.$createElement
+            const renderFn = tagsViewGetters.itemSlot || renderDefaultStyleTag
+
             return this.visitedViews.map((view, _, arr) => {
                 const active = this.activeKey === view.key
-                const className = {'tags-view-item': true, active}
-                const affix = this.isAffix(view)
-                const showClose = !affix && arr.length > 1
+                const showClose = !this.isAffix(view) && arr.length > 1
                 const on = {
                     contextmenu: e => this.openContextMenu(view, e)
                 }
-                const onIconClick = e => {
+                const onClose = e => {
                     //需要阻止事件冒泡，不然会触发tag的click事件
                     e.stopPropagation()
                     this.closeSelectedTag(view, e)
@@ -230,12 +254,13 @@ export default {
                     on.click = () => this.$router.push(view, () => undefined)
                 }
 
-                return (
-                    <div key={view.key} class={className} {...{on}}>
-                        <span>{view.meta.title}</span>
-                        {showClose && <i class="el-icon-close" on-click={onIconClick}/>}
-                    </div>
-                )
+                return renderFn(h, {
+                    key: view.key,
+                    active,
+                    on,
+                    title: view.meta.title,
+                    close: showClose && onClose
+                })
             })
         }
     },

@@ -58,14 +58,10 @@ export default {
         },
         getMutations(prefix) {
             switch (prefix) {
-                case 'app':
-                    return appMutations
                 case 'aside':
                     return asideMutations
                 case 'header':
                     return headerMutations
-                case 'tagsView':
-                    return tagsViewMutations
                 case 'page':
                     return pageMutations
             }
@@ -78,6 +74,10 @@ export default {
             //不规则的
             if (slot === 'logo') {
                 cache[slot] = appMutations.logoSlot
+                return cache[slot]
+            }
+            if (slot === 'tags-view-item') {
+                cache[slot] = tagsViewMutations.itemSlot
                 return cache[slot]
             }
 
