@@ -12,16 +12,24 @@
  */
 
 export default {
-    name: "ContextMenu",
+    name: 'ContextMenu',
 
     props: {
+        //是否显示，支持v-modal
         value: Boolean,
+        //菜单定义数组，{content: string 菜单文字, click: function 点击菜单时触发的函数}
         items: Array,
+        //菜单距离屏幕左侧的距离，单位px
         left: Number,
-        top: Number
+        //菜单距离屏幕顶部的距离，单位px
+        top: Number,
+        //菜单距离屏幕边缘的最小距离，单位px
+        minDistance: {type: Number, default: 10}
     },
 
     data() {
+        this.willAutoAdaptLeft = false
+        this.willAutoAdaptTop = false
         return {
             realLeft: '0px',
             realTop: '0px'
@@ -41,14 +49,14 @@ export default {
     watch: {
         value(v) {
             document.body[v ? 'addEventListener' : 'removeEventListener']('click', this.close)
-            v && this.$nextTick(this.autoAdapt)
+            if (v) {
+                this.willAutoAdaptLeft = true
+                this.willAutoAdaptTop = true
+                this.$nextTick(this.autoAdapt)
+            }
         },
-        left(v) {
-            v && this.autoAdaptLeft(v)
-        },
-        top(v) {
-            v && this.autoAdaptTop(v)
-        }
+        left: 'autoAdaptLeft',
+        top: 'autoAdaptTop'
     },
 
     methods: {
@@ -58,27 +66,41 @@ export default {
         autoAdapt() {
             this.autoAdaptTop(this.top)
             this.autoAdaptLeft(this.left)
+
+            this.willAutoAdapt = false
         },
         autoAdaptTop(v) {
-            if (!this.value) return
-
-            const elOffsetHeight = this.$el.offsetHeight
-
-            if (elOffsetHeight > document.body.clientHeight - v && v > elOffsetHeight) {
-                this.realTop = v - elOffsetHeight + 'px'
+            if (this.willAutoAdaptTop) {
+                this.willAutoAdaptTop = false
+                return
             }
-            else this.realTop = v + 'px'
+            if (!this.value || v == null) return
+
+            const elHeight = this.$el.offsetHeight
+            const remainHeight = document.body.clientHeight - v - this.minDistance
+            const over = elHeight - remainHeight
+            const finalTop = over > 0 ? v - over : v
+
+            this.realTop = `${finalTop}px`
         },
         autoAdaptLeft(v) {
-            if (!this.value) return
-
-            const elOffsetWidth = this.$el.offsetWidth
-
-            if (elOffsetWidth > document.body.clientWidth - v) {
-                this.realLeft = v - elOffsetWidth + 'px'
+            if (this.willAutoAdaptLeft) {
+                this.willAutoAdaptLeft = false
+                return
             }
-            else this.realLeft = v + 'px'
+            if (!this.value || v == null) return
+
+            const elWidth = this.$el.offsetWidth
+            const remainWidth = document.body.clientWidth - v - this.minDistance
+            const over = elWidth - remainWidth
+            const finalLeft = over > 0 ? v - over : v
+
+            this.realLeft = `${finalLeft}px`
         }
+    },
+
+    beforeDestroy() {
+        document.body.removeEventListener('click', this.close)
     }
 }
 </script>

@@ -1,19 +1,27 @@
 .context-menu {
-    margin: 0;
-    background-color: $menu-background-dark;
-    z-index: $--index-popper;
     position: fixed;
-    list-style-type: none;
+    z-index: $--index-popper;
     padding: 5px 0;
+    margin: 0;
     border-radius: 4px;
     font-size: 12px;
+    max-height: 50vh;
     color: $--color-white;
+    background-color: $menu-background-dark;
     box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .3);
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     &-item {
         margin: 0;
         padding: 7px 16px;
+        white-space: nowrap;
         cursor: pointer;
+        list-style-type: none;
 
         &:hover {
             color: $--color-primary;

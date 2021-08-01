@@ -203,13 +203,8 @@ export default {
         openContextMenu(tag, e) {
             e.preventDefault()
 
-            const contextMenuWidth = 105 //右键菜单的假定宽度
-            const {left: elLeft, width: elWidth} = this.$el.getBoundingClientRect()
-            const maxLeft = elWidth + elLeft - contextMenuWidth
-            const left = e.clientX
-
-            this.contextMenu.left = (left > maxLeft ? maxLeft : left) + 15
-            this.contextMenu.top = e.clientY
+            this.contextMenu.left = e.clientX + 15
+            this.contextMenu.top = e.clientY + 5
             this.contextMenu.show = true
 
             this.selectedTag = tag
