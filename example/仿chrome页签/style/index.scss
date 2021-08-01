@@ -1,0 +1,8 @@
+@import './var';
+@import '~el-admin-layout/src/style';
+@import './chrome-tabs';
+
+html, body, #app {
+    height: 100%;
+    margin: 0;
+}

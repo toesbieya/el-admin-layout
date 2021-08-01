@@ -1,0 +1,100 @@
+.tags-view-item {
+    position: relative;
+    width: 140px;
+    padding: $tags-view-item-padding;
+    margin: 0;
+    border-radius: $nav-item-border-radius-top $nav-item-border-radius-top 0 0;
+    color: unset;
+    background-color: transparent;
+    transition: background-color .2s;
+
+    &.active {
+        z-index: 5;
+        color: unset;
+        background-color: $page-background-color;
+
+        &::before, &::after {
+            box-shadow: 0 0 0 30px $page-background-color;
+        }
+    }
+
+    &::after, &::before {
+        position: absolute;
+        bottom: 0;
+        content: '';
+        width: $nav-item-border-radius-bottom * 2;
+        height: $nav-item-border-radius-bottom * 2;
+        border-radius: 100%;
+        box-shadow: 0 0 0 $nav-item-border-radius-bottom * 1.5 transparent;
+        transition: box-shadow .2s;
+    }
+
+    &::after {
+        right: -($nav-item-border-radius-bottom * 2);
+        clip-path: inset(50% 50% 0 -#{$nav-item-border-radius-bottom});
+    }
+
+    &::before {
+        left: -($nav-item-border-radius-bottom * 2);
+        clip-path: inset(50% -#{$nav-item-border-radius-bottom} 0 50%);
+    }
+
+    &:not(.active):hover {
+        z-index: 2;
+        background-color: $nav-item-bg-hover;
+
+        &::before, &::after {
+            box-shadow: 0 0 0 30px $nav-item-bg-hover;
+        }
+    }
+
+    &__title {
+        position: relative;
+        flex: 1;
+        vertical-align: top;
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image: linear-gradient(90deg, black calc(100% - 24px), transparent);
+    }
+
+    &__close {
+        flex-shrink: 0;
+        height: $nav-item-close-size;
+        width: $nav-item-close-size;
+        text-align: center;
+        border-radius: 50%;
+        margin-left: .5em;
+
+        i {
+            font-size: $tags-view-item-font-size;
+            font-weight: bold;
+            margin: 0 !important;
+        }
+
+        &:hover {
+            background-color: $nav-item-close-bg-hover;
+        }
+
+        &:active {
+            background-color: $nav-item-close-bg-active;
+        }
+    }
+
+    &__divider {
+        position: absolute;
+        top: $nav-item-divider-gap;
+        bottom: $nav-item-divider-gap;
+        right: -1px;
+        width: 1px;
+        background-color: $nav-item-divider-color;
+        opacity: 1;
+        transition: opacity .2s;
+    }
+
+    //激活、hover时不显示右边的分割线
+    &:last-child .tags-view-item__divider,
+    &.active .tags-view-item__divider,
+    &:hover .tags-view-item__divider {
+        opacity: 0;
+    }
+}

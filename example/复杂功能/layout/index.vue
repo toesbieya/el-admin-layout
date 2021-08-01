@@ -42,7 +42,7 @@ import SettingDrawer from './component/SettingDrawer'
 
 //设置一些基础信息
 appMutations.title('el-admin-layout')
-appMutations.logo('https://preview.pro.ant.design/static/logo.f0355d39.svg')
+appMutations.logo('https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg')
 appMutations.menus(menus)
 
 

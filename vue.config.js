@@ -42,7 +42,8 @@ module.exports = {
         'simulate-mobile': createExamplePage('模拟移动端'),
         'setting-drawer': createExamplePage('设置抽屉'),
         'persist-tags': createExamplePage('持久化页签'),
-        'old-qiniu-aside': createExamplePage('仿旧版七牛云侧边栏')
+        'old-qiniu-aside': createExamplePage('仿旧版七牛云侧边栏'),
+        'chrome-tabs': createExamplePage('仿chrome页签')
     },
     productionSourceMap: false,
     devServer: {

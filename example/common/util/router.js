@@ -29,7 +29,7 @@ export function createRouter(layoutComponent) {
                         path: 'test',
                         name: 'testPage',
                         component: TestPage,
-                        meta: {title: '测试页'}
+                        meta: {title: '测试页', noCache: true}
                     },
                     {
                         path: 'reuse/:id',
