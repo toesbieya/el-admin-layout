@@ -19,6 +19,9 @@ export default {
     },
 
     methods: {
+        /**
+         * @param e {WheelEvent}
+         */
         handleScroll(e) {
             const eventDelta = e.deltaY
             const {scrollLeft, scrollWidth, clientWidth} = this.$el
@@ -35,6 +38,10 @@ export default {
             this.$el.scrollLeft += eventDelta
         },
 
+        /**
+         * 将指定元素以及其相邻元素移动至视窗内，外部调用
+         * @param target {Element}
+         */
         moveToTarget(target) {
             const nodes = Array.from(this.$el.children)
             const {offsetWidth: containerWidth, scrollWidth, scrollLeft} = this.$el
