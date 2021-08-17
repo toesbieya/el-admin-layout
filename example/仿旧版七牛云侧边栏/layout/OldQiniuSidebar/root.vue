@@ -1,13 +1,13 @@
 <script>
-import menuMixin from "el-admin-layout/src/mixin/menu"
-import {appGetters, appMutations, asideGetters} from "el-admin-layout"
+import menuMixin from 'el-admin-layout/src/mixin/menu'
+import {appGetters, appMutations, asideGetters} from 'el-admin-layout'
 import Logo from 'el-admin-layout/src/component/Logo'
-import {isRedirectRouter} from "el-admin-layout/src/config/logic"
-import {getMenuByFullPath} from "el-admin-layout/src/store/app"
-import {findFirstLeaf} from "el-admin-layout/src/util"
+import {isRedirectRouter} from 'el-admin-layout/src/config/logic'
+import {getMenuByFullPath} from 'el-admin-layout/src/store/app'
+import {findFirstLeaf} from 'el-admin-layout/src/util'
 
 export default {
-    name: "OldQiniuSidebarRoot",
+    name: 'OldQiniuSidebarRoot',
 
     mixins: [menuMixin],
 

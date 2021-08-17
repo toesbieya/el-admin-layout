@@ -1,7 +1,7 @@
 import {CreateElement, VNode} from 'vue'
 import {Route, RawLocation} from 'vue-router'
-import {MenuItem, MenuItemMeta, StoreMenuItem} from "./menu";
-import {RouteMeta} from "./route";
+import {MenuItem, MenuItemMeta, StoreMenuItem} from './menu'
+import {RouteMeta} from './route'
 
 type Mutation<T> = (val: T) => void
 

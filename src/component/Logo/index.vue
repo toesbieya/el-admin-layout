@@ -1,6 +1,6 @@
 <script>
-import {appGetters} from "../../store"
-import {isEmpty} from "../../util"
+import {appGetters} from '../../store'
+import {isEmpty} from '../../util'
 
 export default {
     name: 'Logo',

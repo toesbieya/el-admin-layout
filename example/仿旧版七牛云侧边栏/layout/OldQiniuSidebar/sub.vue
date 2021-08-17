@@ -1,12 +1,12 @@
 <script>
-import menuMixin from "el-admin-layout/src/mixin/menu"
-import {appGetters, asideGetters} from "el-admin-layout"
+import menuMixin from 'el-admin-layout/src/mixin/menu'
+import {appGetters, asideGetters} from 'el-admin-layout'
 import NavMenu from 'el-admin-layout/src/component/NavMenu'
 import Hamburger from 'el-admin-layout/src/component/Hamburger'
-import {getRouterActiveMenu, isRedirectRouter} from "el-admin-layout/src/config/logic"
+import {getRouterActiveMenu, isRedirectRouter} from 'el-admin-layout/src/config/logic'
 
 export default {
-    name: "OldQiniuSidebarSub",
+    name: 'OldQiniuSidebarSub',
 
     mixins: [menuMixin],
 

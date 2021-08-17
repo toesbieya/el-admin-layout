@@ -2,7 +2,7 @@
  * 路由页面的响应式数据
  */
 import Vue from 'vue'
-import {createGetters, createMutations} from "./util"
+import {createGetters, createMutations} from './util'
 
 const state = {
     //是否启用过渡动画

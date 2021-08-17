@@ -2,7 +2,7 @@
  * 参考@vue/component-compiler-utils和vue-component-compiler
  */
 
-const babel = require("@babel/core")
+const babel = require('@babel/core')
 const {compile, parseComponent} = require('vue-template-compiler')
 const transpile = require('vue-template-es2015-compiler')
 
@@ -80,7 +80,7 @@ module.exports = function (filename, source, isProduction = process.env.NODE_ENV
         code += `\n__component__.staticRenderFns = __staticRenderFns__`
     }
 
-    code+=`\n__component__._compiled = true`
+    code += `\n__component__._compiled = true`
 
     //修改function选项
     if (isFunctional) {

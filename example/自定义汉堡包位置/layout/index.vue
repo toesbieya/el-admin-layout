@@ -19,13 +19,13 @@
 <script>
 import ElAdminLayout, {appMutations, asideMutations} from 'el-admin-layout'
 import HeaderLeft from './HeaderLeft'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 
 appMutations.title('自定义汉堡包位置')
 appMutations.menus(menus)
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout, HeaderLeft},
 

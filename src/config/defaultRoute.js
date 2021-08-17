@@ -1,4 +1,4 @@
-import Const from "./const"
+import Const from './const'
 import Redirect from '../component/Redirect'
 
 /**

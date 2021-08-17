@@ -6,7 +6,7 @@
 
 const fs = require('fs')
 const path = require('path')
-const sass = require("sass")
+const sass = require('sass')
 const cssnano = require('cssnano')
 const {calcTimeCost, mkdirWhenNoExist, getFileDir} = require('./util')
 

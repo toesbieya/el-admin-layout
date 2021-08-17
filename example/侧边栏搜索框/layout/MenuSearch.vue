@@ -1,21 +1,21 @@
 <template>
     <div class="aside-menu-search">
         <el-input
-            v-model="value"
-            size="mini"
-            clearable
-            placeholder="搜索菜单"
-            prefix-icon="el-icon-search"
-            @input="search"
+                v-model="value"
+                size="mini"
+                clearable
+                placeholder="搜索菜单"
+                prefix-icon="el-icon-search"
+                @input="search"
         />
     </div>
 </template>
 
 <script>
-import {debounce} from "@example/common/util"
+import {debounce} from '@example/common/util'
 
 export default {
-    name: "MenuSearch",
+    name: 'MenuSearch',
 
     data: () => ({value: ''}),
 

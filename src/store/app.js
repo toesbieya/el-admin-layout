@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import {createGetters, createMutations} from "./util"
-import {isMobile} from "../helper"
+import {createGetters, createMutations} from './util'
+import {isMobile} from '../helper'
 
 const state = {
     //区分pc和移动端
@@ -37,7 +37,7 @@ const state = {
     navMode: 'mix',
 
     //自定义渲染logo，(h, {img, title, props}) => VNode | VNode[]
-    logoSlot: undefined,
+    logoSlot: undefined
 }
 
 const store = Vue.observable(state)

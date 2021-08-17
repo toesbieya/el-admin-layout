@@ -8,7 +8,7 @@
 import mixin from './mixin'
 
 export default {
-    name: "ColorCheckBox",
+    name: 'ColorCheckBox',
 
     mixins: [mixin]
 }

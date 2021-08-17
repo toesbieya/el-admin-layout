@@ -1,8 +1,8 @@
 /**
  * 顶部菜单和侧边栏菜单的公共混入
  */
-import {refreshPage} from "../helper"
-import {getRouterKey} from "../config/logic"
+import {refreshPage} from '../helper'
+import {getRouterKey} from '../config/logic'
 
 export default {
     data() {
@@ -12,7 +12,7 @@ export default {
             activeMenu: '',
 
             //传递给nav-menu，只会在activeMenu第一次变化时变化
-            defaultActive: '',
+            defaultActive: ''
         }
     },
 

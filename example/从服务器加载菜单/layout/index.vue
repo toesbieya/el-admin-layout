@@ -2,9 +2,9 @@
     <div style="height: 100%">
         <el-admin-layout/>
         <el-button
-            type="primary"
-            style="position: fixed;top: 50%;left: 50%"
-            @click="loadMenu"
+                type="primary"
+                style="position: fixed;top: 50%;left: 50%"
+                @click="loadMenu"
         >
             重新加载菜单
         </el-button>
@@ -13,7 +13,7 @@
 
 <script>
 import ElAdminLayout, {appGetters, appMutations, asideMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 
 appMutations.title('从服务器加载菜单')
 appMutations.loadingMenu(true)
@@ -22,7 +22,7 @@ appMutations.loadingMenu(true)
 asideMutations.alwaysRender(true)
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout},
 

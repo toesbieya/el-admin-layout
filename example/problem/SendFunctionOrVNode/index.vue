@@ -5,8 +5,8 @@
  */
 export default {
     components: {
-        Child:{
-            name: "Child",
+        Child: {
+            name: 'Child',
 
             beforeCreate() {
                 console.log('child beforeCreate')

@@ -10,7 +10,7 @@
 
 <script>
 import ElAdminLayout, {appGetters, appMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 import VRoot from './OldQiniuSidebar/root'
 import VSub from './OldQiniuSidebar/sub'
 
@@ -20,7 +20,7 @@ appMutations.menus(menus)
 appMutations.navMode('aside')
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout, VRoot, VSub},
 

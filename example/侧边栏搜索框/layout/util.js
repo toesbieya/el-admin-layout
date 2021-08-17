@@ -1,4 +1,4 @@
-import {isEmpty} from "@example/common/util"
+import {isEmpty} from '@example/common/util'
 
 //获取高亮菜单的sub-menu
 function getSubHighlightMenu(searchWord, children, parent) {

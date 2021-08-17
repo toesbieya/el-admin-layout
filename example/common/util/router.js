@@ -1,5 +1,5 @@
 import Router from 'vue-router'
-import {injectDefaultRoute} from "el-admin-layout"
+import {injectDefaultRoute} from 'el-admin-layout'
 import IndexPage from '@example/common/view/indexPage'
 import TestPage from '@example/common/view/testPage'
 import ReusablePage from '@example/common/view/reusablePage'

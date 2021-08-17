@@ -3,7 +3,7 @@ import {appGetters, asideGetters} from 'el-admin-layout'
 import MenuSearch from './MenuSearch'
 
 export default {
-    name: "AsideHeader",
+    name: 'AsideHeader',
 
     functional: true,
 

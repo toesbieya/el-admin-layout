@@ -2,7 +2,7 @@
  * 一些可能后续会修改的公用逻辑
  */
 
-import Const from "./const"
+import Const from './const'
 
 /**
  * 获取每个路由对应的唯一key

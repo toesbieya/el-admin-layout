@@ -4,8 +4,8 @@
  * ctrl + ←，上一个页签
  */
 
-import {tagsViewGetters} from "el-admin-layout"
-import {getRouterKey} from "el-admin-layout/src/config/logic"
+import {tagsViewGetters} from 'el-admin-layout'
+import {getRouterKey} from 'el-admin-layout/src/config/logic'
 
 export default {
     watch: {

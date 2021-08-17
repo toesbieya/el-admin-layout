@@ -4,7 +4,7 @@
 
 <script>
 export default {
-    name: "DetailBreadcrumb",
+    name: 'DetailBreadcrumb',
 
     props: ['id']
 }

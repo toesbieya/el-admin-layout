@@ -7,6 +7,6 @@
 
 <script>
 export default {
-    name: "ListBreadcrumb"
+    name: 'ListBreadcrumb'
 }
 </script>

@@ -53,7 +53,7 @@ export default {
             contextMenu: {
                 show: false,
                 top: 0,
-                left: 0,
+                left: 0
             }
         }
     },

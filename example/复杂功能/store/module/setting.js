@@ -1,4 +1,4 @@
-import {mergeObj} from "@example/common/util"
+import {mergeObj} from '@example/common/util'
 import {getLocalPersonalSettings, setLocalPersonalSettings} from '@example/common/util/storage'
 import {
     appMutations,
@@ -6,7 +6,7 @@ import {
     headerMutations,
     pageMutations,
     tagsViewMutations
-} from "el-admin-layout"
+} from 'el-admin-layout'
 
 const noop = () => undefined
 

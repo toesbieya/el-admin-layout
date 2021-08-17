@@ -9,7 +9,7 @@
 import mixin from './mixin'
 
 export default {
-    name: "ImgCheckBox",
+    name: 'ImgCheckBox',
 
     mixins: [mixin],
 

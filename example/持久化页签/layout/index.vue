@@ -4,8 +4,8 @@
 
 <script>
 import ElAdminLayout, {appMutations, tagsViewGetters, tagsViewMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
-import {debounce} from "@example/common/util"
+import menus from '@example/common/menu'
+import {debounce} from '@example/common/util'
 
 appMutations.title('持久化页签')
 appMutations.menus(menus)
@@ -14,7 +14,7 @@ const STORAGE = window.sessionStorage
 const KEY = 'eal-test-persist-tags'
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout},
 

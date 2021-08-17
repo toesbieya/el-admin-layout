@@ -8,13 +8,13 @@
 
 <script>
 import ElAdminLayout, {appMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 
 appMutations.title('自定义页头')
 appMutations.menus(menus)
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout}
 }

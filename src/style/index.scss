@@ -1,19 +1,19 @@
-@import "./var";
+@import './var';
 
-@import "./transition";
+@import './transition';
 
-@import "../component/Layout/style";
-@import "../component/Aside/style";
-@import "../component/Header/style";
-@import "../component/Page/style";
-@import "../component/TagsView/style";
+@import '../component/Layout/style';
+@import '../component/Aside/style';
+@import '../component/Header/style';
+@import '../component/Page/style';
+@import '../component/TagsView/style';
 
-@import "../component/Breadcrumb/style";
-@import "../component/ContextMenu/style";
-@import "../component/Hamburger/style";
-@import "../component/Logo/style";
-@import "../component/NavMenu/style";
-@import "../component/HorizontalScroller/style";
+@import '../component/Breadcrumb/style';
+@import '../component/ContextMenu/style';
+@import '../component/Hamburger/style';
+@import '../component/Logo/style';
+@import '../component/NavMenu/style';
+@import '../component/HorizontalScroller/style';
 
 
 @media only screen and (max-width: $max-mobile-width) {

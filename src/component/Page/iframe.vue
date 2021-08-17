@@ -1,25 +1,25 @@
 <template>
     <div v-show="showIframe" class="page-iframe">
         <iframe
-            v-for="src in iframeList"
-            v-show="src === currentIframe"
-            :id="src"
-            :key="src"
-            :src="src"
-            frameborder="0"
-            height="100%"
-            width="100%"
+                v-for="src in iframeList"
+                v-show="src === currentIframe"
+                :id="src"
+                :key="src"
+                :src="src"
+                frameborder="0"
+                height="100%"
+                width="100%"
         />
     </div>
 </template>
 
 <script>
-import {pageGetters, pageMutations, tagsViewGetters} from "../../store"
-import {getRouterKey} from "../../config/logic"
-import {isEmpty} from "../../util"
+import {pageGetters, pageMutations, tagsViewGetters} from '../../store'
+import {getRouterKey} from '../../config/logic'
+import {isEmpty} from '../../util'
 
 export default {
-    name: "PageIframe",
+    name: 'PageIframe',
 
     computed: {
         showIframe() {

@@ -7,7 +7,7 @@
 
 <script>
 export default {
-    name: "reusablePage",
+    name: 'reusablePage',
 
     props: ['id'],
 

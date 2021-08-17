@@ -10,8 +10,8 @@
 import Nest0 from './nest0'
 
 export default {
-    name: "nest0-1",
+    name: 'nest0-1',
 
-    components:{Nest0}
+    components: {Nest0}
 }
 </script>

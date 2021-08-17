@@ -12,17 +12,17 @@
 
 <script>
 import ElAdminLayout, {appMutations, asideMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 import AsideHeader from './AsideHeader'
 import AsideMenuContent from './AsideMenuContent'
-import {filterMenuBySearchWord, expandAfterSearch} from "./util"
+import {filterMenuBySearchWord, expandAfterSearch} from './util'
 
 appMutations.title('侧边栏搜索框')
 appMutations.menus(menus)
 appMutations.navMode('aside')
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout, AsideHeader, AsideMenuContent},
 

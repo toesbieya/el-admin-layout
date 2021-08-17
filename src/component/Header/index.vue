@@ -4,12 +4,12 @@
  */
 
 //TODO header会在head-menu渲染后再次渲染，初步排查是head-menu中的activeMenu改变所致
-import {appGetters, headerGetters} from "../../store"
-import Logo from "../../component/Logo"
+import {appGetters, headerGetters} from '../../store'
+import Logo from '../../component/Logo'
 import Hamburger from '../../component/Hamburger'
 import HorizontalResizableMenu from '../../component/HorizontalResizableMenu'
-import {refreshPage} from "../../helper"
-import {isEmpty} from "../../util"
+import {refreshPage} from '../../helper'
+import {isEmpty} from '../../util'
 
 export default {
     name: 'Header',
@@ -79,7 +79,7 @@ export default {
                     </el-dropdown-menu>
                 </el-dropdown>
             )
-        },
+        }
     },
 
     methods: {

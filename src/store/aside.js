@@ -2,8 +2,8 @@
  * 侧边栏的响应式数据
  */
 import Vue from 'vue'
-import {getters as appGetters} from "./app"
-import {createGetters, createMutations} from "./util"
+import {getters as appGetters} from './app'
+import {createGetters, createMutations} from './util'
 
 const state = {
     //抽屉模式时的显隐

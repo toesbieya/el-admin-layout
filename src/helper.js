@@ -2,8 +2,8 @@
  * 为避免循环依赖拆分出来的工具类
  */
 
-import {Const} from "./config"
-import {tagsViewMutations} from "./store"
+import {Const} from './config'
+import {tagsViewMutations} from './store'
 
 /**
  * 根据宽度判断是否为移动端，是则返回true

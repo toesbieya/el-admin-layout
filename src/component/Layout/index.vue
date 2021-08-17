@@ -12,9 +12,9 @@ import {
     tagsViewGetters,
     tagsViewMutations,
     pageMutations
-} from "../../store"
-import {isMobile} from "../../helper"
-import {debounce} from "../../util"
+} from '../../store'
+import {isMobile} from '../../helper'
+import {debounce} from '../../util'
 
 export default {
     name: 'ElAdminLayout',

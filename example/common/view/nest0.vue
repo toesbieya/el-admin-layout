@@ -7,6 +7,6 @@
 
 <script>
 export default {
-    name: "nest0"
+    name: 'nest0'
 }
 </script>

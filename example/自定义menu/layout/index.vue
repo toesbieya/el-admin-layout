@@ -8,7 +8,7 @@
         </template>
 
         <template v-slot:aside-menu-content="{menu, depth}">
-            <span>我的深度：{{depth}}</span>
+            <span>我的深度：{{ depth }}</span>
         </template>
 
         <template v-slot:header-menu-content="{menu}">
@@ -20,14 +20,14 @@
 
 <script>
 import ElAdminLayout, {appMutations, asideMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 
 appMutations.title('自定义menu')
 appMutations.menus(menus)
 asideMutations.showParentOnCollapse(true)
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout}
 }

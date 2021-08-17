@@ -5,8 +5,8 @@
                 <span>{{ menu.meta.title }}</span>
 
                 <span
-                    v-if="menu.meta.title === '首页'"
-                    class="menu-tag menu-tag--danger"
+                        v-if="menu.meta.title === '首页'"
+                        class="menu-tag menu-tag--danger"
                 >
                     new
                 </span>
@@ -35,7 +35,7 @@
 
 <script>
 import ElAdminLayout, {appGetters, appMutations, headerMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 import PageFooter from './component/Footer'
 import OldQiniuSidebar from './component/OldQiniuSidebar'
 import SettingDrawer from './component/SettingDrawer'
@@ -47,7 +47,7 @@ appMutations.menus(menus)
 
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {
         ElAdminLayout, PageFooter, OldQiniuSidebar, SettingDrawer,

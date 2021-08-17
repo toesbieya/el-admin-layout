@@ -4,7 +4,7 @@
 
 <script>
 import ElAdminLayout, {Const, appMutations} from 'el-admin-layout'
-import menus from "@example/common/menu"
+import menus from '@example/common/menu'
 
 appMutations.title('模拟移动端')
 appMutations.menus(menus)
@@ -15,7 +15,7 @@ appMutations.isMobile(true)
 Const.maxMobileWidth = 10000
 
 export default {
-    name: "Layout",
+    name: 'Layout',
 
     components: {ElAdminLayout},
 

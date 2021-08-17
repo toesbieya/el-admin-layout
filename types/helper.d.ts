@@ -1,4 +1,4 @@
-import VueRouter, {Route, RawLocation} from "vue-router";
+import VueRouter, {Route, RawLocation} from 'vue-router'
 
 export declare const refreshPage: {
     (router: VueRouter, route?: Route, replace?: boolean): Promise<Route>

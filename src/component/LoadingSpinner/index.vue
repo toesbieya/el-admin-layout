@@ -12,6 +12,6 @@
  */
 
 export default {
-    name: "LoadingSpinner"
+    name: 'LoadingSpinner'
 }
 </script>

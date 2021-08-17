@@ -1,4 +1,4 @@
-import {isEmpty} from "./index"
+import {isEmpty} from './index'
 
 const unzip = () => ({}), zip = () => ({})
 const keyPrefix = 'test-layout', defaultUseZip = false

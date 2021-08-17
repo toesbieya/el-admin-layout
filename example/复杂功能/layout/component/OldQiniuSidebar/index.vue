@@ -3,7 +3,7 @@ import Root from './root'
 import Sub from './sub'
 
 export default {
-    name: "OldQiniuSidebar",
+    name: 'OldQiniuSidebar',
 
     functional: true,
 

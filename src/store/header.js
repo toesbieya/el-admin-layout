@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import {createGetters, createMutations} from "./util"
+import {createGetters, createMutations} from './util'
 
 const state = {
     //主题，light 或 dark

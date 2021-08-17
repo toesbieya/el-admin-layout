@@ -4,9 +4,9 @@
  * 页签变化时写入本地存储
  */
 
-import {tagsViewGetters, tagsViewMutations} from "el-admin-layout"
-import {debounce} from "@example/common/util"
-import {getTagsView, setTagsView} from "@example/common/util/storage"
+import {tagsViewGetters, tagsViewMutations} from 'el-admin-layout'
+import {debounce} from '@example/common/util'
+import {getTagsView, setTagsView} from '@example/common/util/storage'
 
 export default {
     computed: {

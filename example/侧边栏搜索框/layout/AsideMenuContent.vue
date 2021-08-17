@@ -1,6 +1,6 @@
 <script>
 export default {
-    name: "AsideMenuContent",
+    name: 'AsideMenuContent',
 
     props: {
         title: String,

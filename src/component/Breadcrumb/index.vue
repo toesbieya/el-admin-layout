@@ -2,10 +2,10 @@
     <div class="breadcrumb">
         <transition-group name="breadcrumb">
             <div
-                v-for="({fullPath, meta: {title}}, index) in items"
-                v-if="index !== items.length - 1"
-                :key="fullPath"
-                class="breadcrumb-item"
+                    v-for="({fullPath, meta: {title}}, index) in items"
+                    v-if="index !== items.length - 1"
+                    :key="fullPath"
+                    class="breadcrumb-item"
             >
                 <span class="breadcrumb-inner is-link" @click="() => onClick(fullPath)">
                     {{ title }}
@@ -25,11 +25,11 @@
  * 面包屑，用于页面（Page）的页头
  */
 
-import {getMenuByFullPath} from "../../store/app"
-import {getRouterKey, getRouterTitle, isRedirectRouter} from "../../config/logic"
+import {getMenuByFullPath} from '../../store/app'
+import {getRouterKey, getRouterTitle, isRedirectRouter} from '../../config/logic'
 
 export default {
-    name: "Breadcrumb",
+    name: 'Breadcrumb',
 
     data() {
         return {

@@ -7,7 +7,7 @@
 
 import MenuItem from '../../component/ElMenu/item'
 import SubMenu from '../../component/ElMenu/sub'
-import {isEmpty} from "../../util"
+import {isEmpty} from '../../util'
 
 /**
  * 判断菜单是否以el-menu形式展示，是则返回剔除了children属性的菜单，否则返回null

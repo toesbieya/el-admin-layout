@@ -30,7 +30,7 @@
                     opacity: 0;
                     transform: scaleY(0);
                     transition: transform .15s cubic-bezier(.645, .045, .355, 1);
-                    content: "";
+                    content: '';
                 }
 
                 &.is-active {
@@ -42,7 +42,7 @@
                         height: 80%;
                         width: 100%;
                         background-color: rgba($--color-primary, .1);
-                        content: "";
+                        content: '';
                     }
 
                     &::after {

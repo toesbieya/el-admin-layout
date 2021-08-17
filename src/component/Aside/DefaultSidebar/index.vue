@@ -3,16 +3,16 @@
  * 默认的侧边栏实现，支持以抽屉形式渲染
  */
 
-import menuMixin from "../../../mixin/menu"
-import {appGetters, asideGetters, asideMutations} from "../../../store"
+import menuMixin from '../../../mixin/menu'
+import {appGetters, asideGetters, asideMutations} from '../../../store'
 import Logo from '../../../component/Logo'
 import NavMenu from '../../../component/NavMenu'
 import Hamburger from '../../../component/Hamburger'
 import LoadingSpinner from '../../../component/LoadingSpinner'
-import {getRouterActiveMenu, isRedirectRouter} from "../../../config/logic"
+import {getRouterActiveMenu, isRedirectRouter} from '../../../config/logic'
 
 export default {
-    name: "DefaultSidebar",
+    name: 'DefaultSidebar',
 
     mixins: [menuMixin],
 

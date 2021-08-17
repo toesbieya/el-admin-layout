@@ -6,6 +6,6 @@
 
 <script>
 export default {
-    name: "PageFooter"
+    name: 'PageFooter'
 }
 </script>

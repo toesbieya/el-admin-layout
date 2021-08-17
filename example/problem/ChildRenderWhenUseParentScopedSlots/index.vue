@@ -41,9 +41,9 @@ export default {
         return h('div', [
             h('p', 'this is parent'),
             h(
-                "button",
+                'button',
                 {on: {click: this.triggerRender}},
-                "click to trigger parent render"
+                'click to trigger parent render'
             ),
             h('child', {scopedSlots: {extra: this.$scopedSlots.childExtra}})
         ])
