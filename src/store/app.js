@@ -81,7 +81,7 @@ function getSortValue(item) {
 function deepGetSortValue(item) {
     const {children = [], meta: {sort} = {}} = item
 
-    if (sort == null) return sort
+    if (sort != null) return sort
 
     //如果只有一个子节点，那么取子节点的排序值
     if (children.length === 1) {
