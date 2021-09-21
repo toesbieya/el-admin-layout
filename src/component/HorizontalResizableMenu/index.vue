@@ -3,12 +3,14 @@
  * 顶部菜单，参考了ant design的响应式设计
  */
 
+import Vue from 'vue'
 import menuMixin from '../../mixin/menu'
 import {appGetters, appMutations, headerGetters} from '../../store'
 import NavMenu from '../../component/NavMenu'
 import LoadingSpinner from '../../component/LoadingSpinner'
+import GhostMenu from './GhostMenu'
 import {getRouterActiveMenu, isRedirectRouter} from '../../config/logic'
-import {getMenuByFullPath} from '../../store/app'
+import {getMenuByFullPath} from '../../store'
 import {findFirstLeaf} from '../../util'
 
 export default {
@@ -21,6 +23,10 @@ export default {
             //最后一个不被隐藏的顶部菜单的数组下标
             //为undefined时，说明不需要隐藏菜单，为-1时，说明需要隐藏全部菜单
             lastVisibleIndex: undefined,
+            //各个第一级菜单节点的宽度，取ghost-menu中的值
+            $menuItemSizes: [],
+            //...指示器的宽度
+            $overflowedIndicatorWidth: 0,
 
             //用于生成el-submenu的key
             seed: 0
@@ -41,7 +47,6 @@ export default {
                     return []
             }
         },
-
         //实际用于渲染的菜单数组（仿antd的自适应宽度）
         realMenus() {
             const {lastVisibleIndex, menus} = this
@@ -64,6 +69,10 @@ export default {
             visible.push({fullPath, meta: {title: '...'}, children: hidden})
 
             return visible
+        },
+        //是否有dom，加载中、无菜单时没有
+        hasDom() {
+            return !appGetters.loadingMenu && this.menus.length > 0
         }
     },
 
@@ -78,6 +87,16 @@ export default {
             }
         },
 
+        //有dom时才进行自适应处理
+        hasDom: {
+            immediate: true,
+            async handler(value) {
+                //等待mounted
+                await this.$nextTick()
+
+                value ? this.startObserver() : this.stopObserver()
+            }
+        },
         //变动时修改种子，避免组件不更新
         lastVisibleIndex() {
             this.seed++
@@ -141,16 +160,25 @@ export default {
         getMenuEl() {
             return this.$el
         },
-        //获取初始菜单的总宽度，只在mounted时调用一次
-        setChildrenWidth() {
-            const ul = this.getMenuEl()
-            if (!ul) return
+        //创建一个用于获取宽度的菜单，若已创建，则更新其菜单
+        genGhostMenu() {
+            if (Reflect.has(this, '$_ghostMenu')) {
+                this.$_ghostMenu.menus = this.menus
+                return
+            }
 
-            const menuItemNodes = ul.children
-            if (!menuItemNodes || menuItemNodes.length === 0) return
-
-            this.menuItemSizes = Array.from(menuItemNodes).map(i => i.getBoundingClientRect().width)
-            this.originalTotalWidth = this.menuItemSizes.reduce((acc, cur) => acc + cur, 0)
+            const ctor = Vue.extend(GhostMenu)
+            const instance = new ctor({data: {menus: this.menus}})
+            instance.$watch('menuItemSizes', value => {
+                this.$data.$menuItemSizes = value
+                this.resize()
+            })
+            instance.$mount()
+            this.$_ghostMenu = instance
+        },
+        //移除辅助菜单
+        destroyGhostMenu() {
+            Reflect.has(this, '$_ghostMenu') && this.$_ghostMenu.$destroy()
         },
         //设置'...'菜单的宽度，只在mounted时调用一次
         setOverflowedIndicatorWidth() {
@@ -164,33 +192,44 @@ export default {
 
             document.body.appendChild(ul)
 
-            this.overflowedIndicatorWidth = ul.children[0].offsetWidth + 1
+            this.$data.$overflowedIndicatorWidth = ul.children[0].offsetWidth + 1
 
             document.body.removeChild(ul)
         },
 
         resize() {
             const width = this.getMenuEl().getBoundingClientRect().width
+            const {$menuItemSizes, $overflowedIndicatorWidth} = this.$data
 
-            let lastVisibleIndex = undefined
+            let lastVisibleIndex = -1
 
-            //如果初始菜单的总宽度超出容器宽度
-            if (this.originalTotalWidth > width) {
-                lastVisibleIndex = -1
+            for (let i = $menuItemSizes.length - 1, sum = 0; i >= 0; i--) {
+                sum += $menuItemSizes[i]
 
-                const {menuItemSizes, overflowedIndicatorWidth} = this
+                if (sum + $overflowedIndicatorWidth > width) {
+                    break
+                }
 
-                //得到满足总宽度不超出容器宽度的最大菜单下标
-                for (let i = menuItemSizes.length - 1, sum = 0; i >= 0; i--) {
-                    sum += menuItemSizes[i]
-                    if (sum + overflowedIndicatorWidth > width) {
-                        break
-                    }
-                    lastVisibleIndex += 1
+                lastVisibleIndex += 1
+
+                if (lastVisibleIndex === $menuItemSizes.length - 1) {
+                    lastVisibleIndex = undefined
+                    break
                 }
             }
 
             this.lastVisibleIndex = lastVisibleIndex
+        },
+        startObserver() {
+            this.resizeObserver = new window.ResizeObserver(this.resize)
+            this.resizeObserver.observe(this.getMenuEl())
+        },
+        stopObserver() {
+            if (this.resizeObserver) {
+                this.resizeObserver.disconnect()
+                this.resizeObserver = null
+            }
+            this.destroyGhostMenu()
         }
     },
 
@@ -208,19 +247,11 @@ export default {
 
     async mounted() {
         await this.$nextTick()
-
         this.setOverflowedIndicatorWidth()
-        this.setChildrenWidth()
-
-        this.resizeObserver = new window.ResizeObserver(this.resize)
-        this.resizeObserver.observe(this.getMenuEl())
     },
 
     beforeDestroy() {
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect()
-            this.resizeObserver = null
-        }
+        this.stopObserver()
     },
 
     render() {
@@ -233,6 +264,8 @@ export default {
         }
 
         if (this.menus.length === 0) return
+
+        this.genGhostMenu()
 
         return (
             <NavMenu
