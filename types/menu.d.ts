@@ -1,6 +1,5 @@
 export interface MenuItemMeta {
     title: string
-    alwaysShow?: boolean
     sort?: number
     icon?: string
     affix?: boolean

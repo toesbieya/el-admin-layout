@@ -1,7 +1,6 @@
 <script>
 /**
  * 基于el-menu封装的无限级菜单
- * 借鉴[vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)
  * 自带亮色、暗色两种主题
  */
 
@@ -10,24 +9,13 @@ import SubMenu from '../../component/ElMenu/sub'
 import {isEmpty} from '../../util'
 
 /**
- * 判断菜单是否以el-menu形式展示，是则返回剔除了children属性的菜单，否则返回null
+ * 判断菜单是否没有子级，没有则返回true，否则false
  *
  * @param menu {MenuItem}
- * @returns {MenuItem|null}
+ * @returns {boolean}
  */
-function getSingleMenu(menu) {
-    const {children, meta: {alwaysShow = true} = {}} = menu
-
-    //无子级
-    if (!children) return menu
-
-    //有children但是空数组
-    if (children.length === 0) return {...menu, children: undefined}
-
-    //只有一个子级
-    if (children.length === 1) return alwaysShow ? null : getSingleMenu(children[0])
-
-    return null
+function isSingleMenu(menu) {
+    return !Array.isArray(menu.children) || menu.children.length === 0
 }
 
 export default {
@@ -82,7 +70,10 @@ export default {
             return `el-menu--${this.theme}`
         },
         menuClass() {
-            return `el-menu--${this.mode} ${this.themeClass}`
+            return [
+                `el-menu--${this.mode}`,
+                this.themeClass
+            ]
         }
     },
 
@@ -153,10 +144,9 @@ export default {
         //渲染菜单项
         renderMenus(h, menus, depth = 1) {
             return menus.map(menu => {
-                const singleMenu = getSingleMenu(menu)
-
-                if (singleMenu) {
-                    return this.renderSingleMenu(h, singleMenu, depth)
+                //无子级的菜单
+                if (isSingleMenu(menu)) {
+                    return this.renderSingleMenu(h, menu, depth)
                 }
 
                 //此处menu必有children属性
