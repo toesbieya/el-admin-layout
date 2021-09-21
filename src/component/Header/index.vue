@@ -55,7 +55,7 @@ export default {
             const {username} = headerGetters
 
             return (
-                <el-dropdown class="header-item">
+                <el-dropdown class="header-item" size="default">
                     <div class="user-dropdown-reference">
                         <el-avatar size={30} src={headerGetters.avatar} icon="el-icon-user-solid"/>
                         {!isEmpty(username) && <span class="username hide-on-mobile">{username}</span>}
