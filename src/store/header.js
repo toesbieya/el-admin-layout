@@ -4,6 +4,8 @@ import {createGetters, createMutations} from './util'
 const state = {
     //主题，light 或 dark
     theme: 'light',
+    //是否显示第一级水平菜单的展开折叠图标
+    showCollapseIcon: false,
 
     //头像地址
     avatar: '',

@@ -66,6 +66,7 @@ interface DropdownItem {
 
 interface HeaderGetters {
     theme: 'light' | 'dark'
+    showCollapseIcon: boolean
     avatar: string
     username: string
     dropdownItems: DropdownItem[]

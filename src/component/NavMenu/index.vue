@@ -31,6 +31,9 @@ export default {
         //垂直模式下子菜单的单位缩进距离
         inlineIndent: Number,
 
+        //水平模式下是否显示展开折叠图标
+        showCollapseIcon: Boolean,
+
         //折叠时的展开菜单是否显示父级
         showParentOnCollapse: Boolean,
 
@@ -72,7 +75,8 @@ export default {
         menuClass() {
             return [
                 `el-menu--${this.mode}`,
-                this.themeClass
+                this.themeClass,
+                !this.showCollapseIcon && 'hide-collapse-icon'
             ]
         }
     },

@@ -114,7 +114,7 @@
     //顶部菜单的顶级节点
     &.el-menu {
         //不显示折叠展开按钮
-        > .el-submenu > .el-submenu__title > .el-submenu__icon-arrow {
+        &.hide-collapse-icon > .el-submenu > .el-submenu__title > .el-submenu__icon-arrow {
             display: none;
         }
 
