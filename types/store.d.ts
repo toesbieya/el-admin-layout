@@ -150,3 +150,7 @@ export declare const pageGetters: PageGetters
 export declare const pageMutations: PageMutations
 export declare const tagsViewGetters: TagsViewGetters
 export declare const tagsViewMutations: TagsViewMutations
+
+export function getMenuByFullPath(fullPath: string): StoreMenuItem
+
+export function mapGetters<T, K extends keyof T>(getters: T, propsNames: K[]): { [k in K]: () => T[K] }

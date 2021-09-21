@@ -25,7 +25,7 @@
  * 面包屑，用于页面（Page）的页头
  */
 
-import {getMenuByFullPath} from '../../store/app'
+import {getMenuByFullPath} from '../../store'
 import {getRouterKey, getRouterTitle, isRedirectRouter} from '../../config/logic'
 
 export default {
