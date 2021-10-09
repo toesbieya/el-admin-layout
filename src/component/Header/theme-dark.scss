@@ -24,7 +24,7 @@
 
         &:hover,
         &:focus {
-            background-color: unset;
+            background-color: transparent;
             color: $menu-text-hover-color-dark;
         }
     }

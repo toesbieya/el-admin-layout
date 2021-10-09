@@ -13,7 +13,7 @@ export default {
     computed: {
         //移动端下不能设置z-index，否则会被el-drawer的遮罩遮住
         style() {
-            return appGetters.isMobile ? 'z-index: unset !important' : undefined
+            return appGetters.isMobile ? 'z-index: auto !important' : undefined
         }
     },
 

@@ -76,7 +76,7 @@
     //移除菜单hover、focus时的默认背景色，等同于修改$--menu-item-hover-fill
     &:hover,
     &:focus {
-        background-color: unset;
+        background-color: transparent;
     }
 
     //图标与字体同色
@@ -147,7 +147,7 @@
     > .el-submenu .el-submenu__title:hover,
     .el-menu .el-menu-item,
     .el-menu .el-submenu__title {
-        background-color: unset !important;
+        background-color: transparent !important;
     }
 }
 
