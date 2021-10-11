@@ -1,6 +1,6 @@
 {
   "name": "el-admin-layout",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "基于element-ui的后台管理layout",
   "main": "src/index.js",
   "module": "dist/esm/index.js",
