@@ -9,7 +9,7 @@ import {appGetters, appMutations, headerGetters} from '../../store'
 import NavMenu from '../../component/NavMenu'
 import LoadingSpinner from '../../component/LoadingSpinner'
 import GhostMenu from './GhostMenu'
-import {getRouterActiveMenu, isRedirectRouter} from '../../config/logic'
+import {getRouterActiveMenu} from '../../config/logic'
 import {getMenuByFullPath} from '../../store'
 import {findFirstLeaf} from '../../util'
 
@@ -104,19 +104,19 @@ export default {
     },
 
     methods: {
-        //路由变化时设置高亮根节点菜单，有匹配路由且非redirect路由时返回true
-        setActiveRootMenu(route) {
-            const {matched} = route
+        //路由变化时设置高亮根节点菜单，有匹配菜单时返回true
+        setActiveRootMenu({path, meta: {activeMenu}}) {
+            //优先使用activeMenu找到路由匹配的菜单
+            const menu = getMenuByFullPath(activeMenu || path)
+            if (!menu) return false
 
-            if (matched.length === 0 || isRedirectRouter(route)) {
-                return false
+            //向上找出菜单所属的根节点
+            let rootMenu = menu
+            while (rootMenu.parent) {
+                rootMenu = rootMenu.parent
             }
 
-            //根据路由设置当前高亮的根节点
-            //此处的path是路由定义中的原始数据，所以根路由不能使用动态匹配的方式定义（一般也不会有这种情况吧）
-            //如果路由中使用了'/'，那么此处的path会是''
-            const [root] = matched
-            root && appMutations.activeRootMenu(root.path || '/')
+            appMutations.activeRootMenu(rootMenu.fullPath)
 
             return true
         },
