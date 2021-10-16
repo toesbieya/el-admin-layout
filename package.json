@@ -1,0 +1,12 @@
+{
+  "name": "el-admin-layout-doc",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vuepress dev .",
+    "build": "vuepress build ."
+  },
+  "devDependencies": {
+    "vuepress": "^1.8.2"
+  }
+}
