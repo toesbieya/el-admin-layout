@@ -1,20 +1,20 @@
 $tags-view-background-color: #dee1e6;
 
-//页签分割线相对于上下的距离
+// 页签分割线相对于上下的距离
 $nav-item-divider-gap: 7px;
-//页签分割线颜色
+// 页签分割线颜色
 $nav-item-divider-color: #a9adb0;
-//页签hover时的背景色
+// 页签hover时的背景色
 $nav-item-bg-hover: darken($tags-view-background-color, 5%);
-//页签上方圆角
+// 页签上方圆角
 $nav-item-border-radius-top: 8px;
-//页签下方圆角
+// 页签下方圆角
 $nav-item-border-radius-bottom: 10px;
-//页签关闭按钮大小
+// 页签关闭按钮大小
 $nav-item-close-size: 16px;
-//页签关闭按钮hover背景色
+// 页签关闭按钮hover背景色
 $nav-item-close-bg-hover: rgba(0, 0, 0, .1);
-//页签关闭按钮active背景色
+// 页签关闭按钮active背景色
 $nav-item-close-bg-active: rgba(0, 0, 0, .2);
 
 $tags-view-shadow: unset;

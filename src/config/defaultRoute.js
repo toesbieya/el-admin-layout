@@ -8,16 +8,16 @@ import Redirect from '../component/Redirect'
  * @returns {array}
  */
 export function injectDefaultRoute(layout) {
-    return [
+  return [
+    {
+      path: Const.redirectPath,
+      component: layout,
+      children: [
         {
-            path: Const.redirectPath,
-            component: layout,
-            children: [
-                {
-                    path: '*',
-                    component: Redirect
-                }
-            ]
+          path: '*',
+          component: Redirect
         }
-    ]
+      ]
+    }
+  ]
 }

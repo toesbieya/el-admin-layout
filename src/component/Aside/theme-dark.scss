@@ -1,19 +1,19 @@
 .aside.dark {
-    &,
-        //侧边栏可能为抽屉
-    .el-drawer {
-        background-color: $menu-background-dark;
-    }
+  &,
+    // 侧边栏可能为抽屉
+  .el-drawer {
+    background-color: $menu-background-dark;
+  }
 
-    .logo-container {
-        color: $--color-white;
-    }
+  .logo-container {
+    color: $--color-white;
+  }
 
-    .sidebar-footer {
-        border-top-color: $--border-color-dark;
-    }
+  .sidebar-footer {
+    border-top-color: $--border-color-dark;
+  }
 
-    .hamburger {
-        color: $menu-text-color-dark;
-    }
+  .hamburger {
+    color: $menu-text-color-dark;
+  }
 }

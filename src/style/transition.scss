@@ -4,68 +4,68 @@
 //路由过渡动画
 .right-out,
 .left-out {
-    &-leave-active,
-    &-enter-active {
-        transition: transform .2s, opacity .2s;
-    }
+  &-leave-active,
+  &-enter-active {
+    transition: transform .2s, opacity .2s;
+  }
 }
 
 .right-out {
-    &-enter {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
+  &-enter {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
 
-    &-leave-to {
-        opacity: 0;
-        transform: translateX(30px);
-    }
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
 }
 
 .left-out {
-    &-enter {
-        opacity: 0;
-        transform: translateX(30px);
-    }
+  &-enter {
+    opacity: 0;
+    transform: translateX(30px);
+  }
 
-    &-leave-to {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
+  &-leave-to {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
 }
 
 
 //面包屑切换动画
 .breadcrumb {
-    &-enter-active,
-    &-leave-active,
-    &-move {
-        transition: transform .5s, opacity .5s;
-    }
+  &-enter-active,
+  &-leave-active,
+  &-move {
+    transition: transform .5s, opacity .5s;
+  }
 
-    &-enter,
-    &-leave-active {
-        opacity: 0;
-        transform: translateX(20px);
-    }
+  &-enter,
+  &-leave-active {
+    opacity: 0;
+    transform: translateX(20px);
+  }
 
-    &-leave-active {
-        position: absolute;
-    }
+  &-leave-active {
+    position: absolute;
+  }
 }
 
 
 //侧边栏切换动画
 .sidebar-enter-active {
-    transition: all 0.2s;
+  transition: all 0.2s;
 }
 
 .sidebar-enter,
 .sidebar-leave-active {
-    opacity: 0;
-    transform: translateY(30px) skewY(10deg)
+  opacity: 0;
+  transform: translateY(30px) skewY(10deg)
 }
 
 .sidebar-leave-active {
-    position: absolute;
+  position: absolute;
 }

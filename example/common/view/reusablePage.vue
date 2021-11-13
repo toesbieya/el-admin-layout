@@ -1,24 +1,24 @@
 <template>
-    <div>
-        <h2>这是组件被复用的路由页面{{ id }}</h2>
-        <input v-model="val"/>
-    </div>
+  <div>
+    <h2>这是组件被复用的路由页面{{ id }}</h2>
+    <input v-model="val"/>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'reusablePage',
+  name: 'reusablePage',
 
-    props: ['id'],
+  props: ['id'],
 
-    data() {
-        return {
-            val: ''
-        }
-    },
-
-    mounted() {
-
+  data() {
+    return {
+      val: ''
     }
+  },
+
+  mounted() {
+
+  }
 }
 </script>

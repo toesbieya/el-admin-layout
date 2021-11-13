@@ -1,26 +1,26 @@
 @import '~el-admin-layout/src/style';
 
 html, body, #app {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
 .setting-drawer {
-    overflow-y: auto;
+  overflow-y: auto;
 
-    .el-drawer__body {
-        padding: $--dialog-padding-primary;
-    }
+  .el-drawer__body {
+    padding: $--dialog-padding-primary;
+  }
 
-    &-item {
-        display: flex;
-        justify-content: space-between;
-        color: $--color-text-regular;
-        font-size: 14px;
-        padding: 12px 0;
-    }
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    color: $--color-text-regular;
+    font-size: 14px;
+    padding: 12px 0;
+  }
 
-    .el-input, .el-select {
-        width: 80px;
-    }
+  .el-input, .el-select {
+    width: 80px;
+  }
 }

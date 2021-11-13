@@ -1,30 +1,30 @@
 <script>
 export default {
-    name: 'AsideMenuContent',
+  name: 'AsideMenuContent',
 
-    props: {
-        title: String,
-        searchWord: String
-    },
+  props: {
+    title: String,
+    searchWord: String
+  },
 
-    render() {
-        const {title, searchWord} = this
+  render() {
+    const { title, searchWord } = this
 
-        if (!searchWord) return <span>{title}</span>
+    if (!searchWord) return <span>{title}</span>
 
-        const start = title.indexOf(searchWord)
+    const start = title.indexOf(searchWord)
 
-        if (start === -1) return <span>{title}</span>
+    if (start === -1) return <span>{title}</span>
 
-        const end = start + searchWord.length
+    const end = start + searchWord.length
 
-        return (
-            <span>
+    return (
+      <span>
                 {title.substring(0, start)}
-                <span class="menu-highlight-result">{title.substring(start, end)}</span>
-                {title.substring(end)}
+        <span class="menu-highlight-result">{title.substring(start, end)}</span>
+        {title.substring(end)}
             </span>
-        )
-    }
+    )
+  }
 }
 </script>

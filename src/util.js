@@ -5,7 +5,7 @@
  * @return {boolean}  若为空值，返回true，否则返回false
  */
 export function isEmpty(...str) {
-    return str.some(i => i === undefined || i === null || i === '')
+  return str.some(i => i === undefined || i === null || i === '')
 }
 
 /**
@@ -17,40 +17,40 @@ export function isEmpty(...str) {
  * @return {function}          经过防抖包装后的函数
  */
 export function debounce(func, wait = 100, immediate = false) {
-    let timeout, args, context, timestamp, result
+  let timeout, args, context, timestamp, result
 
-    const later = function () {
-        // 据上一次触发时间间隔
-        const last = new Date().getTime() - timestamp
+  const later = function() {
+    // 据上一次触发时间间隔
+    const last = new Date().getTime() - timestamp
 
-        // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
-        if (last < wait && last > 0) {
-            timeout = window.setTimeout(later, wait - last)
-        }
-        else {
-            timeout = null
-            // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
-            if (!immediate) {
-                result = func.apply(context, args)
-                if (!timeout) context = args = null
-            }
-        }
+    // 上次被包装函数被调用时间间隔 last 小于设定时间间隔 wait
+    if (last < wait && last > 0) {
+      timeout = window.setTimeout(later, wait - last)
+    }
+    else {
+      timeout = null
+      // 如果设定为immediate===true，因为开始边界已经调用过了此处无需调用
+      if (!immediate) {
+        result = func.apply(context, args)
+        if (!timeout) context = args = null
+      }
+    }
+  }
+
+  return function() {
+    context = this
+    args = arguments
+    timestamp = new Date().getTime()
+    const callNow = immediate && !timeout
+    // 如果延时不存在，重新设定延时
+    if (!timeout) timeout = window.setTimeout(later, wait)
+    if (callNow) {
+      result = func.apply(context, args)
+      context = args = null
     }
 
-    return function () {
-        context = this
-        args = arguments
-        timestamp = new Date().getTime()
-        const callNow = immediate && !timeout
-        // 如果延时不存在，重新设定延时
-        if (!timeout) timeout = window.setTimeout(later, wait)
-        if (callNow) {
-            result = func.apply(context, args)
-            context = args = null
-        }
-
-        return result
-    }
+    return result
+  }
 }
 
 /**
@@ -61,9 +61,9 @@ export function debounce(func, wait = 100, immediate = false) {
  * @returns {{hasOtherLeaf: boolean, leaf: ({children}|*)}|*}
  */
 export function findFirstLeaf(node, hasOtherLeaf = false) {
-    if (!node || !node.children || node.children.length === 0) {
-        return {leaf: node, hasOtherLeaf}
-    }
+  if (!node || !node.children || node.children.length === 0) {
+    return { leaf: node, hasOtherLeaf }
+  }
 
-    return findFirstLeaf(node.children[0], hasOtherLeaf || node.children.length > 1)
+  return findFirstLeaf(node.children[0], hasOtherLeaf || node.children.length > 1)
 }

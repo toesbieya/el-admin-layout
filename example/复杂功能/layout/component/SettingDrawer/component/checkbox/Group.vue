@@ -1,15 +1,15 @@
 <template>
-    <div class="checkbox-group">
-        <slot/>
-    </div>
+  <div class="checkbox-group">
+    <slot/>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'CheckboxGroup',
+  name: 'CheckboxGroup',
 
-    props: {value: String},
+  props: { value: String },
 
-    data: () => ({children: []})
+  data: () => ({ children: [] })
 }
 </script>

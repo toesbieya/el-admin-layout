@@ -1,36 +1,36 @@
 <template>
-    <div class="aside-menu-search">
-        <el-input
-                v-model="value"
-                size="mini"
-                clearable
-                placeholder="搜索菜单"
-                prefix-icon="el-icon-search"
-                @input="search"
-        />
-    </div>
+  <div class="aside-menu-search">
+    <el-input
+      v-model="value"
+      size="mini"
+      clearable
+      placeholder="搜索菜单"
+      prefix-icon="el-icon-search"
+      @input="search"
+    />
+  </div>
 </template>
 
 <script>
-import {debounce} from '@example/common/util'
+import { debounce } from '@example/common/util'
 
 export default {
-    name: 'MenuSearch',
+  name: 'MenuSearch',
 
-    data: () => ({value: ''}),
+  data: () => ({ value: '' }),
 
-    methods: {
-        search(v) {
-            this.$emit('search', v)
-        }
-    },
-
-    created() {
-        this.search = debounce(this.search, 300)
-    },
-
-    beforeDestroy() {
-        this.$emit('search', '')
+  methods: {
+    search(v) {
+      this.$emit('search', v)
     }
+  },
+
+  created() {
+    this.search = debounce(this.search, 300)
+  },
+
+  beforeDestroy() {
+    this.$emit('search', '')
+  }
 }
 </script>

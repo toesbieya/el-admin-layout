@@ -4,27 +4,27 @@
  * 拆成Aside和DefaultSidebar是为了能让用户自定义侧边栏内容
  */
 
-import {appGetters, asideGetters} from '../../store'
+import { appGetters, asideGetters } from '../../store'
 import DefaultSidebar from './DefaultSidebar'
 
 export default {
-    name: 'Aside',
+  name: 'Aside',
 
-    computed: {
-        //移动端下不能设置z-index，否则会被el-drawer的遮罩遮住
-        style() {
-            return appGetters.isMobile ? 'z-index: auto !important' : undefined
-        }
-    },
-
-    render(h) {
-        const {defaultSlot} = asideGetters
-
-        return (
-            <aside class={`aside ${asideGetters.theme}`} style={this.style}>
-                {defaultSlot ? defaultSlot(h) : <DefaultSidebar ref="default-sidebar"/>}
-            </aside>
-        )
+  computed: {
+    // 移动端下不能设置z-index，否则会被el-drawer的遮罩遮住
+    style() {
+      return appGetters.isMobile ? 'z-index: auto !important' : undefined
     }
+  },
+
+  render(h) {
+    const { defaultSlot } = asideGetters
+
+    return (
+      <aside class={`aside ${asideGetters.theme}`} style={this.style}>
+        {defaultSlot ? defaultSlot(h) : <DefaultSidebar ref="default-sidebar"/>}
+      </aside>
+    )
+  }
 }
 </script>

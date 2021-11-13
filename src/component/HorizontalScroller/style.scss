@@ -1,12 +1,12 @@
 .horizontal-scroller {
-    display: flex;
-    position: relative;
-    height: 100%;
-    white-space: nowrap;
-    overflow-x: auto;
-    overflow-y: hidden;
+  display: flex;
+  position: relative;
+  height: 100%;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
 
-    &::-webkit-scrollbar {
-        display: none;
-    }
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -1,7 +1,7 @@
 .el-menu--light {
-    //侧边栏垂直菜单
+    // 侧边栏垂直菜单
     &.el-menu--vertical {
-        //菜单的文字以及hover颜色
+        // 菜单的文字以及hover颜色
         .el-menu-item,
         .el-submenu__title {
             color: $menu-text-color-light;
@@ -11,16 +11,16 @@
             }
         }
 
-        //设置了显示弹出菜单的父级
+        // 设置了显示弹出菜单的父级
         .el-menu--popup .popover-menu__title {
             color: $menu-text-color-light;
             border-bottom-color: $--border-color-light;
         }
 
-        //模仿ant-design的亮色菜单
+        // 模仿ant-design的亮色菜单
         &:not(.el-menu--collapse) {
             .el-menu-item {
-                //小竖条
+                // 小竖条
                 &::after {
                     position: absolute;
                     top: 10%;
@@ -34,7 +34,7 @@
                 }
 
                 &.is-active {
-                    //背景色
+                    // 背景色
                     &::before {
                         position: absolute;
                         top: 10%;
@@ -52,16 +52,16 @@
                 }
             }
 
-            //弹出菜单激活时不显示右边框
+            // 弹出菜单激活时不显示右边框
             .el-menu--popup .el-menu-item::after {
                 display: none;
             }
         }
     }
 
-    //顶部水平菜单
+    // 顶部水平菜单
     &.el-menu--horizontal {
-        //菜单的文字以及hover颜色
+        // 菜单的文字以及hover颜色
         .el-menu-item,
         .el-submenu__title {
             color: $menu-text-color-light;

@@ -1,88 +1,88 @@
 @import '~el-admin-layout/src/style';
 
 html, body, #app {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
 @mixin common {
-    height: 100%;
-    width: $aside-width;
-    transition: width 0.2s;
+  height: 100%;
+  width: $aside-width;
+  transition: width 0.2s;
 
-    &.collapse {
-        width: $aside-collapse-width;
-    }
+  &.collapse {
+    width: $aside-collapse-width;
+  }
 }
 
 .root-sidebar {
-    position: absolute;
-    overflow: hidden;
-    z-index: 1;
-    border-right-width: 1px;
-    border-right-style: solid;
+  position: absolute;
+  overflow: hidden;
+  z-index: 1;
+  border-right-width: 1px;
+  border-right-style: solid;
 
-    @include common;
+  @include common;
 
+  .el-menu-item {
+    padding: 0 $menu-padding;
+  }
+
+  // 收起时
+  &.collapse {
+    .logo-container {
+      padding-left: ($aside-collapse-width - $logo-size) / 2;
+    }
+
+    // 不显示背景色和小竖条
     .el-menu-item {
-        padding: 0 $menu-padding;
+      &::before,
+      &::after {
+        display: none;
+      }
     }
+  }
 
-    //收起时
-    &.collapse {
-        .logo-container {
-            padding-left: ($aside-collapse-width - $logo-size) / 2;
-        }
-
-        //不显示背景色和小竖条
-        .el-menu-item {
-            &::before,
-            &::after {
-                display: none;
-            }
-        }
-    }
-
-    &-container {
-        float: left;
-        position: relative;
-        width: $aside-collapse-width;
-        height: 100%;
-    }
+  &-container {
+    float: left;
+    position: relative;
+    width: $aside-collapse-width;
+    height: 100%;
+  }
 }
 
 .sub-sidebar {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    > .el-menu {
-        flex: 1;
-    }
+  > .el-menu {
+    flex: 1;
+  }
 
-    @include common;
+  @include common;
 
-    &-title {
-        height: $header-height;
-        line-height: $header-height;
-        padding-left: $menu-padding;
-        font-size: 16px;
-    }
+  &-title {
+    height: $header-height;
+    line-height: $header-height;
+    padding-left: $menu-padding;
+    font-size: 16px;
+  }
 }
 
-//暗色主题
+// 暗色主题
 .aside.dark {
-    .root-sidebar,
-    .root-sidebar > .el-menu {
-        background-color: $header-background-dark;
-    }
+  .root-sidebar,
+  .root-sidebar > .el-menu {
+    background-color: $header-background-dark;
+  }
 
-    .root-sidebar {
-        border-right-color: $--border-color-dark;
-    }
+  .root-sidebar {
+    border-right-color: $--border-color-dark;
+  }
 
-    .sub-sidebar-title {
-        color: $--color-white;
-    }
+  .sub-sidebar-title {
+    color: $--color-white;
+  }
 }
 
 

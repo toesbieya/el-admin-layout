@@ -1,48 +1,48 @@
 .page-main {
-    position: relative;
-    overflow: hidden;
-    background-color: $page-background-color;
+  position: relative;
+  overflow: hidden;
+  background-color: $page-background-color;
 }
 
 .page-iframe {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    background-color: $page-background-color; //iframe加载时遮住原始路由页面
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: $page-background-color; // iframe加载时遮住原始路由页面
 }
 
 .page-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    overflow: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: auto;
 }
 
 .page-header {
-    display: flex;
-    flex-shrink: 0;
-    align-items: center;
-    height: $page-header-height;
-    padding: $page-header-padding $page-view-margin $page-header-padding $page-view-margin;
-    box-sizing: border-box;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  height: $page-header-height;
+  padding: $page-header-padding $page-view-margin $page-header-padding $page-view-margin;
+  box-sizing: border-box;
 
-    // 页头渲染时页面顶部margin为0
-    & + .page-view {
-        margin-top: 0 !important;
-    }
+  // 页头渲染时页面顶部margin为0
+  & + .page-view {
+    margin-top: 0 !important;
+  }
 }
 
 .page-footer {
-    height: $page-footer-height;
-    padding: $page-view-margin;
-    text-align: center;
-    box-sizing: border-box;
+  height: $page-footer-height;
+  padding: $page-view-margin;
+  text-align: center;
+  box-sizing: border-box;
 }
 
 .page-view {
-    margin: $page-view-margin;
-    flex: 1;
+  margin: $page-view-margin;
+  flex: 1;
 }

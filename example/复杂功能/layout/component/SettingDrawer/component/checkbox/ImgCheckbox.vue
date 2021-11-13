@@ -1,21 +1,21 @@
 <template>
-    <div class="img-checkbox" :title="label" @click="click">
-        <img :src="img"/>
-        <i v-if="checked" class="el-icon-check"/>
-    </div>
+  <div class="img-checkbox" :title="label" @click="click">
+    <img :src="img"/>
+    <i v-if="checked" class="el-icon-check"/>
+  </div>
 </template>
 
 <script>
 import mixin from './mixin'
 
 export default {
-    name: 'ImgCheckBox',
+  name: 'ImgCheckBox',
 
-    mixins: [mixin],
+  mixins: [mixin],
 
-    props: {
-        img: String,
-        label: String
-    }
+  props: {
+    img: String,
+    label: String
+  }
 }
 </script>

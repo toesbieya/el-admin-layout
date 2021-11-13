@@ -1,19 +1,19 @@
 <template>
-    <li :class="className" :style="paddingStyle" @click="handleClick">
-        <el-tooltip v-if="showTooltip" effect="dark" placement="right">
-            <div :style="iconContainerStyle">
-                <slot/>
-            </div>
-            <template v-slot:content>
-                <slot name="title"/>
-            </template>
-        </el-tooltip>
+  <li :class="className" :style="paddingStyle" @click="handleClick">
+    <el-tooltip v-if="showTooltip" effect="dark" placement="right">
+      <div :style="iconContainerStyle">
+        <slot/>
+      </div>
+      <template v-slot:content>
+        <slot name="title"/>
+      </template>
+    </el-tooltip>
 
-        <template v-else>
-            <slot/>
-            <slot name="title"/>
-        </template>
-    </li>
+    <template v-else>
+      <slot/>
+      <slot name="title"/>
+    </template>
+  </li>
 </template>
 
 <script>
@@ -24,40 +24,40 @@
  */
 
 import MenuMixin from './mixin'
-import {MenuItem} from 'element-ui'
+import { MenuItem } from 'element-ui'
 
 export default {
-    name: MenuItem.name,
+  name: MenuItem.name,
 
-    componentName: MenuItem.componentName,
+  componentName: MenuItem.componentName,
 
-    mixins: [MenuMixin, ...MenuItem.mixins.slice(1)],
+  mixins: [MenuMixin, ...MenuItem.mixins.slice(1)],
 
-    props: MenuItem.props,
+  props: MenuItem.props,
 
-    computed: {
-        active: MenuItem.computed.active,
-        className() {
-            return {
-                'el-menu-item': true,
-                'is-active': this.active,
-                'is-disabled': this.disabled
-            }
-        },
-        showTooltip() {
-            return this.parentMenu.$options.componentName === 'ElMenu' && this.rootMenu.collapse
-        },
-        iconContainerStyle() {
-            return `position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 ${this.inlineIndent}px;`
-        }
+  computed: {
+    active: MenuItem.computed.active,
+    className() {
+      return {
+        'el-menu-item': true,
+        'is-active': this.active,
+        'is-disabled': this.disabled
+      }
     },
-
-    methods: {
-        handleClick: MenuItem.methods.handleClick
+    showTooltip() {
+      return this.parentMenu.$options.componentName === 'ElMenu' && this.rootMenu.collapse
     },
+    iconContainerStyle() {
+      return `position: absolute;left: 0;top: 0;height: 100%;width: 100%;display: inline-block;box-sizing: border-box;padding: 0 ${this.inlineIndent}px;`
+    }
+  },
 
-    mounted: MenuItem.mounted,
+  methods: {
+    handleClick: MenuItem.methods.handleClick
+  },
 
-    beforeDestroy: MenuItem.beforeDestroy
+  mounted: MenuItem.mounted,
+
+  beforeDestroy: MenuItem.beforeDestroy
 }
 </script>

@@ -6,60 +6,60 @@
 $max-height: '100vh - #{$page-view-margin * 2}';
 
 .max-view-height {
-    max-height: calc(#{$max-height});
+  max-height: calc(#{$max-height});
 }
 
 //即使高度不够也占满
 .max-view-height.full {
-    height: 100vh;
+  height: 100vh;
 }
 
 //有顶栏
 .has-header .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height});
+  max-height: calc(#{$max-height} - #{$header-height});
 }
 
 //有多页签栏
 .has-tags-view .max-view-height {
-    max-height: calc(#{$max-height} - #{$tags-view-height});
+  max-height: calc(#{$max-height} - #{$tags-view-height});
 }
 
 //有页头
 .has-page-header .max-view-height {
-    max-height: calc(#{$max-height} - #{$page-header-height});
+  max-height: calc(#{$max-height} - #{$page-header-height});
 }
 
 //有页脚
 .has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$page-footer-height});
+  max-height: calc(#{$max-height} - #{$page-footer-height});
 }
 
 //同时有顶栏和多页签栏
 .has-header.has-tags-view .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height});
+  max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height});
 }
 
 //同时有顶栏和页头
 .has-header .has-page-header .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height} - #{$page-header-height});
+  max-height: calc(#{$max-height} - #{$header-height} - #{$page-header-height});
 }
 
 //同时有顶栏和页脚
 .has-header .has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height} - #{$page-footer-height});
+  max-height: calc(#{$max-height} - #{$header-height} - #{$page-footer-height});
 }
 
 //同时有顶栏、多页签栏、页头
 .has-header.has-tags-view .has-page-header .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-header-height});
+  max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-header-height});
 }
 
 //同时有顶栏、多页签栏、页脚
 .has-header.has-tags-view .has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-footer-height});
+  max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-footer-height});
 }
 
 //同时有顶栏、多页签栏、页头、页脚
 .has-header.has-tags-view .has-page-header.has-page-footer .max-view-height {
-    max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-header-height} - #{$page-footer-height});
+  max-height: calc(#{$max-height} - #{$header-height} - #{$tags-view-height} - #{$page-header-height} - #{$page-footer-height});
 }

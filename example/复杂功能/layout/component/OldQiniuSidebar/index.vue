@@ -3,12 +3,12 @@ import Root from './root'
 import Sub from './sub'
 
 export default {
-    name: 'OldQiniuSidebar',
+  name: 'OldQiniuSidebar',
 
-    functional: true,
+  functional: true,
 
-    render(h) {
-        return [h(Root), h(Sub)]
-    }
+  render(h) {
+    return [h(Root), h(Sub)]
+  }
 }
 </script>

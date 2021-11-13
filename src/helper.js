@@ -2,8 +2,8 @@
  * 为避免循环依赖拆分出来的工具类
  */
 
-import {Const} from './config'
-import {tagsViewMutations} from './store'
+import { Const } from './config'
+import { tagsViewMutations } from './store'
 
 /**
  * 根据宽度判断是否为移动端，是则返回true
@@ -11,7 +11,7 @@ import {tagsViewMutations} from './store'
  * @return {boolean}
  */
 export function isMobile() {
-    return window.innerWidth <= Const.maxMobileWidth
+  return window.innerWidth <= Const.maxMobileWidth
 }
 
 /**
@@ -23,9 +23,9 @@ export function isMobile() {
  * @return {Promise}          返回vue-router跳转的结果
  */
 export function refreshPage(router, route = router.currentRoute, replace = true) {
-    tagsViewMutations.delCacheOnly(route)
-    const to = `${Const.redirectPath}${route.fullPath}`
-    return router[replace ? 'replace' : 'push'](to)
+  tagsViewMutations.delCacheOnly(route)
+  const to = `${Const.redirectPath}${route.fullPath}`
+  return router[replace ? 'replace' : 'push'](to)
 }
 
 /**
@@ -36,8 +36,8 @@ export function refreshPage(router, route = router.currentRoute, replace = true)
  * @return {undefined|Promise}  仅在next有值时，返回vue-router.replace的结果
  */
 export function closeCurrentPage(router, next) {
-    tagsViewMutations.delTagAndCache(router.currentRoute)
-    if (next) {
-        return router.replace(next)
-    }
+  tagsViewMutations.delTagAndCache(router.currentRoute)
+  if (next) {
+    return router.replace(next)
+  }
 }

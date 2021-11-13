@@ -11,8 +11,8 @@ Vue.use(VueRouter).use(Element)
 Vue.config.productionTip = false
 
 new Vue({
-    el: '#app',
-    store,
-    router,
-    render: h => h(App)
+  el: '#app',
+  store,
+  router,
+  render: h => h(App)
 })

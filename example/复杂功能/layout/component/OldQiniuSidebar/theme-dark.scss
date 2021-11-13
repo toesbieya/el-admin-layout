@@ -1,14 +1,14 @@
 .aside.dark {
-    .root-sidebar,
-    .root-sidebar > .el-menu {
-        background-color: $header-background-dark;
-    }
+  .root-sidebar,
+  .root-sidebar > .el-menu {
+    background-color: $header-background-dark;
+  }
 
-    .root-sidebar {
-        border-right-color: $--border-color-dark;
-    }
+  .root-sidebar {
+    border-right-color: $--border-color-dark;
+  }
 
-    .sub-sidebar-title {
-        color: $--color-white;
-    }
+  .sub-sidebar-title {
+    color: $--color-white;
+  }
 }

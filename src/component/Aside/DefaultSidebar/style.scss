@@ -1,32 +1,32 @@
 .sidebar {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: $aside-width;
-    transition: width 0.2s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: $aside-width;
+  transition: width 0.2s;
 
-    > .el-menu {
-        flex: 1;
+  > .el-menu {
+    flex: 1;
+  }
+
+  &.collapse {
+    width: $aside-collapse-width;
+
+    .logo-container {
+      padding-left: ($aside-collapse-width - $logo-size) / 2;
     }
-
-    &.collapse {
-        width: $aside-collapse-width;
-
-        .logo-container {
-            padding-left: ($aside-collapse-width - $logo-size) / 2;
-        }
-    }
+  }
 }
 
 //侧边栏抽屉模式
 .sidebar-drawer {
-    //页面为上下结构时，侧边栏的抽屉模式需要扣除顶栏的高度
-    &.behind-header {
-        top: $header-height;
-    }
+  // 页面为上下结构时，侧边栏的抽屉模式需要扣除顶栏的高度
+  &.behind-header {
+    top: $header-height;
+  }
 
-    //为了el-menu能够滚动
-    > .el-drawer__body {
-        height: 100%;
-    }
+  // 为了el-menu能够滚动
+  > .el-drawer__body {
+    height: 100%;
+  }
 }

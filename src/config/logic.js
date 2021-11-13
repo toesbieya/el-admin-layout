@@ -10,12 +10,12 @@ import Const from './const'
  * @returns {string}
  */
 export function getRouterKey(route) {
-    const {name, path, fullPath, meta: {usePathKey, useFullPathKey} = {}} = route
-    return usePathKey
-        ? path
-        : useFullPathKey
-            ? fullPath
-            : name || fullPath
+  const { name, path, fullPath, meta: { usePathKey, useFullPathKey } = {} } = route
+  return usePathKey
+    ? path
+    : useFullPathKey
+      ? fullPath
+      : name || fullPath
 }
 
 /**
@@ -24,11 +24,11 @@ export function getRouterKey(route) {
  * @returns {string}
  */
 export function getRouterTitle(route) {
-    const {title, dynamicTitle} = route.meta || {}
+  const { title, dynamicTitle } = route.meta || {}
 
-    return typeof dynamicTitle === 'function'
-        ? dynamicTitle(route) || title
-        : title
+  return typeof dynamicTitle === 'function'
+    ? dynamicTitle(route) || title
+    : title
 }
 
 /**
@@ -37,9 +37,9 @@ export function getRouterTitle(route) {
  * @returns {string}
  */
 export function getRouterActiveMenu(route) {
-    const {path, meta: {activeMenu} = {}} = route
+  const { path, meta: { activeMenu } = {} } = route
 
-    return activeMenu || path
+  return activeMenu || path
 }
 
 /**
@@ -48,6 +48,6 @@ export function getRouterActiveMenu(route) {
  * @returns {boolean}
  */
 export function isRedirectRouter(route) {
-    const [first] = route.matched
-    return first && first.path === Const.redirectPath
+  const [first] = route.matched
+  return first && first.path === Const.redirectPath
 }

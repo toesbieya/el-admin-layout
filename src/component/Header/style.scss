@@ -1,57 +1,57 @@
 .header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  height: $header-height;
+  padding-left: $header-padding-left;
+  z-index: $header-z-index;
+  box-shadow: 0 4px 4px -4px rgba(0, 0, 0, .5);
+
+  &-left,
+  &-center,
+  &-right {
+    height: 100%;
+  }
+
+  &-left,
+  &-right {
     display: flex;
-    justify-content: space-between;
+  }
+
+  &-center {
+    flex: 1;
+  }
+
+  .header-icon {
+    font-size: 18px;
+  }
+
+  .header-item {
+    display: flex;
     align-items: center;
-    flex-wrap: nowrap;
-    height: $header-height;
-    padding-left: $header-padding-left;
-    z-index: $header-z-index;
-    box-shadow: 0 4px 4px -4px rgba(0, 0, 0, .5);
+    padding: 0 8px;
+    cursor: pointer;
+  }
 
-    &-left,
-    &-center,
-    &-right {
-        height: 100%;
+  // 左侧logo
+  .logo-container {
+    width: auto;
+    min-width: $aside-width - $header-padding-left;
+    padding-left: $menu-padding - $header-padding-left;
+  }
+
+  // 右侧用户头像和用户名
+  .user-dropdown-reference {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    .username {
+      font-size: 18px;
+      padding: 0 5px;
     }
-
-    &-left,
-    &-right {
-        display: flex;
-    }
-
-    &-center {
-        flex: 1;
-    }
-
-    .header-icon {
-        font-size: 18px;
-    }
-
-    .header-item {
-        display: flex;
-        align-items: center;
-        padding: 0 8px;
-        cursor: pointer;
-    }
-
-    //左侧logo
-    .logo-container {
-        width: auto;
-        min-width: $aside-width - $header-padding-left;
-        padding-left: $menu-padding - $header-padding-left;
-    }
-
-    //右侧用户头像和用户名
-    .user-dropdown-reference {
-        display: flex;
-        align-items: center;
-        height: 100%;
-
-        .username {
-            font-size: 18px;
-            padding: 0 5px;
-        }
-    }
+  }
 }
 
 @import 'theme-light';

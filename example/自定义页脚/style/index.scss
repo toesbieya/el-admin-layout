@@ -1,15 +1,15 @@
 @import '~el-admin-layout/src/style';
 
 html, body, #app {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
 .copyright {
-    color: $--color-text-secondary;
-    font-size: 14px;
+  color: $--color-text-secondary;
+  font-size: 14px;
 
-    > a:hover {
-        color: $--color-primary;
-    }
+  > a:hover {
+    color: $--color-primary;
+  }
 }

@@ -1,6 +1,6 @@
-import {isEmpty, debounce} from 'el-admin-layout/src/util'
+import { isEmpty, debounce } from 'el-admin-layout/src/util'
 
-export {isEmpty, debounce}
+export { isEmpty, debounce }
 
 /**
  * 将source合并到target中
@@ -11,29 +11,29 @@ export {isEmpty, debounce}
  * @param source
  */
 export function mergeObj(target, source) {
-    if (isEmpty(target, source)) return
+  if (isEmpty(target, source)) return
 
-    for (const key of Object.keys(target)) {
-        if (!(key in source)) continue
+  for (const key of Object.keys(target)) {
+    if (!(key in source)) continue
 
-        //数组类型直接赋值，不做深拷贝
-        if (Array.isArray(target[key])) {
-            target[key] = source[key] || []
-            continue
-        }
-
-        //number类型不考虑NaN
-        if (typeof target[key] === 'number') {
-            target[key] = source[key] || 0
-            continue
-        }
-
-        //非空对象递归处理
-        if (target[key] !== null && typeof target[key] === 'object') {
-            mergeObj(target[key], source[key])
-            continue
-        }
-
-        target[key] = source[key]
+    // 数组类型直接赋值，不做深拷贝
+    if (Array.isArray(target[key])) {
+      target[key] = source[key] || []
+      continue
     }
+
+    // number类型不考虑NaN
+    if (typeof target[key] === 'number') {
+      target[key] = source[key] || 0
+      continue
+    }
+
+    // 非空对象递归处理
+    if (target[key] !== null && typeof target[key] === 'object') {
+      mergeObj(target[key], source[key])
+      continue
+    }
+
+    target[key] = source[key]
+  }
 }

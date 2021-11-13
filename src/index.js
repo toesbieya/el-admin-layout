@@ -7,9 +7,9 @@ import Logo from './component/Logo'
 import NavMenu from './component/NavMenu'
 
 export default Layout
-export {Breadcrumb, ContextMenu, Hamburger, HorizontalResizableMenu, Logo, NavMenu}
+export { Breadcrumb, ContextMenu, Hamburger, HorizontalResizableMenu, Logo, NavMenu }
 
 export * from './config'
 export * from './store'
 
-export {refreshPage, closeCurrentPage} from './helper'
+export { refreshPage, closeCurrentPage } from './helper'

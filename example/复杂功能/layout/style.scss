@@ -5,38 +5,38 @@
 @import './component/SettingDrawer/style';
 
 .menu-tag {
-    position: absolute;
-    top: calc(50% - #{$--font-size-extra-small / 2});
-    padding: 0 2px 3px 2px;
-    font-size: $--font-size-extra-small;
-    line-height: $--font-size-extra-small;
-    border-radius: 3px;
+  position: absolute;
+  top: calc(50% - #{$--font-size-extra-small / 2});
+  padding: 0 2px 3px 2px;
+  font-size: $--font-size-extra-small;
+  line-height: $--font-size-extra-small;
+  border-radius: 3px;
 
-    &--danger {
-        color: $--color-white;
-        background-color: $--color-danger;
-    }
+  &--danger {
+    color: $--color-white;
+    background-color: $--color-danger;
+  }
 }
 
-//对menu-tag的right的一些设置
+// 对menu-tag的right的一些设置
 .el-menu {
-    &--vertical {
-        .el-menu-item > .menu-tag {
-            right: $menu-padding;
-        }
-
-        .el-submenu__title > .menu-tag {
-            right: $menu-padding + 12px;
-        }
+  &--vertical {
+    .el-menu-item > .menu-tag {
+      right: $menu-padding;
     }
 
-    &--horizontal {
-        .el-menu-item > .menu-tag {
-            right: 10px;
-        }
-
-        .el-submenu__title > .menu-tag {
-            right: 10px + 12px;
-        }
+    .el-submenu__title > .menu-tag {
+      right: $menu-padding + 12px;
     }
+  }
+
+  &--horizontal {
+    .el-menu-item > .menu-tag {
+      right: 10px;
+    }
+
+    .el-submenu__title > .menu-tag {
+      right: 10px + 12px;
+    }
+  }
 }

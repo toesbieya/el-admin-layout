@@ -1,15 +1,15 @@
 .header.light {
-    background-color: $--color-white;
+  background-color: $--color-white;
 
-    .logo-container {
-        color: $--color-primary;
+  .logo-container {
+    color: $--color-primary;
+  }
+
+  .header-item {
+    color: $header-item-color-light;
+
+    &:hover {
+      background-color: $header-item-hover-color-light;
     }
-
-    .header-item {
-        color: $header-item-color-light;
-
-        &:hover {
-            background-color: $header-item-hover-color-light;
-        }
-    }
+  }
 }

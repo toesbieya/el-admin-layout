@@ -1,4 +1,4 @@
-import {isEmpty} from './index'
+import { isEmpty } from './index'
 
 const unzip = () => ({}), zip = () => ({})
 const keyPrefix = 'test-layout', defaultUseZip = false
@@ -13,16 +13,16 @@ const sessionTagsViewKey = 'SESS-TAGS-VIEW'
  * @return {*|undefined}
  */
 export function get(key, storage = window.sessionStorage, useZip = defaultUseZip) {
-    let obj = storage.getItem(`${keyPrefix}${key}`)
-    if (isEmpty(obj)) return undefined
-    try {
-        obj = JSON.parse(useZip ? unzip(obj) : obj)
-    }
-    catch (e) {
-        console.error(`获取本地存储[${key}]失败`, e)
-        obj = undefined
-    }
-    return obj
+  let obj = storage.getItem(`${keyPrefix}${key}`)
+  if (isEmpty(obj)) return undefined
+  try {
+    obj = JSON.parse(useZip ? unzip(obj) : obj)
+  }
+  catch (e) {
+    console.error(`获取本地存储[${key}]失败`, e)
+    obj = undefined
+  }
+  return obj
 }
 
 /**
@@ -33,8 +33,8 @@ export function get(key, storage = window.sessionStorage, useZip = defaultUseZip
  * @param useZip {boolean}    是否启用了压缩
  */
 export function set(key, obj, storage = window.sessionStorage, useZip = defaultUseZip) {
-    const item = useZip ? zip(JSON.stringify(obj)) : JSON.stringify(obj)
-    storage.setItem(`${keyPrefix}${key}`, item)
+  const item = useZip ? zip(JSON.stringify(obj)) : JSON.stringify(obj)
+  storage.setItem(`${keyPrefix}${key}`, item)
 }
 
 /**
@@ -43,7 +43,7 @@ export function set(key, obj, storage = window.sessionStorage, useZip = defaultU
  * @param storage {Storage}  window.sessionStorage或window.localStorage
  */
 export function remove(key, storage = window.sessionStorage) {
-    storage.removeItem(`${keyPrefix}${key}`)
+  storage.removeItem(`${keyPrefix}${key}`)
 }
 
 /**
@@ -52,12 +52,12 @@ export function remove(key, storage = window.sessionStorage) {
  * @return {object}
  */
 export function getLocalPersonalSettings() {
-    let settings = get(localPersonalSettingsKey, window.localStorage)
-    if (isEmpty(settings)) {
-        settings = {}
-        removeLocalPersonalSettings()
-    }
-    return settings
+  let settings = get(localPersonalSettingsKey, window.localStorage)
+  if (isEmpty(settings)) {
+    settings = {}
+    removeLocalPersonalSettings()
+  }
+  return settings
 }
 
 /**
@@ -66,9 +66,9 @@ export function getLocalPersonalSettings() {
  * @param settings
  */
 export function setLocalPersonalSettings(settings) {
-    isEmpty(settings)
-        ? removeLocalPersonalSettings()
-        : set(localPersonalSettingsKey, settings, window.localStorage)
+  isEmpty(settings)
+    ? removeLocalPersonalSettings()
+    : set(localPersonalSettingsKey, settings, window.localStorage)
 }
 
 /**
@@ -77,12 +77,12 @@ export function setLocalPersonalSettings(settings) {
  * @return {array}
  */
 export function getTagsView() {
-    let tagsView = get(sessionTagsViewKey)
-    if (isEmpty(tagsView)) {
-        tagsView = []
-        removeTagsView()
-    }
-    return tagsView
+  let tagsView = get(sessionTagsViewKey)
+  if (isEmpty(tagsView)) {
+    tagsView = []
+    removeTagsView()
+  }
+  return tagsView
 }
 
 /**
@@ -91,13 +91,13 @@ export function getTagsView() {
  * @param tagsView
  */
 export function setTagsView(tagsView) {
-    isEmpty(tagsView) ? removeTagsView() : set(sessionTagsViewKey, tagsView)
+  isEmpty(tagsView) ? removeTagsView() : set(sessionTagsViewKey, tagsView)
 }
 
 function removeLocalPersonalSettings() {
-    remove(localPersonalSettingsKey, window.localStorage)
+  remove(localPersonalSettingsKey, window.localStorage)
 }
 
 function removeTagsView() {
-    remove(sessionTagsViewKey)
+  remove(sessionTagsViewKey)
 }

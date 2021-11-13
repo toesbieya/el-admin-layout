@@ -1,23 +1,23 @@
 @import './DefaultSidebar/style';
 
 .aside {
-    box-shadow: 1px 0 4px rgba(0, 0, 0, .5);
-    z-index: $header-z-index - 1;
+  box-shadow: 1px 0 4px rgba(0, 0, 0, .5);
+  z-index: $header-z-index - 1;
 
-    //侧边栏底部区域
-    .sidebar-footer {
-        border-top-width: 1px;
-        border-top-style: solid;
-    }
+  // 侧边栏底部区域
+  .sidebar-footer {
+    border-top-width: 1px;
+    border-top-style: solid;
+  }
 
-    //底部汉堡包
-    .hamburger {
-        padding-left: $menu-padding;
-        height: 48px;
-        line-height: 48px;
-        font-size: $menu-icon-size;
-        cursor: pointer;
-    }
+  // 底部汉堡包
+  .hamburger {
+    padding-left: $menu-padding;
+    height: 48px;
+    line-height: 48px;
+    font-size: $menu-icon-size;
+    cursor: pointer;
+  }
 }
 
 @import './theme-light';

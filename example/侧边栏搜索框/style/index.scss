@@ -1,24 +1,24 @@
 @import '~el-admin-layout/src/style';
 
 html, body, #app {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
-//搜索框
+// 搜索框
 .aside-menu-search {
-    margin: 12px 8px;
+  margin: 12px 8px;
 }
 
-//暗色主题
+// 暗色主题
 .dark .aside-menu-search .el-input__inner {
-    border: none;
-    color: $--color-white;
-    background-color: lighten($menu-background-dark, 5%);
+  border: none;
+  color: $--color-white;
+  background-color: lighten($menu-background-dark, 5%);
 }
 
-//菜单的高亮关键字
+// 菜单的高亮关键字
 .menu-highlight-result {
-    vertical-align: unset;
-    color: $--color-success;
+  vertical-align: unset;
+  color: $--color-success;
 }

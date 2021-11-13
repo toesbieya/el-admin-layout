@@ -1,11 +1,11 @@
 <template>
-    <div class="page-header">
-        <slot/>
-    </div>
+  <div class="page-header">
+    <slot/>
+  </div>
 </template>
 
 <script>
 export default {
-    name: 'PageHeader'
+  name: 'PageHeader'
 }
 </script>

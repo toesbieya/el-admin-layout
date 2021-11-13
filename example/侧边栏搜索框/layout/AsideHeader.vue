@@ -1,24 +1,24 @@
 <script>
-import {appGetters, asideGetters} from 'el-admin-layout'
+import { appGetters, asideGetters } from 'el-admin-layout'
 import MenuSearch from './MenuSearch'
 
 export default {
-    name: 'AsideHeader',
+  name: 'AsideHeader',
 
-    functional: true,
+  functional: true,
 
-    props: {default: Object},
+  props: { default: Object },
 
-    render(h, context) {
-        return [
-            context.props.default,
-            !appGetters.isMobile && (
-                <MenuSearch
-                    v-show={!asideGetters.collapse}
-                    on-search={context.parent.searchWordMutation}
-                />
-            )
-        ]
-    }
+  render(h, context) {
+    return [
+      context.props.default,
+      !appGetters.isMobile && (
+        <MenuSearch
+          v-show={!asideGetters.collapse}
+          on-search={context.parent.searchWordMutation}
+        />
+      )
+    ]
+  }
 }
 </script>

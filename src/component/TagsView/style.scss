@@ -1,51 +1,51 @@
 .tags-view {
-    height: $tags-view-height;
-    background-color: $tags-view-background-color;
-    box-shadow: $tags-view-shadow;
-    overflow: hidden;
+  height: $tags-view-height;
+  background-color: $tags-view-background-color;
+  box-shadow: $tags-view-shadow;
+  overflow: hidden;
 
-    &-item {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
-        border: $tags-view-item-border;
-        border-radius: $tags-view-item-border-radius;
-        padding: $tags-view-item-padding;
-        margin: $tags-view-item-between / 2;
-        font-size: $tags-view-item-font-size;
-        color: $--color-text-secondary;
-        background-color: $--color-white;
-        box-sizing: border-box;
-        user-select: none;
-        cursor: pointer;
+  &-item {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    border: $tags-view-item-border;
+    border-radius: $tags-view-item-border-radius;
+    padding: $tags-view-item-padding;
+    margin: $tags-view-item-between / 2;
+    font-size: $tags-view-item-font-size;
+    color: $--color-text-secondary;
+    background-color: $--color-white;
+    box-sizing: border-box;
+    user-select: none;
+    cursor: pointer;
 
-        &:first-of-type {
-            margin-left: $tags-view-item-between;
-        }
-
-        &:last-of-type {
-            margin-right: $tags-view-item-between;
-        }
-
-        &.active {
-            color: $--color-primary;
-
-            .tags-view-item__dot {
-                background-color: $--color-primary;
-            }
-        }
-
-        &__dot {
-            background-color: #e8eaec;
-            width: $tags-view-item-font-size;
-            height: $tags-view-item-font-size;
-            border-radius: 50%;
-            margin-right: .5em;
-        }
-
-        .el-icon-close {
-            font-size: $tags-view-item-font-size + 2;
-            margin-left: 1em;
-        }
+    &:first-of-type {
+      margin-left: $tags-view-item-between;
     }
+
+    &:last-of-type {
+      margin-right: $tags-view-item-between;
+    }
+
+    &.active {
+      color: $--color-primary;
+
+      .tags-view-item__dot {
+        background-color: $--color-primary;
+      }
+    }
+
+    &__dot {
+      background-color: #e8eaec;
+      width: $tags-view-item-font-size;
+      height: $tags-view-item-font-size;
+      border-radius: 50%;
+      margin-right: .5em;
+    }
+
+    .el-icon-close {
+      font-size: $tags-view-item-font-size + 2;
+      margin-left: 1em;
+    }
+  }
 }

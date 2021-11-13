@@ -1,9 +1,9 @@
 <template>
-    <main class="page-main">
-        <page-content/>
+  <main class="page-main">
+    <page-content/>
 
-        <page-iframe/>
-    </main>
+    <page-iframe/>
+  </main>
 </template>
 
 <script>
@@ -15,8 +15,8 @@ import PageIframe from './iframe'
 import PageContent from './content'
 
 export default {
-    name: 'Page',
+  name: 'Page',
 
-    components: {PageContent, PageIframe}
+  components: { PageContent, PageIframe }
 }
 </script>

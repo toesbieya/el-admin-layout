@@ -1,16 +1,16 @@
 @import '~el-admin-layout/src/style';
 
 html, body, #app {
-    height: 100%;
-    margin: 0;
+  height: 100%;
+  margin: 0;
 }
 
 .menu-tag {
-    position: relative;
-    left: 12px;
-    padding: 0 2px 2px 2px;
-    font-size: 12px;
-    border-radius: 3px;
-    color: $--color-white;
-    background-color: $--color-danger;
+  position: relative;
+  left: 12px;
+  padding: 0 2px 2px 2px;
+  font-size: 12px;
+  border-radius: 3px;
+  color: $--color-white;
+  background-color: $--color-danger;
 }
