@@ -7,19 +7,29 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
+function getDevPackageVersion(packageName) {
+  const version = packageInfo.devDependencies[packageName]
+  return version[0] === '^' ? version.slice(1) : version
+}
+
 function createExamplePage(folder) {
+  const Vue = getDevPackageVersion('vue')
+  const VueRouter = getDevPackageVersion('vue-router')
+  const Vuex = getDevPackageVersion('vuex')
+  const ElementUI = getDevPackageVersion('element-ui')
+
   return {
     entry: `example/${folder}/main.js`,
     cdn: {
       css: [
-        'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/theme-chalk/index.css'
+        `https://cdn.jsdelivr.net/npm/element-ui@${ElementUI}/lib/theme-chalk/index.css`
       ],
       js: isProd
         ? [
-          'https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.min.js',
-          'https://cdn.jsdelivr.net/npm/vuex@3.6.2/dist/vuex.min.js',
-          'https://cdn.jsdelivr.net/npm/vue-router@3.4.9/dist/vue-router.min.js',
-          'https://cdn.jsdelivr.net/npm/element-ui@2.15.0/lib/index.js'
+          `https://cdn.jsdelivr.net/npm/vue@${Vue}/dist/vue.min.js`,
+          `https://cdn.jsdelivr.net/npm/vuex@${Vuex}/dist/vuex.min.js`,
+          `https://cdn.jsdelivr.net/npm/vue-router@${VueRouter}/dist/vue-router.min.js`,
+          `https://cdn.jsdelivr.net/npm/element-ui@${ElementUI}/lib/index.js`
         ]
         : []
     }
