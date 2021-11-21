@@ -1,6 +1,17 @@
 <template>
-  <ul v-show="value" class="context-menu" :style="style">
-    <li v-for="i in menuItems" :key="i.content" class="context-menu-item" @click="i.click">
+  <ul
+    v-show="value"
+    class="context-menu"
+    :style="style"
+    @contextmenu.prevent
+    @click="onClick"
+  >
+    <li
+      v-for="(i, index) in menuItems"
+      :key="i.content"
+      :data-index="index"
+      class="context-menu-item"
+    >
       {{ i.content }}
     </li>
   </ul>
@@ -47,16 +58,25 @@ export default {
   },
 
   watch: {
-    value(v) {
-      document.body[v ? 'addEventListener' : 'removeEventListener']('click', this.close)
-      if (v) {
-        this.willAutoAdaptLeft = true
-        this.willAutoAdaptTop = true
-        this.$nextTick(this.autoAdapt)
+    value: {
+      immediate: true,
+      handler(v) {
+        document.body[v ? 'addEventListener' : 'removeEventListener']('click', this.close)
+        if (v) {
+          this.willAutoAdaptLeft = true
+          this.willAutoAdaptTop = true
+          this.$nextTick(this.autoAdapt)
+        }
       }
     },
-    left: 'autoAdaptLeft',
-    top: 'autoAdaptTop'
+    left: {
+      immediate: true,
+      handler: 'autoAdaptLeft'
+    },
+    top: {
+      immediate: true,
+      handler: 'autoAdaptTop'
+    }
   },
 
   methods: {
@@ -66,8 +86,6 @@ export default {
     autoAdapt() {
       this.autoAdaptTop(this.top)
       this.autoAdaptLeft(this.left)
-
-      this.willAutoAdapt = false
     },
     autoAdaptTop(v) {
       if (this.willAutoAdaptTop) {
@@ -96,6 +114,22 @@ export default {
       const finalLeft = over > 0 ? v - over : v
 
       this.realLeft = `${finalLeft}px`
+    },
+
+    /**
+     * 事件代理
+     *
+     * @param event {Event}
+     */
+    onClick(event) {
+      if (!event.target.classList.contains('context-menu-item')) {
+        return
+      }
+
+      const index = Number(event.target.dataset.index)
+      const menuItem = this.menuItems[index]
+
+      menuItem && menuItem.click()
     }
   },
 
