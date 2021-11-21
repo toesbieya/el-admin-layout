@@ -1,9 +1,22 @@
 <script>
-import PageHeader from './header'
-import PageFooter from './footer'
-import PageView from './view'
+import CachedRouterView from '../../component/CachedRouterView'
 import Breadcrumb from '../../component/Breadcrumb'
 import { pageGetters } from '../../store'
+
+const PageHeader = {
+  name: 'PageFooter',
+
+  render(h) {
+    return h('div', { staticClass: 'page-header' }, this.$slots.default)
+  }
+}
+const PageFooter = {
+  name: 'PageFooter',
+
+  render(h) {
+    return h('footer', { staticClass: 'page-footer' }, this.$slots.default)
+  }
+}
 
 export default {
   name: 'PageContent',
@@ -35,7 +48,7 @@ export default {
           </PageHeader>
         )}
 
-        <PageView/>
+        <CachedRouterView class="page-view"/>
 
         {showFooter && <PageFooter>{footerSlot(h)}</PageFooter>}
       </div>

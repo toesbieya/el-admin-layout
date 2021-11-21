@@ -7,9 +7,9 @@
         :key="fullPath"
         class="breadcrumb-item"
       >
-                <span class="breadcrumb-inner is-link" @click="() => onClick(fullPath)">
-                    {{ title }}
-                </span>
+        <span class="breadcrumb-inner is-link" @click="() => onClick(fullPath)">
+          {{ title }}
+        </span>
         <span class="breadcrumb-separator">/</span>
       </div>
 

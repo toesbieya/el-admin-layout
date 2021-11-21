@@ -36,9 +36,9 @@ export default {
   computed: {
     // 原始的菜单数组
     menus() {
-      const menus = appGetters.menus
+      const { menus, navMode } = appGetters
 
-      switch (appGetters.navMode) {
+      switch (navMode) {
         case 'head' :
           return menus
         case 'mix':
@@ -49,14 +49,14 @@ export default {
     },
     // 实际用于渲染的菜单数组（仿antd的自适应宽度）
     realMenus() {
-      const { lastVisibleIndex, menus } = this
+      const { lastVisibleIndex, menus, seed } = this
 
       // 不需要隐藏菜单
       if (lastVisibleIndex === undefined) {
         return menus
       }
 
-      const fullPath = `_${this.seed}`
+      const fullPath = `_${seed}`
 
       // 隐藏全部菜单
       if (lastVisibleIndex === -1) {
@@ -86,7 +86,14 @@ export default {
         }
       }
     },
-
+    // 顶部菜单变化时设置高亮菜单
+    realMenus: {
+      immediate: true,
+      handler(v) {
+        this.setActiveMenu()
+        this.setDefaultActiveMenu(v)
+      }
+    },
     // 有dom时才进行自适应处理
     hasDom: {
       immediate: true,
@@ -231,18 +238,6 @@ export default {
       }
       this.destroyGhostMenu()
     }
-  },
-
-  created() {
-    // 顶部菜单变动时设置当前的高亮菜单
-    this.$watch(
-      'realMenus',
-      v => {
-        this.setActiveMenu()
-        this.setDefaultActiveMenu(v)
-      },
-      { immediate: true }
-    )
   },
 
   async mounted() {

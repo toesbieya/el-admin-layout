@@ -1,4 +1,8 @@
 <script>
+/**
+ * 自行实现缓存控制的router-view，不支持嵌套路由
+ */
+
 import { pageGetters, tagsViewGetters } from '../../store'
 import { getRouterKey } from '../../config/logic'
 import { isEmpty } from '../../util'
@@ -37,7 +41,9 @@ function getCtorId(instance) {
 }
 
 export default {
-  name: 'PageView',
+  name: 'CachedRouterView',
+
+  inheritAttrs: true,
 
   data() {
     return {
@@ -139,7 +145,7 @@ export default {
     }
   },
 
-  render() {
+  render(h) {
     let view = this.renderView && <router-view key={this.routerViewKey}/>
 
     if (this.useKeepAlive) {
@@ -150,7 +156,7 @@ export default {
       view = <transition name={this.transitionName} mode="out-in">{view}</transition>
     }
 
-    return <div class="page-view">{view}</div>
+    return <div>{view}</div>
   }
 }
 </script>

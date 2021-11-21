@@ -22,16 +22,15 @@ export default {
 
   computed: {
     ...mapGetters(headerGetters, [
-      'theme',
-      'showCollapseIcon',
       'menuIconSlot',
       'menuContentSlot'
     ]),
     menuClass() {
+      const { theme, showCollapseIcon } = headerGetters
       return [
         'el-menu--horizontal',
-        `el-menu--${this.theme}`,
-        !this.showCollapseIcon && 'hide-collapse-icon'
+        `el-menu--${theme}`,
+        !showCollapseIcon && 'hide-collapse-icon'
       ]
     }
   },
@@ -40,6 +39,7 @@ export default {
     renderMenuIcon: NavMenu.methods.renderMenuIcon,
     renderMenuContent: NavMenu.methods.renderMenuContent,
     renderSingleMenu: NavMenu.methods.renderSingleMenu,
+
     // 渲染有子级的菜单
     renderSubMenu(h, menu, depth) {
       const { fullPath } = menu

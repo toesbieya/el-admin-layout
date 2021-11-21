@@ -10,33 +10,11 @@ import {
   tagsViewGetters,
   tagsViewMutations
 } from '../../store'
-import ContextMenu from '../../component/ContextMenu'
+import useContextMenu from '../../component/ContextMenu/functionalUse'
 import HorizontalScroller from '../../component/HorizontalScroller'
 import { refreshPage } from '../../helper'
 import { getRouterKey, getRouterTitle, isRedirectRouter } from '../../config/logic'
-
-/**
- * 渲染默认样式的页签
- *
- * @param h {CreateElement}
- * @param key {string}
- * @param active {boolean}
- * @param on {?Object<string, function>}
- * @param title {string}
- * @param close {?function}
- * @return {VNode}
- */
-function renderDefaultStyleTag(h, { key, active, on, title, close }) {
-  const className = `tags-view-item${active ? ' active' : ''}`
-
-  return (
-    <div key={key} class={className} {...{ on }}>
-      <div class="tags-view-item__dot"/>
-      <span>{title}</span>
-      {close && <i class="el-icon-close" on-click={close}/>}
-    </div>
-  )
-}
+import { isAffix, getAffixTagsFromMenuTree, renderDefaultStyleTag } from './util'
 
 export default {
   name: 'TagsView',
@@ -59,22 +37,16 @@ export default {
   },
 
   computed: {
-    visitedViews: () => tagsViewGetters.visitedViews,
-
-    menus: () => appGetters.menus,
-
     contextMenuItems() {
+      const { visitedViews } = tagsViewGetters
+      const closeable = visitedViews.length > 1 && !isAffix(this.selectedTag)
+
       return [
         { content: '刷新', click: this.refreshSelectedTag },
-        this.visitedViews.length <= 1 || this.selectedTag && this.isAffix(this.selectedTag)
-          ? undefined
-          : {
-            content: '关闭',
-            click: () => this.closeSelectedTag(this.selectedTag)
-          },
+        { content: closeable && '关闭', click: this.closeSelectedTag },
         { content: '关闭其他', click: this.closeOthersTags },
         { content: '关闭全部', click: this.closeAllTags }
-      ]
+      ].filter(i => i.content)
     },
 
     // 避免HorizontalScroller在右键时触发$forceUpdate
@@ -102,24 +74,30 @@ export default {
   },
 
   methods: {
-    // 根据路由设置当前激活的页签key
-    setActiveKey(to) {
-      this.activeKey = getRouterKey(to)
-    },
-    isAffix(view) {
-      return view.meta.affix
+    /**
+     * 根据路由设置当前激活的页签key
+     * @param route {import('vue-router').Route}
+     */
+    setActiveKey(route) {
+      this.activeKey = getRouterKey(route)
     },
 
-    // 根据访问的tab页的左右顺序来确定路由动画
+    /**
+     * 根据访问的tab页的左右顺序来确定路由动画
+     * @param to {import('vue-router').Route}
+     * @param from {import('vue-router').Route}
+     */
     decideRouteTransition(to, from) {
       const { next, prev } = pageGetters.transition
+      const { visitedViews } = tagsViewGetters
       const fromKey = getRouterKey(from)
       const toKey = getRouterKey(to)
-      let transitionName = prev
 
       // 这里认为页签数量不会太多，所以为了可读性使用两次循环查找
-      const fromIndex = this.visitedViews.findIndex(i => i.key === fromKey)
-      const toIndex = this.visitedViews.findIndex(i => i.key === toKey)
+      const fromIndex = visitedViews.findIndex(i => i.key === fromKey)
+      const toIndex = visitedViews.findIndex(i => i.key === toKey)
+
+      let transitionName = prev
 
       // 新开tab也认为顺序高于上一个tab
       if (toIndex === -1 || fromIndex < toIndex) {
@@ -129,40 +107,19 @@ export default {
       pageMutations.transition({ curr: transitionName })
     },
 
-    // 获取菜单树中所有需要固定显示的页签
-    getAffixTags(menus) {
-      return menus.reduce((affixTags, { fullPath, children, meta }) => {
-        if (meta.affix === true) {
-          const { route } = this.$router.resolve(fullPath)
-
-          affixTags.push({
-            ...route,
-            meta: {
-              affix: true,
-              ...route.meta,
-              title: getRouterTitle(route)
-            }
-          })
-        }
-
-        if (children) {
-          const tempTags = this.getAffixTags(children)
-          tempTags.length && affixTags.push(...tempTags)
-        }
-
-        return affixTags
-      }, [])
-    },
     // 初始化固定显示的页签
     initTags() {
       // TODO 如果页签栏初始化后菜单未加载，则固定页签会出问题
       // 添加所有固定显示的页签
-      this.getAffixTags(this.menus).forEach(tagsViewMutations.addTagOnly)
+      getAffixTagsFromMenuTree(this.$router, appGetters.menus).forEach(tagsViewMutations.addTagOnly)
 
       // 将当前路由对象添加为页签
       this.addTag(this.$route)
     },
-    // 尝试将路由对象添加为tab页
+    /**
+     * 尝试将路由对象添加为tab页
+     * @param route {import('vue-router').Route}
+     */
     addTag(route) {
       tagsViewMutations.addTagAndCache({
         ...route,
@@ -172,86 +129,103 @@ export default {
         }
       })
     },
-
     // 横向滚动条移动至当前tab
     moveToCurrentTag() {
-      const scroller = this.$refs['scroller']
+      const { scroller } = this.$refs
       const cur =
         Array
           .from(scroller.$el.children)
           .find(el => el.classList.contains('active'))
       cur && scroller.moveToTarget(cur)
     },
-
     /**
-     * 右键菜单选项
-     * 刷新所选、关闭所选、关闭其他、关闭所有
+     * 激活末尾页签
+     * @param refresh {boolean=} 目标路由是当前路由时是否需要刷新
+     * @return {Promise<Route>}
      */
-    refreshSelectedTag() {
-      refreshPage(this.$router, this.selectedTag)
-    },
-    closeSelectedTag(view, e) {
-      if (this.visitedViews.length <= 1 || this.isAffix(view)) return
-
-      e && e.preventDefault()
-
-      tagsViewMutations.delTagAndCache(view)
-      this.activeKey === view.key && this.gotoLastTag()
-    },
-    closeOthersTags() {
-      tagsViewMutations.delOtherTagAndCache(this.selectedTag)
-      this.gotoLastTag()
-    },
-    closeAllTags() {
-      tagsViewMutations.delAllTagAndCache()
-      this.gotoLastTag(true)
-    },
-
     gotoLastTag(refresh = false) {
-      const views = this.visitedViews
+      const views = tagsViewGetters.visitedViews
+      const router = this.$router
 
       if (views.length === 0) {
-        return this.$router.push('/')
+        return router.push('/')
       }
 
       const latest = views[views.length - 1]
 
       // 目标路由是当前路由时需要刷新，否则直接跳转
       this.activeKey === latest.key
-        ? refresh && refreshPage(this.$router)
+        ? refresh && refreshPage(router)
         // 需要套一层$nextTick，否则tagsViewStore.visitedViews可能只会变动一次
-        : this.$nextTick(() => this.$router.push(latest))
+        : this.$nextTick(() => router.push(latest))
     },
 
+    /**
+     * 刷新所选页签
+     * @param view {View}
+     */
+    refreshSelectedTag(view = this.selectedTag) {
+      refreshPage(this.$router, view)
+    },
+    /**
+     * 关闭所选页签
+     * @param view {VisitedView}
+     */
+    closeSelectedTag(view = this.selectedTag) {
+      if (tagsViewGetters.visitedViews.length <= 1 || isAffix(view)) return
+
+      tagsViewMutations.delTagAndCache(view)
+      this.activeKey === view.key && this.gotoLastTag()
+    },
+    // 关闭除激活、固定页签以外的所有页签
+    closeOthersTags() {
+      tagsViewMutations.delOtherTagAndCache(this.selectedTag)
+      this.gotoLastTag()
+    },
+    // 关闭除固定页签以外的所有页签
+    closeAllTags() {
+      tagsViewMutations.delAllTagAndCache()
+      this.gotoLastTag(true)
+    },
+    /**
+     * 在页签上打开右键菜单
+     * @param tag {VisitedView}
+     * @param e {MouseEvent}
+     */
     openContextMenu(tag, e) {
       e.preventDefault()
 
-      this.contextMenu.left = e.clientX + 15
-      this.contextMenu.top = e.clientY + 5
-      this.contextMenu.show = true
+      // 销毁之前的右键菜单实例
+      this.$contextmenu && this.$contextmenu()
 
       this.selectedTag = tag
+
+      this.$contextmenu = useContextMenu(this.contextMenuItems, {
+        left: e.clientX + 15,
+        top: e.clientY + 5
+      })
     },
 
     renderTags() {
-      const h = this.$createElement
-      const renderFn = tagsViewGetters.itemSlot || renderDefaultStyleTag
+      const { $createElement: h, $router, activeKey } = this
+      const { itemSlot, visitedViews } = tagsViewGetters
+      const renderFn = itemSlot || renderDefaultStyleTag
 
-      return this.visitedViews.map((view, _, arr) => {
-        const active = this.activeKey === view.key
-        const showClose = !this.isAffix(view) && arr.length > 1
+      return visitedViews.map(view => {
+        const active = activeKey === view.key
+        const showClose = !isAffix(view) && visitedViews.length > 1
         const on = {
           contextmenu: e => this.openContextMenu(view, e)
         }
         const onClose = e => {
           // 需要阻止事件冒泡，不然会触发tag的click事件
           e.stopPropagation()
-          this.closeSelectedTag(view, e)
+          this.closeSelectedTag(view)
         }
 
         // 非激活页签时，绑定点击事件，点击跳转到页签对应的路由
         if (!active) {
-          on.click = () => this.$router.push(view, () => undefined)
+          on.click = () => $router.push(view, () => undefined)
         }
 
         return renderFn(h, {
@@ -274,13 +248,6 @@ export default {
     return (
       <nav class="tags-view">
         <HorizontalScroller ref="scroller" scopedSlots={this.tagsSlot}/>
-
-        <ContextMenu
-          v-model={this.contextMenu.show}
-          items={this.contextMenuItems}
-          left={this.contextMenu.left}
-          top={this.contextMenu.top}
-        />
       </nav>
     )
   }
