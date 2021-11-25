@@ -79,15 +79,6 @@ export default {
         map[key] = 1
         return map
       }, {})
-    },
-
-    // 是否使用过渡动画
-    useTransition() {
-      return pageGetters.enableTransition
-    },
-    // 过渡动画名称
-    transitionName() {
-      return pageGetters.transition.curr
     }
   },
 
@@ -152,8 +143,9 @@ export default {
       view = <keep-alive {...this.keepAliveData}>{view}</keep-alive>
     }
 
-    if (this.useTransition) {
-      view = <transition name={this.transitionName} mode="out-in">{view}</transition>
+    if (pageGetters.enableTransition) {
+      const transitionName = pageGetters.transition.curr
+      view = <transition name={transitionName} mode="out-in">{view}</transition>
     }
 
     return <div>{view}</div>

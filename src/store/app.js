@@ -126,7 +126,12 @@ export const mutations = {
   }
 }
 
-//根据菜单的fullPath快速查找菜单
+/**
+ * 根据菜单的fullPath快速查找菜单
+ *
+ * @param fullPath {string} 菜单的fullPath
+ * @return {StoreMenuItem|undefined}
+ */
 export function getMenuByFullPath(fullPath) {
   return MenuSearchMap[fullPath]
 }
