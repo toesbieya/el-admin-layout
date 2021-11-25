@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!-- 引入element-ui样式 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css">
+  <!-- 引入el-admin-layout样式 -->
+  <link rel="stylesheet" href="../../dist/index.min.css">
+
+  <!-- 引入vue2、vue-router3、element-ui库 -->
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-router@3.5.3/dist/vue-router.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
+
+  <!-- 引入el-admin-layout库 -->
+  <script src="../../dist/index.umd.min.js"></script>
+
+  <style>
+    html,body{
+      margin: 0;
+      padding: 0;
+    }
+    #app {
+      height: 100vh;
+      width: 100vw;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <router-view></router-view>
+</div>
+</body>
+<script type="module">
+  import menus from '../common/menu'
+
+  const { appMutations, injectDefaultRoute } = window.ElAdminLayout
+  appMutations.title('测试')
+  appMutations.menus(menus)
+
+  const Layout = {
+    name: 'Layout',
+
+    render(h) {
+      return h('el-admin-layout')
+    }
+  }
+
+  const IndexPage = {
+    name: 'indexPage',
+
+    data() {
+      return {
+        val: ''
+      }
+    },
+
+    render(h) {
+      return h('div', [
+        h('input', {
+          directives: [{
+            name: 'model',
+            rawName: 'v-model',
+            value: this.val,
+            expression: 'model'
+          }]
+        }),
+        ...Array(10).map(() => {
+          return h('div', { key: 1 }, ['超出滚动'])
+        })
+      ])
+    }
+  }
+
+  const router = new window.VueRouter({
+    mode: 'hash',
+    routes: [
+      {
+        path: '/',
+        redirect: 'index',
+        component: Layout,
+        children: [
+          {
+            path: 'index',
+            name: 'indexPage',
+            component: IndexPage,
+            meta: { title: '首页' }
+          }
+        ]
+      },
+
+      ...injectDefaultRoute(Layout)
+    ]
+  })
+
+  new window.Vue({
+    el: '#app',
+    router
+  })
+</script>
+</html>
