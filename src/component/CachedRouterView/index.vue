@@ -5,7 +5,6 @@
 
 import { pageGetters, tagsViewGetters } from '../../store'
 import { getRouterKey } from '../../config/logic'
-import { isEmpty } from '../../util'
 
 /**
  * 根据指定的key清除keep-alive组件内的缓存
@@ -85,29 +84,30 @@ export default {
     getKeepAliveInstance() {
       if (!this._vnode) return
 
-      const vnode = this._vnode.children[0]
+      let vnode = this._vnode.children[0]
+      // 是否被transition包裹
+      const wrappedByTransition = vnode.componentOptions.tag === 'transition'
 
-      // 未被transition包裹时
-      if (!pageGetters.enableTransition) {
-        return vnode.componentInstance
+      if (wrappedByTransition) {
+        vnode = vnode.child._vnode
       }
 
-      return vnode.child._vnode.componentInstance
+      return { instance: vnode.componentInstance, wrappedByTransition }
     },
 
     // 在keep-alive更新后对其缓存做处理
     onKeepAliveUpdated() {
-      const instance = this.getKeepAliveInstance()
+      const { instance, wrappedByTransition } = this.getKeepAliveInstance()
       const { cache } = instance
-      const hasTransition = pageGetters.enableTransition
 
       // 由于keep-alive会缓存所有，所以需要清除不需要缓存的部分
       Object.keys(cache).forEach(key => {
-        const routerKey = hasTransition
-          // 被transition包裹时，key会加上一个前缀
+        // transition会修改子级vnode的key
+        // https://github.com/vuejs/vue/blob/dev/src/platforms/web/runtime/components/transition.js#L146
+        const cachedKey = wrappedByTransition
           ? key.replace(/__transition-(\d+)-/, '')
           : key
-        !this.cachedKeyMap[routerKey] && pruneCacheEntry(key, instance)
+        !this.cachedKeyMap[cachedKey] && pruneCacheEntry(key, instance)
 
         // 解决HMR无效
         if (process.env.NODE_ENV === 'development') {
@@ -116,7 +116,7 @@ export default {
             const lastCtorId = cache[key]._ctorId
             const ctorId = (cache[key]._ctorId = getCtorId(comp))
 
-            if (!isEmpty(lastCtorId) && lastCtorId !== ctorId) {
+            if (lastCtorId != null && lastCtorId !== ctorId) {
               pruneCacheEntry(key, instance)
               this.rerenderRouterView()
             }

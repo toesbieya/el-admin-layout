@@ -1,7 +1,7 @@
 <script>
-import CachedRouterView from '../../component/CachedRouterView'
-import Breadcrumb from '../../component/Breadcrumb'
 import { pageGetters } from '../../store'
+import Breadcrumb from '../../component/Breadcrumb'
+import CachedRouterView from '../../component/CachedRouterView'
 
 const PageHeader = {
   name: 'PageFooter',
@@ -22,37 +22,41 @@ export default {
   name: 'PageContent',
 
   computed: {
-    showHeader() {
-      return pageGetters.showHeader && this.$route.meta.pageHeader !== false
+    header() {
+      const { showHeader, headerSlot } = pageGetters
+      const { pageHeader } = this.$route.meta
+      if (!showHeader || pageHeader === false) {
+        return
+      }
+
+      const h = this.$createElement
+      return h(PageHeader, headerSlot ? headerSlot(h) : [h(Breadcrumb)])
     },
-    showFooter() {
-      return pageGetters.showFooter && this.$route.meta.pageFooter !== false
+    footer() {
+      const { showFooter, footerSlot } = pageGetters
+      const { pageFooter } = this.$route.meta
+      if (!showFooter || !footerSlot || pageFooter === false) {
+        return
+      }
+
+      const h = this.$createElement
+      return h(PageFooter, footerSlot(h))
     }
   },
 
   render(h) {
-    const { headerSlot, footerSlot } = pageGetters
-    const showFooter = this.showFooter && footerSlot
-
+    const { header, footer } = this
     const className = {
       'page-content': true,
-      'has-page-header': this.showHeader,
-      'has-page-footer': showFooter
+      'has-page-header': Boolean(header),
+      'has-page-footer': Boolean(footer)
     }
 
-    return (
-      <div class={className}>
-        {this.showHeader && (
-          <PageHeader>
-            {headerSlot ? headerSlot(h) : <Breadcrumb/>}
-          </PageHeader>
-        )}
-
-        <CachedRouterView class="page-view"/>
-
-        {showFooter && <PageFooter>{footerSlot(h)}</PageFooter>}
-      </div>
-    )
+    return h('div', { class: className }, [
+      header,
+      h(CachedRouterView, { staticClass: 'page-view' }),
+      footer
+    ])
   }
 }
 </script>
