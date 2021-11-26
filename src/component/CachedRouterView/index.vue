@@ -63,13 +63,11 @@ export default {
     },
     // 传递给keep-alive组件的属性
     keepAliveData() {
-      const timestamp = Date.now()
       // 确保缓存控制数组变动时，keep-alive也会更新
       // 因为会有关掉的页签非当前页签的情况，此时cachedViews虽然变化，但keep-alive不会更新
-      const exclude = tagsViewGetters.cachedViews.map(key => key + timestamp)
+      this.$data.$_tmp_ = tagsViewGetters.cachedViews.length
 
       return {
-        props: { exclude },
         on: { 'hook:updated': this.onKeepAliveUpdated }
       }
     },
