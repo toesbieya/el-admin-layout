@@ -31,7 +31,7 @@ type AppMutations = Omit<BaseAppMutations, 'menus'> & {
 
 interface AsideGetters {
   show: boolean
-  theme: 'light' | 'dark'
+  theme: 'light' | 'dark' | string
   uniqueOpen: boolean
   collapse: boolean
   showParentOnCollapse: boolean
@@ -65,7 +65,7 @@ interface DropdownItem {
 }
 
 interface HeaderGetters {
-  theme: 'light' | 'dark'
+  theme: 'light' | 'dark' | string
   showCollapseIcon: boolean
   avatar: string
   username: string
