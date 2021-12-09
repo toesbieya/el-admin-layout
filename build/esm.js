@@ -4,24 +4,27 @@
 
 const fs = require('fs')
 const path = require('path')
-const compile = require('./compile')
+const { isSFC, compileSFC } = require('./vue')
 const { calcTimeCost, cleanDir, write, copy } = require('./util')
 
 // 输入目录，绝对路径
 const inputDir = path.resolve(__dirname, `../src`)
-// 输出目录，绝对路径
+// 输出目录，绝对路径，不存在时会自动创建
 const outputDir = path.resolve(__dirname, '../dist/esm')
-// 忽略目录，相对于输入目录
-const exclude = ['/style'].map(i => path.normalize(i))
-// 忽略文件后缀
+// 忽略目录，相对于输入目录，这些目录下的文件不参与编译也不会被复制
+const excludeDirs = ['/style'].map(i => path.normalize(i))
+// 忽略文件后缀，这些文件不参与编译也不会被复制
 const excludeExtension = ['.scss']
-// 仅需拷贝的目录，相对于输入目录
-const onlyCopy = ['/config', '/mixin', '/store'].map(i => path.normalize(i))
-// 仅需拷贝的文件后缀
-const onlyCopyExtension = ['.js']
+// 仅需拷贝的目录，相对于输入目录，这些目录下的文件仅会被复制但不参与编译
+const onlyCopyDirs = ['/config', '/mixin', '/store'].map(i => path.normalize(i))
 
-
-function handler(filePathList, parentPath = '') {
+/**
+ * 编译目录
+ *
+ * @param filePathList {string[]} 文件名列表
+ * @param parentPath {string=} 父级目录的路径
+ */
+function compileDir(filePathList, parentPath = '') {
   if (!filePathList || filePathList.length === 0) return
 
   filePathList.forEach(filePath => {
@@ -32,17 +35,18 @@ function handler(filePathList, parentPath = '') {
 
     const stat = fs.statSync(fullPath)
 
+    // 处理目录
     if (stat.isDirectory()) {
       // 是被忽略的目录
-      if (exclude.includes(relativePath)) return
+      if (excludeDirs.includes(relativePath)) return
 
       // 是只需要拷贝的目录
-      if (onlyCopy.includes(relativePath)) {
+      if (onlyCopyDirs.includes(relativePath)) {
         return copy(fullPath, outputDir + relativePath)
       }
 
-      // 递归处理目录
-      return handler(fs.readdirSync(fullPath), relativePath)
+      // 递归编译
+      return compileDir(fs.readdirSync(fullPath), relativePath)
     }
 
     // 是被忽略的文件
@@ -50,14 +54,14 @@ function handler(filePathList, parentPath = '') {
       return
     }
 
-    // 是只需要拷贝的文件
-    if (onlyCopyExtension.some(i => filePath.endsWith(i))) {
+    // 其他非SFC文件仅拷贝
+    if (!isSFC(filePath)) {
       return copy(fullPath, outputDir + relativePath)
     }
 
-    // 转译文件
+    // 编译SFC
     const source = fs.readFileSync(fullPath).toString('utf8')
-    const compiled = compile(filePath, source, true)
+    const compiled = compileSFC(filePath, source)
 
     // 改变文件后缀：.vue -> .js
     const filename = relativePath.slice(0, relativePath.lastIndexOf('.')) + '.js'
@@ -68,5 +72,5 @@ function handler(filePathList, parentPath = '') {
 
 calcTimeCost(() => {
   cleanDir(outputDir)
-  handler(fs.readdirSync(inputDir))
+  compileDir(fs.readdirSync(inputDir))
 }, 'Start es module compilation ...', 'Finish es module compilation')
