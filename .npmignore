@@ -3,6 +3,7 @@ dist/example
 example
 node_modules
 public
+src
 test
 .idea
 .gitignore
