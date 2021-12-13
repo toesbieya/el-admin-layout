@@ -1,5 +1,6 @@
 <script>
-import { pageGetters } from '../../store'
+import { pageGetters, tagsViewGetters } from '../../store'
+import { getRouterKey } from '../../config/logic'
 import Breadcrumb from '../../component/Breadcrumb'
 import CachedRouterView from '../../component/CachedRouterView'
 
@@ -32,6 +33,19 @@ export default {
       const h = this.$createElement
       return h(PageHeader, headerSlot ? headerSlot(h) : [h(Breadcrumb)])
     },
+    view() {
+      const h = this.$createElement
+      const transitionProps = pageGetters.enableTransition
+        ? { name: pageGetters.transition.curr, mode: 'out-in' }
+        : undefined
+      const props = {
+        cacheable: tagsViewGetters.enabled && tagsViewGetters.enableCache,
+        transitionProps,
+        keyFn: getRouterKey,
+        includes: tagsViewGetters.cachedViews
+      }
+      return h(CachedRouterView, { staticClass: 'page-view', props })
+    },
     footer() {
       const { showFooter, footerSlot } = pageGetters
       const { pageFooter } = this.$route.meta
@@ -45,18 +59,14 @@ export default {
   },
 
   render(h) {
-    const { header, footer } = this
+    const { header, view, footer } = this
     const className = {
       'page-content': true,
       'has-page-header': Boolean(header),
       'has-page-footer': Boolean(footer)
     }
 
-    return h('div', { class: className }, [
-      header,
-      h(CachedRouterView, { staticClass: 'page-view' }),
-      footer
-    ])
+    return h('div', { class: className }, [header, view, footer])
   }
 }
 </script>

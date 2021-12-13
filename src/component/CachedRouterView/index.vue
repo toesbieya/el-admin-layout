@@ -3,9 +3,6 @@
  * 自行实现缓存控制的router-view，不支持嵌套路由
  */
 
-import { pageGetters, tagsViewGetters } from '../../store'
-import { getRouterKey } from '../../config/logic'
-
 /**
  * 根据指定的key清除keep-alive组件内的缓存
  *
@@ -44,6 +41,23 @@ export default {
 
   inheritAttrs: true,
 
+  props: {
+    // 是否启用缓存功能
+    cacheable: { type: Boolean, default: true },
+
+    // 包裹路由页面的容器标签名，为空时不做包裹
+    tag: { type: String, default: 'div' },
+
+    // <transition/>的props，为空时不使用transition
+    transitionProps: Object,
+
+    // 获取路由唯一标识的函数，传入当前路由(this.$route)，返回一个字符串
+    keyFn: Function,
+
+    // 需要缓存的路由标识列表
+    includes: { type: Array, default: () => [] }
+  },
+
   data() {
     return {
       renderView: true
@@ -53,26 +67,11 @@ export default {
   computed: {
     // 当前路由的唯一标识
     routerViewKey() {
-      return getRouterKey(this.$route)
-    },
-
-    // 是否使用keep-alive
-    useKeepAlive() {
-      return tagsViewGetters.enabled && tagsViewGetters.enableCache
-    },
-    // 传递给keep-alive组件的属性
-    keepAliveData() {
-      // 确保缓存控制数组变动时，keep-alive也会更新
-      // 因为会有关掉的页签非当前页签的情况，此时cachedViews虽然变化，但keep-alive不会更新
-      this.$data.$_tmp_ = tagsViewGetters.cachedViews.length
-
-      return {
-        on: { 'hook:updated': this.onKeepAliveUpdated }
-      }
+      return this.$props.keyFn(this.$route)
     },
     // 加速读取的缓存key哈希表
     cachedKeyMap() {
-      return tagsViewGetters.cachedViews.reduce((map, key) => {
+      return this.$props.includes.reduce((map, key) => {
         map[key] = 1
         return map
       }, {})
@@ -135,18 +134,27 @@ export default {
   },
 
   render(h) {
-    let view = this.renderView && <router-view key={this.routerViewKey}/>
+    const { cacheable, transitionProps, tag, includes } = this.$props
 
-    if (this.useKeepAlive) {
-      view = <keep-alive {...this.keepAliveData}>{view}</keep-alive>
+    // 确保缓存控制数组变动时，keep-alive也会更新
+    // 因为会有关掉的页签非当前页签的情况，此时cachedViews虽然变化，但keep-alive不会更新
+    this.$data.$_tmp_ = includes.length
+
+    let view = this.renderView && h('router-view', { key: this.routerViewKey })
+
+    if (cacheable) {
+      // 每次都传递一个全新的props，保证render时keep-alive也render
+      const data = {
+        on: { 'hook:updated': this.onKeepAliveUpdated }
+      }
+      view = h('keep-alive', data, [view])
     }
 
-    if (pageGetters.enableTransition) {
-      const transitionName = pageGetters.transition.curr
-      view = <transition name={transitionName} mode="out-in">{view}</transition>
+    if (transitionProps) {
+      view = h('transition', { props: transitionProps }, [view])
     }
 
-    return <div>{view}</div>
+    return tag ? h(tag, [view]) : view
   }
 }
 </script>
