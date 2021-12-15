@@ -1,4 +1,4 @@
-@import './DefaultSidebar/style';
+@import './DefaultSidebar/style.scss';
 
 .aside {
   box-shadow: 1px 0 4px rgba(0, 0, 0, .5);
@@ -20,5 +20,5 @@
   }
 }
 
-@import './theme-light';
-@import './theme-dark';
+@import './theme-light.scss';
+@import './theme-dark.scss';

@@ -1,6 +1,6 @@
 /* 辅助样式，使用max-view-height作为类名，获得路由页面的最大高度，需要自行引入 */
 
-@import './var';
+@import './var.scss';
 
 //可能达到的最大高度
 $max-height: '100vh - #{$page-view-margin * 2}';
