@@ -1,5 +1,5 @@
 /**
- * 将.vue编译成.js
+ * 编译.vue、.js文件，按es6输出
  * 不支持ts，不支持style
  * 参考@vant/cli、@vue/component-compiler-utils、vue-component-compiler
  */
@@ -17,6 +17,16 @@ const transpile = require('vue-template-es2015-compiler')
  */
 function isSFC(filename) {
   return filename.endsWith('.vue')
+}
+
+/**
+ * 判断文件是否为js文件
+ *
+ * @param filename {string} 文件名称
+ * @return {boolean} 是则返回true
+ */
+function isJS(filename) {
+  return filename.endsWith('.js')
 }
 
 /**
@@ -104,8 +114,7 @@ function compileSFC(filename, source) {
 
   if (template) {
     const render = compileTemplate(template)
-    // 使用template的SFC无需再编译js，因为不可能有jsx
-    return injectRender(code, render)
+    code = injectRender(code, render)
   }
 
   return compileJS(filename, code)
@@ -113,6 +122,7 @@ function compileSFC(filename, source) {
 
 module.exports = {
   isSFC,
+  isJS,
   compileSFC,
   compileJS
 }

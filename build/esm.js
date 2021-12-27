@@ -1,10 +1,10 @@
 /**
- * 把.vue转换为.js，保留es module，输出到dist/esm目录下
+ * 编译并输出到dist/esm目录下
  */
 
 const fs = require('fs')
 const path = require('path')
-const { isSFC, compileSFC } = require('./vue')
+const { isSFC, isJS, compileSFC, compileJS } = require('./compile')
 const { calcTimeCost, cleanDir, write, copy } = require('./util')
 
 // 输入目录，绝对路径
@@ -54,16 +54,18 @@ function compileDir(filePathList, parentPath = '') {
       return
     }
 
-    // 其他非SFC文件仅拷贝
-    if (!isSFC(filePath)) {
+    // 不需要编译的文件仅拷贝
+    if (!isSFC(filePath) && !isJS(fullPath)) {
       return copy(fullPath, outputDir + relativePath)
     }
 
-    // 编译SFC
     const source = fs.readFileSync(fullPath).toString('utf8')
-    const compiled = compileSFC(filePath, source)
 
-    // 改变文件后缀：.vue -> .js
+    const compiled = isSFC(filePath)
+      ? compileSFC(filePath, source)
+      : compileJS(filePath, source)
+
+    // 编译后的文件均为.js
     const filename = relativePath.slice(0, relativePath.lastIndexOf('.')) + '.js'
 
     write(outputDir + filename, compiled)
