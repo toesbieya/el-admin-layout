@@ -12,6 +12,6 @@ export interface MenuItem {
 }
 
 export interface StoreMenuItem extends MenuItem {
-  parent: StoreMenuItem
+  parent?: StoreMenuItem
   children?: StoreMenuItem[]
 }
