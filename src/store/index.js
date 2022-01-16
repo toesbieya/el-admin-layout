@@ -7,12 +7,9 @@ export { getters as tagsViewGetters, mutations as tagsViewMutations } from './ta
 /**
  * 简化从store中批量取值的过程
  *
- * @template T
- * @param store {T}
- * @param propNames {string[]}
- * @return {{[key: string]: function(): any}}
+ * @type {import('types/store').mapGetters}
  */
-export function mapGetters(store, propNames) {
+export const mapGetters = (store, propNames) => {
   return propNames.reduce((map, prop) => {
     map[prop] = () => store[prop]
     return map

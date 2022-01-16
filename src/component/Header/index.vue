@@ -3,7 +3,6 @@
  * 顶栏
  */
 
-//TODO header会在head-menu渲染后再次渲染，初步排查是head-menu中的activeMenu改变所致
 import { appGetters, headerGetters } from '../../store'
 import Logo from '../../component/Logo'
 import Hamburger from '../../component/Hamburger'
@@ -33,11 +32,12 @@ export default {
     },
     // 中间的导航菜单
     defaultHeadMenu() {
+      const { isMobile, navMode } = appGetters
+
       // 渲染顶部导航菜单的条件
       // ①桌面端
       // ②导航模式为顶部导航或混合导航
-      const renderHeadMenu = !appGetters.isMobile && ['head', 'mix'].includes(appGetters.navMode)
-
+      const renderHeadMenu = !isMobile && ['head', 'mix'].includes(navMode)
       return renderHeadMenu && <HorizontalResizableMenu ref="head-menu"/>
     },
     // 右侧刷新按钮

@@ -56,8 +56,14 @@ const state = {
 
 const store = Vue.observable(state)
 
+/**
+ * @type {AsideGetters}
+ */
 export const getters = createGetters(store)
 
+/**
+ * @type {AsideMutations}
+ */
 export const mutations = {
   ...createMutations(store),
 

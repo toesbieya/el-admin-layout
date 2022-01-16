@@ -32,6 +32,12 @@ const state = {
 
 const store = Vue.observable(state)
 
+/**
+ * @type {HeaderGetters}
+ */
 export const getters = createGetters(store)
 
+/**
+ * @type {HeaderMutations}
+ */
 export const mutations = createMutations(store)

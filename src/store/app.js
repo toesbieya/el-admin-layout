@@ -42,13 +42,21 @@ const state = {
 
 const store = Vue.observable(state)
 
-//加速查找menu的哈希表：<k: menu.fullPath, v: menu>
+/**
+ * 加速查找menu的哈希表
+ *
+ * @type {{[key:string]:StoreMenuItem}}
+ */
 let MenuSearchMap = Object.create(null)
 
-//对菜单进行排序、增加parent属性，并将转换后的菜单节点放入查找表中
+/**
+ * 对菜单进行排序、增加parent属性，并将转换后的菜单节点放入查找表中
+ *
+ * @param menus {import('types/menu').MenuItem[]}
+ * @param parent {StoreMenuItem?}
+ * @return {StoreMenuItem[]}
+ */
 function transformMenu(menus, parent) {
-  if (!menus) return
-
   const copy = menus.map(menu => ({ ...menu }))
 
   copy.sort((pre, next) => {
@@ -63,7 +71,7 @@ function transformMenu(menus, parent) {
     menu.parent = parent
     MenuSearchMap[menu.fullPath] = menu
 
-    if (menu.children) {
+    if (Array.isArray(menu.children)) {
       menu.children = transformMenu(menu.children, menu)
     }
   })
@@ -91,8 +99,14 @@ function deepGetSortValue(item) {
   return null
 }
 
+/**
+ * @type {AppGetters}
+ */
 export const getters = createGetters(store)
 
+/**
+ * @type {AppMutations}
+ */
 export const mutations = {
   ...createMutations(store),
 
@@ -101,7 +115,8 @@ export const mutations = {
     MenuSearchMap = Object.create(null)
 
     if (!Array.isArray(v)) {
-      return store.menus = []
+      store.menus = []
+      return
     }
 
     store.menus = transformMenu(v)

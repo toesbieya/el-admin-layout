@@ -15,7 +15,7 @@ const state = {
   // 是否启用根据页签顺序来确定过渡动画的功能
   enableChangeTransition: true,
 
-  // 自定义渲染页签，(h) => VNode
+  // 自定义渲染页签，(h, data) => VNode
   itemSlot: undefined,
 
   // 显示的页签
@@ -26,8 +26,14 @@ const state = {
 
 const store = Vue.observable(state)
 
+/**
+ * @type {TagsViewGetters}
+ */
 export const getters = createGetters(store)
 
+/**
+ * @type {TagsViewMutations}
+ */
 export const mutations = {
   ...createMutations(store),
 

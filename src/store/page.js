@@ -37,8 +37,14 @@ const state = {
 
 const store = Vue.observable(state)
 
+/**
+ * @type {PageGetters}
+ */
 export const getters = createGetters(store)
 
+/**
+ * @type {PageMutations}
+ */
 export const mutations = {
   ...createMutations(store),
 
