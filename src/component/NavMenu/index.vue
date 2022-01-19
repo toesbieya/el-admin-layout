@@ -22,10 +22,10 @@ export default {
   name: 'NavMenu',
 
   props: {
-    // 路由配置项组成的树形数组
+    // 路由配置项组成的树形数组，MenuItem[]
     menus: { type: Array, default: () => [] },
 
-    // 主题，light 或 dark
+    // 主题，'light'|'dark'|string
     theme: { type: String, default: 'light' },
 
     // 垂直模式下子菜单的单位缩进距离
