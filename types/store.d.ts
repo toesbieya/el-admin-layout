@@ -5,8 +5,10 @@ import { RouteMeta } from './route'
 
 type Mutation<T> = (val: T) => void
 
+type BaseMutations<T> = { [K in keyof T]: Mutation<T[K]> }
 
-interface AppGetters {
+
+export interface AppGetters {
   isMobile: boolean
   title: string
   logo: string
@@ -21,15 +23,14 @@ interface AppGetters {
   navMode: 'aside' | 'mix' | 'head'
 }
 
-type BaseAppMutations = { [K in keyof AppGetters]: Mutation<AppGetters[K]> }
+export interface AppMutations extends Omit<BaseMutations<AppGetters>, 'menus'> {
+  menus(menus: MenuItem[]): void
 
-type AppMutations = Omit<BaseAppMutations, 'menus'> & {
-  menus: Mutation<MenuItem[]>
-  modifyMenuMeta: (fullPath: string, meta: MenuItemMeta) => void
+  modifyMenuMeta(fullPath: string, meta: MenuItemMeta): void
 }
 
 
-interface AsideGetters {
+export interface AsideGetters {
   show: boolean
   theme: 'light' | 'dark' | string
   uniqueOpen: boolean
@@ -49,22 +50,22 @@ interface AsideGetters {
   menuContentSlot: (h: CreateElement, { menu: MenuItem, depth: number }) => VNode
 }
 
-type BaseAsideMutations = { [K in keyof AsideGetters]: Mutation<AsideGetters[K]> }
-
-type AsideMutations = BaseAsideMutations & {
+export interface AsideMutations extends BaseMutations<AsideGetters> {
   open(): void
+
   close(): void
+
   switch(action?: 'open' | 'close'): void
 }
 
 
-interface DropdownItem {
+export interface DropdownItem {
   icon?: string
   content: string
   handler: (e: Event) => any
 }
 
-interface HeaderGetters {
+export interface HeaderGetters {
   theme: 'light' | 'dark' | string
   showCollapseIcon: boolean
   avatar: string
@@ -78,10 +79,11 @@ interface HeaderGetters {
   menuContentSlot: (h: CreateElement, { menu: MenuItem, depth: number }) => VNode
 }
 
-type HeaderMutations = { [K in keyof HeaderGetters]: Mutation<HeaderGetters[K]> }
+export interface HeaderMutations extends BaseMutations<HeaderGetters> {
+}
 
 
-interface PageGetters {
+export interface PageGetters {
   enableTransition: boolean;
   transition: {
     default?: string
@@ -98,25 +100,27 @@ interface PageGetters {
   footerSlot: (h: CreateElement) => VNode | VNode[]
 }
 
-type BasePageMutations = { [K in keyof PageGetters]: Mutation<PageGetters[K]> }
+export interface PageMutations extends BaseMutations<PageGetters> {
+  addIframe(src: string): void
 
-type PageMutations = BasePageMutations & {
-  addIframe: (src: string) => void
-  delIframe: (src: string) => void
-  openIframe: (src: string) => void
-  closeIframe: (src: string, del?: boolean) => void
+  delIframe(src: string): void
+
+  openIframe(src: string): void
+
+  closeIframe(src: string, del?: boolean): void
 }
 
 
-interface View extends Route {
+export interface View extends Route {
   meta: RouteMeta
 }
 
-interface VisitedView extends View {
+export interface VisitedView extends View {
   key: string
+  fixed: boolean
 }
 
-interface TagsViewItemSlotData {
+export interface TagsViewItemSlotData {
   key: string,
   active: boolean,
   on?: { [k: string]: Function },
@@ -124,7 +128,7 @@ interface TagsViewItemSlotData {
   close?: Function
 }
 
-interface TagsViewGetters {
+export interface TagsViewGetters {
   enabled: boolean
   enableCache: boolean
   enableChangeTransition: boolean
@@ -133,18 +137,24 @@ interface TagsViewGetters {
   cachedViews: string[]
 }
 
-type BaseTagsViewMutations = { [K in keyof TagsViewGetters]: Mutation<TagsViewGetters[K]> }
+export interface TagsViewMutations extends BaseMutations<TagsViewGetters> {
+  addTagOnly(val: View, fixed: boolean): void
 
-type TagsViewMutations = BaseTagsViewMutations & {
-  addTagOnly: Mutation<View>
-  addCacheOnly: Mutation<View>
-  addTagAndCache: Mutation<View>
-  delTagOnly: Mutation<View>
-  delCacheOnly: Mutation<View>
-  delTagAndCache: Mutation<View>
-  delOtherTagAndCache: Mutation<View>
-  delAllCache: () => void
-  delAllTagAndCache: () => void
+  addCacheOnly(val: View): void
+
+  addTagAndCache(val: View, fixed: boolean): void
+
+  delTagOnly(val: View): void
+
+  delCacheOnly(val: View): void
+
+  delTagAndCache(val: View): void
+
+  delOtherTagAndCache(val: View): void
+
+  delAllCache(): void
+
+  delAllTagAndCache(): void
 }
 
 
