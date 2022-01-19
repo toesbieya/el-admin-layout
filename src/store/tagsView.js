@@ -1,7 +1,6 @@
 /**
  * 多页签的响应式数据
  */
-
 import Vue from 'vue'
 import { getters as pageGetters, mutations as pageMutations } from './page'
 import { createGetters, createMutations } from './util'
@@ -19,15 +18,9 @@ const state = {
   // 自定义渲染页签，(h, data) => VNode
   itemSlot: undefined,
 
-  /**
-   * 显示的页签
-   * @type {import('types/store').VisitedView[]}
-   */
+  // 显示的页签
   visitedViews: [],
-  /**
-   * 需要缓存的页签key的数组，用于<keep-router-view-alive/>:include
-   * @type {string[]}
-   */
+  // 需要缓存的页签key的数组，用于<keep-router-view-alive/>:include
   cachedViews: []
 }
 
@@ -47,6 +40,7 @@ export const mutations = {
   /**
    * 多页签的启用/停用
    * 停用时会移除所有缓存，并且重置路由过渡动画
+   * @param v {boolean} 启用为true，停用为false
    */
   enabled(v) {
     store.enabled = v
@@ -60,6 +54,7 @@ export const mutations = {
   /**
    * 多页签缓存功能的启用/停用
    * 停用时会移除所有缓存
+   * @param v {boolean}
    */
   enableCache(v) {
     store.enableCache = v
@@ -69,6 +64,7 @@ export const mutations = {
   /**
    * 根据页签顺序来确定过渡动画功能的启用/停用
    * 停用时会将pageGetters.transition.curr设为为默认值
+   * @param v {boolean}
    */
   enableChangeTransition(v) {
     store.enableChangeTransition = v
@@ -77,37 +73,27 @@ export const mutations = {
 
   /**
    * 在页签栏上添加一个页签，没有标题、已存在的不会重复添加
+   * @param view {View}
    */
-  addTagOnly(view, fixed = false) {
+  addTagOnly(view) {
     if (isEmpty(view.meta.title)) {
       return
     }
 
     const key = getRouterKey(view)
-    const { visitedViews } = store
 
-    if (visitedViews.some(v => v.key === key)) {
+    if (store.visitedViews.some(v => v.key === key)) {
       return
     }
 
-    // 增加key、fixed
-    const data = { ...view, key, fixed }
-
-    // 添加的是固定的页签
-    if (fixed) {
-      const firstNotFixedIndex = visitedViews.findIndex(i => !i.fixed)
-      if (firstNotFixedIndex !== -1) {
-        visitedViews.splice(firstNotFixedIndex, 0, data)
-        return
-      }
-    }
-
-    visitedViews.push(data)
+    // 增加key属性
+    store.visitedViews.push({ ...view, key })
   },
 
   /**
    * 将传入的页签加入缓存中
    * 以下调用无效：设置了不缓存、已缓存
+   * @param view {View}
    */
   addCacheOnly(view) {
     const { noCache } = view.meta
@@ -123,14 +109,16 @@ export const mutations = {
 
   /**
    * 同时调用{@link #addTagOnly}、{@link #addCacheOnly}
+   * @param view {View}
    */
-  addTagAndCache(view, fixed = false) {
-    mutations.addTagOnly(view, fixed)
+  addTagAndCache(view) {
+    mutations.addTagOnly(view)
     mutations.addCacheOnly(view)
   },
 
   /**
    * 从页签栏中移除一个页签
+   * @param view {View}
    */
   delTagOnly(view) {
     const key = getRouterKey(view)
@@ -140,6 +128,7 @@ export const mutations = {
 
   /**
    * 删除对应的缓存
+   * @param view {View}
    */
   delCacheOnly(view) {
     const key = getRouterKey(view)
@@ -153,6 +142,7 @@ export const mutations = {
 
   /**
    * 同时调用{@link #delTagOnly}、{@link #delCacheOnly}
+   * @param view {View}
    */
   delTagAndCache(view) {
     mutations.delTagOnly(view)
@@ -161,6 +151,7 @@ export const mutations = {
 
   /**
    * 从页签栏上移除其他的非固定页签以及其他的缓存
+   * @param view {View}
    */
   delOtherTagAndCache(view) {
     // 记录被移除的iframe
@@ -170,7 +161,7 @@ export const mutations = {
     const cachedKey = store.cachedViews.find(i => i === key)
 
     store.visitedViews = store.visitedViews.filter(v => {
-      if (v.fixed || v.key === key) {
+      if (v.meta.affix || v.key === key) {
         return true
       }
 
@@ -195,7 +186,7 @@ export const mutations = {
    * 从页签栏上移除所有非固定页签，并且移除所有缓存
    */
   delAllTagAndCache() {
-    store.visitedViews = store.visitedViews.filter(v => v.fixed)
+    store.visitedViews = store.visitedViews.filter(v => v.meta.affix)
     mutations.delAllCache()
   }
 }
