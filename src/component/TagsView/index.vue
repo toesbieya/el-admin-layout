@@ -14,7 +14,7 @@ import useContextMenu from '../../component/ContextMenu/functionalUse'
 import HorizontalScroller from '../../component/HorizontalScroller'
 import { refreshPage } from '../../helper'
 import { getRouterKey, getRouterTitle, isRedirectRouter } from '../../config/logic'
-import { isAffix, getAffixTagsFromMenuTree, renderDefaultStyleTag } from './util'
+import { getAffixTagsFromMenuTree, renderDefaultStyleTag } from './util'
 
 export default {
   name: 'TagsView',
@@ -24,7 +24,10 @@ export default {
       // 当前激活的页签的key，随路由变化
       activeKey: '',
 
-      // 当前选中的页签
+      /**
+       * 当前选中的页签
+       * @type {import('types/store').VisitedView}
+       */
       selectedTag: undefined,
 
       // 页签右键菜单的属性
@@ -39,7 +42,7 @@ export default {
   computed: {
     contextMenuItems() {
       const { visitedViews } = tagsViewGetters
-      const closeable = visitedViews.length > 1 && !isAffix(this.selectedTag)
+      const closeable = visitedViews.length > 1 && !this.selectedTag.fixed
 
       return [
         { content: '刷新', click: this.refreshSelectedTag },
@@ -107,15 +110,6 @@ export default {
       pageMutations.transition({ curr: transitionName })
     },
 
-    // 初始化固定显示的页签
-    initTags() {
-      // TODO 如果页签栏初始化后菜单未加载，则固定页签会出问题
-      // 添加所有固定显示的页签
-      getAffixTagsFromMenuTree(this.$router, appGetters.menus).forEach(tagsViewMutations.addTagOnly)
-
-      // 将当前路由对象添加为页签
-      this.addTag(this.$route)
-    },
     /**
      * 尝试将路由对象添加为tab页
      * @param route {import('vue-router').Route}
@@ -141,14 +135,14 @@ export default {
     /**
      * 激活末尾页签
      * @param refresh {boolean=} 目标路由是当前路由时是否需要刷新
-     * @return {Promise<Route>}
      */
     gotoLastTag(refresh = false) {
       const views = tagsViewGetters.visitedViews
       const router = this.$router
 
       if (views.length === 0) {
-        return router.push('/')
+        router.push('/')
+        return
       }
 
       const latest = views[views.length - 1]
@@ -162,17 +156,17 @@ export default {
 
     /**
      * 刷新所选页签
-     * @param view {View}
+     * @param view {import('types/store').VisitedView}
      */
     refreshSelectedTag(view = this.selectedTag) {
       refreshPage(this.$router, view)
     },
     /**
      * 关闭所选页签
-     * @param view {VisitedView}
+     * @param view {import('types/store').VisitedView}
      */
     closeSelectedTag(view = this.selectedTag) {
-      if (tagsViewGetters.visitedViews.length <= 1 || isAffix(view)) return
+      if (tagsViewGetters.visitedViews.length <= 1 || view.fixed) return
 
       tagsViewMutations.delTagAndCache(view)
       this.activeKey === view.key && this.gotoLastTag()
@@ -213,7 +207,7 @@ export default {
 
       return visitedViews.map(view => {
         const active = activeKey === view.key
-        const showClose = !isAffix(view) && visitedViews.length > 1
+        const showClose = !view.fixed && visitedViews.length > 1
         const on = {
           contextmenu: e => this.openContextMenu(view, e)
         }
@@ -241,7 +235,19 @@ export default {
 
   mounted() {
     this.setActiveKey(this.$route)
-    this.initTags()
+
+    // 将当前路由对象添加为页签
+    this.addTag(this.$route)
+
+    // 每次菜单变化时添加所有固定显示的页签
+    this.$watch(
+      () => appGetters.menus,
+      menus => {
+        const fixedTags = getAffixTagsFromMenuTree(this.$router, menus)
+        fixedTags.forEach(tag => tagsViewMutations.addTagOnly(tag, true))
+      },
+      { immediate: true }
+    )
   },
 
   render() {
