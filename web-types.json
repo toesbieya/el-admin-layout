@@ -1,0 +1,273 @@
+{
+  "$schema": "https://json.schemastore.org/web-types.json",
+  "framework": "vue",
+  "name": "el-admin-layout",
+  "version": "0.9.7",
+  "js-types-syntax": "typescript",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "CachedRouterView",
+          "source": {
+            "symbol": "CachedRouterView"
+          },
+          "attributes": [
+            {
+              "name": "cacheable",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              },
+              "default": "true"
+            },
+            {
+              "name": "tag",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"div\""
+            },
+            {
+              "name": "transitionProps",
+              "value": {
+                "kind": "expression",
+                "type": "object"
+              }
+            },
+            {
+              "name": "keyFn",
+              "value": {
+                "kind": "expression",
+                "type": "($route: object) => string"
+              }
+            },
+            {
+              "name": "includes",
+              "value": {
+                "kind": "expression",
+                "type": "string[]"
+              }
+            }
+          ]
+        },
+        {
+          "name": "ContextMenu",
+          "source": {
+            "symbol": "ContextMenu"
+          },
+          "attributes": [
+            {
+              "name": "value",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "items",
+              "value": {
+                "kind": "expression",
+                "type": "{content: string, click: function}[]"
+              }
+            },
+            {
+              "name": "left",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "top",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "minDistance",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              },
+              "default": "10"
+            }
+          ],
+          "vue-model": {
+            "prop": "value",
+            "event": "input"
+          }
+        },
+        {
+          "name": "NavMenu",
+          "source": {
+            "symbol": "NavMenu"
+          },
+          "attributes": [
+            {
+              "name": "menus",
+              "value": {
+                "kind": "expression",
+                "type": "MenuItem[]"
+              }
+            },
+            {
+              "name": "theme",
+              "value": {
+                "kind": "expression",
+                "type": "\"light\"|\"dark\"|string"
+              }
+            },
+            {
+              "name": "left",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "inlineIndent",
+              "value": {
+                "kind": "expression",
+                "type": "number"
+              }
+            },
+            {
+              "name": "showCollapseIcon",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "showParentOnCollapse",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "switchTransitionName",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "menuIconSlot",
+              "value": {
+                "kind": "expression",
+                "type": "(h, {menu, depth}) => VNode"
+              }
+            },
+            {
+              "name": "menuContentSlot",
+              "value": {
+                "kind": "expression",
+                "type": "(h, {menu, depth}) => VNode"
+              }
+            },
+            {
+              "name": "mode",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              },
+              "default": "\"vertical\""
+            },
+            {
+              "name": "collapse",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            },
+            {
+              "name": "defaultActive",
+              "value": {
+                "kind": "expression",
+                "type": "string"
+              }
+            },
+            {
+              "name": "defaultOpeneds",
+              "value": {
+                "kind": "expression",
+                "type": "string[]"
+              }
+            },
+            {
+              "name": "uniqueOpened",
+              "value": {
+                "kind": "expression",
+                "type": "boolean"
+              }
+            }
+          ],
+          "js": {
+            "events": [
+              {
+                "name": "select"
+              }
+            ]
+          }
+        },
+        {
+          "name": "Layout",
+          "source": {
+            "symbol": "Layout"
+          },
+          "slots": [
+            {
+              "name": "logo"
+            },
+            {
+              "name": "aside"
+            },
+            {
+              "name": "aside-header"
+            },
+            {
+              "name": "aside-footer"
+            },
+            {
+              "name": "aside-menu-icon"
+            },
+            {
+              "name": "aside-menu-content"
+            },
+            {
+              "name": "header-left"
+            },
+            {
+              "name": "header-center"
+            },
+            {
+              "name": "header-right"
+            },
+            {
+              "name": "header-dropdown-items"
+            },
+            {
+              "name": "header-menu-icon"
+            },
+            {
+              "name": "header-menu-content"
+            },
+            {
+              "name": "tags-view-item"
+            },
+            {
+              "name": "page-header"
+            },
+            {
+              "name": "page-footer"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
