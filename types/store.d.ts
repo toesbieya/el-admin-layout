@@ -138,11 +138,11 @@ export interface TagsViewGetters {
 }
 
 export interface TagsViewMutations extends BaseMutations<TagsViewGetters> {
-  addTagOnly(val: View, fixed: boolean): void
+  addTagOnly(val: View, fixed?: boolean): void
 
   addCacheOnly(val: View): void
 
-  addTagAndCache(val: View, fixed: boolean): void
+  addTagAndCache(val: View, fixed?: boolean): void
 
   delTagOnly(val: View): void
 

@@ -1,53 +1,30 @@
 /**
- * 一些可能后续会修改的公用逻辑
+ * 一些可修改的常量
  */
 
-import Const from './const'
+export default {
+  /**
+   * 移动端的最大宽度
+   * 默认为scss中的$max-mobile-width变量
+   * 该值的变动并不能影响样式，需要同时修改$max-mobile-width或覆盖相关样式
+   *
+   * @type {number}
+   */
+  maxMobileWidth: 500,
 
-/**
- * 获取每个路由对应的唯一key
- * @param route {import('vue-router').Route}
- * @returns {string}
- */
-export function getRouterKey(route) {
-  const { name, path, fullPath, meta: { usePathKey, useFullPathKey } = {} } = route
-  return usePathKey
-    ? path
-    : useFullPathKey
-      ? fullPath
-      : name || fullPath
-}
+  /**
+   * redirect的路径名
+   * 如果需要修改，则需要在injectDefaultRoute执行前修改
+   *
+   * @type {string}
+   */
+  redirectPath: '/redirect',
 
-/**
- * 获取路由标题
- * @param route {import('vue-router').Route}
- * @returns {string}
- */
-export function getRouterTitle(route) {
-  const { title, dynamicTitle } = route.meta || {}
-
-  return typeof dynamicTitle === 'function'
-    ? dynamicTitle(route) || title
-    : title
-}
-
-/**
- * 获取路由对应的激活菜单index
- * @param route {import('vue-router').Route}
- * @returns {string}
- */
-export function getRouterActiveMenu(route) {
-  const { path, meta: { activeMenu } = {} } = route
-
-  return activeMenu || path
-}
-
-/**
- * 判断路由是否为redirect路由，是则返回true
- * @param route {import('vue-router').Route}
- * @returns {boolean}
- */
-export function isRedirectRouter(route) {
-  const [first] = route.matched
-  return first && first.path === Const.redirectPath
+  /**
+   * 是否开启Layout组件的插槽功能
+   * 关闭后只能通过store使用render方式来自定义渲染内容，不过可以提高一丢丢性能
+   *
+   * @type {boolean}
+   */
+  enableLayoutSlot: true
 }

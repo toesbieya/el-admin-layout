@@ -236,9 +236,6 @@ export default {
   mounted() {
     this.setActiveKey(this.$route)
 
-    // 将当前路由对象添加为页签
-    this.addTag(this.$route)
-
     // 每次菜单变化时添加所有固定显示的页签
     this.$watch(
       () => appGetters.menus,
@@ -248,6 +245,9 @@ export default {
       },
       { immediate: true }
     )
+
+    // 将当前路由对象添加为页签
+    this.addTag(this.$route)
   },
 
   render() {
