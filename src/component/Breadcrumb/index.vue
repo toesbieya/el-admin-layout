@@ -2,14 +2,11 @@
   <div class="breadcrumb">
     <transition-group name="breadcrumb">
       <div
-        v-for="({fullPath, meta: {title}}, index) in items"
-        v-if="index !== items.length - 1"
+        v-for="{fullPath, meta: {title}} in linkableItems"
         :key="fullPath"
-        class="breadcrumb-item"
+        class="breadcrumb-item is-link"
       >
-        <span class="breadcrumb-inner is-link" @click="() => onClick(fullPath)">
-          {{ title }}
-        </span>
+        <span class="breadcrumb-inner" @click="() => onClick(fullPath)">{{ title }}</span>
         <span class="breadcrumb-separator">/</span>
       </div>
 
@@ -38,18 +35,25 @@ export default {
   },
 
   computed: {
+    // 可点击的面包屑项
+    linkableItems() {
+      return this.items.slice(0, -1)
+    },
+
+    // 最后一个面包屑项，不可点击
     lastItem() {
-      return this.items.length <= 1
-        ? undefined
-        : this.items[this.items.length - 1]
+      const { items } = this
+      return items.length === 0 ? undefined : items[items.length - 1]
     }
   },
 
   watch: {
     $route: {
       handler(to) {
+        if (isRedirectRouter(to)) return
+
         const result = this.generateBreadcrumb(to)
-        if (Array.isArray(result) && result.length !== 0) {
+        if (result.length !== 0) {
           this.items = result
         }
       },
@@ -58,6 +62,7 @@ export default {
   },
 
   methods: {
+    // 点击面包屑时进行跳转，不做刷新处理
     onClick(fullPath) {
       let menu = getMenuByFullPath(fullPath)
       if (!menu) return
@@ -75,11 +80,14 @@ export default {
       }
     },
 
+    /**
+     * 根据路由生成面包屑
+     *
+     * @param route {import('vue-router').Route}
+     * @return {import('types/menu').MenuItem[]}
+     */
     generateBreadcrumb(route) {
       const { path, fullPath, meta: { activeMenu } } = route
-
-      // 刷新时返回undefined
-      if (isRedirectRouter(route)) return
 
       // 使用route.path而非fullPath进行匹配
       const menuFullPath = activeMenu || path
