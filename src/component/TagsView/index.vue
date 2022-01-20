@@ -135,13 +135,15 @@ export default {
     /**
      * 激活末尾页签
      * @param refresh {boolean=} 目标路由是当前路由时是否需要刷新
+     * @param replace {boolean=} 是否在跳转时替换当前路由记录
      */
-    gotoLastTag(refresh = false) {
+    gotoLastTag(refresh = false, replace = true) {
       const views = tagsViewGetters.visitedViews
       const router = this.$router
+      const pushMethod = replace ? 'replace' : 'push'
 
       if (views.length === 0) {
-        router.push('/')
+        router[pushMethod]('/')
         return
       }
 
@@ -151,7 +153,7 @@ export default {
       this.activeKey === latest.key
         ? refresh && refreshPage(router)
         // 需要套一层$nextTick，否则tagsViewStore.visitedViews可能只会变动一次
-        : this.$nextTick(() => router.push(latest))
+        : this.$nextTick(() => router[pushMethod](latest))
     },
 
     /**
