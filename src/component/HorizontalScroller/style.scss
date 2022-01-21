@@ -6,6 +6,10 @@
   overflow-x: auto;
   overflow-y: hidden;
 
+  & > * {
+    flex-shrink: 0;
+  }
+
   &::-webkit-scrollbar {
     display: none;
   }
