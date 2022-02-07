@@ -22,14 +22,14 @@ function createExamplePage(folder) {
     entry: `example/${folder}/main.js`,
     cdn: {
       css: [
-        `https://cdn.jsdelivr.net/npm/element-ui@${ElementUI}/lib/theme-chalk/index.css`
+        `https://cdnjs.cloudflare.com/ajax/libs/element-ui/${ElementUI}/theme-chalk/index.min.css`
       ],
       js: isProd
         ? [
-          `https://cdn.jsdelivr.net/npm/vue@${Vue}/dist/vue.min.js`,
-          `https://cdn.jsdelivr.net/npm/vuex@${Vuex}/dist/vuex.min.js`,
-          `https://cdn.jsdelivr.net/npm/vue-router@${VueRouter}/dist/vue-router.min.js`,
-          `https://cdn.jsdelivr.net/npm/element-ui@${ElementUI}/lib/index.js`
+          `https://cdnjs.cloudflare.com/ajax/libs/vue/${Vue}/vue.min.js`,
+          `https://cdnjs.cloudflare.com/ajax/libs/vuex/${Vuex}/vuex.min.js`,
+          `https://cdnjs.cloudflare.com/ajax/libs/vue-router/${VueRouter}/vue-router.min.js`,
+          `https://cdnjs.cloudflare.com/ajax/libs/element-ui/${ElementUI}/index.min.js`
         ]
         : []
     }
