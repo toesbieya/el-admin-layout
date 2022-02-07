@@ -31,26 +31,3 @@ export function getAffixTagsFromMenuTree(router, menus) {
     return result
   }, [])
 }
-
-/**
- * 渲染默认样式的页签
- *
- * @param h {import('vue').CreateElement}  - 渲染函数
- * @param key {string}                     - vnode的key值
- * @param active {boolean=}                - 是否激活
- * @param on {{[k:string]:function}?}      - 绑定的事件监听器
- * @param title {string}                   - 页签文字
- * @param close {function?}                - 点击关闭按钮时触发的函数
- * @return {import('vue').VNode}
- */
-export function renderDefaultStyleTag(h, { key, active = false, on, title, close }) {
-  const className = `tags-view-item${active ? ' active' : ''}`
-
-  return (
-    <div key={key} class={className} {...{ on }}>
-      <div class="tags-view-item__dot"/>
-      <span>{title}</span>
-      {close && <i class="el-icon-close" on-click={close}/>}
-    </div>
-  )
-}
