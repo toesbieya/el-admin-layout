@@ -55,7 +55,7 @@ function compileDir(filePathList, parentPath = '') {
     }
 
     // 不需要编译的文件仅拷贝
-    if (!isSFC(filePath) && !isJS(fullPath)) {
+    if (!isSFC(filePath)) {
       return copy(fullPath, outputDir + relativePath)
     }
 
