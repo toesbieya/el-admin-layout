@@ -2,6 +2,7 @@ const path = require('path')
 const packageInfo = require('./package.json')
 const isProd = process.env.NODE_ENV === 'production'
 const isBuildLib = (process.env.npm_lifecycle_script || '').includes('--target lib')
+const { defineConfig } = require('@vue/cli-service')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -36,10 +37,11 @@ function createExamplePage(folder) {
   }
 }
 
-module.exports = {
+module.exports = defineConfig({
   publicPath: isProd ? '/el-admin-layout/' : '/',
   outputDir: isBuildLib ? 'dist' : 'dist/example',
   assetsDir: 'static',
+  productionSourceMap: false,
   pages: {
     'index': createExamplePage('复杂功能'),
     'base-use': createExamplePage('基础使用'),
@@ -54,11 +56,6 @@ module.exports = {
     'persist-tags': createExamplePage('持久化页签'),
     'old-qiniu-aside': createExamplePage('仿旧版七牛云侧边栏'),
     'chrome-tabs': createExamplePage('仿chrome页签')
-  },
-  productionSourceMap: false,
-  devServer: {
-    port: 8079,
-    historyApiFallback: false
   },
   configureWebpack: {
     name: packageInfo.name,
@@ -75,7 +72,11 @@ module.exports = {
         'vue-router': 'VueRouter',
         'element-ui': 'ELEMENT'
       }
-      : {}
+      : {},
+    devServer: {
+      port: 8079,
+      historyApiFallback: false
+    }
   },
   chainWebpack: config => {
     if (isBuildLib) {
@@ -89,4 +90,4 @@ module.exports = {
         })
     }*/
   }
-}
+})
