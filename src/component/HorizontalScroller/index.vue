@@ -15,24 +15,25 @@ import Scroller from './Scroller'
 export default {
   name: 'HorizontalScroller',
 
-  data() {
-    return {
-      $scroller: new Scroller()
-    }
-  },
-
   methods: {
     /**
      * 将指定元素以及其相邻元素移动至视窗内，外部调用
      * @param target {Element}
      */
     moveToTarget(target) {
-      this.$data.$scroller.moveToTarget(target, this.$el)
+      this.$scroller.moveToTarget(target, this.$el)
     },
 
     onWheel(event) {
-      this.$data.$scroller.onWheel(event, this.$el)
+      this.$scroller.onWheel(event, this.$el)
     }
+  },
+
+  created() {
+    this.$scroller = new Scroller()
+    this.$once('hook:beforeDestroy', () => {
+      delete this.$scroller
+    })
   }
 }
 </script>

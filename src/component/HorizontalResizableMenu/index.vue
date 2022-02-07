@@ -23,10 +23,6 @@ export default {
       // 最后一个不被隐藏的顶部菜单的数组下标
       // 为undefined时，说明不需要隐藏菜单，为-1时，说明需要隐藏全部菜单
       lastVisibleIndex: undefined,
-      // 各个第一级菜单节点的宽度，取ghost-menu中的值
-      $menuItemSizes: [],
-      // ...指示器的宽度
-      $overflowedIndicatorWidth: 0,
 
       // 用于生成el-submenu的key
       seed: 0
@@ -177,7 +173,7 @@ export default {
       const ctor = Vue.extend(GhostMenu)
       const instance = new ctor({ data: { menus: this.menus } })
       instance.$watch('menuItemSizes', value => {
-        this.$data.$menuItemSizes = value
+        this.$menuItemSizes = value
         this.resize()
       })
       instance.$mount()
@@ -199,14 +195,14 @@ export default {
 
       document.body.appendChild(ul)
 
-      this.$data.$overflowedIndicatorWidth = ul.children[0].offsetWidth + 1
+      this.$overflowedIndicatorWidth = ul.children[0].offsetWidth + 1
 
       document.body.removeChild(ul)
     },
 
     resize() {
       const width = this.getMenuEl().getBoundingClientRect().width
-      const { $menuItemSizes, $overflowedIndicatorWidth } = this.$data
+      const { $menuItemSizes, $overflowedIndicatorWidth } = this
 
       let lastVisibleIndex = -1
 
@@ -243,6 +239,13 @@ export default {
   async mounted() {
     await this.$nextTick()
     this.setOverflowedIndicatorWidth()
+  },
+
+  created() {
+    // 各个第一级菜单节点的宽度，取ghost-menu中的值
+    this.$menuItemSizes = []
+    // ...指示器的宽度
+    this.$overflowedIndicatorWidth = 0
   },
 
   beforeDestroy() {

@@ -19,22 +19,6 @@ import { debounce } from '../../util'
 export default {
   name: 'ElAdminLayout',
 
-  data() {
-    return {
-      /**
-       * 上一次的$scopedSlots
-       *
-       * @type {Vue.$scopedSlots}
-       */
-      $_cachedScopedSlots: Object.create(null),
-
-      /**
-       * 用于加速根据插槽名查找store mutation的缓存map
-       */
-      $_slotMutationsMap: Object.create(null)
-    }
-  },
-
   computed: {
     // 是否需要渲染侧边栏
     renderAside() {
@@ -46,7 +30,7 @@ export default {
   methods: {
     // render时调用，根据插槽的变化修改store数据
     mutateStoreSlot() {
-      const cache = this.$data.$_cachedScopedSlots
+      const cache = this.cachedScopedSlots
       const curr = this.$scopedSlots
 
       // 减少的
@@ -69,7 +53,7 @@ export default {
         }
       })
 
-      this.$data.$_cachedScopedSlots = curr
+      this.cachedScopedSlots = curr
     },
     getMutations(prefix) {
       switch (prefix) {
@@ -82,7 +66,7 @@ export default {
       }
     },
     getMutationBySlot(slot) {
-      const cache = this.$data.$_slotMutationsMap
+      const cache = this.slotMutationsMap
 
       if (cache[slot]) return cache[slot]
 
@@ -117,24 +101,30 @@ export default {
     }
   },
 
-  mounted() {
+  created() {
     this.$_resize = debounce(() => {
       !document.hidden && appMutations.isMobile(isMobile())
     })
     window.addEventListener('resize', this.$_resize)
-  },
 
-  beforeDestroy() {
-    if (this.$_resize) {
-      window.removeEventListener('resize', this.$_resize)
-      delete this.$_resize
-    }
+    // 上一次的$scopedSlots
+    this.cachedScopedSlots = Object.create(null)
+    // 用于加速根据插槽名查找store mutation的缓存map
+    this.slotMutationsMap = Object.create(null)
 
-    this.$data.$_cachedScopedSlots = undefined
-    this.$data.$_slotMutationsMap = undefined
+    this.$once('hook:beforeDestroy', () => {
+      if (this.$_resize) {
+        window.removeEventListener('resize', this.$_resize)
+        delete this.$_resize
+      }
+
+      delete this.cachedScopedSlots
+      delete this.slotMutationsMap
+    })
   },
 
   render() {
+    console.log('render')
     Const.enableLayoutSlot && this.mutateStoreSlot()
 
     const hasTagView = tagsViewGetters.enabled

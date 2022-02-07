@@ -138,7 +138,7 @@ export default {
 
     // 确保缓存控制数组变动时，keep-alive也会更新
     // 因为会有关掉的页签非当前页签的情况，此时cachedViews虽然变化，但keep-alive不会更新
-    this.$data.$_tmp_ = includes.length
+    this.$_tmp_ = includes.length
 
     let view = this.renderView && h('router-view', { key: this.routerViewKey })
 
