@@ -28,14 +28,7 @@ export default {
        * 当前选中的页签
        * @type {import('types/store').VisitedView}
        */
-      selectedTag: undefined,
-
-      // 页签右键菜单的属性
-      contextMenu: {
-        show: false,
-        top: 0,
-        left: 0
-      }
+      selectedTag: undefined
     }
   },
 

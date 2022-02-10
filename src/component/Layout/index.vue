@@ -124,7 +124,6 @@ export default {
   },
 
   render() {
-    console.log('render')
     Const.enableLayoutSlot && this.mutateStoreSlot()
 
     const hasTagView = tagsViewGetters.enabled
