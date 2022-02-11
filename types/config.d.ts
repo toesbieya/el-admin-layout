@@ -7,6 +7,5 @@ export declare const Const: {
   maxMobileWidth: number
   redirectPath: string
 }
-export declare const injectDefaultRoute: {
-  (layout: Component): RouteConfig[]
-}
+
+export function injectDefaultRoute(layout: Component): RouteConfig[]

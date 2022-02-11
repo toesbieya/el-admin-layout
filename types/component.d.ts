@@ -23,9 +23,7 @@ export class ContextMenu extends Vue {
 type ContextMenuItem = { content: string, click: VoidFunction }
 type ContextMenuOptions = { left: number, top: number, minDistance?: number }
 
-export interface useContextMenu {
-  (items: ContextMenuItem[], options: ContextMenuOptions): VoidFunction
-}
+export function useContextMenu(items: ContextMenuItem[], options: ContextMenuOptions): VoidFunction
 
 export class NavMenu extends Vue {
 
