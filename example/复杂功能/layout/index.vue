@@ -1,4 +1,4 @@
-<template>
+<template lang="jsx">
   <div style="height: 100%">
     <el-admin-layout>
       <template v-slot:aside-menu-content="{menu, depth}">

@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import { appGetters, asideGetters } from 'el-admin-layout'
 import MenuSearch from './MenuSearch'
 

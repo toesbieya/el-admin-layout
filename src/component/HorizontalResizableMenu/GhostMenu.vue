@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 /**
  * 用于计算顶栏菜单的宽度
  * 由nav-menu简化而来，仅保留第一级菜单以及必要属性

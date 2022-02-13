@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import { appGetters } from '../../store'
 import { isEmpty } from '../../util'
 

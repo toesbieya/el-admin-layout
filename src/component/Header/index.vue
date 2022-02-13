@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 /**
  * 顶栏
  */

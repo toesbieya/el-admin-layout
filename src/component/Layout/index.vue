@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 import { Const } from '../../config'
 import Aside from '../Aside'
 import Header from '../Header'

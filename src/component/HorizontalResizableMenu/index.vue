@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 /**
  * 顶部菜单，参考了ant design的响应式设计
  */

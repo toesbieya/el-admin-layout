@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 export default {
   render() {
     console.log('test render')

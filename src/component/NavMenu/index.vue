@@ -1,4 +1,4 @@
-<script>
+<script lang="jsx">
 /**
  * 基于el-menu封装的无限级菜单
  * 自带亮色、暗色两种主题
