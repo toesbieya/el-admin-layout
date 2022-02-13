@@ -6,6 +6,7 @@
 
 const fs = require('fs')
 const path = require('path')
+const { pathToFileURL } = require('url')
 const sass = require('sass')
 const cssnano = require('cssnano')
 const { calcTimeCost, mkdirWhenNoExist, getFileDir } = require('./util')
@@ -23,15 +24,12 @@ async function compile() {
   const modulePath = path.resolve(__dirname, '../node_modules')
 
   try {
-    const result = sass.renderSync({
-      file: input,
-      outputStyle: 'compressed',
-      importer(url, prev) {
-        if (url.startsWith('~')) {
-          return { file: path.join(modulePath, url.substring(1)) }
+    const result = sass.compile(input, {
+      importers: [{
+        findFileUrl(url, { fromImport }) {
+          return pathToFileURL(path.join(modulePath, url))
         }
-        return { file: prev }
-      }
+      }]
     })
 
     // from: undefined 用来阻止cssnano显示警告
