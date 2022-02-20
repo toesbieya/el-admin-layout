@@ -2,10 +2,17 @@
   "name": "el-admin-layout",
   "version": "0.9.8",
   "description": "基于element-ui的后台管理layout",
-  "main": "dist/esm/index.js",
-  "module": "dist/esm/index.js",
-  "jsdelivr": "dist/index.umd.min.js",
-  "types": "types/index.d.ts",
+  "type": "module",
+  "main": "./dist/esm/index.js",
+  "module": "./dist/esm/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.js",
+      "require": "./dist/index.umd.min.js"
+    }
+  },
+  "jsdelivr": "dist/index.umd.js",
+  "typings": "types/index.d.ts",
   "web-types": "dist/web-types.json",
   "author": "toesbieya",
   "license": "MIT",
@@ -27,15 +34,16 @@
     "dist": "npm run build:lib-umd && npm run build:lib-esm && npm run build:css && npm run build:web-types"
   },
   "peerDependencies": {
-    "element-ui": "^2.15.0",
-    "vue": "^2.6.12"
+    "element-ui": "*",
+    "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.0-rc.2",
-    "@vue/cli-service": "^5.0.0-rc.2",
+    "@vue/cli-plugin-babel": "^5.0.1",
+    "@vue/cli-service": "^5.0.1",
     "element-ui": "^2.15.7",
-    "sass": "^1.49.7",
-    "sass-loader": "^12.4.0",
+    "esbuild": "^0.14.23",
+    "sass": "^1.49.8",
+    "sass-loader": "^12.6.0",
     "vue": "^2.6.14",
     "vue-router": "^3.5.3",
     "vue-template-compiler": "^2.6.14",

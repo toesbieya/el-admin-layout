@@ -8,7 +8,7 @@ const fs = require('fs')
 const path = require('path')
 const { pathToFileURL } = require('url')
 const sass = require('sass')
-const cssnano = require('cssnano')
+const { transform } = require('esbuild')
 const { calcTimeCost, mkdirWhenNoExist, getFileDir } = require('./util')
 
 // 输入文件
@@ -29,13 +29,17 @@ async function compile() {
         findFileUrl(url, { fromImport }) {
           return pathToFileURL(path.join(modulePath, url))
         }
-      }]
+      }],
+      logger: sass.Logger.silent
     })
 
     // from: undefined 用来阻止cssnano显示警告
-    const { css } = await cssnano().process(result.css, { from: undefined })
+    const { code } = await transform(result.css, {
+      loader: 'css',
+      minify: true
+    })
 
-    fs.writeFileSync(output, css)
+    fs.writeFileSync(output, code)
   }
   catch (e) {
     throw e

@@ -1,15 +1,9 @@
-<template lang="jsx">
+<template>
   <div style="height: 100%">
     <el-admin-layout>
       <template v-slot:aside-menu-content="{menu, depth}">
         <span>{{ menu.meta.title }}</span>
-
-        <span
-          v-if="menu.meta.title === '首页'"
-          class="menu-tag menu-tag--danger"
-        >
-                    new
-                </span>
+        <span v-if="menu.meta.title === '首页'" class="menu-tag menu-tag--danger">new</span>
       </template>
 
       <template v-slot:header-right="defaultContent">
@@ -33,7 +27,7 @@
   </div>
 </template>
 
-<script>
+<script lang="jsx">
 import ElAdminLayout, { appGetters, appMutations, headerMutations } from 'el-admin-layout'
 import menus from '@example/common/menu'
 import PageFooter from './component/Footer'
@@ -44,7 +38,6 @@ import SettingDrawer from './component/SettingDrawer'
 appMutations.title('el-admin-layout')
 appMutations.logo('https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg')
 appMutations.menus(menus)
-
 
 export default {
   name: 'Layout',

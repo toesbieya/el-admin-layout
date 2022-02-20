@@ -3,6 +3,7 @@ const packageInfo = require('./package.json')
 const isProd = process.env.NODE_ENV === 'production'
 const isBuildLib = (process.env.npm_lifecycle_script || '').includes('--target lib')
 const { defineConfig } = require('@vue/cli-service')
+const sass = require('sass')
 
 function resolve(dir) {
   return path.join(__dirname, dir)
@@ -56,6 +57,13 @@ module.exports = defineConfig({
     'persist-tags': createExamplePage('持久化页签'),
     'old-qiniu-aside': createExamplePage('仿旧版七牛云侧边栏'),
     'chrome-tabs': createExamplePage('仿chrome页签')
+  },
+  css: {
+    loaderOptions: {
+      sass: {
+        logger: sass.Logger.silent
+      }
+    }
   },
   configureWebpack: {
     name: packageInfo.name,
