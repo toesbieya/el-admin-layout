@@ -1,6 +1,5 @@
 const fs = require('fs')
 const path = require('path')
-const rimraf = require('rimraf')
 
 // 当前工程的绝对路径
 const PROJECT_DIR = __dirname.slice(0, -6)
@@ -35,7 +34,21 @@ exports.calcTimeCost = async function(fun, startTip, doneTip) {
  * @param dir {string} 绝对路径
  */
 exports.cleanDir = function(dir) {
-  fs.existsSync(dir) && rimraf.sync(dir)
+  if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
+    return
+  }
+
+  const children = fs.readdirSync(dir)
+  children.forEach(filename => {
+    const filePath = path.join(dir, filename)
+    const stat = fs.statSync(filePath)
+    if (stat.isDirectory()) {
+      exports.cleanDir(filePath)
+      fs.rmdirSync(filePath)
+    }
+    else fs.unlinkSync(filePath)
+  })
+
   exports.mkdirWhenNoExist(dir)
 }
 
