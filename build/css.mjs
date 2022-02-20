@@ -4,12 +4,14 @@
  * 完整样式，包含maxViewHeight.scss
  */
 
-const fs = require('fs')
-const path = require('path')
-const { pathToFileURL } = require('url')
-const sass = require('sass')
-const { transform } = require('esbuild')
-const { calcTimeCost, mkdirWhenNoExist, getFileDir } = require('./util')
+import fs from 'fs'
+import path from 'path'
+import { pathToFileURL } from 'url'
+import sass from 'sass'
+import { transform } from 'esbuild'
+import { getDirname, calcTimeCost, mkdirWhenNoExist, getFileDir } from './util.mjs'
+
+const __dirname = getDirname()
 
 // 输入文件
 const input = path.resolve(__dirname, 'temp.scss')

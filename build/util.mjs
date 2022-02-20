@@ -1,8 +1,17 @@
-const fs = require('fs')
-const path = require('path')
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 // 当前工程的绝对路径
-const PROJECT_DIR = __dirname.slice(0, -6)
+const PROJECT_DIR = path.dirname(getDirname())
+
+/**
+ * 获取esmodule下的__dirname
+ * @return {string}
+ */
+export function getDirname() {
+  return fileURLToPath(new URL('.', import.meta.url))
+}
 
 /**
  * 计算函数的执行时间
@@ -11,21 +20,21 @@ const PROJECT_DIR = __dirname.slice(0, -6)
  * @param startTip {string} 执行前打印的内容
  * @param doneTip {string}  成功执行后打印的内容
  */
-exports.calcTimeCost = async function(fun, startTip, doneTip) {
+export async function calcTimeCost(fun, startTip, doneTip) {
   const start = Date.now()
-  module.exports.start(startTip)
+  log.start(startTip)
 
   try {
     await fun()
   }
   catch (e) {
-    module.exports.error('There has been an error in program execution:')
+    log.error('There has been an error in program execution:')
     console.error(e)
     return
   }
 
   const spend = Date.now() - start
-  module.exports.done(doneTip + ` in  ${spend}ms`)
+  log.done(doneTip + ` in  ${spend}ms`)
 }
 
 /**
@@ -33,7 +42,7 @@ exports.calcTimeCost = async function(fun, startTip, doneTip) {
  *
  * @param dir {string} 绝对路径
  */
-exports.cleanDir = function(dir) {
+export function cleanDir(dir) {
   if (!fs.existsSync(dir) || !fs.statSync(dir).isDirectory()) {
     return
   }
@@ -43,13 +52,13 @@ exports.cleanDir = function(dir) {
     const filePath = path.join(dir, filename)
     const stat = fs.statSync(filePath)
     if (stat.isDirectory()) {
-      exports.cleanDir(filePath)
+      cleanDir(filePath)
       fs.rmdirSync(filePath)
     }
     else fs.unlinkSync(filePath)
   })
 
-  exports.mkdirWhenNoExist(dir)
+  mkdirWhenNoExist(dir)
 }
 
 /**
@@ -59,10 +68,10 @@ exports.cleanDir = function(dir) {
  * @param path {string}      写入的文件的绝对路径，需要在工程目录下
  * @param data {string|any}  写入的内容，作为fs.writeFileSync的第二个参数
  */
-exports.write = function(path, data) {
-  const dir = exports.getFileDir(path)
+export function write(path, data) {
+  const dir = getFileDir(path)
   if (!fs.existsSync(dir)) {
-    exports.mkdirWhenNoExist(dir)
+    mkdirWhenNoExist(dir)
   }
 
   fs.writeFileSync(path, data)
@@ -75,10 +84,10 @@ exports.write = function(path, data) {
  * @param src  {string} 需要拷贝的目录或文件的绝对路径，需要在工程目录下
  * @param dest {string} 需要复制到哪个目录下，比如/src/index.js -> /dist/index.js，那就是/dist
  */
-exports.copy = function(src, dest) {
-  const dir = exports.getFileDir(dest)
+export function copy(src, dest) {
+  const dir = getFileDir(dest)
   if (!fs.existsSync(dir)) {
-    exports.mkdirWhenNoExist(dir)
+    mkdirWhenNoExist(dir)
   }
 
   const stat = fs.statSync(src)
@@ -86,7 +95,7 @@ exports.copy = function(src, dest) {
   // 目录时递归
   if (stat.isDirectory()) {
     return fs.readdirSync(src).forEach(filePath => {
-      exports.copy(path.join(src, filePath), path.join(dest, filePath))
+      copy(path.join(src, filePath), path.join(dest, filePath))
     })
   }
 
@@ -98,7 +107,7 @@ exports.copy = function(src, dest) {
  *
  * @param dir {string} 需要是绝对路径，并且在当前工程目录下
  */
-exports.mkdirWhenNoExist = function(dir) {
+export function mkdirWhenNoExist(dir) {
   dir = path.normalize(dir)
 
   const index = dir.indexOf(PROJECT_DIR)
@@ -126,20 +135,21 @@ exports.mkdirWhenNoExist = function(dir) {
  * @param filePath {string} 文件或目录的路径
  * @return {string}
  */
-exports.getFileDir = function(filePath) {
+export function getFileDir(filePath) {
   // 如果不包含'.'，则视为目录，原样返回
   return filePath.lastIndexOf('.') === -1
     ? filePath
     : path.dirname(filePath)
 }
 
-
-exports.start = function(content) {
-  console.log('\033[44;30m START \033[40;34m ' + content + ' \033[0m\n')
-}
-exports.done = function(content) {
-  console.log('\033[42;30m DONE \033[40;32m ' + content + ' \033[0m\n')
-}
-exports.error = function(content) {
-  console.log('\033[41;30m ERROR \033[40;31m ' + content + ' \033[0m\n')
+export const log = {
+  start(content) {
+    console.log(`\x1b[44;30m START \x1b[40;34m ${content} \x1b[0m\n`)
+  },
+  done(content) {
+    console.log(`\x1b[42;30m DONE \x1b[40;32m ${content} \x1b[0m\n`)
+  },
+  error(content) {
+    console.log(`\x1b[41;30m ERROR \x1b[40;31m ${content} \x1b[0m\n`)
+  }
 }

@@ -4,10 +4,12 @@
  * 参考@vant/cli、@vue/component-compiler-utils、vue-component-compiler
  */
 
-const path = require('path')
-const babel = require('@babel/core')
-const { compile, parseComponent } = require('vue-template-compiler')
-const transpile = require('vue-template-es2015-compiler')
+import fs from 'fs'
+import path from 'path'
+import babel from '@babel/core'
+import { compile, parseComponent } from 'vue-template-compiler'
+import transpile from 'vue-template-es2015-compiler'
+import { getDirname } from './util.mjs'
 
 /**
  * 判断文件是否为SFC
@@ -15,7 +17,7 @@ const transpile = require('vue-template-es2015-compiler')
  * @param filename {string} 文件名称
  * @return {boolean} 是则返回true
  */
-function isSFC(filename) {
+export function isSFC(filename) {
   return filename.endsWith('.vue')
 }
 
@@ -25,7 +27,7 @@ function isSFC(filename) {
  * @param filename {string} 文件名称
  * @return {boolean} 是则返回true
  */
-function isJS(filename) {
+export function isJS(filename) {
   return filename.endsWith('.js')
 }
 
@@ -86,12 +88,12 @@ function injectRender(sourceScript, render) {
  * @param source {string} 需要编译的js内容
  * @return {string}
  */
-function compileJS(filename, source) {
+export function compileJS(filename, source) {
   const config = {
     filename,
     envName: process.env.NODE_ENV || 'production',
     configFile: false,
-    presets:[
+    presets: [
       ['@vue/babel-preset-jsx', { functional: false }]
     ],
     compact: false,
@@ -108,7 +110,7 @@ function compileJS(filename, source) {
  * @param source {string} 需要编译的SFC内容
  * @return {string}
  */
-function compileSFC(filename, source) {
+export function compileSFC(filename, source) {
   const { template, script } = parseComponent(source)
   let code = script.content
 
@@ -120,16 +122,8 @@ function compileSFC(filename, source) {
   return compileJS(filename, code)
 }
 
-module.exports = {
-  isSFC,
-  isJS,
-  compileSFC,
-  compileJS
-}
-
 function test() {
-  const fs = require('fs')
-  const filePath = path.resolve(__dirname, '../test/Temp.vue')
+  const filePath = path.resolve(getDirname(), '../test/Temp.vue')
   const source = fs.readFileSync(filePath).toString('utf8')
   fs.writeFileSync('../test/Temp.js', compileSFC(filePath, source))
 }

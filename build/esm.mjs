@@ -2,15 +2,15 @@
  * 编译并输出到dist/esm目录下
  */
 
-const fs = require('fs')
-const path = require('path')
-const { isSFC, isJS, compileSFC, compileJS } = require('./compile')
-const { calcTimeCost, cleanDir, write, copy } = require('./util')
+import fs from 'fs'
+import path from 'path'
+import { isSFC, isJS, compileSFC, compileJS } from './compile.mjs'
+import { getDirname, calcTimeCost, cleanDir, write, copy } from './util.mjs'
 
 // 输入目录，绝对路径
-const inputDir = path.resolve(__dirname, `../src`)
+const inputDir = path.resolve(getDirname(), `../src`)
 // 输出目录，绝对路径，不存在时会自动创建
-const outputDir = path.resolve(__dirname, '../dist/esm')
+const outputDir = path.resolve(getDirname(), '../dist/esm')
 // 忽略目录，相对于输入目录，这些目录下的文件不参与编译也不会被复制
 const excludeDirs = ['/style'].map(i => path.normalize(i))
 // 忽略文件后缀，这些文件不参与编译也不会被复制
