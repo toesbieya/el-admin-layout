@@ -6,6 +6,7 @@ type Component = ComponentOptions<Vue> | typeof Vue | AsyncComponent
 export declare const Const: {
   maxMobileWidth: number
   redirectPath: string
+  enableLayoutSlot: boolean
 }
 
 export function injectDefaultRoute(layout: Component): RouteConfig[]
