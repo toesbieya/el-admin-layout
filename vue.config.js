@@ -39,7 +39,7 @@ function createExamplePage(folder) {
 }
 
 module.exports = defineConfig({
-  publicPath: isProd ? '/el-admin-layout/' : '/',
+  publicPath: isProd ? '/el-admin-layout/example/' : '/',
   outputDir: isBuildLib ? 'dist' : 'dist/example',
   assetsDir: 'static',
   productionSourceMap: false,
@@ -61,7 +61,9 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        logger: sass.Logger.silent
+        sassOptions: {
+          logger: sass.Logger.silent
+        }
       }
     }
   },
