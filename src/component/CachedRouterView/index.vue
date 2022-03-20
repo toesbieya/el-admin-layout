@@ -81,9 +81,10 @@ export default {
   methods: {
     // 获取keep-alive实例
     getKeepAliveInstance() {
-      if (!this._vnode) return
+      const {_vnode} = this
+      if (!_vnode) return
 
-      let vnode = this._vnode.children[0]
+      let vnode = this.tag ? _vnode.children[0] : _vnode
       // 是否被transition包裹
       const wrappedByTransition = vnode.componentOptions.tag === 'transition'
 
