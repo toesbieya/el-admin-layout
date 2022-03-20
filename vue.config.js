@@ -61,7 +61,9 @@ module.exports = defineConfig({
   css: {
     loaderOptions: {
       sass: {
-        logger: sass.Logger.silent
+        sassOptions: {
+          logger: sass.Logger.silent
+        }
       }
     }
   },
