@@ -45,9 +45,6 @@ export default {
     // 是否启用缓存功能
     cacheable: { type: Boolean, default: true },
 
-    // 包裹路由页面的容器标签名，为空时不做包裹
-    tag: { type: String, default: 'div' },
-
     // <transition/>的props，为空时不使用transition
     transitionProps: Object,
 
@@ -81,9 +78,9 @@ export default {
   methods: {
     // 获取keep-alive实例
     getKeepAliveInstance() {
-      if (!this._vnode) return
+      let { _vnode: vnode } = this
+      if (!vnode) return
 
-      let vnode = this._vnode.children[0]
       // 是否被transition包裹
       const wrappedByTransition = vnode.componentOptions.tag === 'transition'
 
@@ -134,7 +131,7 @@ export default {
   },
 
   render(h) {
-    const { cacheable, transitionProps, tag, includes } = this.$props
+    const { cacheable, transitionProps, includes } = this.$props
 
     // 确保缓存控制数组变动时，keep-alive也会更新
     // 因为会有关掉的页签非当前页签的情况，此时cachedViews虽然变化，但keep-alive不会更新
@@ -154,7 +151,7 @@ export default {
       view = h('transition', { props: transitionProps }, [view])
     }
 
-    return tag ? h(tag, [view]) : view
+    return view
   }
 }
 </script>
