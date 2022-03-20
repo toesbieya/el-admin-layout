@@ -236,16 +236,28 @@ export default {
     }
   },
 
-  async mounted() {
-    await this.$nextTick()
-    this.setOverflowedIndicatorWidth()
-  },
-
   created() {
     // 各个第一级菜单节点的宽度，取ghost-menu中的值
     this.$menuItemSizes = []
     // ...指示器的宽度
     this.$overflowedIndicatorWidth = 0
+
+    // 菜单加载完成后重设高亮菜单
+    this.$watch(() => appGetters.loadingMenu, () => {
+      // 等待nav-menu渲染完成，否则resetActiveMenu无法执行成功
+      this.$nextTick(() => {
+        const route = this.$route
+        if (this.setActiveRootMenu(route)) {
+          this.setActiveMenu(appGetters.navMode, route)
+        }
+      })
+    })
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.setOverflowedIndicatorWidth()
+    })
   },
 
   beforeDestroy() {
