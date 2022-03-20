@@ -47,6 +47,12 @@ export default {
         // 本次有，缓存中没有
         if (!cache[slotName]) {
           const f = this.getMutationBySlot(slotName)
+
+          if (!f && process.env.NODE_ENV === 'development') {
+            console.error(`[el-admin-layout]: 插槽[${slotName}]不存在`)
+            return
+          }
+
           // scopedSlots: (props) => VNode
           // render: (h, props) => VNode
           f((h, props) => curr[slotName](props))
