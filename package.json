@@ -37,8 +37,8 @@
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.1",
-    "@vue/cli-service": "^5.0.1",
+    "@vue/cli-plugin-babel": "^5.0.3",
+    "@vue/cli-service": "^5.0.3",
     "element-ui": "^2.15.7",
     "esbuild": "^0.14.23",
     "sass": "^1.49.8",
