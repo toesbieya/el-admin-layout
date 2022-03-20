@@ -1,7 +1,8 @@
 .aside.dark {
-  &,
-    // 侧边栏可能为抽屉
-  .el-drawer {
+  box-shadow: 1px 0 4px rgba(0, 0, 0, .5);
+
+  // 侧边栏可能为抽屉
+  &, .el-drawer {
     background-color: $menu-background-dark;
   }
 
