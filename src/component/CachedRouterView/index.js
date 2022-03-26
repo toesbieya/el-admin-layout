@@ -1,4 +1,3 @@
-<script>
 /**
  * 自行实现缓存控制的router-view，不支持嵌套路由
  */
@@ -55,7 +54,10 @@ export default {
     keyFn: Function,
 
     // 需要缓存的路由标识列表
-    includes: { type: Array, default: () => [] }
+    includes: { type: Array, default: () => [] },
+
+    // 是否开启对缓存下的路由页面热更新的支持
+    hmr: Boolean
   },
 
   data() {
@@ -110,16 +112,14 @@ export default {
         !this.cachedKeyMap[cachedKey] && pruneCacheEntry(key, instance)
 
         // 解决HMR无效
-        if (process.env.NODE_ENV === 'development') {
-          if (cache[key]) {
-            const comp = cache[key].componentInstance
-            const lastCtorId = cache[key]._ctorId
-            const ctorId = (cache[key]._ctorId = getCtorId(comp))
+        if (this.hmr && cache[key]) {
+          const comp = cache[key].componentInstance
+          const lastCtorId = cache[key]._ctorId
+          const ctorId = (cache[key]._ctorId = getCtorId(comp))
 
-            if (lastCtorId != null && lastCtorId !== ctorId) {
-              pruneCacheEntry(key, instance)
-              this.rerenderRouterView()
-            }
+          if (lastCtorId != null && lastCtorId !== ctorId) {
+            pruneCacheEntry(key, instance)
+            this.rerenderRouterView()
           }
         }
       })
@@ -158,4 +158,3 @@ export default {
     return tag ? h(tag, [view]) : view
   }
 }
-</script>

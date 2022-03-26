@@ -131,9 +131,7 @@ export const mutations = {
   modifyMenuMeta(fullPath, meta) {
     const menu = getMenuByFullPath(fullPath)
     if (!menu) {
-      if (process.env.NODE_ENV !== 'production') {
-        console.warn(`[appMutations.modifyMenu] 没有fullPath为${fullPath}的菜单`)
-      }
+      console.error(`[appMutations.modifyMenu] 没有fullPath为${fullPath}的菜单`)
       return
     }
 

@@ -1,5 +1,6 @@
 <script>
 import { pageGetters, tagsViewGetters } from '../../store'
+import Const from '../../config/const'
 import { getRouterKey } from '../../config/logic'
 import Breadcrumb from '../../component/Breadcrumb'
 import CachedRouterView from '../../component/CachedRouterView'
@@ -42,7 +43,8 @@ export default {
         cacheable: tagsViewGetters.enabled && tagsViewGetters.enableCache,
         transitionProps,
         keyFn: getRouterKey,
-        includes: tagsViewGetters.cachedViews
+        includes: tagsViewGetters.cachedViews,
+        hmr: Const.enableCachedPageHMR
       }
       return h(CachedRouterView, { staticClass: 'page-view', props })
     },

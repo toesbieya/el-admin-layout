@@ -48,7 +48,7 @@ export default {
         if (!cache[slotName]) {
           const f = this.getMutationBySlot(slotName)
 
-          if (!f && process.env.NODE_ENV === 'development') {
+          if (!f) {
             console.error(`[el-admin-layout]: 插槽[${slotName}]不存在`)
             return
           }
