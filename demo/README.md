@@ -7,7 +7,7 @@ pageClass: demo
 全部代码都放上来的话太多了，所以只放了layout的部分，完整源码可以前去[GitHub仓库](https://github.com/toesbieya/el-admin-layout) 的example目录下查看
 
 ::: details demo的菜单
-<<< E:\WebStormProject\vue\el-admin-layout\example\common\menu\index.js
+<<< @/../el-admin-layout/example/common/menu/index.js
 :::
 
 ::: details demo的样式（个别会有自己的特殊样式）
@@ -25,7 +25,7 @@ html, body, #app {
 最基本的例子，只需要传入菜单即可
 
 <CodePreviewer src="base-use.html">
-<<< E:\WebStormProject\vue\el-admin-layout\example\基础使用\layout\index.vue
+<<< @/../el-admin-layout/example/基础使用/layout/index.vue
 </CodePreviewer>
 
 
@@ -34,7 +34,7 @@ html, body, #app {
 store的数据变化会触发视图更新，利用这一点来实现异步编程。通过`appStore.loadingMenu`可以控制菜单的加载情况
 
 <CodePreviewer src="async-load-menu.html">
-<<< E:\WebStormProject\vue\el-admin-layout\example\从服务器加载菜单\layout\index.vue
+<<< @/../el-admin-layout/example/从服务器加载菜单/layout/index.vue
 </CodePreviewer>
 
 
@@ -57,10 +57,10 @@ store的数据变化会触发视图更新，利用这一点来实现异步编程
 </CodePreviewer>
 
 ::: slot custom-menu:index.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\自定义menu\layout\index.vue
+<<< @/../el-admin-layout/example/自定义menu/layout/index.vue
 :::
 ::: slot custom-menu:index.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\自定义menu\style\index.scss
+<<< @/../el-admin-layout/example/自定义menu/style/index.scss
 :::
 
 ::: tip 注意
@@ -84,10 +84,10 @@ store的数据变化会触发视图更新，利用这一点来实现异步编程
 </CodePreviewer>
 
 ::: slot custom-hamburger-position:index.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\自定义汉堡包位置\layout\index.vue
+<<< @/../el-admin-layout/example/自定义汉堡包位置/layout/index.vue
 :::
 ::: slot custom-hamburger-position:HeaderLeft.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\自定义汉堡包位置\layout\HeaderLeft.vue
+<<< @/../el-admin-layout/example/自定义汉堡包位置/layout/HeaderLeft.vue
 :::
 
 
@@ -96,7 +96,7 @@ store的数据变化会触发视图更新，利用这一点来实现异步编程
 默认的页头会带有一个面包屑，如果不想要可以通过page页面的`header`插槽来自行定制
 
 <CodePreviewer src="custom-page-header.html">
-<<< E:\WebStormProject\vue\el-admin-layout\example\自定义页头\layout\index.vue
+<<< @/../el-admin-layout/example/自定义页头/layout/index.vue
 </CodePreviewer>
 
 
@@ -105,7 +105,7 @@ store的数据变化会触发视图更新，利用这一点来实现异步编程
 el-admin-layout并不提供默认的页脚组件，有需要的可以用page页面的`footer`插槽来自行定制
 
 <CodePreviewer src="custom-page-footer.html">
-<<< E:\WebStormProject\vue\el-admin-layout\example\自定义页脚\layout\index.vue
+<<< @/../el-admin-layout/example/自定义页脚/layout/index.vue
 </CodePreviewer>
 
 ::: tip 注意
@@ -143,22 +143,22 @@ el-admin-layout并不提供默认的页脚组件，有需要的可以用page页�
 </CodePreviewer>
 
 ::: slot aside-search:index.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\侧边栏搜索框\layout\index.vue
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/index.vue
 :::
 ::: slot aside-search:AsideHeader.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\侧边栏搜索框\layout\AsideHeader.vue
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/AsideHeader.vue
 :::
 ::: slot aside-search:AsideMenuContent.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\侧边栏搜索框\layout\AsideMenuContent.vue
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/AsideMenuContent.vue
 :::
 ::: slot aside-search:MenuSearch.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\侧边栏搜索框\layout\MenuSearch.vue
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/MenuSearch.vue
 :::
 ::: slot aside-search:util.js
-<<< E:\WebStormProject\vue\el-admin-layout\example\侧边栏搜索框\layout\util.js
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/util.js
 :::
 ::: slot aside-search:index.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\侧边栏搜索框\style\index.scss
+<<< @/../el-admin-layout/example/侧边栏搜索框/style/index.scss
 :::
 
 
@@ -167,7 +167,7 @@ el-admin-layout并不提供默认的页脚组件，有需要的可以用page页�
 可能有时候需要让el-admin-layout在桌面端以移动端的形式渲染，可以通过`Const.maxMobileWidth`和`appStore.isMobile`实现
 
 <CodePreviewer src="simulate-mobile.html">
-<<< E:\WebStormProject\vue\el-admin-layout\example\模拟移动端\layout\index.vue
+<<< @/../el-admin-layout/example/模拟移动端/layout/index.vue
 </CodePreviewer>
 
 ::: tip 注意
@@ -200,13 +200,13 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 :::
 
 ::: slot setting-drawer:index.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\设置抽屉\layout\index.vue
+<<< @/../el-admin-layout/example/设置抽屉/layout/index.vue
 :::
 ::: slot setting-drawer:SettingDrawer.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\设置抽屉\layout\SettingDrawer.vue
+<<< @/../el-admin-layout/example/设置抽屉/layout/SettingDrawer.vue
 :::
 ::: slot setting-drawer:index.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\设置抽屉\style\index.scss
+<<< @/../el-admin-layout/example/设置抽屉/style/index.scss
 :::
 
 
@@ -219,7 +219,7 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 这个demo会将页签数据存储到sessionStorage里，键是`'eal-test-persist-tags'`，关闭页面即可清除
 
 <CodePreviewer src="persist-tags.html">
-<<< E:\WebStormProject\vue\el-admin-layout\example\持久化页签\layout\index.vue
+<<< @/../el-admin-layout/example/持久化页签/layout/index.vue
 </CodePreviewer>
 
 
@@ -247,16 +247,16 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 
 
 ::: slot old-qiniu-aside:index.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿旧版七牛云侧边栏\layout\index.vue
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/index.vue
 :::
 ::: slot old-qiniu-aside:root.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿旧版七牛云侧边栏\layout\OldQiniuSidebar\root.vue
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/OldQiniuSidebar/root.vue
 :::
 ::: slot old-qiniu-aside:sub.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿旧版七牛云侧边栏\layout\OldQiniuSidebar\sub.vue
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/OldQiniuSidebar/sub.vue
 :::
 ::: slot old-qiniu-aside:index.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿旧版七牛云侧边栏\style\index.scss
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/style/index.scss
 :::
 
 
@@ -283,14 +283,14 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 
 
 ::: slot chrome-tabs:index.vue
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿chrome页签\layout\index.vue
+<<< @/../el-admin-layout/example/仿chrome页签/layout/index.vue
 :::
 ::: slot chrome-tabs:var.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿chrome页签\style\var.scss
+<<< @/../el-admin-layout/example/仿chrome页签/style/var.scss
 :::
 ::: slot chrome-tabs:index.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿chrome页签\style\index.scss
+<<< @/../el-admin-layout/example/仿chrome页签/style/index.scss
 :::
 ::: slot chrome-tabs:chrome-tabs.scss
-<<< E:\WebStormProject\vue\el-admin-layout\example\仿chrome页签\style\chrome-tabs.scss
+<<< @/../el-admin-layout/example/仿chrome页签/style/chrome-tabs.scss
 :::
