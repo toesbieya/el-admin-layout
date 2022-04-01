@@ -1,14 +1,15 @@
 {
   "name": "el-admin-layout",
-  "version": "0.9.9",
+  "version": "0.9.10",
   "description": "基于element-ui的后台管理layout",
-  "main": "./dist/esm/index.js",
+  "main": "./dist/index.umd.min.js",
   "module": "./dist/esm/index.js",
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
       "require": "./dist/index.umd.min.js"
-    }
+    },
+    "./src/*": "./src/*"
   },
   "jsdelivr": "dist/index.umd.js",
   "typings": "types/index.d.ts",
