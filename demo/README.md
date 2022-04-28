@@ -48,20 +48,14 @@ store的数据变化会触发视图更新，利用这一点来实现异步编程
 <CodePreviewer src="custom-menu.html">
 <Tab>
 <TabPanel label="index.vue">
-<Content slot-key="custom-menu:index.vue"/>
+<<< @/../el-admin-layout/example/自定义menu/layout/index.vue
 </TabPanel>
+
 <TabPanel label="index.scss">
-<Content slot-key="custom-menu:index.scss"/>
+<<< @/../el-admin-layout/example/自定义menu/style/index.scss
 </TabPanel>
 </Tab>
 </CodePreviewer>
-
-::: slot custom-menu:index.vue
-<<< @/../el-admin-layout/example/自定义menu/layout/index.vue
-:::
-::: slot custom-menu:index.scss
-<<< @/../el-admin-layout/example/自定义menu/style/index.scss
-:::
 
 ::: tip 注意
 自定义侧边栏菜单的icon时，如果设置了`asideStore.showParentOnCollapse`， 那么侧边栏折叠时，弹出菜单父级的深度会比未折叠时+1
@@ -75,20 +69,14 @@ store的数据变化会触发视图更新，利用这一点来实现异步编程
 <CodePreviewer src="custom-hamburger-position.html">
 <Tab>
 <TabPanel label="index.vue">
-<Content slot-key="custom-hamburger-position:index.vue"/>
+<<< @/../el-admin-layout/example/自定义汉堡包位置/layout/index.vue
 </TabPanel>
+
 <TabPanel label="HeaderLeft.vue">
-<Content slot-key="custom-hamburger-position:HeaderLeft.vue"/>
+<<< @/../el-admin-layout/example/自定义汉堡包位置/layout/HeaderLeft.vue
 </TabPanel>
 </Tab>
 </CodePreviewer>
-
-::: slot custom-hamburger-position:index.vue
-<<< @/../el-admin-layout/example/自定义汉堡包位置/layout/index.vue
-:::
-::: slot custom-hamburger-position:HeaderLeft.vue
-<<< @/../el-admin-layout/example/自定义汉堡包位置/layout/HeaderLeft.vue
-:::
 
 
 ## 自定义页头
@@ -122,44 +110,30 @@ el-admin-layout并不提供默认的页脚组件，有需要的可以用page页�
 <CodePreviewer src="aside-search.html">
 <Tab>
 <TabPanel label="index.vue">
-<Content slot-key="aside-search:index.vue"/>
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/index.vue
 </TabPanel>
+
 <TabPanel label="AsideHeader.vue">
-<Content slot-key="aside-search:AsideHeader.vue"/>
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/AsideHeader.vue
 </TabPanel>
+
 <TabPanel label="AsideMenuContent.vue">
-<Content slot-key="aside-search:AsideMenuContent.vue"/>
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/AsideMenuContent.vue
 </TabPanel>
+
 <TabPanel label="MenuSearch.vue">
-<Content slot-key="aside-search:MenuSearch.vue"/>
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/MenuSearch.vue
 </TabPanel>
+
 <TabPanel label="util.js">
-<Content slot-key="aside-search:util.js"/>
+<<< @/../el-admin-layout/example/侧边栏搜索框/layout/util.js
 </TabPanel>
+
 <TabPanel label="index.scss">
-<Content slot-key="aside-search:index.scss"/>
+<<< @/../el-admin-layout/example/侧边栏搜索框/style/index.scss
 </TabPanel>
 </Tab>
 </CodePreviewer>
-
-::: slot aside-search:index.vue
-<<< @/../el-admin-layout/example/侧边栏搜索框/layout/index.vue
-:::
-::: slot aside-search:AsideHeader.vue
-<<< @/../el-admin-layout/example/侧边栏搜索框/layout/AsideHeader.vue
-:::
-::: slot aside-search:AsideMenuContent.vue
-<<< @/../el-admin-layout/example/侧边栏搜索框/layout/AsideMenuContent.vue
-:::
-::: slot aside-search:MenuSearch.vue
-<<< @/../el-admin-layout/example/侧边栏搜索框/layout/MenuSearch.vue
-:::
-::: slot aside-search:util.js
-<<< @/../el-admin-layout/example/侧边栏搜索框/layout/util.js
-:::
-::: slot aside-search:index.scss
-<<< @/../el-admin-layout/example/侧边栏搜索框/style/index.scss
-:::
 
 
 ## 模拟移动端
@@ -184,29 +158,21 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 <CodePreviewer src="setting-drawer.html">
 <Tab>
 <TabPanel label="index.vue">
-<Content slot-key="setting-drawer:index.vue"/>
+<<< @/../el-admin-layout/example/设置抽屉/layout/index.vue
 </TabPanel>
+
 <TabPanel label="SettingDrawer.vue">
-<Content slot-key="setting-drawer:SettingDrawer.vue"/>
+<<< @/../el-admin-layout/example/设置抽屉/layout/SettingDrawer.vue
 </TabPanel>
+
 <TabPanel label="index.scss">
-<Content slot-key="setting-drawer:index.scss"/>
+<<< @/../el-admin-layout/example/设置抽屉/style/index.scss
 </TabPanel>
 </Tab>
 </CodePreviewer>
 
 ::: tip 小优化
 像设置抽屉这种和其他组件基本没有关联的组件，建议自己控制数据，这样不会说每打开一次抽屉，父组件就render一次
-:::
-
-::: slot setting-drawer:index.vue
-<<< @/../el-admin-layout/example/设置抽屉/layout/index.vue
-:::
-::: slot setting-drawer:SettingDrawer.vue
-<<< @/../el-admin-layout/example/设置抽屉/layout/SettingDrawer.vue
-:::
-::: slot setting-drawer:index.scss
-<<< @/../el-admin-layout/example/设置抽屉/style/index.scss
 :::
 
 
@@ -231,33 +197,22 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 <CodePreviewer src="old-qiniu-aside.html">
 <Tab>
 <TabPanel label="index.vue">
-<Content slot-key="old-qiniu-aside:index.vue"/>
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/index.vue
 </TabPanel>
+
 <TabPanel label="root.vue">
-<Content slot-key="old-qiniu-aside:root.vue"/>
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/OldQiniuSidebar/root.vue
 </TabPanel>
+
 <TabPanel label="sub.vue">
-<Content slot-key="old-qiniu-aside:sub.vue"/>
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/OldQiniuSidebar/sub.vue
 </TabPanel>
+
 <TabPanel label="index.scss">
-<Content slot-key="old-qiniu-aside:index.scss"/>
+<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/style/index.scss
 </TabPanel>
 </Tab>
 </CodePreviewer>
-
-
-::: slot old-qiniu-aside:index.vue
-<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/index.vue
-:::
-::: slot old-qiniu-aside:root.vue
-<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/OldQiniuSidebar/root.vue
-:::
-::: slot old-qiniu-aside:sub.vue
-<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/layout/OldQiniuSidebar/sub.vue
-:::
-::: slot old-qiniu-aside:index.scss
-<<< @/../el-admin-layout/example/仿旧版七牛云侧边栏/style/index.scss
-:::
 
 
 ## 仿chrome页签
@@ -267,30 +222,19 @@ el-admin-layout并不像ant-design-pro那样会有一个设置抽屉（这东东
 <CodePreviewer src="chrome-tabs.html">
 <Tab>
 <TabPanel label="index.vue">
-<Content slot-key="chrome-tabs:index.vue"/>
+<<< @/../el-admin-layout/example/仿chrome页签/layout/index.vue
 </TabPanel>
+
 <TabPanel label="var.scss">
-<Content slot-key="chrome-tabs:var.scss"/>
+<<< @/../el-admin-layout/example/仿chrome页签/style/var.scss
 </TabPanel>
+
 <TabPanel label="index.scss">
-<Content slot-key="chrome-tabs:index.scss"/>
+<<< @/../el-admin-layout/example/仿chrome页签/style/index.scss
 </TabPanel>
+
 <TabPanel label="chrome-tabs.scss">
-<Content slot-key="chrome-tabs:chrome-tabs.scss"/>
+<<< @/../el-admin-layout/example/仿chrome页签/style/chrome-tabs.scss
 </TabPanel>
 </Tab>
 </CodePreviewer>
-
-
-::: slot chrome-tabs:index.vue
-<<< @/../el-admin-layout/example/仿chrome页签/layout/index.vue
-:::
-::: slot chrome-tabs:var.scss
-<<< @/../el-admin-layout/example/仿chrome页签/style/var.scss
-:::
-::: slot chrome-tabs:index.scss
-<<< @/../el-admin-layout/example/仿chrome页签/style/index.scss
-:::
-::: slot chrome-tabs:chrome-tabs.scss
-<<< @/../el-admin-layout/example/仿chrome页签/style/chrome-tabs.scss
-:::
