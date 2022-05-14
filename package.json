@@ -1,6 +1,6 @@
 {
   "name": "el-admin-layout",
-  "version": "0.9.10",
+  "version": "0.9.11",
   "description": "基于element-ui的后台管理layout",
   "main": "./dist/index.umd.min.js",
   "module": "./dist/esm/index.js",
@@ -38,16 +38,16 @@
     "vue": "^2.0.0"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^5.0.3",
-    "@vue/cli-service": "^5.0.3",
-    "element-ui": "^2.15.7",
-    "esbuild": "^0.14.23",
-    "sass": "^1.49.8",
+    "@vue/cli-plugin-babel": "^5.0.4",
+    "@vue/cli-service": "^5.0.4",
+    "element-ui": "2.15.7",
+    "esbuild": "^0.14.39",
+    "sass": "^1.51.0",
     "sass-loader": "^12.6.0",
-    "vue": "^2.6.14",
-    "vue-router": "^3.5.3",
-    "vue-template-compiler": "^2.6.14",
-    "vuex": "^3.6.2"
+    "vue": "2.6.14",
+    "vue-router": "3.5.3",
+    "vue-template-compiler": "2.6.14",
+    "vuex": "3.6.2"
   },
   "browserslist": [
     "Chrome > 80"
