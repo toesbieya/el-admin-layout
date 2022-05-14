@@ -86,7 +86,9 @@ export default {
     realMenus: {
       immediate: true,
       handler(v) {
-        this.setActiveMenu()
+        if (!this.hasDom) return
+
+        this.setActiveMenu(undefined, undefined, false)
         this.setDefaultActiveMenu(v)
       }
     },
@@ -123,9 +125,7 @@ export default {
 
       return true
     },
-    setActiveMenu(navMode = appGetters.navMode, route = this.$route) {
-      const oldVal = this.activeMenu
-
+    setActiveMenu(navMode = appGetters.navMode, route = this.$route, needReset = true) {
       // 只有在混合导航模式下才将当前激活的顶部菜单认为是当前菜单
       if (navMode === 'mix') {
         this.activeMenu = appGetters.activeRootMenu
@@ -133,7 +133,7 @@ export default {
       // 否则按照路由配置项设置
       else this.activeMenu = getRouterActiveMenu(route)
 
-      this.activeMenu !== oldVal && this.resetActiveMenu()
+      needReset && this.resetActiveMenu()
     },
 
     // 点击菜单时触发
@@ -230,7 +230,7 @@ export default {
     stopObserver() {
       if (this.resizeObserver) {
         this.resizeObserver.disconnect()
-        this.resizeObserver = null
+        delete this.resizeObserver
       }
       this.destroyGhostMenu()
     }
@@ -243,9 +243,9 @@ export default {
     this.$overflowedIndicatorWidth = 0
 
     // 菜单加载完成后重设高亮菜单
-    this.$watch(() => appGetters.loadingMenu, () => {
+    this.$watch(() => appGetters.loadingMenu, loading => {
       // 等待nav-menu渲染完成，否则resetActiveMenu无法执行成功
-      this.$nextTick(() => {
+      !loading && this.$nextTick(() => {
         const route = this.$route
         if (this.setActiveRootMenu(route)) {
           this.setActiveMenu(appGetters.navMode, route)
@@ -268,7 +268,7 @@ export default {
     if (appGetters.loadingMenu) {
       return (
         <div style="position: relative;width: 100%;height: 100%">
-          <LoadingSpinner/>
+          <LoadingSpinner />
         </div>
       )
     }
