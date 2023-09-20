@@ -200,13 +200,15 @@ export default {
       document.body.removeChild(ul)
     },
 
-    resize() {
+    resize(entry) {
+      if (!entry) return
+
       const width = this.getMenuEl().getBoundingClientRect().width
       const { $menuItemSizes, $overflowedIndicatorWidth } = this
 
       let lastVisibleIndex = -1
 
-      for (let i = $menuItemSizes.length - 1, sum = 0; i >= 0; i--) {
+      for (let i = 0, sum = 0; i < $menuItemSizes.length; i++) {
         sum += $menuItemSizes[i]
 
         if (sum + $overflowedIndicatorWidth > width) {
@@ -280,6 +282,7 @@ export default {
     return (
       <NavMenu
         ref="nav-menu"
+        class="horizontal-menu"
         menus={this.realMenus}
         theme={headerGetters.theme}
         mode="horizontal"

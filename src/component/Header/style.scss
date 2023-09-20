@@ -21,6 +21,11 @@
 
   &-center {
     flex: 1;
+
+    .horizontal-menu {
+      height: 100%;
+      overflow-y: hidden;
+    }
   }
 
   .header-icon {
