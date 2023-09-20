@@ -85,6 +85,10 @@ module.exports = defineConfig({
       : {},
     devServer: {
       port: 8079,
+      client: {
+        overlay: false,
+        progress: true
+      },
       historyApiFallback: false
     }
   },
